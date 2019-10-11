@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-import dev.chrisbanes.insetter.buildsrc.Libs
+package dev.chrisbanes.insetter;
 
-apply plugin: 'com.android.library'
+import androidx.annotation.NonNull;
+import androidx.core.view.WindowInsetsCompat;
 
-android {
-    compileSdkVersion 29
+public abstract class OnApplyInsetsListener {
 
-    defaultConfig {
-        minSdkVersion 15
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-}
-
-dependencies {
-    implementation Libs.AndroidX.core
-
-    testImplementation Libs.junit
+  abstract void onInsetsListener(
+      @NonNull WindowInsetsCompat insets,
+      @NonNull ViewDimensions initialPadding,
+      @NonNull ViewDimensions initialMargins);
 }

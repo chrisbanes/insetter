@@ -14,22 +14,8 @@
  * limitations under the License.
  */
 
-import dev.chrisbanes.insetter.buildsrc.Libs
+package dev.chrisbanes.insetter.buildsrc
 
-apply plugin: 'com.android.library'
-
-android {
-    compileSdkVersion 29
-
-    defaultConfig {
-        minSdkVersion 15
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-}
-
-dependencies {
-    implementation Libs.AndroidX.core
-
-    testImplementation Libs.junit
+object InsetterVersion {
+    val versionName = "0.0.1"
 }

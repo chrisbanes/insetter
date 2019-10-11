@@ -9,6 +9,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/dbx" />
+            <option value="$PROJECT_DIR$/ktx" />
             <option value="$PROJECT_DIR$/library" />
           </set>
         </option>

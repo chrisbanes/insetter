@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/buildSrc/buildSrc.iml" filepath="$PROJECT_DIR$/buildSrc/buildSrc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dbx/dbx.iml" filepath="$PROJECT_DIR$/dbx/dbx.iml" />
       <module fileurl="file://$PROJECT_DIR$/insets.iml" filepath="$PROJECT_DIR$/insets.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ktx/ktx.iml" filepath="$PROJECT_DIR$/ktx/ktx.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
     </modules>
   </component>

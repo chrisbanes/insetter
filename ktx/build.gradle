@@ -14,16 +14,28 @@
  * limitations under the License.
  */
 
-package dev.chrisbanes.insetly;
+import dev.chrisbanes.insetter.buildsrc.Libs
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.WindowInsetsCompat;
+apply plugin: 'com.android.library'
 
-public abstract class OnApplyInsetsListener {
+apply plugin: 'kotlin-android'
 
-    abstract void onInsetsListener(
-            @NonNull WindowInsetsCompat insets,
-            @NonNull ViewDimensions initialPadding,
-            @Nullable ViewDimensions initialMargins);
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 15
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation project(":library")
+
+    implementation Libs.Kotlin.stdlib
+
+    implementation Libs.AndroidX.core
+
+    testImplementation Libs.junit
 }

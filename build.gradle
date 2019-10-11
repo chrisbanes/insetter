@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import dev.chrisbanes.insetly.buildsrc.Libs
-import dev.chrisbanes.insetly.buildsrc.Versions
+import dev.chrisbanes.insetter.buildsrc.Libs
+import dev.chrisbanes.insetter.buildsrc.Versions
 
 buildscript {
     repositories {
@@ -25,6 +25,8 @@ buildscript {
 
     dependencies {
         classpath Libs.androidGradlePlugin
+
+        classpath Libs.Kotlin.gradlePlugin
     }
 }
 
@@ -48,10 +50,8 @@ subprojects {
 
         java {
             target "**/*.java"
-            googleJavaFormat().aosp()
+            googleJavaFormat()
             licenseHeaderFile project.rootProject.file('spotless/copyright.txt')
         }
     }
-
-
 }
