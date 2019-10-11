@@ -30,13 +30,11 @@ android {
 }
 
 dependencies {
-    implementation project(":library")
+    api project(":library")
 
-    implementation Libs.AndroidX.DataBinding.common
-
-    implementation Libs.AndroidX.core
+    api Libs.AndroidX.DataBinding.common
 
     testImplementation Libs.junit
 }
 
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+apply plugin: "com.vanniktech.maven.publish"
