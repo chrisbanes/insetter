@@ -29,9 +29,9 @@ android {
 }
 
 dependencies {
-    implementation Libs.AndroidX.core
+    api Libs.AndroidX.core
 
     testImplementation Libs.junit
 }
 
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+apply plugin: "com.vanniktech.maven.publish"

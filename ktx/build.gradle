@@ -31,13 +31,12 @@ android {
 }
 
 dependencies {
-    implementation project(":library")
+    api project(":library")
+    api Libs.AndroidX.core
 
-    implementation Libs.Kotlin.stdlib
-
-    implementation Libs.AndroidX.core
+    api Libs.Kotlin.stdlib
 
     testImplementation Libs.junit
 }
 
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+apply plugin: "com.vanniktech.maven.publish"
