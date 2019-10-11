@@ -23,16 +23,19 @@ android {
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 29
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    dataBinding {
+        // We need to enable data-binding for any consumers to be able to use
+        // any BindingAdapters in this library
+        enabled = true
     }
 }
 
 dependencies {
     api project(":library")
-
-    api Libs.AndroidX.DataBinding.common
 
     testImplementation Libs.junit
 }
