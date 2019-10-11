@@ -21,7 +21,10 @@ object Versions {
 }
 
 object Libs {
-    const val androidGradlePlugin = "com.android.tools.build:gradle:3.5.0"
+    // We need to use an old version of AGP since that controls which data-binding version
+    // we use in dbx. Keeping one stable AGP version behind means we're not forcing people to
+    // unnecessarily
+    const val androidGradlePlugin = "com.android.tools.build:gradle:3.4.0"
 
     const val gradleMavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.8.0"
 
@@ -42,11 +45,6 @@ object Libs {
             const val rules = "androidx.test:rules:$version"
 
             const val espressoCore = "androidx.test.espresso:espresso-core:3.2.0"
-        }
-
-        object DataBinding {
-            private const val version = "3.2.0"
-            const val common = "androidx.databinding:databinding-common:$version"
         }
 
         const val core = "androidx.core:core:1.2.0-beta01"
