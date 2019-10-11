@@ -2,7 +2,7 @@
 
 Insetter is a library to help apps handle
 [WindowInsets](https://developer.android.com/reference/android/view/WindowInsets.html) more easily.
-The library contains implementations of many of the concepts described this our
+The library contains implementations of many of the concepts described in our
 [_"Listeners to Layouts"_](https://medium.com/androiddevelopers/windowinsets-listeners-to-layouts-8f9ccc8fa4d1)
 blog post.
 
@@ -12,7 +12,7 @@ There are three libraries available:
 The base library which is written in Java.
 
 ### insetter-ktx
-A Kotlin extension library, providing Kotlin specific functionality. This libraries contains
+A Kotlin extension library, providing Kotlin-specific functionality. This library contains
 extension functions allowing easy access to the helper functions from the base library.
 
 ``` kotlin
@@ -25,8 +25,7 @@ bottomNav.doOnApplyWindowInsets { view, insets, initialPadding, initialMargins -
 ```
 
 ### insetter-dbx
-A [Data Binding][databinding] extension library, providing [Data Binding][databinding]
-specific functionality. Primarily this contains binding adapters, which allow access to the helper
+A [Data Binding][databinding] extension library, providing [Data Binding][databinding]-specific functionality. This primarily contains binding adapters, which allow access to the helper
 functions from your layouts:
 
 ``` xml
@@ -41,10 +40,10 @@ functions from your layouts:
 ## ⚠️ Attention 🚧
 
 The library is being written to production quality, but it is not adhering to semantic versioning,
-mean we may change the API if needed (we'll try not to though). We're using this repository to
+mean we may change the API if needed, though we'll try not to. We're using this repository to
 allow quick and easy prototyping. The contents of this library may eventually be moved into
 [Android Jetpack](https://android.googlesource.com/platform/frameworks/support/+/androidx-master-dev/README.md)
-at a later.
+at a later date.
 
 ## Download
 
