@@ -1,5 +1,7 @@
 # Insetter
 
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/dev.chrisbanes/insetter/badge.svg) [![CircleCI](https://circleci.com/gh/chrisbanes/insetter/tree/master.svg?style=svg)](https://circleci.com/gh/chrisbanes/insetter/tree/master)
+
 Insetter is a library to help apps handle
 [WindowInsets](https://developer.android.com/reference/android/view/WindowInsets.html) more easily.
 The library contains implementations of many of the concepts described in our
@@ -54,17 +56,18 @@ repositories {
 
 dependencies {
   // The base library. If you're using either the dbx and/or ktx libraries, you don't need this
-  implementation "dev.chrisbanes:insetter:0.1.0-SNAPSHOT"
+  implementation "dev.chrisbanes:insetter:0.0.1"
 
   // If you're using data-binding use this
-  implementation "dev.chrisbanes:insetter-dbx:0.1.0-SNAPSHOT"
+  implementation "dev.chrisbanes:insetter-dbx:0.0.1"
 
   // If you're using Kotlin use this too
-  implementation "dev.chrisbanes:insetter-ktx:0.1.0-SNAPSHOT"
+  implementation "dev.chrisbanes:insetter-ktx:0.0.1"
 }
 ```
 
 Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
+These are updated on every commit.
 
 ## Contributions
 
