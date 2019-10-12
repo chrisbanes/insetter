@@ -90,6 +90,19 @@ jobs:
       - store_artifacts:
           path: ~/junit
 
+  deploy_to_sonatype:
+    <<: *config_android
+    steps:
+      - <<: *update_sdk
+      - checkout
+      - <<: *attach_workspace
+      - <<: *gen_cache_key
+      - <<: *restore_cache
+      - <<: *attach_workspace
+      - run:
+          name: Deploy to Sonatype
+          command: ./gradlew uploadArchives --no-daemon --no-parallel
+
 workflows:
   version: 2
   build_check:
@@ -98,3 +111,9 @@ workflows:
       - check:
           requires:
             - build_debug
+      - deploy_to_sonatype:
+          requires:
+            - check
+          filters:
+            branches:
+              only: master
