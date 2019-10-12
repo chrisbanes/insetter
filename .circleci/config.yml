@@ -45,6 +45,16 @@ persist_workspace: &persist_workspace
     paths:
       - ./*/build
 
+decrypt_secrets: &decrypt_secrets
+  run:
+    name: Decrypt secrets
+    command: release/signing-setup.sh $ENCRYPT_KEY
+
+clean_secrets: &clean_secrets
+  run:
+    name: Cleanup secrets
+    command: release/signing-cleanup.sh
+
 jobs:
   build_debug:
     <<: *config_android
@@ -95,6 +105,7 @@ jobs:
     steps:
       - <<: *update_sdk
       - checkout
+      - <<: *decrypt_secrets
       - <<: *attach_workspace
       - <<: *gen_cache_key
       - <<: *restore_cache
@@ -102,10 +113,11 @@ jobs:
       - run:
           name: Deploy to Sonatype
           command: ./gradlew uploadArchives --no-daemon --no-parallel
+      - <<: *clean_secrets
 
 workflows:
   version: 2
-  build_check:
+  build_check_deploy:
     jobs:
       - build_debug
       - check:

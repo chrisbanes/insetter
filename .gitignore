@@ -21,10 +21,9 @@ gradle.xml
 .DS_Store
 .externalNativeBuild
 
-# Do not commit plain-text release keys
-app-release.jks
-play-account.p12
-play-account.json
+# Do not commit plain-text signing info
+release/*.properties
+release/*.gpg
 
 # Do not commit firebase config
 google-services.json
