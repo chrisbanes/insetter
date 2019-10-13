@@ -18,6 +18,8 @@ import dev.chrisbanes.insetter.buildsrc.Libs
 
 apply plugin: 'com.android.library'
 
+apply plugin: 'kotlin-android'
+
 android {
     compileSdkVersion 29
 
@@ -38,12 +40,25 @@ android {
     libraryVariants.all {
         it.generateBuildConfig.enabled = false
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+
+            all {
+                minHeapSize = "64m"
+                maxHeapSize = "128m"
+            }
+        }
+    }
 }
 
 dependencies {
     api Libs.AndroidX.core
 
+    testImplementation Libs.Kotlin.stdlib
     testImplementation Libs.junit
+    testImplementation Libs.robolectric
 }
 
 apply plugin: "com.vanniktech.maven.publish"
