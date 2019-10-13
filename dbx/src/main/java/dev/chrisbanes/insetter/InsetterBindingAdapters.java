@@ -65,7 +65,7 @@ public class InsetterBindingAdapters {
       final boolean marginGestureRight,
       final boolean marginGestureBottom) {
 
-    InsetUtils.setOnApplyInsetsListener(
+    Insetter.setOnApplyInsetsListener(
         v,
         new OnApplyInsetsListener() {
           @Override

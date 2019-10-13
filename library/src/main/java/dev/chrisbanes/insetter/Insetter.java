@@ -23,9 +23,9 @@ import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class InsetUtils {
+public class Insetter {
 
-  private InsetUtils() {
+  private Insetter() {
     // private constructor. No instantiating.
   }
 
