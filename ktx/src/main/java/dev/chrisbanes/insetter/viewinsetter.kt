@@ -27,7 +27,7 @@ inline fun View.doOnApplyWindowInsets(
         initialMargin: ViewDimensions
     ) -> Unit
 ) {
-    InsetUtils.setOnApplyInsetsListener(this, object : OnApplyInsetsListener() {
+    Insetter.setOnApplyInsetsListener(this, object : OnApplyInsetsListener() {
         override fun onInsetsListener(
             insets: WindowInsetsCompat,
             initialPadding: ViewDimensions,
@@ -37,5 +37,5 @@ inline fun View.doOnApplyWindowInsets(
 }
 
 fun View.requestApplyInsetsWhenAttached() {
-    InsetUtils.requestApplyInsetsWhenAttached(this)
+    Insetter.requestApplyInsetsWhenAttached(this)
 }

@@ -54,7 +54,7 @@ class InsetsUtilsTestCase {
         view.setPadding(11, 12, 13, 14)
         addViewToContainer()
 
-        InsetUtils.setOnApplyInsetsListener(view, object : OnApplyInsetsListener() {
+        Insetter.setOnApplyInsetsListener(view, object : OnApplyInsetsListener() {
             override fun onInsetsListener(
                 insets: WindowInsetsCompat,
                 initialPadding: ViewDimensions,
@@ -75,7 +75,7 @@ class InsetsUtilsTestCase {
         }
         addViewToContainer(marginLp)
 
-        InsetUtils.setOnApplyInsetsListener(view, object : OnApplyInsetsListener() {
+        Insetter.setOnApplyInsetsListener(view, object : OnApplyInsetsListener() {
             override fun onInsetsListener(
                 insets: WindowInsetsCompat,
                 initialPadding: ViewDimensions,
@@ -93,7 +93,7 @@ class InsetsUtilsTestCase {
     fun test_requestApplyInsetsWhenAttached_dispatchesWhenAttached() {
         var resultInsets: WindowInsetsCompat? = null
 
-        InsetUtils.setOnApplyInsetsListener(view, object : OnApplyInsetsListener() {
+        Insetter.setOnApplyInsetsListener(view, object : OnApplyInsetsListener() {
             override fun onInsetsListener(
                 insets: WindowInsetsCompat,
                 initialPadding: ViewDimensions,
