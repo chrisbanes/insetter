@@ -59,6 +59,8 @@ dependencies {
     testImplementation Libs.Kotlin.stdlib
     testImplementation Libs.junit
     testImplementation Libs.robolectric
+    testImplementation Libs.AndroidX.Test.core
+    testImplementation Libs.AndroidX.Test.ext
 }
 
 apply plugin: "com.vanniktech.maven.publish"

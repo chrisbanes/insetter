@@ -22,24 +22,27 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.core.view.WindowInsetsCompat
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(minSdk = 23, maxSdk = 28)
 class InsetsUtilsTestCase {
+    @get:Rule
+    val rule = ActivityScenarioRule(Activity::class.java)
+
     private lateinit var container: FrameLayout
     private lateinit var view: ImageView
 
     @Before
     fun setup() {
-        val activityController = Robolectric.buildActivity(Activity::class.java)
-        activityController.get().also { activity ->
+        rule.scenario.onActivity { activity ->
             container = FrameLayout(activity)
             view = ImageView(activity)
             activity.setContentView(container, ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT))
