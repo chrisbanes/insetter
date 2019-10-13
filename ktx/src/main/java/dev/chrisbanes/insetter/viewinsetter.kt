@@ -35,3 +35,7 @@ inline fun View.doOnApplyWindowInsets(
         ) = f(this@doOnApplyWindowInsets, insets, initialPadding, initialMargins)
     })
 }
+
+fun View.requestApplyInsetsWhenAttached() {
+    InsetUtils.requestApplyInsetsWhenAttached(this)
+}
