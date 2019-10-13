@@ -72,7 +72,7 @@ public class InsetterBindingAdapters {
           void onInsetsListener(
               @NonNull WindowInsetsCompat insets,
               @NonNull ViewDimensions initialPadding,
-              @NonNull ViewDimensions initialMargin) {
+              @NonNull ViewDimensions initialMargins) {
 
             int paddingLeft = 0;
             if (padGestureLeft) {
@@ -119,40 +119,40 @@ public class InsetterBindingAdapters {
                     || marginGestureBottom;
             if (marginInsetRequested) {
               int marginLeft = 0;
-              if (padGestureLeft) {
+              if (marginGestureLeft) {
                 marginLeft = insets.getSystemGestureInsets().left;
-              } else if (padSystemWindowLeft) {
+              } else if (marginSystemWindowLeft) {
                 marginLeft = insets.getSystemWindowInsetLeft();
               }
 
               int marginTop = 0;
-              if (padGestureTop) {
+              if (marginGestureTop) {
                 marginTop = insets.getSystemGestureInsets().top;
-              } else if (padSystemWindowTop) {
+              } else if (marginSystemWindowTop) {
                 marginTop = insets.getSystemWindowInsetTop();
               }
 
               int marginRight = 0;
-              if (padGestureRight) {
+              if (marginGestureRight) {
                 marginRight = insets.getSystemGestureInsets().right;
-              } else if (padSystemWindowRight) {
+              } else if (marginSystemWindowRight) {
                 marginRight = insets.getSystemWindowInsetRight();
               }
 
               int marginBottom = 0;
-              if (padGestureBottom) {
+              if (marginGestureBottom) {
                 marginBottom = insets.getSystemGestureInsets().bottom;
-              } else if (padSystemWindowBottom) {
+              } else if (marginSystemWindowBottom) {
                 marginBottom = insets.getSystemWindowInsetBottom();
               }
 
               final ViewGroup.LayoutParams lp = v.getLayoutParams();
               if (lp instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
-                mlp.leftMargin = initialMargin.getLeft() + marginLeft;
-                mlp.topMargin = initialMargin.getTop() + marginTop;
-                mlp.rightMargin = initialMargin.getRight() + marginRight;
-                mlp.bottomMargin = initialMargin.getBottom() + marginBottom;
+                mlp.leftMargin = initialMargins.getLeft() + marginLeft;
+                mlp.topMargin = initialMargins.getTop() + marginTop;
+                mlp.rightMargin = initialMargins.getRight() + marginRight;
+                mlp.bottomMargin = initialMargins.getBottom() + marginBottom;
                 v.setLayoutParams(mlp);
               } else {
                 throw new IllegalArgumentException(
