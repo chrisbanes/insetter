@@ -56,13 +56,13 @@ repositories {
 
 dependencies {
   // The base library. If you're using either the dbx and/or ktx libraries, you don't need this
-  implementation "dev.chrisbanes:insetter:0.0.3"
+  implementation "dev.chrisbanes:insetter:0.1.0"
 
   // If you're using data-binding use this
-  implementation "dev.chrisbanes:insetter-dbx:0.0.3"
+  implementation "dev.chrisbanes:insetter-dbx:0.1.0"
 
   // If you're using Kotlin use this too
-  implementation "dev.chrisbanes:insetter-ktx:0.0.3"
+  implementation "dev.chrisbanes:insetter-ktx:0.1.0"
 }
 ```
 
