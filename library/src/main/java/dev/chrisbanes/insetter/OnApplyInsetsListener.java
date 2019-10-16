@@ -16,13 +16,11 @@
 
 package dev.chrisbanes.insetter;
 
+import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.core.view.WindowInsetsCompat;
 
-public abstract class OnApplyInsetsListener {
-
-  abstract void onInsetsListener(
-      @NonNull WindowInsetsCompat insets,
-      @NonNull ViewDimensions initialPadding,
-      @NonNull ViewDimensions initialMargins);
+interface OnApplyInsetsListener {
+  void onApplyInsets(
+      @NonNull View view, @NonNull WindowInsetsCompat insets, @NonNull ViewState initialState);
 }

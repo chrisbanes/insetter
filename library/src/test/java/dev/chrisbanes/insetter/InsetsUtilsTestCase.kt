@@ -54,18 +54,12 @@ class InsetsUtilsTestCase {
         view.setPadding(11, 12, 13, 14)
         addViewToContainer()
 
-        Insetter.setOnApplyInsetsListener(view, object : OnApplyInsetsListener() {
-            override fun onInsetsListener(
-                insets: WindowInsetsCompat,
-                initialPadding: ViewDimensions,
-                initialMargins: ViewDimensions
-            ) {
-                assertEquals(11, initialPadding.left)
-                assertEquals(12, initialPadding.top)
-                assertEquals(13, initialPadding.right)
-                assertEquals(14, initialPadding.bottom)
-            }
-        })
+        Insetter.setOnApplyInsetsListener(view) { _, _, initialState ->
+            assertEquals(11, initialState.paddings.left)
+            assertEquals(12, initialState.paddings.top)
+            assertEquals(13, initialState.paddings.right)
+            assertEquals(14, initialState.paddings.bottom)
+        }
     }
 
     @Test
@@ -75,33 +69,21 @@ class InsetsUtilsTestCase {
         }
         addViewToContainer(marginLp)
 
-        Insetter.setOnApplyInsetsListener(view, object : OnApplyInsetsListener() {
-            override fun onInsetsListener(
-                insets: WindowInsetsCompat,
-                initialPadding: ViewDimensions,
-                initialMargins: ViewDimensions
-            ) {
-                assertEquals(11, initialMargins.left)
-                assertEquals(12, initialMargins.top)
-                assertEquals(13, initialMargins.right)
-                assertEquals(14, initialMargins.bottom)
-            }
-        })
+        Insetter.setOnApplyInsetsListener(view) { _, _, initialState ->
+            assertEquals(11, initialState.margins.left)
+            assertEquals(12, initialState.margins.top)
+            assertEquals(13, initialState.margins.right)
+            assertEquals(14, initialState.margins.bottom)
+        }
     }
 
     @Test
     fun test_requestApplyInsetsWhenAttached_dispatchesWhenAttached() {
         var resultInsets: WindowInsetsCompat? = null
 
-        Insetter.setOnApplyInsetsListener(view, object : OnApplyInsetsListener() {
-            override fun onInsetsListener(
-                insets: WindowInsetsCompat,
-                initialPadding: ViewDimensions,
-                initialMargins: ViewDimensions
-            ) {
-                resultInsets = insets
-            }
-        })
+        Insetter.setOnApplyInsetsListener(view) { _, insets, _ ->
+            resultInsets = insets
+        }
 
         // We shouldn't have insets now since the view isn't attached
         assertNull(resultInsets)

@@ -69,10 +69,10 @@ public class InsetterBindingAdapters {
         v,
         new OnApplyInsetsListener() {
           @Override
-          void onInsetsListener(
+          public void onApplyInsets(
+              @NonNull View view,
               @NonNull WindowInsetsCompat insets,
-              @NonNull ViewDimensions initialPadding,
-              @NonNull ViewDimensions initialMargins) {
+              @NonNull ViewState initialState) {
 
             int paddingLeft = 0;
             if (padGestureLeft) {
@@ -101,6 +101,8 @@ public class InsetterBindingAdapters {
             } else if (padSystemWindowBottom) {
               paddingBottom = insets.getSystemWindowInsetBottom();
             }
+
+            final ViewDimensions initialPadding = initialState.getPaddings();
 
             v.setPadding(
                 initialPadding.getLeft() + paddingLeft,
@@ -149,6 +151,7 @@ public class InsetterBindingAdapters {
               final ViewGroup.LayoutParams lp = v.getLayoutParams();
               if (lp instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
+                final ViewDimensions initialMargins = initialState.getMargins();
                 mlp.leftMargin = initialMargins.getLeft() + marginLeft;
                 mlp.topMargin = initialMargins.getTop() + marginTop;
                 mlp.rightMargin = initialMargins.getRight() + marginRight;

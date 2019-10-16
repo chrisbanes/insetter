@@ -21,19 +21,14 @@ import androidx.core.view.WindowInsetsCompat
 
 inline fun View.doOnApplyWindowInsets(
     crossinline f: (
-        View,
+        view: View,
         insets: WindowInsetsCompat,
-        initialPadding: ViewDimensions,
-        initialMargin: ViewDimensions
+        initialState: ViewState
     ) -> Unit
 ) {
-    Insetter.setOnApplyInsetsListener(this, object : OnApplyInsetsListener() {
-        override fun onInsetsListener(
-            insets: WindowInsetsCompat,
-            initialPadding: ViewDimensions,
-            initialMargins: ViewDimensions
-        ) = f(this@doOnApplyWindowInsets, insets, initialPadding, initialMargins)
-    })
+    Insetter.setOnApplyInsetsListener(this) { view, insets, initialState ->
+        f(view, insets, initialState)
+    }
 }
 
 fun View.requestApplyInsetsWhenAttached() {

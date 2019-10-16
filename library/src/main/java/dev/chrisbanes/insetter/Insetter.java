@@ -17,29 +17,36 @@
 package dev.chrisbanes.insetter;
 
 import android.view.View;
-import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+/** A collection of utility functions to make handling {@link android.view.WindowInsets} easier. */
 public class Insetter {
 
   private Insetter() {
     // private constructor. No instantiating.
   }
 
+  /**
+   * A wrapper around {@link ViewCompat#setOnApplyWindowInsetsListener(View,
+   * OnApplyWindowInsetsListener)} which stores the initial view state, and provides them whenever a
+   * {@link android.view.WindowInsets} instance is dispatched to the listener provided.
+   *
+   * <p>This allows the listener to be able to append inset values to any existing view state
+   * properties, rather than overwriting them.
+   */
   public static void setOnApplyInsetsListener(
       @NonNull View view, @NonNull final OnApplyInsetsListener listener) {
-    final ViewDimensions initialPadding = createPaddingDimensions(view);
-    final ViewDimensions initialMargin = createMarginDimensions(view);
+    final ViewState initialState = new ViewState(view);
 
     ViewCompat.setOnApplyWindowInsetsListener(
         view,
         new OnApplyWindowInsetsListener() {
           @Override
           public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
-            listener.onInsetsListener(insets, initialPadding, initialMargin);
+            listener.onApplyInsets(v, insets, initialState);
             // Always return the initial insets instance
             return insets;
           }
@@ -49,6 +56,10 @@ public class Insetter {
     requestApplyInsetsWhenAttached(view);
   }
 
+  /**
+   * A wrapper around {@link ViewCompat#requestApplyInsets(View)} which ensures the request will
+   * happen, regardless of whether the view is attached or not.
+   */
   public static void requestApplyInsetsWhenAttached(@NonNull final View view) {
     if (ViewCompat.isAttachedToWindow(view)) {
       // If the view is already attached, we can request a pass
@@ -69,23 +80,5 @@ public class Insetter {
             }
           });
     }
-  }
-
-  @NonNull
-  private static ViewDimensions createPaddingDimensions(@NonNull View view) {
-    return new ViewDimensions(
-        view.getPaddingLeft(),
-        view.getPaddingTop(),
-        view.getPaddingRight(),
-        view.getPaddingBottom());
-  }
-
-  @NonNull
-  private static ViewDimensions createMarginDimensions(@NonNull View view) {
-    if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-      ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-      return new ViewDimensions(mlp.leftMargin, mlp.topMargin, mlp.rightMargin, mlp.bottomMargin);
-    }
-    return ViewDimensions.EMPTY;
   }
 }
