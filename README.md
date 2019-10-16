@@ -1,6 +1,6 @@
 # Insetter
 
-![Maven Central](https://maven-badges.herokuapp.com/maven-central/dev.chrisbanes/insetter/badge.svg) [![CircleCI](https://circleci.com/gh/chrisbanes/insetter/tree/master.svg?style=svg)](https://circleci.com/gh/chrisbanes/insetter/tree/master)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/dev.chrisbanes/insetter/badge.svg)](https://search.maven.org/search?q=g:dev.chrisbanes%20insetter) [![CircleCI](https://circleci.com/gh/chrisbanes/insetter/tree/master.svg?style=svg)](https://circleci.com/gh/chrisbanes/insetter/tree/master)
 
 Insetter is a library to help apps handle
 [WindowInsets](https://developer.android.com/reference/android/view/WindowInsets.html) more easily.
