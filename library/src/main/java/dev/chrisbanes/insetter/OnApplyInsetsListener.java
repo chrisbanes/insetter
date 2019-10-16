@@ -20,7 +20,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.core.view.WindowInsetsCompat;
 
-interface OnApplyInsetsListener {
+public interface OnApplyInsetsListener {
   void onApplyInsets(
       @NonNull View view, @NonNull WindowInsetsCompat insets, @NonNull ViewState initialState);
 }
