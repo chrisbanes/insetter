@@ -1,3 +1,5 @@
+import dev.chrisbanes.insetter.buildsrc.Libs
+
 /*
  * Copyright 2019 Google LLC
  *
@@ -14,7 +16,29 @@
  * limitations under the License.
  */
 
-include ':library'
-include ':ktx'
-include ':dbx'
-include ':sample'
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        applicationId "dev.chrisbanes.insetter.sample"
+        minSdkVersion 15
+        targetSdkVersion 29
+
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    api project(":library")
+    api project(":ktx")
+    api project(":dbx")
+
+    api Libs.Kotlin.stdlib
+}
