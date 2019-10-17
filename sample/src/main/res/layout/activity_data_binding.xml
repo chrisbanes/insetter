@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2019 Google LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="state"
+            type="dev.chrisbanes.insetter.sample.DataBindingState" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="#FF00FF"
+            android:src="@drawable/rectangle"
+            app:paddingBottomSystemWindowInsets="@{state.paddingBottomSystemWindow}"
+            app:paddingLeftSystemWindowInsets="@{state.paddingLeftSystemWindow}"
+            app:paddingRightSystemWindowInsets="@{state.paddingRightSystemWindow}"
+            app:paddingTopSystemWindowInsets="@{state.paddingTopSystemWindow}" />
+
+        <ScrollView
+            android:layout_width="260dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="@={state.paddingLeftSystemWindow}"
+                    android:text="Padding: systemWindowInsets - Left" />
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="@={state.paddingTopSystemWindow}"
+                    android:text="Padding: systemWindowInsets - Top" />
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="@={state.paddingRightSystemWindow}"
+                    android:text="Padding: systemWindowInsets - Right" />
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="@={state.paddingBottomSystemWindow}"
+                    android:text="Padding: systemWindowInsets - Bottom" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </FrameLayout>
+</layout>
