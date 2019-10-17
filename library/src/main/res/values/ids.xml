@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2019 Google LLC
   ~
@@ -15,12 +16,5 @@
   -->
 
 <resources>
-    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar" />
-
-    <style name="AppTheme.Fullscreen">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-    </style>
-
+    <id name="insetter_initial_state" />
 </resources>

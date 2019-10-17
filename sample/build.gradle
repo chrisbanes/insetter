@@ -17,21 +17,26 @@ import dev.chrisbanes.insetter.buildsrc.Libs
  */
 
 apply plugin: 'com.android.application'
+
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
 
     defaultConfig {
         applicationId "dev.chrisbanes.insetter.sample"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 29
 
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    dataBinding {
+        enabled = true
     }
 }
 

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2019 Google LLC
   ~
@@ -14,13 +15,6 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar" />
-
-    <style name="AppTheme.Fullscreen">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-    </style>
-
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#00FF00" />
+</shape>

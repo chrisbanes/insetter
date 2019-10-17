@@ -119,49 +119,48 @@ public class InsetterBindingAdapters {
                     || marginGestureRight
                     || marginSystemWindowBottom
                     || marginGestureBottom;
-            if (marginInsetRequested) {
-              int marginLeft = 0;
-              if (marginGestureLeft) {
-                marginLeft = insets.getSystemGestureInsets().left;
-              } else if (marginSystemWindowLeft) {
-                marginLeft = insets.getSystemWindowInsetLeft();
-              }
 
-              int marginTop = 0;
-              if (marginGestureTop) {
-                marginTop = insets.getSystemGestureInsets().top;
-              } else if (marginSystemWindowTop) {
-                marginTop = insets.getSystemWindowInsetTop();
-              }
+            int marginLeft = 0;
+            if (marginGestureLeft) {
+              marginLeft = insets.getSystemGestureInsets().left;
+            } else if (marginSystemWindowLeft) {
+              marginLeft = insets.getSystemWindowInsetLeft();
+            }
 
-              int marginRight = 0;
-              if (marginGestureRight) {
-                marginRight = insets.getSystemGestureInsets().right;
-              } else if (marginSystemWindowRight) {
-                marginRight = insets.getSystemWindowInsetRight();
-              }
+            int marginTop = 0;
+            if (marginGestureTop) {
+              marginTop = insets.getSystemGestureInsets().top;
+            } else if (marginSystemWindowTop) {
+              marginTop = insets.getSystemWindowInsetTop();
+            }
 
-              int marginBottom = 0;
-              if (marginGestureBottom) {
-                marginBottom = insets.getSystemGestureInsets().bottom;
-              } else if (marginSystemWindowBottom) {
-                marginBottom = insets.getSystemWindowInsetBottom();
-              }
+            int marginRight = 0;
+            if (marginGestureRight) {
+              marginRight = insets.getSystemGestureInsets().right;
+            } else if (marginSystemWindowRight) {
+              marginRight = insets.getSystemWindowInsetRight();
+            }
 
-              final ViewGroup.LayoutParams lp = v.getLayoutParams();
-              if (lp instanceof ViewGroup.MarginLayoutParams) {
-                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
-                final ViewDimensions initialMargins = initialState.getMargins();
-                mlp.leftMargin = initialMargins.getLeft() + marginLeft;
-                mlp.topMargin = initialMargins.getTop() + marginTop;
-                mlp.rightMargin = initialMargins.getRight() + marginRight;
-                mlp.bottomMargin = initialMargins.getBottom() + marginBottom;
-                v.setLayoutParams(mlp);
-              } else {
-                throw new IllegalArgumentException(
-                    "Margin inset handling requested but view LayoutParams do not"
-                        + " extend MarginLayoutParams");
-              }
+            int marginBottom = 0;
+            if (marginGestureBottom) {
+              marginBottom = insets.getSystemGestureInsets().bottom;
+            } else if (marginSystemWindowBottom) {
+              marginBottom = insets.getSystemWindowInsetBottom();
+            }
+
+            final ViewGroup.LayoutParams lp = v.getLayoutParams();
+            if (lp instanceof ViewGroup.MarginLayoutParams) {
+              ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
+              final ViewDimensions initialMargins = initialState.getMargins();
+              mlp.leftMargin = initialMargins.getLeft() + marginLeft;
+              mlp.topMargin = initialMargins.getTop() + marginTop;
+              mlp.rightMargin = initialMargins.getRight() + marginRight;
+              mlp.bottomMargin = initialMargins.getBottom() + marginBottom;
+              v.setLayoutParams(mlp);
+            } else if (marginInsetRequested) {
+              throw new IllegalArgumentException(
+                  "Margin inset handling requested but view LayoutParams do not"
+                      + " extend MarginLayoutParams");
             }
           }
         });

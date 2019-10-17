@@ -30,13 +30,14 @@ import java.util.Comparator
 import java.util.HashMap
 
 class MainActivity : ListActivity() {
-    public override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         listAdapter = SimpleAdapter(
             this,
             getData(intent.getStringExtra(EXTRA_PATH)),
-            android.R.layout.simple_list_item_1, arrayOf("title"),
+            android.R.layout.simple_list_item_1,
+            arrayOf("title"),
             intArrayOf(android.R.id.text1)
         )
 
@@ -47,7 +48,7 @@ class MainActivity : ListActivity() {
         val myData = ArrayList<Map<String, Any>>()
 
         val mainIntent = Intent(Intent.ACTION_MAIN, null)
-        mainIntent.addCategory("com.example.android.supportv7.SAMPLE_CODE")
+        mainIntent.addCategory("dev.chrisbanes.insetter.sample.SAMPLE_CODE")
 
         val list = packageManager.queryIntentActivities(mainIntent, 0) ?: return myData
 
@@ -109,10 +110,10 @@ class MainActivity : ListActivity() {
     }
 
     private fun addItem(data: MutableList<Map<String, Any>>, name: String, intent: Intent) {
-        val temp = HashMap<String, Any>()
+        val temp = mutableMapOf<String, Any>()
         temp["title"] = name
         temp["intent"] = intent
-        data.add(temp)
+        data += temp
     }
 
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long) {

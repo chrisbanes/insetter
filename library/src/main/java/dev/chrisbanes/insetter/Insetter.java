@@ -39,7 +39,16 @@ public class Insetter {
    */
   public static void setOnApplyInsetsListener(
       @NonNull View view, @NonNull final OnApplyInsetsListener listener) {
-    final ViewState initialState = new ViewState(view);
+
+    final ViewState tagState = (ViewState) view.getTag(R.id.insetter_initial_state);
+
+    final ViewState initialState;
+    if (tagState != null) {
+      initialState = tagState;
+    } else {
+      initialState = new ViewState(view);
+      view.setTag(R.id.insetter_initial_state, initialState);
+    }
 
     ViewCompat.setOnApplyWindowInsetsListener(
         view,
