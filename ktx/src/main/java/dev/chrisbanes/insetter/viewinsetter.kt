@@ -37,10 +37,12 @@ fun View.requestApplyInsetsWhenAttached() {
 }
 
 /**
- * Update this view's system-ui visibility, with the flags required to be laid out 'edge-to'edge.
+ * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to'edge.
+ *
+ * @param enabled true if the view should request to be laid out 'edge-to-edge', false if not
  *
  * @see View.setSystemUiVisibility
  * @see Insetter.setEdgeToEdgeSystemUiFlags
  */
 @RequiresApi(16)
-fun View.setEdgeToEdgeSystemUiFlags() = Insetter.setEdgeToEdgeSystemUiFlags(this)
+fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean) = Insetter.setEdgeToEdgeSystemUiFlags(this, enabled)

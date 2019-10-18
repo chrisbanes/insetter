@@ -170,9 +170,9 @@ public class InsetterBindingAdapters {
   }
 
   @BindingAdapter("layout_edgeToEdge")
-  public static void setEdgeToEdgeFlags(@NonNull final View view) {
+  public static void setEdgeToEdgeFlags(@NonNull final View view, boolean enabled) {
     if (Build.VERSION.SDK_INT >= 16) {
-      Insetter.setEdgeToEdgeSystemUiFlags(view);
+      Insetter.setEdgeToEdgeSystemUiFlags(view, enabled);
     } else {
       Log.i(TAG, "The layout_edgeToEdge attribute only works on API 16+");
     }

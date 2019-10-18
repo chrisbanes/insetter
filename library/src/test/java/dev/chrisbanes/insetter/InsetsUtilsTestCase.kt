@@ -101,9 +101,11 @@ class InsetsUtilsTestCase {
     fun test_setEdgeToEdgeSystemUiFlags() {
         addViewToContainer()
 
-        Insetter.setEdgeToEdgeSystemUiFlags(view)
-
+        Insetter.setEdgeToEdgeSystemUiFlags(view, true)
         assertEquals(EDGE_TO_EDGE_FLAGS, view.systemUiVisibility and EDGE_TO_EDGE_FLAGS)
+
+        Insetter.setEdgeToEdgeSystemUiFlags(view, false)
+        assertEquals(0, view.systemUiVisibility and EDGE_TO_EDGE_FLAGS)
     }
 
     @Test
@@ -114,7 +116,7 @@ class InsetsUtilsTestCase {
         val otherFlags = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         view.systemUiVisibility = otherFlags
 
-        Insetter.setEdgeToEdgeSystemUiFlags(view)
+        Insetter.setEdgeToEdgeSystemUiFlags(view, true)
 
         assertEquals(EDGE_TO_EDGE_FLAGS, view.systemUiVisibility and EDGE_TO_EDGE_FLAGS)
         assertEquals(otherFlags, view.systemUiVisibility and otherFlags)

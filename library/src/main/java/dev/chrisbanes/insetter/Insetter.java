@@ -95,15 +95,15 @@ public class Insetter {
   }
 
   /**
-   * Update the view's system-ui visibility, with the flags required for this view to be laid out
-   * 'edge-to'edge.
+   * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to'edge.
    *
+   * @param enabled true if the view should request to be laid out 'edge-to-edge', false if not
    * @see View#setSystemUiVisibility(int)
    */
   @RequiresApi(api = 16)
-  public static void setEdgeToEdgeSystemUiFlags(@NonNull final View view) {
+  public static void setEdgeToEdgeSystemUiFlags(@NonNull final View view, final boolean enabled) {
     view.setSystemUiVisibility(
-        (view.getSystemUiVisibility() & ~EDGE_TO_EDGE_FLAGS) | EDGE_TO_EDGE_FLAGS);
+        (view.getSystemUiVisibility() & ~EDGE_TO_EDGE_FLAGS) | (enabled ? EDGE_TO_EDGE_FLAGS : 0));
   }
 
   @SuppressLint("InlinedApi")
