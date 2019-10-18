@@ -17,6 +17,7 @@
 package dev.chrisbanes.insetter
 
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.view.WindowInsetsCompat
 
 inline fun View.doOnApplyWindowInsets(
@@ -34,3 +35,12 @@ inline fun View.doOnApplyWindowInsets(
 fun View.requestApplyInsetsWhenAttached() {
     Insetter.requestApplyInsetsWhenAttached(this)
 }
+
+/**
+ * Update this view's system-ui visibility, with the flags required to be laid out 'edge-to'edge.
+ *
+ * @see View.setSystemUiVisibility
+ * @see Insetter.setEdgeToEdgeSystemUiFlags
+ */
+@RequiresApi(16)
+fun View.setEdgeToEdgeSystemUiFlags() = Insetter.setEdgeToEdgeSystemUiFlags(this)
