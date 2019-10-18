@@ -28,7 +28,7 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import dev.chrisbanes.insetter.ViewDimensions;
+import dev.chrisbanes.insetter.Insetter;
 import dev.chrisbanes.insetter.ViewState;
 
 public class InsetterConstraintLayout extends ConstraintLayout {
@@ -67,79 +67,26 @@ public class InsetterConstraintLayout extends ConstraintLayout {
       @NonNull View view, @NonNull WindowInsetsCompat insets, @NonNull ViewState initialState) {
     final LayoutParams lp = (LayoutParams) view.getLayoutParams();
 
-    int paddingLeft = 0;
-    if (hasFlag(lp.paddingSystemGestureInsets, LayoutParams.LEFT)) {
-      paddingLeft = insets.getSystemGestureInsets().left;
-    } else if (hasFlag(lp.paddingSystemWindowInsets, LayoutParams.LEFT)) {
-      paddingLeft = insets.getSystemWindowInsetLeft();
-    }
-
-    int paddingTop = 0;
-    if (hasFlag(lp.paddingSystemGestureInsets, LayoutParams.TOP)) {
-      paddingTop = insets.getSystemGestureInsets().top;
-    } else if (hasFlag(lp.paddingSystemWindowInsets, LayoutParams.TOP)) {
-      paddingTop = insets.getSystemWindowInsetTop();
-    }
-
-    int paddingRight = 0;
-    if (hasFlag(lp.paddingSystemGestureInsets, LayoutParams.RIGHT)) {
-      paddingRight = insets.getSystemGestureInsets().right;
-    } else if (hasFlag(lp.paddingSystemWindowInsets, LayoutParams.RIGHT)) {
-      paddingRight = insets.getSystemWindowInsetRight();
-    }
-
-    int paddingBottom = 0;
-    if (hasFlag(lp.paddingSystemGestureInsets, LayoutParams.BOTTOM)) {
-      paddingBottom = insets.getSystemGestureInsets().bottom;
-    } else if (hasFlag(lp.paddingSystemWindowInsets, LayoutParams.BOTTOM)) {
-      paddingBottom = insets.getSystemWindowInsetLeft();
-    }
-
-    final ViewDimensions initialPadding = initialState.getPaddings();
-    view.setPadding(
-        initialPadding.getLeft() + paddingLeft,
-        initialPadding.getTop() + paddingTop,
-        initialPadding.getRight() + paddingRight,
-        initialPadding.getBottom() + paddingBottom);
-
-    final boolean marginInsetRequested =
-        lp.marginSystemGestureInsets != 0 || lp.marginSystemWindowInsets != 0;
-    if (marginInsetRequested) {
-      int marginLeft = 0;
-      if (hasFlag(lp.marginSystemGestureInsets, LayoutParams.LEFT)) {
-        marginLeft = insets.getSystemGestureInsets().left;
-      } else if (hasFlag(lp.marginSystemWindowInsets, LayoutParams.LEFT)) {
-        marginLeft = insets.getSystemWindowInsetLeft();
-      }
-
-      int marginTop = 0;
-      if (hasFlag(lp.marginSystemGestureInsets, LayoutParams.TOP)) {
-        marginTop = insets.getSystemGestureInsets().top;
-      } else if (hasFlag(lp.marginSystemWindowInsets, LayoutParams.TOP)) {
-        marginTop = insets.getSystemWindowInsetTop();
-      }
-
-      int marginRight = 0;
-      if (hasFlag(lp.marginSystemGestureInsets, LayoutParams.RIGHT)) {
-        marginRight = insets.getSystemGestureInsets().right;
-      } else if (hasFlag(lp.marginSystemWindowInsets, LayoutParams.RIGHT)) {
-        marginRight = insets.getSystemWindowInsetRight();
-      }
-
-      int marginBottom = 0;
-      if (hasFlag(lp.marginSystemGestureInsets, LayoutParams.BOTTOM)) {
-        marginBottom = insets.getSystemGestureInsets().bottom;
-      } else if (hasFlag(lp.marginSystemWindowInsets, LayoutParams.BOTTOM)) {
-        marginBottom = insets.getSystemWindowInsetBottom();
-      }
-
-      final ViewDimensions initialMargins = initialState.getMargins();
-      lp.leftMargin = initialMargins.getLeft() + marginLeft;
-      lp.topMargin = initialMargins.getTop() + marginTop;
-      lp.rightMargin = initialMargins.getRight() + marginRight;
-      lp.bottomMargin = initialMargins.getBottom() + marginBottom;
-      view.setLayoutParams(lp);
-    }
+    Insetter.applyInsetsToView(
+        view,
+        insets,
+        initialState,
+        hasFlag(lp.paddingSystemWindowInsets, LayoutParams.LEFT),
+        hasFlag(lp.paddingSystemWindowInsets, LayoutParams.TOP),
+        hasFlag(lp.paddingSystemWindowInsets, LayoutParams.RIGHT),
+        hasFlag(lp.paddingSystemWindowInsets, LayoutParams.BOTTOM),
+        hasFlag(lp.paddingSystemGestureInsets, LayoutParams.LEFT),
+        hasFlag(lp.paddingSystemGestureInsets, LayoutParams.TOP),
+        hasFlag(lp.paddingSystemGestureInsets, LayoutParams.RIGHT),
+        hasFlag(lp.paddingSystemGestureInsets, LayoutParams.BOTTOM),
+        hasFlag(lp.marginSystemWindowInsets, LayoutParams.LEFT),
+        hasFlag(lp.marginSystemWindowInsets, LayoutParams.TOP),
+        hasFlag(lp.marginSystemWindowInsets, LayoutParams.RIGHT),
+        hasFlag(lp.marginSystemWindowInsets, LayoutParams.BOTTOM),
+        hasFlag(lp.marginSystemGestureInsets, LayoutParams.LEFT),
+        hasFlag(lp.marginSystemGestureInsets, LayoutParams.TOP),
+        hasFlag(lp.marginSystemGestureInsets, LayoutParams.RIGHT),
+        hasFlag(lp.marginSystemGestureInsets, LayoutParams.BOTTOM));
   }
 
   private static boolean hasFlag(int value, int flag) {
@@ -156,6 +103,7 @@ public class InsetterConstraintLayout extends ConstraintLayout {
 
       if (childLp.applyInsetsRequired) {
         ViewCompat.requestApplyInsets(child);
+        childLp.resetApplyInsets();
       }
     }
   }
@@ -239,6 +187,10 @@ public class InsetterConstraintLayout extends ConstraintLayout {
       ta.recycle();
 
       validate();
+    }
+
+    void resetApplyInsets() {
+      applyInsetsRequired = false;
     }
 
     public void validate() {
