@@ -16,6 +16,8 @@
 
 package dev.chrisbanes.insetter;
 
+import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.BindingAdapter;
 
 public class InsetterBindingAdapters {
+  private static final String TAG = "Insetter";
 
   private InsetterBindingAdapters() {}
 
@@ -164,5 +167,14 @@ public class InsetterBindingAdapters {
             }
           }
         });
+  }
+
+  @BindingAdapter("layout_edgeToEdge")
+  public static void setEdgeToEdgeFlags(@NonNull final View view, boolean enabled) {
+    if (Build.VERSION.SDK_INT >= 16) {
+      Insetter.setEdgeToEdgeSystemUiFlags(view, enabled);
+    } else {
+      Log.i(TAG, "The layout_edgeToEdge attribute only works on API 16+");
+    }
   }
 }

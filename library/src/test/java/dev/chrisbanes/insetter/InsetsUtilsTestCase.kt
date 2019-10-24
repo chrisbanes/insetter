@@ -17,12 +17,14 @@
 package dev.chrisbanes.insetter
 
 import android.app.Activity
+import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.core.view.WindowInsetsCompat
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import dev.chrisbanes.insetter.Insetter.EDGE_TO_EDGE_FLAGS
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -93,6 +95,31 @@ class InsetsUtilsTestCase {
 
         // Assert we now have insets
         assertNotNull(resultInsets)
+    }
+
+    @Test
+    fun test_setEdgeToEdgeSystemUiFlags() {
+        addViewToContainer()
+
+        Insetter.setEdgeToEdgeSystemUiFlags(view, true)
+        assertEquals(EDGE_TO_EDGE_FLAGS, view.systemUiVisibility and EDGE_TO_EDGE_FLAGS)
+
+        Insetter.setEdgeToEdgeSystemUiFlags(view, false)
+        assertEquals(0, view.systemUiVisibility and EDGE_TO_EDGE_FLAGS)
+    }
+
+    @Test
+    fun test_setEdgeToEdgeSystemUiFlags_doesntOverwrite() {
+        addViewToContainer()
+
+        // Set some other system-ui flags not related to layout
+        val otherFlags = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+        view.systemUiVisibility = otherFlags
+
+        Insetter.setEdgeToEdgeSystemUiFlags(view, true)
+
+        assertEquals(EDGE_TO_EDGE_FLAGS, view.systemUiVisibility and EDGE_TO_EDGE_FLAGS)
+        assertEquals(otherFlags, view.systemUiVisibility and otherFlags)
     }
 
     private fun addViewToContainer(lp: ViewGroup.LayoutParams? = null) {
