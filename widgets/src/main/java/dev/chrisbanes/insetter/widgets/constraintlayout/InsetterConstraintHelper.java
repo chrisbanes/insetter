@@ -46,7 +46,9 @@ public class InsetterConstraintHelper extends ConstraintHelper {
 
   private ConstraintLayout container;
 
-  public InsetterConstraintHelper(Context context) { super(context); }
+  public InsetterConstraintHelper(Context context) {
+    super(context);
+  }
 
   public InsetterConstraintHelper(Context context, AttributeSet attrs) {
     super(context, attrs);
