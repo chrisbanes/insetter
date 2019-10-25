@@ -21,9 +21,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--
+        Constraints layout_constraintStart_toStartOf and layout_constraintTop_toTopOf
+        are not needed but lint doesn't know that this is a helper, not a normal view
+        so there are here to satisfy lint. Removing them doesn't break the functionality.
+    -->
     <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:paddingSystemWindowInsets="left|top|right|bottom"
         app:constraint_referenced_ids="image"/>
 
