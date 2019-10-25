@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.chrisbanes.insetter.widgets;
+package dev.chrisbanes.insetter.widgets.constraintlayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -30,6 +30,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import dev.chrisbanes.insetter.Insetter;
 import dev.chrisbanes.insetter.ViewState;
+import dev.chrisbanes.insetter.widgets.R;
 
 /**
  * An extension to {@link ConstraintLayout} which adds enhanced support for inset handling.

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2019 Google LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,8 +44,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".InsetterConstraintLayoutSample"
+        <activity
+            android:name=".InsetterConstraintLayoutSample"
             android:label="InsetterConstraintLayout"
+            android:theme="@style/AppTheme.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="dev.chrisbanes.insetter.sample.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".InsetterConstraintHelperSample"
+            android:label="InsetterConstraintHelper"
             android:theme="@style/AppTheme.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
