@@ -29,6 +29,13 @@
         <flag name="right" value="0x05" />
     </attr>
 
+    <attr name="marginSystemWindowInsets">
+        <flag name="top" value="0x30" />
+        <flag name="bottom" value="0x50" />
+        <flag name="left" value="0x03" />
+        <flag name="right" value="0x05" />
+    </attr>
+
     <attr name="paddingSystemGestureInsets">
         <flag name="top" value="0x30" />
         <flag name="bottom" value="0x50" />
@@ -43,12 +50,27 @@
         <flag name="right" value="0x05" />
     </attr>
 
+    <attr name="marginSystemGestureInsets">
+        <flag name="top" value="0x30" />
+        <flag name="bottom" value="0x50" />
+        <flag name="left" value="0x03" />
+        <flag name="right" value="0x05" />
+    </attr>
+
     <declare-styleable name="InsetterConstraintLayout_Layout">
         <attr name="paddingSystemWindowInsets" />
         <attr name="layout_marginSystemWindowInsets" />
 
         <attr name="paddingSystemGestureInsets" />
         <attr name="layout_marginSystemGestureInsets" />
+    </declare-styleable>
+
+    <declare-styleable name="InsetterConstraintHelper">
+        <attr name="paddingSystemWindowInsets" />
+        <attr name="marginSystemGestureInsets" />
+
+        <attr name="paddingSystemGestureInsets" />
+        <attr name="marginSystemWindowInsets" />
     </declare-styleable>
 
 </resources>
