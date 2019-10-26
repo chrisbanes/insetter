@@ -51,6 +51,7 @@ android {
 dependencies {
     api Libs.AndroidX.core
 
+    testImplementation project(":testutils")
     testImplementation Libs.Kotlin.stdlib
     testImplementation Libs.junit
     testImplementation Libs.robolectric
