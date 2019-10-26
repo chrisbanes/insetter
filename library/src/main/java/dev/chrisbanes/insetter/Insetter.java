@@ -16,9 +16,12 @@
 
 package dev.chrisbanes.insetter;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.VisibleForTesting;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -227,4 +230,23 @@ public class Insetter {
               + " extend MarginLayoutParams");
     }
   }
+
+  /**
+   * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to'edge.
+   *
+   * @param enabled true if the view should request to be laid out 'edge-to-edge', false if not
+   * @see View#setSystemUiVisibility(int)
+   */
+  @RequiresApi(api = 16)
+  public static void setEdgeToEdgeSystemUiFlags(@NonNull final View view, final boolean enabled) {
+    view.setSystemUiVisibility(
+        (view.getSystemUiVisibility() & ~EDGE_TO_EDGE_FLAGS) | (enabled ? EDGE_TO_EDGE_FLAGS : 0));
+  }
+
+  @SuppressLint("InlinedApi")
+  @VisibleForTesting
+  static final int EDGE_TO_EDGE_FLAGS =
+      View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+          | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+          | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
 }
