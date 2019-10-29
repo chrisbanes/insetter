@@ -32,7 +32,7 @@ import dev.chrisbanes.insetter.Insetter;
 import dev.chrisbanes.insetter.ViewState;
 
 /**
- * A version of {@link ConstraintLayout} which adds support for inset handling.
+ * An extension to {@link ConstraintLayout} which adds enhanced support for inset handling.
  *
  * <p>This class supports the use of {@code paddingSystemWindowInsets}, {@code
  * paddingSystemGestureInsets}, {@code layout_marginSystemWindowInsets} and {@code
@@ -127,9 +127,9 @@ public class InsetterConstraintLayout extends ConstraintLayout {
       View child = getChildAt(i);
       LayoutParams childLp = (LayoutParams) child.getLayoutParams();
 
-      if (childLp.applyInsetsRequired) {
+      if (childLp.requestApplyInsetsRequired) {
         ViewCompat.requestApplyInsets(child);
-        childLp.resetApplyInsets();
+        childLp.resetRequestApplyInsetsRequired();
       }
     }
   }
@@ -162,19 +162,19 @@ public class InsetterConstraintLayout extends ConstraintLayout {
     public static final int NONE = Gravity.NO_GRAVITY;
 
     /**
-     * Defines which dimensions should be applied with the system gesture insets using padding. This
-     * value is an int containing a combination of bitwise OR'd flags. Possible values are {@link
+     * Defines which dimensions should be applied using padding from the system window insets. This
+     * value is an int containing a combination of bitwise OR'd flags. Possible flags are {@link
      * #LEFT}, {@link #TOP}, {@link #RIGHT} or {@link #BOTTOM}.
      *
      * <p>This value can be set using the {@code app:paddingSystemWindowInsets} attribute.
      *
-     * @see WindowInsetsCompat#getSystemWindowInsets() ()
+     * @see WindowInsetsCompat#getSystemWindowInsets()
      */
     public int paddingSystemWindowInsets = NONE;
 
     /**
-     * Defines which dimensions should be applied with the system gesture insets using padding. This
-     * value is an int containing a combination of bitwise OR'd flags. Possible values are {@link
+     * Defines which dimensions should be applied using padding from the system gesture insets. This
+     * value is an int containing a combination of bitwise OR'd flags. Possible flags are {@link
      * #LEFT}, {@link #TOP}, {@link #RIGHT} or {@link #BOTTOM}.
      *
      * <p>This value can be set using the {@code app:paddingSystemGestureInsets} attribute.
@@ -184,8 +184,8 @@ public class InsetterConstraintLayout extends ConstraintLayout {
     public int paddingSystemGestureInsets = NONE;
 
     /**
-     * Defines which dimensions should be applied with the system gesture insets using margin. This
-     * value is an int containing a combination of bitwise OR'd flags. Possible values are {@link
+     * Defines which dimensions should be applied using margin from the system window insets. This
+     * value is an int containing a combination of bitwise OR'd flags. Possible flags are {@link
      * #LEFT}, {@link #TOP}, {@link #RIGHT} or {@link #BOTTOM}.
      *
      * <p>This value can be set using the {@code app:layout_marginSystemWindowInsets} attribute.
@@ -195,8 +195,8 @@ public class InsetterConstraintLayout extends ConstraintLayout {
     public int marginSystemWindowInsets = NONE;
 
     /**
-     * Defines which dimensions should be applied with the system gesture insets using padding. This
-     * value is an int containing a combination of bitwise OR'd flags. Possible values are {@link
+     * Defines which dimensions should be applied using margin from the system gesture insets. This
+     * value is an int containing a combination of bitwise OR'd flags. Possible flags are {@link
      * #LEFT}, {@link #TOP}, {@link #RIGHT} or {@link #BOTTOM}.
      *
      * <p>This value can be set using the {@code app:layout_marginSystemGestureInsets} attribute.
@@ -205,7 +205,7 @@ public class InsetterConstraintLayout extends ConstraintLayout {
      */
     public int marginSystemGestureInsets = NONE;
 
-    private boolean applyInsetsRequired = true;
+    private boolean requestApplyInsetsRequired = true;
 
     public LayoutParams(int width, int height) {
       super(width, height);
@@ -254,14 +254,14 @@ public class InsetterConstraintLayout extends ConstraintLayout {
       validate();
     }
 
-    void resetApplyInsets() {
-      applyInsetsRequired = false;
+    private void resetRequestApplyInsetsRequired() {
+      requestApplyInsetsRequired = false;
     }
 
     public void validate() {
       super.validate();
 
-      applyInsetsRequired =
+      requestApplyInsetsRequired =
           paddingSystemWindowInsets != NONE
               || paddingSystemGestureInsets != NONE
               || marginSystemWindowInsets != NONE
