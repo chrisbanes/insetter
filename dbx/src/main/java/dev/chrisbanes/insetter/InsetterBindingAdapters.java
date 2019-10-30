@@ -58,7 +58,7 @@ public class InsetterBindingAdapters {
         "marginBottomGestureInsets"
       },
       requireAll = false)
-  public static void applySystemWindows(
+  public static void applyInsetsFromBooleans(
       @NonNull final View v,
       final boolean padSystemWindowLeft,
       final boolean padSystemWindowTop,
@@ -113,6 +113,40 @@ public class InsetterBindingAdapters {
                 marginGestureTop || oldMarginGestureTop,
                 marginGestureRight || oldMarginGestureRight,
                 marginGestureBottom || oldMarginGestureBottom);
+          }
+        });
+  }
+
+  @BindingAdapter(
+      value = {
+        "paddingSystemWindowInsets",
+        "layout_marginSystemWindowInsets",
+        "paddingSystemGestureInsets",
+        "layout_marginSystemGestureInsets",
+      },
+      requireAll = false)
+  public static void applyInsetsFromFlags(
+      @NonNull final View v,
+      final int paddingSystemWindowInsets,
+      final int marginSystemWindowInsets,
+      final int paddingSystemGestureInsets,
+      final int marginSystemGestureInsets) {
+    Insetter.setOnApplyInsetsListener(
+        v,
+        new OnApplyInsetsListener() {
+          @Override
+          public void onApplyInsets(
+              @NonNull View view,
+              @NonNull WindowInsetsCompat insets,
+              @NonNull ViewState initialState) {
+            Insetter.applyInsetsToView(
+                view,
+                insets,
+                initialState,
+                paddingSystemWindowInsets,
+                marginSystemWindowInsets,
+                paddingSystemGestureInsets,
+                marginSystemGestureInsets);
           }
         });
   }

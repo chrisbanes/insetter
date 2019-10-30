@@ -17,17 +17,40 @@
 package dev.chrisbanes.insetter;
 
 import android.annotation.SuppressLint;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.annotation.RestrictTo;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /** A collection of utility functions to make handling {@link android.view.WindowInsets} easier. */
 public class Insetter {
+
+  /** @hide */
+  @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+  @Retention(RetentionPolicy.SOURCE)
+  @IntDef(
+      value = {LEFT, TOP, RIGHT, BOTTOM, NONE},
+      flag = true)
+  public @interface InsetDimension {}
+
+  public static final int LEFT = Gravity.LEFT;
+  public static final int TOP = Gravity.TOP;
+  public static final int RIGHT = Gravity.RIGHT;
+  public static final int BOTTOM = Gravity.BOTTOM;
+
+  public static final int ALL = LEFT | TOP | RIGHT | BOTTOM;
+  public static final int HORIZONTAL = LEFT | RIGHT;
+  public static final int VERTICAL = TOP | BOTTOM;
+  public static final int NONE = Gravity.NO_GRAVITY;
 
   private Insetter() {
     // private constructor. No instantiating.
@@ -96,6 +119,106 @@ public class Insetter {
   }
 
   /**
+   * @param view
+   * @param insets
+   * @param initialState
+   * @param paddingSystemWindowInsets
+   * @param marginSystemWindowInsets
+   * @param paddingSystemGestureInsets
+   * @param marginSystemGestureInsets
+   */
+  public static void applyInsetsToView(
+      @NonNull final View view,
+      @NonNull final WindowInsetsCompat insets,
+      @NonNull final ViewState initialState,
+      final int paddingSystemWindowInsets,
+      final int marginSystemWindowInsets,
+      final int paddingSystemGestureInsets,
+      final int marginSystemGestureInsets) {
+    final ViewDimensions initialPadding = initialState.getPaddings();
+    int paddingLeft = initialPadding.getLeft();
+    if (hasFlag(paddingSystemGestureInsets, LEFT)) {
+      paddingLeft += insets.getSystemGestureInsets().left;
+    } else if (hasFlag(paddingSystemWindowInsets, LEFT)) {
+      paddingLeft += insets.getSystemWindowInsetLeft();
+    }
+
+    int paddingTop = initialPadding.getTop();
+    if (hasFlag(paddingSystemGestureInsets, TOP)) {
+      paddingTop += insets.getSystemGestureInsets().top;
+    } else if (hasFlag(paddingSystemWindowInsets, TOP)) {
+      paddingTop += insets.getSystemWindowInsetTop();
+    }
+
+    int paddingRight = initialPadding.getRight();
+    if (hasFlag(paddingSystemGestureInsets, RIGHT)) {
+      paddingRight += insets.getSystemGestureInsets().right;
+    } else if (hasFlag(paddingSystemWindowInsets, RIGHT)) {
+      paddingRight += insets.getSystemWindowInsetRight();
+    }
+
+    int paddingBottom = initialPadding.getBottom();
+    if (hasFlag(paddingSystemGestureInsets, BOTTOM)) {
+      paddingBottom += insets.getSystemGestureInsets().bottom;
+    } else if (hasFlag(paddingSystemWindowInsets, BOTTOM)) {
+      paddingBottom += insets.getSystemWindowInsetBottom();
+    }
+
+    view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+
+    // Now we can deal with margins
+
+    final ViewDimensions initialMargins = initialState.getMargins();
+
+    int marginLeft = initialMargins.getLeft();
+    if (hasFlag(marginSystemGestureInsets, LEFT)) {
+      marginLeft += insets.getSystemGestureInsets().left;
+    } else if (hasFlag(marginSystemWindowInsets, LEFT)) {
+      marginLeft += insets.getSystemWindowInsetLeft();
+    }
+
+    int marginTop = initialMargins.getTop();
+    if (hasFlag(marginSystemGestureInsets, TOP)) {
+      marginTop += insets.getSystemGestureInsets().top;
+    } else if (hasFlag(marginSystemWindowInsets, TOP)) {
+      marginTop += insets.getSystemWindowInsetTop();
+    }
+
+    int marginRight = initialMargins.getRight();
+    if (hasFlag(marginSystemGestureInsets, RIGHT)) {
+      marginRight += insets.getSystemGestureInsets().right;
+    } else if (hasFlag(marginSystemWindowInsets, RIGHT)) {
+      marginRight += insets.getSystemWindowInsetRight();
+    }
+
+    int marginBottom = initialMargins.getBottom();
+    if (hasFlag(marginSystemGestureInsets, BOTTOM)) {
+      marginBottom += insets.getSystemGestureInsets().bottom;
+    } else if (hasFlag(marginSystemWindowInsets, BOTTOM)) {
+      marginBottom += insets.getSystemWindowInsetBottom();
+    }
+
+    final ViewGroup.LayoutParams lp = view.getLayoutParams();
+    if (lp instanceof ViewGroup.MarginLayoutParams) {
+      ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
+      if (mlp.leftMargin != marginLeft
+          || mlp.topMargin != marginTop
+          || mlp.rightMargin != marginRight
+          || mlp.bottomMargin != marginBottom) {
+        mlp.leftMargin = marginLeft;
+        mlp.topMargin = marginTop;
+        mlp.rightMargin = marginRight;
+        mlp.bottomMargin = marginBottom;
+        view.setLayoutParams(lp);
+      }
+    } else if (marginSystemGestureInsets != NONE || marginSystemWindowInsets != NONE) {
+      throw new IllegalArgumentException(
+          "Margin inset handling requested but view LayoutParams do not"
+              + " extend MarginLayoutParams");
+    }
+  }
+
+  /**
    * TODO
    *
    * @param view
@@ -113,10 +236,10 @@ public class Insetter {
    * @param marginSystemWindowTop
    * @param marginSystemWindowRight
    * @param marginSystemWindowBottom
-   * @param marginGestureLeft
-   * @param marginGestureTop
-   * @param marginGestureRight
-   * @param marginGestureBottom
+   * @param marginSystemGestureLeft
+   * @param marginSystemGestureTop
+   * @param marginSystemGestureRight
+   * @param marginSystemGestureBottom
    */
   public static void applyInsetsToView(
       @NonNull final View view,
@@ -134,101 +257,34 @@ public class Insetter {
       final boolean marginSystemWindowTop,
       final boolean marginSystemWindowRight,
       final boolean marginSystemWindowBottom,
-      final boolean marginGestureLeft,
-      final boolean marginGestureTop,
-      final boolean marginGestureRight,
-      final boolean marginGestureBottom) {
-    final ViewDimensions initialPadding = initialState.getPaddings();
-    int paddingLeft = initialPadding.getLeft();
-    if (paddingSystemGestureLeft) {
-      paddingLeft += insets.getSystemGestureInsets().left;
-    } else if (paddingSystemWindowLeft) {
-      paddingLeft += insets.getSystemWindowInsetLeft();
-    }
-
-    int paddingTop = initialPadding.getTop();
-    if (paddingSystemGestureTop) {
-      paddingTop += insets.getSystemGestureInsets().top;
-    } else if (paddingSystemWindowTop) {
-      paddingTop += insets.getSystemWindowInsetTop();
-    }
-
-    int paddingRight = initialPadding.getRight();
-    if (paddingSystemGestureRight) {
-      paddingRight += insets.getSystemGestureInsets().right;
-    } else if (paddingSystemWindowRight) {
-      paddingRight += insets.getSystemWindowInsetRight();
-    }
-
-    int paddingBottom = initialPadding.getBottom();
-    if (paddingSystemGestureBottom) {
-      paddingBottom += insets.getSystemGestureInsets().bottom;
-    } else if (paddingSystemWindowBottom) {
-      paddingBottom += insets.getSystemWindowInsetBottom();
-    }
-
-    view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
-
-    // Now we can deal with margins
-
-    final ViewDimensions initialMargins = initialState.getMargins();
-
-    final boolean marginInsetRequested =
-        marginSystemWindowLeft
-            || marginGestureLeft
-            || marginSystemWindowTop
-            || marginGestureTop
-            || marginSystemWindowRight
-            || marginGestureRight
-            || marginSystemWindowBottom
-            || marginGestureBottom;
-
-    int marginLeft = initialMargins.getLeft();
-    if (marginGestureLeft) {
-      marginLeft += insets.getSystemGestureInsets().left;
-    } else if (marginSystemWindowLeft) {
-      marginLeft += insets.getSystemWindowInsetLeft();
-    }
-
-    int marginTop = initialMargins.getTop();
-    if (marginGestureTop) {
-      marginTop += insets.getSystemGestureInsets().top;
-    } else if (marginSystemWindowTop) {
-      marginTop += insets.getSystemWindowInsetTop();
-    }
-
-    int marginRight = initialMargins.getRight();
-    if (marginGestureRight) {
-      marginRight += insets.getSystemGestureInsets().right;
-    } else if (marginSystemWindowRight) {
-      marginRight += insets.getSystemWindowInsetRight();
-    }
-
-    int marginBottom = initialMargins.getBottom();
-    if (marginGestureBottom) {
-      marginBottom += insets.getSystemGestureInsets().bottom;
-    } else if (marginSystemWindowBottom) {
-      marginBottom += insets.getSystemWindowInsetBottom();
-    }
-
-    final ViewGroup.LayoutParams lp = view.getLayoutParams();
-    if (lp instanceof ViewGroup.MarginLayoutParams) {
-      ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
-      if (mlp.leftMargin != marginLeft
-          || mlp.topMargin != marginTop
-          || mlp.rightMargin != marginRight
-          || mlp.bottomMargin != marginBottom) {
-        mlp.leftMargin = marginLeft;
-        mlp.topMargin = marginTop;
-        mlp.rightMargin = marginRight;
-        mlp.bottomMargin = marginBottom;
-        view.setLayoutParams(lp);
-      }
-    } else if (marginInsetRequested) {
-      throw new IllegalArgumentException(
-          "Margin inset handling requested but view LayoutParams do not"
-              + " extend MarginLayoutParams");
-    }
+      final boolean marginSystemGestureLeft,
+      final boolean marginSystemGestureTop,
+      final boolean marginSystemGestureRight,
+      final boolean marginSystemGestureBottom) {
+    applyInsetsToView(
+        view,
+        insets,
+        initialState,
+        generateFlagInt(
+            paddingSystemWindowLeft,
+            paddingSystemWindowTop,
+            paddingSystemWindowRight,
+            paddingSystemWindowBottom),
+        generateFlagInt(
+            marginSystemWindowLeft,
+            marginSystemWindowTop,
+            marginSystemWindowRight,
+            marginSystemWindowBottom),
+        generateFlagInt(
+            paddingSystemGestureLeft,
+            paddingSystemGestureTop,
+            paddingSystemGestureRight,
+            paddingSystemGestureBottom),
+        generateFlagInt(
+            marginSystemGestureLeft,
+            marginSystemGestureTop,
+            marginSystemGestureRight,
+            marginSystemGestureBottom));
   }
 
   /**
@@ -249,4 +305,17 @@ public class Insetter {
       View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
           | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
           | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+
+  private static boolean hasFlag(int value, int flag) {
+    return (value & flag) == flag;
+  }
+
+  private static int generateFlagInt(boolean left, boolean top, boolean right, boolean bottom) {
+    int v = NONE;
+    if (left) v |= LEFT;
+    if (top) v |= TOP;
+    if (right) v |= RIGHT;
+    if (bottom) v |= BOTTOM;
+    return v;
+  }
 }
