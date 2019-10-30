@@ -8,7 +8,7 @@ The library contains implementations of many of the concepts described in our
 [_"Listeners to Layouts"_](https://medium.com/androiddevelopers/windowinsets-listeners-to-layouts-8f9ccc8fa4d1)
 blog post.
 
-There are three libraries available:
+There are a number of libraries available:
 
 ### insetter
 [![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter)
@@ -30,11 +30,10 @@ bottomNav.doOnApplyWindowInsets { view, insets, initialPadding, initialMargins -
 }
 ```
 
-### insetter-dbx
-[![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter-dbx/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter-dbx)
+### [insetter-dbx](dbx/)
 
-A [Data Binding][databinding] extension library, providing [Data Binding][databinding]-specific functionality. This primarily contains binding adapters, which allow access to the helper
-functions from your layouts:
+A [Data Binding][databinding] extension library, providing [Data Binding][databinding] specific functionality.
+This primarily contains binding adapters, which allow access to the helper functions from your layouts:
 
 ``` xml
 <BottomNavigationView
@@ -44,6 +43,8 @@ functions from your layouts:
     app:paddingBottomSystemWindowInsets="@{true}"
     app:paddingLeftSystemWindowInsets="@{true}" />
 ```
+
+📖 You can read more information [here](dbx/).
 
 ### [insetter-widgets](widgets/)
 
@@ -72,7 +73,7 @@ the `insetter-dbx` library, but without the requirement of using data-binding.
 </dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
 ```
 
-You can read more information [here](insetter-widgets/).
+📖 You can read more information [here](widgets/).
 
 ## ⚠️ Attention 🚧
 
@@ -86,21 +87,21 @@ at a later date.
 
 ```groovy
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  // The base library. If you're using either the dbx and/or ktx libraries, you don't need this
-  implementation "dev.chrisbanes:insetter:0.1.1"
+    // The base library. If you're using either the dbx and/or ktx libraries, you don't need this
+    implementation "dev.chrisbanes:insetter:0.1.1"
 
-  // If you're using data-binding use this
-  implementation "dev.chrisbanes:insetter-dbx:0.1.1"
+    // If you're using data-binding use this
+    implementation "dev.chrisbanes:insetter-dbx:0.1.1"
 
-  // If you're using Kotlin use this too
-  implementation "dev.chrisbanes:insetter-ktx:0.1.1"
+    // If you're using Kotlin use this too
+    implementation "dev.chrisbanes:insetter-ktx:0.1.1"
   
-  // If you would like to use the enhanced widget set, use this
-  implementation "dev.chrisbanes:insetter-widgets:0.1.1"
+    // If you would like to use the enhanced widget set, use this
+    implementation "dev.chrisbanes:insetter-widgets:0.1.1"
 }
 ```
 
