@@ -45,7 +45,7 @@ functions from your layouts:
     app:paddingLeftSystemWindowInsets="@{true}" />
 ```
 
-### [insetter-widgets](insetter-widgets/)
+### [insetter-widgets](widgets/)
 
 An extension library which provides versions of commonly used ViewGroups with enhanced inset
 handling. Currently this library is focusing on building upon 
