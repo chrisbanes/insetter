@@ -11,9 +11,13 @@ blog post.
 There are three libraries available:
 
 ### insetter
+[![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter)
+
 The base library which is written in Java.
 
 ### insetter-ktx
+[![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter-ktx/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter-ktx)
+
 A Kotlin extension library, providing Kotlin-specific functionality. This library contains
 extension functions allowing easy access to the helper functions from the base library.
 
@@ -27,6 +31,8 @@ bottomNav.doOnApplyWindowInsets { view, insets, initialPadding, initialMargins -
 ```
 
 ### insetter-dbx
+[![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter-dbx/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter-dbx)
+
 A [Data Binding][databinding] extension library, providing [Data Binding][databinding]-specific functionality. This primarily contains binding adapters, which allow access to the helper
 functions from your layouts:
 
@@ -40,6 +46,8 @@ functions from your layouts:
 ```
 
 ### insetter-widgets
+[![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter-widgets/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter-widgets)
+
 An extension library which provides versions of commonly used ViewGroups with enhanced inset
 handling. Currently this library is focusing on building upon 
 [ConstraintLayout](https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html).
