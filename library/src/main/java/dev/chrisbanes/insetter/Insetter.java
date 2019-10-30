@@ -232,7 +232,7 @@ public class Insetter {
   }
 
   /**
-   * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to'edge.
+   * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to-edge'.
    *
    * @param enabled true if the view should request to be laid out 'edge-to-edge', false if not
    * @see View#setSystemUiVisibility(int)
