@@ -70,6 +70,33 @@ And similarly, you can mix application types. This time the view's padding will 
 </dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
 ```
 
+### Compound padding/margin
+
+You can safely set any padding or margins on the view, and the values will be maintained.
+For example here we're using a padding of `24dp`, and also applying the
+[system window insets][swi] left and bottom using padding:
+
+``` xml
+<dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+
+    <ImageView
+        app:paddingSystemWindowInsets="left|bottom" />
+
+</dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+```
+
+If the bottom [system window insets][swi] is defined as `48dp` on the device, the final
+applied padding for the view will be:
+
+| Dimension     | Layout padding | System window insets | Final applied padding |
+| ------------- | -------------- | -------------------- | --------------------- |
+| Left          | 24dp           | 0dp                  | 24dp                  |
+| Top           | 24dp           | 0dp                  | **24dp** (0 + 24)     |
+| Right         | 24dp           | 0dp                  | 24dp                  |
+| Bottom        | 24dp           | 48dp                 | **72dp** (24 + 48)    |
+
+The same behavior happens when using margin too.
+
 ### When should I use this vs the dbx library?
 The behavior enabled through `InsetterConstraintLayout` is similar to that provided by 
 the `insetter-dbx` library, but without the requirement of using [data-binding][databinding].
