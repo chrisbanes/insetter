@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2019 Google LLC
   ~
@@ -14,7 +15,7 @@
   ~ limitations under the License.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.chrisbanes.insetter.testutils">
+<resources>
+    <dimen name="padding">20dp</dimen>
 
-</manifest>
+</resources>

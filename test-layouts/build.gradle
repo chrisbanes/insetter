@@ -1,3 +1,5 @@
+import dev.chrisbanes.insetter.buildsrc.Libs
+
 /*
  * Copyright 2019 Google LLC
  *
@@ -14,8 +16,6 @@
  * limitations under the License.
  */
 
-import dev.chrisbanes.insetter.buildsrc.Libs
-
 apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
@@ -29,23 +29,28 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    lintOptions {
-        textReport true
-        textOutput 'stdout'
-        // We run a full lint analysis as build part in CI, so skip vital checks for assemble tasks.
-        checkReleaseBuilds false
+    dataBinding {
+        // We need to enable data-binding for any consumers to be able to use
+        // any BindingAdapters in this library
+        enabled = true
     }
 
-    // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
-    libraryVariants.all {
-        it.generateBuildConfig.enabled = false
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
     }
 }
 
 dependencies {
-    api project(":library")
+    implementation project(":library")
+    implementation project(":dbx")
+    implementation project(":widgets")
 
-    api Libs.constraintLayout
+    testImplementation project(":testutils")
+    testImplementation Libs.Kotlin.stdlib
+    testImplementation Libs.junit
+    testImplementation Libs.robolectric
+    testImplementation Libs.AndroidX.Test.core
+    testImplementation Libs.AndroidX.Test.ext
 }
-
-apply plugin: "com.vanniktech.maven.publish"
