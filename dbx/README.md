@@ -6,29 +6,31 @@ A [Data Binding][databinding] extension library, providing [Data Binding][databi
 This primarily contains binding adapters, which allow access to the helper functions from your layouts.
 Currently the attributes provided are:
 
-## Applying insets attributes
+## Applying [system window insets][swi]
+The following attributes are useful in being able to apply the [system window insets][swi] insets,
+to specific dimensions to views.
 
-### System Window Insets
+ * `app:paddingLeftSystemWindowInsets`: to apply the left dimension to the view's `paddingLeft`.
+ * `app:paddingTopSystemWindowInsets`: to apply the top dimension to the view's `paddingTop`.
+ * `app:paddingRightSystemWindowInsets`: to apply the right dimension to the view's `paddingRight`.
+ * `app:paddingBottomSystemWindowInsets`: to apply the bottom dimension to the view's `paddingBottom`.
+ * `app:layout_marginLeftSystemWindowInsets`: to apply the left dimension to the view's `layout_marginLeft`.
+ * `app:layout_marginTopSystemWindowInsets`: to apply the top dimension to the view's `layout_marginTop` .
+ * `app:layout_marginRightSystemWindowInsets`: to apply the right dimension to the view's `layout_marginRight`.
+ * `app:layout_marginBottomSystemWindowInsets`: to apply the bottom dimension to the view's `layout_marginBottom`.
 
- * `app:paddingLeftSystemWindowInsets`: to apply the left [system window insets][swi] using padding.
- * `app:paddingTopSystemWindowInsets`: to apply the top [system window insets][swi] using padding.
- * `app:paddingRightSystemWindowInsets`: to apply the right [system window insets][swi] using padding.
- * `app:paddingBottomSystemWindowInsets`: to apply the bottom [system window insets][swi] using padding.
- * `app:layout_marginLeftSystemWindowInsets`: to apply the left [system window insets][swi] using margin.
- * `app:layout_marginTopSystemWindowInsets`: to apply the top [system window insets][swi] using margin.
- * `app:layout_marginRightSystemWindowInsets`: to apply the right [system window insets][swi] using margin.
- * `app:layout_marginBottomSystemWindowInsets`: to apply the bottom [system window insets][swi] using margin.
+## Applying [system gesture insets][sgi]
+The following attributes are useful in being able to apply the [system gesture insets][sgi] insets,
+to specific dimensions to views.
 
-### System Gesture Insets
-
- * `app:paddingLeftSystemGestureInsets`: to apply the left [system gesture insets][sgi] using padding.
- * `app:paddingTopSystemGestureInsets`: to apply the top [system gesture insets][sgi] using padding.
- * `app:paddingRightSystemGestureInsets`: to apply the right [system gesture insets][sgi] using padding.
- * `app:paddingBottomSystemGestureInsets`: to apply the bottom [system gesture insets][sgi] using padding.
- * `app:layout_marginLeftSystemGestureInsets`: to apply the left [system gesture insets][sgi] using margin.
- * `app:layout_marginTopSystemGestureInsets`: to apply the top [system gesture insets][sgi] using margin.
- * `app:layout_marginRightSystemGestureInsets`: to apply the right [system gesture insets][sgi] using margin.
- * `app:layout_marginBottomSystemGestureInsets`: to apply the bottom [system gesture insets][sgi] using margin.
+ * `app:paddingLeftSystemGestureInsets`: to apply the left dimension to the view's `paddingLeft`.
+ * `app:paddingTopSystemGestureInsets`: to apply the top dimension to the view's `paddingTop`.
+ * `app:paddingRightSystemGestureInsets`: to apply the right dimension to the view's `paddingRight`.
+ * `app:paddingBottomSystemGestureInsets`: to apply the bottom dimension to the view's `paddingBottom`.
+ * `app:layout_marginLeftSystemGestureInsets`: to apply the left dimension to the view's `layout_marginLeft`.
+ * `app:layout_marginTopSystemGestureInsets`: to apply the top dimension to the view's `layout_marginTop` .
+ * `app:layout_marginRightSystemGestureInsets`: to apply the right dimension to the view's `layout_marginRight`.
+ * `app:layout_marginBottomSystemGestureInsets`: to apply the bottom dimension to the view's `layout_marginBottom`.
  
 ### Using the applying insets attributes
 
