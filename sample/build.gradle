@@ -41,9 +41,10 @@ android {
 }
 
 dependencies {
-    api project(":library")
-    api project(":ktx")
-    api project(":dbx")
+    implementation project(":library")
+    implementation project(":ktx")
+    implementation project(":dbx")
+    implementation project(":widgets")
 
     api Libs.Kotlin.stdlib
 }

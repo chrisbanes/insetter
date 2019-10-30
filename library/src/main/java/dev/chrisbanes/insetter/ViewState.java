@@ -24,7 +24,7 @@ public class ViewState {
   private ViewDimensions paddings;
   private ViewDimensions margins;
 
-  ViewState(@NonNull View view) {
+  public ViewState(@NonNull View view) {
     updateForView(view);
   }
 

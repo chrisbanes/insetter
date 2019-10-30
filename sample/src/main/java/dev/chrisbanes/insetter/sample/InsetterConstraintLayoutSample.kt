@@ -14,9 +14,20 @@
  * limitations under the License.
  */
 
-include ':library'
-include ':ktx'
-include ':dbx'
-include ':sample'
-include ':widgets'
-include ':testutils'
+package dev.chrisbanes.insetter.sample
+
+import android.app.Activity
+import android.os.Bundle
+import android.view.View
+
+class InsetterConstraintLayoutSample : Activity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_widget_constraintlayout)
+
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+    }
+}

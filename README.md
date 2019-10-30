@@ -11,9 +11,13 @@ blog post.
 There are three libraries available:
 
 ### insetter
+[![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter)
+
 The base library which is written in Java.
 
 ### insetter-ktx
+[![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter-ktx/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter-ktx)
+
 A Kotlin extension library, providing Kotlin-specific functionality. This library contains
 extension functions allowing easy access to the helper functions from the base library.
 
@@ -27,6 +31,8 @@ bottomNav.doOnApplyWindowInsets { view, insets, initialPadding, initialMargins -
 ```
 
 ### insetter-dbx
+[![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter-dbx/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter-dbx)
+
 A [Data Binding][databinding] extension library, providing [Data Binding][databinding]-specific functionality. This primarily contains binding adapters, which allow access to the helper
 functions from your layouts:
 
@@ -38,6 +44,35 @@ functions from your layouts:
     app:paddingBottomSystemWindowInsets="@{true}"
     app:paddingLeftSystemWindowInsets="@{true}" />
 ```
+
+### [insetter-widgets](insetter-widgets/)
+
+An extension library which provides versions of commonly used ViewGroups with enhanced inset
+handling. Currently this library is focusing on building upon 
+[ConstraintLayout](https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html).
+
+[InsetterConstraintLayout](widgets/src/main/java/dev/chrisbanes/insetter/widgets/InsetterConstraintLayout.java) is the
+primary widget we provide, which enables new attributes to define inset behavior on child views.
+The behavior enabled through `InsetterConstraintLayout` is similar to that provided by 
+the `insetter-dbx` library, but without the requirement of using data-binding.
+
+``` xml
+<dev.chrisbanes.insetter.widgets.InsetterConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:paddingSystemWindowInsets="left|top|right|bottom"
+        android:src="@drawable/rectangle" />
+
+</dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+```
+
+You can read more information [here](insetter-widgets/).
 
 ## ⚠️ Attention 🚧
 
@@ -63,6 +98,9 @@ dependencies {
 
   // If you're using Kotlin use this too
   implementation "dev.chrisbanes:insetter-ktx:0.1.1"
+  
+  // If you would like to use the enhanced widget set, use this
+  implementation "dev.chrisbanes:insetter-widgets:0.1.1"
 }
 ```
 

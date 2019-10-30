@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package dev.chrisbanes.insetter
+import dev.chrisbanes.insetter.buildsrc.Libs
 
-import android.graphics.Rect
-import android.view.View
-import android.view.WindowInsets
+apply plugin: 'com.android.library'
 
-fun createWindowInsetsInstance(): WindowInsets {
-    val constructor = WindowInsets::class.java.getConstructor(Rect::class.java)
-    constructor.isAccessible = true
-    return constructor.newInstance(Rect())
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 15
+    }
+
+    // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
+    libraryVariants.all {
+        it.generateBuildConfig.enabled = false
+    }
 }
 
-fun View.dispatchInsets(f: ((WindowInsets) -> WindowInsets)? = null) {
-    val insets = f?.invoke(createWindowInsetsInstance()) ?: createWindowInsetsInstance()
-    dispatchApplyWindowInsets(insets)
+dependencies {
+    implementation Libs.AndroidX.core
+    implementation Libs.Kotlin.stdlib
 }
