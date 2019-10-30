@@ -25,6 +25,7 @@ import android.widget.ImageView
 import androidx.core.view.WindowInsetsCompat
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import dev.chrisbanes.insetter.Insetter.EDGE_TO_EDGE_FLAGS
+import dev.chrisbanes.insetter.testutils.dispatchInsets
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule

@@ -20,7 +20,7 @@ import android.app.Activity
 import android.graphics.Rect
 import android.view.View
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import dev.chrisbanes.insetter.dispatchInsets
+import dev.chrisbanes.insetter.testutils.dispatchInsets
 import dev.chrisbanes.insetter.widgets.InsetterConstraintLayout
 import org.junit.Assert.assertEquals
 import org.junit.Before

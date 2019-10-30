@@ -47,7 +47,7 @@ android {
 }
 
 dependencies {
-    api project(":library")
+    api project(':library')
 
     testImplementation Libs.junit
 }

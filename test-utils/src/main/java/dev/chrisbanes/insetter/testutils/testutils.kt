@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.chrisbanes.insetter
+package dev.chrisbanes.insetter.testutils
 
 import android.graphics.Rect
 import android.view.View

@@ -43,11 +43,11 @@ android {
 }
 
 dependencies {
-    implementation project(":library")
-    implementation project(":dbx")
-    implementation project(":widgets")
+    implementation project(':library')
+    implementation project(':dbx')
+    implementation project(':widgets')
 
-    testImplementation project(":testutils")
+    testImplementation project(':test-utils')
     testImplementation Libs.Kotlin.stdlib
     testImplementation Libs.junit
     testImplementation Libs.robolectric
