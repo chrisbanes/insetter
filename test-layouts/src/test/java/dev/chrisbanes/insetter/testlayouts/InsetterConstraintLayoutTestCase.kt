@@ -17,6 +17,7 @@
 package dev.chrisbanes.insetter.testlayouts
 
 import android.app.Activity
+import android.graphics.Rect
 import android.view.View
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import dev.chrisbanes.insetter.dispatchInsets
@@ -46,67 +47,54 @@ class InsetterConstraintLayoutTestCase {
     }
 
     @Test
-    fun setOneShot() {
+    fun testSystemWindowInsets() {
         // Dispatch some initial insets
-        container.dispatchInsets {
-            it.replaceSystemWindowInsets(10, 20, 30, 40)
-        }
+        val rect1 = Rect(5, 7, 9, 13)
+        container.dispatchInsets(rect1)
         // ...and assert that the paddings change
-        with(container.findViewById<View>(R.id.system_window_left)) {
-            assertEquals(10, paddingLeft)
-        }
-        with(container.findViewById<View>(R.id.system_window_top)) {
-            assertEquals(20, paddingTop)
-        }
-        with(container.findViewById<View>(R.id.system_window_right)) {
-            assertEquals(30, paddingRight)
-        }
-        with(container.findViewById<View>(R.id.system_window_bottom)) {
-            assertEquals(40, paddingBottom)
-        }
-        with(container.findViewById<View>(R.id.system_window_all)) {
-            assertEquals(10, paddingLeft)
-            assertEquals(20, paddingTop)
-            assertEquals(30, paddingRight)
-            assertEquals(40, paddingBottom)
-        }
-        with(container.findViewById<View>(R.id.system_window_all_withpadding)) {
-            val widgetPadding = resources.getDimensionPixelSize(R.dimen.padding)
-            assertEquals(10 + widgetPadding, paddingLeft)
-            assertEquals(20 + widgetPadding, paddingTop)
-            assertEquals(30 + widgetPadding, paddingRight)
-            assertEquals(40 + widgetPadding, paddingBottom)
-        }
+        assertPaddings(rect1)
+    }
+
+    @Test
+    fun testSystemWindowInsetsWhichChange() {
+        // Dispatch some initial insets
+        val rect1 = Rect(10, 20, 30, 40)
+        container.dispatchInsets(rect1)
+        // ...and assert that the paddings change
+        assertPaddings(rect1)
 
         // Now dispatch different insets
-        container.dispatchInsets {
-            it.replaceSystemWindowInsets(11, 22, 33, 44)
-        }
+        val rect2 = Rect(11, 22, 33, 44)
+        container.dispatchInsets(rect2)
         // ...and assert that the paddings change
+        assertPaddings(rect2)
+    }
+
+    private fun assertPaddings(systemWindowInsets: Rect) {
         with(container.findViewById<View>(R.id.system_window_left)) {
-            assertEquals(11, paddingLeft)
+            assertEquals(systemWindowInsets.left, paddingLeft)
         }
         with(container.findViewById<View>(R.id.system_window_top)) {
-            assertEquals(22, paddingTop)
+            assertEquals(systemWindowInsets.top, paddingTop)
         }
         with(container.findViewById<View>(R.id.system_window_right)) {
-            assertEquals(33, paddingRight)
+            assertEquals(systemWindowInsets.right, paddingRight)
         }
         with(container.findViewById<View>(R.id.system_window_bottom)) {
-            assertEquals(44, paddingBottom)
+            assertEquals(systemWindowInsets.bottom, paddingBottom)
         }
         with(container.findViewById<View>(R.id.system_window_all)) {
-            assertEquals(11, paddingLeft)
-            assertEquals(22, paddingTop)
-            assertEquals(33, paddingRight)
-            assertEquals(44, paddingBottom)
+            assertEquals(systemWindowInsets.left, paddingLeft)
+            assertEquals(systemWindowInsets.top, paddingTop)
+            assertEquals(systemWindowInsets.right, paddingRight)
+            assertEquals(systemWindowInsets.bottom, paddingBottom)
         }
         with(container.findViewById<View>(R.id.system_window_all_withpadding)) {
             val widgetPadding = resources.getDimensionPixelSize(R.dimen.padding)
-            assertEquals(11 + widgetPadding, paddingLeft)
-            assertEquals(22 + widgetPadding, paddingTop)
-            assertEquals(33 + widgetPadding, paddingRight)
-            assertEquals(44 + widgetPadding, paddingBottom)
+            assertEquals(systemWindowInsets.left + widgetPadding, paddingLeft)
+            assertEquals(systemWindowInsets.top + widgetPadding, paddingTop)
+            assertEquals(systemWindowInsets.right + widgetPadding, paddingRight)
+            assertEquals(systemWindowInsets.bottom + widgetPadding, paddingBottom)
         }
     }
 }
