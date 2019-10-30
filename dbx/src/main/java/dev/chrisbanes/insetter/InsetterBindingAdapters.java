@@ -38,6 +38,16 @@ public class InsetterBindingAdapters {
         "paddingTopGestureInsets",
         "paddingRightGestureInsets",
         "paddingBottomGestureInsets",
+        "layout_marginLeftSystemWindowInsets",
+        "layout_marginTopSystemWindowInsets",
+        "layout_marginRightSystemWindowInsets",
+        "layout_marginBottomSystemWindowInsets",
+        "layout_marginLeftGestureInsets",
+        "layout_marginTopGestureInsets",
+        "layout_marginRightGestureInsets",
+        "layout_marginBottomGestureInsets",
+        // The following attributes are kept here for migrating purposes.
+        // They will be removed in a later release.
         "marginLeftSystemWindowInsets",
         "marginTopSystemWindowInsets",
         "marginRightSystemWindowInsets",
@@ -65,7 +75,15 @@ public class InsetterBindingAdapters {
       final boolean marginGestureLeft,
       final boolean marginGestureTop,
       final boolean marginGestureRight,
-      final boolean marginGestureBottom) {
+      final boolean marginGestureBottom,
+      final boolean oldMarginSystemWindowLeft,
+      final boolean oldMarginSystemWindowTop,
+      final boolean oldMarginSystemWindowRight,
+      final boolean oldMarginSystemWindowBottom,
+      final boolean oldMarginGestureLeft,
+      final boolean oldMarginGestureTop,
+      final boolean oldMarginGestureRight,
+      final boolean oldMarginGestureBottom) {
 
     Insetter.setOnApplyInsetsListener(
         v,
@@ -87,14 +105,14 @@ public class InsetterBindingAdapters {
                 padGestureTop,
                 padGestureRight,
                 padGestureBottom,
-                marginSystemWindowLeft,
-                marginSystemWindowTop,
-                marginSystemWindowRight,
-                marginSystemWindowBottom,
-                marginGestureLeft,
-                marginGestureTop,
-                marginGestureRight,
-                marginGestureBottom);
+                marginSystemWindowLeft || oldMarginSystemWindowLeft,
+                marginSystemWindowTop || oldMarginSystemWindowTop,
+                marginSystemWindowRight || oldMarginSystemWindowRight,
+                marginSystemWindowBottom || oldMarginSystemWindowBottom,
+                marginGestureLeft || oldMarginGestureLeft,
+                marginGestureTop || oldMarginGestureTop,
+                marginGestureRight || oldMarginGestureRight,
+                marginGestureBottom || oldMarginGestureBottom);
           }
         });
   }
