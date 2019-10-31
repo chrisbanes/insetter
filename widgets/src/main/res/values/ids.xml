@@ -17,4 +17,5 @@
 
 <resources>
     <id name="insetter_initial_state" />
+    <id name="insetter_previous_insets" />
 </resources>
