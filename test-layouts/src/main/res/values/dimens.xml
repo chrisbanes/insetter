@@ -17,5 +17,6 @@
 
 <resources>
     <dimen name="padding">20dp</dimen>
+    <dimen name="margin">24dp</dimen>
 
 </resources>

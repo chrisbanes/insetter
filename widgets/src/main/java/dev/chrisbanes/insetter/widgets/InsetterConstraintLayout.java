@@ -91,8 +91,8 @@ public class InsetterConstraintLayout extends ConstraintLayout {
           insetsCompat,
           state,
           lp.paddingSystemWindowInsets,
-          lp.paddingSystemGestureInsets,
           lp.marginSystemWindowInsets,
+          lp.paddingSystemGestureInsets,
           lp.marginSystemGestureInsets);
     }
     return insetsCompat.toWindowInsets();

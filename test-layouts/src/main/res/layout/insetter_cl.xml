@@ -17,46 +17,12 @@
 
 <dev.chrisbanes.insetter.widgets.InsetterConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/system_window_left"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:paddingSystemWindowInsets="left" />
+    <include layout="@layout/include_layout_padding_children" />
 
-    <View
-        android:id="@+id/system_window_top"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:paddingSystemWindowInsets="top" />
-
-    <View
-        android:id="@+id/system_window_right"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:paddingSystemWindowInsets="right" />
-
-    <View
-        android:id="@+id/system_window_bottom"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:paddingSystemWindowInsets="bottom" />
-
-    <View
-        android:id="@+id/system_window_all"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:paddingSystemWindowInsets="left|top|right|bottom" />
-
-    <View
-        android:id="@+id/system_window_all_withpadding"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:padding="@dimen/padding"
-        app:paddingSystemWindowInsets="left|top|right|bottom" />
+    <include layout="@layout/include_layout_margin_children" />
 
 </dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
