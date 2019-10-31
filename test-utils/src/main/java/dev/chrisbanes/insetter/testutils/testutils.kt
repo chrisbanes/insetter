@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.chrisbanes.insetter
+package dev.chrisbanes.insetter.testutils
 
 import android.graphics.Rect
 import android.view.View
@@ -22,14 +22,15 @@ import android.view.WindowInsets
 import androidx.annotation.RequiresApi
 
 @RequiresApi(20)
-fun createWindowInsetsInstance(): WindowInsets {
+fun createWindowInsetsInstance(systemWindowInsets: Rect = Rect()): WindowInsets {
     val constructor = WindowInsets::class.java.getConstructor(Rect::class.java)
     constructor.isAccessible = true
-    return constructor.newInstance(Rect())
+    return constructor.newInstance(systemWindowInsets)
 }
 
 @RequiresApi(20)
-fun View.dispatchInsets(f: ((WindowInsets) -> WindowInsets)? = null) {
-    val insets = f?.invoke(createWindowInsetsInstance()) ?: createWindowInsetsInstance()
+fun View.dispatchInsets(systemWindowInsets: Rect = Rect(), f: ((WindowInsets) -> WindowInsets)? = null) {
+    val insets = f?.invoke(createWindowInsetsInstance(systemWindowInsets))
+        ?: createWindowInsetsInstance(systemWindowInsets)
     dispatchApplyWindowInsets(insets)
 }

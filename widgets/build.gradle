@@ -40,18 +40,12 @@ android {
     libraryVariants.all {
         it.generateBuildConfig.enabled = false
     }
-
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
-    }
 }
 
 dependencies {
-    api project(":library")
+    api project(':library')
 
-    implementation Libs.constraintLayout
+    api Libs.constraintLayout
 }
 
 apply plugin: "com.vanniktech.maven.publish"

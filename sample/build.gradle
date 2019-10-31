@@ -41,10 +41,10 @@ android {
 }
 
 dependencies {
-    implementation project(":library")
-    implementation project(":ktx")
-    implementation project(":dbx")
-    implementation project(":widgets")
+    implementation project(':library')
+    implementation project(':ktx')
+    implementation project(':dbx')
+    implementation project(':widgets')
 
     api Libs.Kotlin.stdlib
 }
