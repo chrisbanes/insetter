@@ -119,13 +119,27 @@ public class Insetter {
   }
 
   /**
-   * @param view
-   * @param insets
-   * @param initialState
-   * @param paddingSystemWindowInsets
-   * @param marginSystemWindowInsets
-   * @param paddingSystemGestureInsets
-   * @param marginSystemGestureInsets
+   * A convenience function which applies insets to a view.
+   *
+   * <p>How the given insets are applied depends on the options provided via the various parameters.
+   * Each of {@code paddingSystemWindowInsets}, {@code marginSystemWindowInsets}, {@code
+   * paddingSystemGestureInsets} and {@code marginSystemGestureInsets} take a combination of bitwise
+   * OR'd flags.
+   *
+   * <p>The flags allowed are defined in this class: {@link #LEFT}, {@link #TOP}, {@link #RIGHT},
+   * {@link #BOTTOM}. There are also convenience combinations provided such as {@link #ALL}, {@link
+   * #VERTICAL}, {@link #HORIZONTAL}.
+   *
+   * @param view the view to apply inset handling too
+   * @param insets the insets to apply
+   * @param initialState the initial view state of the view
+   * @param paddingSystemWindowInsets flag-based int defining padding handling of system window
+   *     insets
+   * @param marginSystemWindowInsets flag-based int defining margin handling of system window insets
+   * @param paddingSystemGestureInsets flag-based int defining padding handling of system gesture
+   *     insets
+   * @param marginSystemGestureInsets flag-based int defining margin handling of system gesture
+   *     insets
    */
   public static void applyInsetsToView(
       @NonNull final View view,
@@ -219,28 +233,10 @@ public class Insetter {
   }
 
   /**
-   * TODO
-   *
-   * @param view
-   * @param insets
-   * @param initialState
-   * @param paddingSystemWindowLeft
-   * @param paddingSystemWindowTop
-   * @param paddingSystemWindowRight
-   * @param paddingSystemWindowBottom
-   * @param paddingSystemGestureLeft
-   * @param paddingSystemGestureTop
-   * @param paddingSystemGestureRight
-   * @param paddingSystemGestureBottom
-   * @param marginSystemWindowLeft
-   * @param marginSystemWindowTop
-   * @param marginSystemWindowRight
-   * @param marginSystemWindowBottom
-   * @param marginSystemGestureLeft
-   * @param marginSystemGestureTop
-   * @param marginSystemGestureRight
-   * @param marginSystemGestureBottom
+   * @deprecated this method will be removed in a future version (before v1.0). Please use {@link
+   *     #applyInsetsToView(View, WindowInsetsCompat, ViewState, int, int, int, int)} instead.
    */
+  @Deprecated
   public static void applyInsetsToView(
       @NonNull final View view,
       @NonNull final WindowInsetsCompat insets,
@@ -310,7 +306,7 @@ public class Insetter {
     return (value & flag) == flag;
   }
 
-  private static int generateFlagInt(boolean left, boolean top, boolean right, boolean bottom) {
+  static int generateFlagInt(boolean left, boolean top, boolean right, boolean bottom) {
     int v = NONE;
     if (left) v |= LEFT;
     if (top) v |= TOP;

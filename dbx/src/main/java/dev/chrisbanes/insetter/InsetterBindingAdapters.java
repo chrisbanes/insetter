@@ -46,7 +46,7 @@ public class InsetterBindingAdapters {
         "layout_marginTopGestureInsets",
         "layout_marginRightGestureInsets",
         "layout_marginBottomGestureInsets",
-        // The following attributes are kept here for migrating purposes.
+        // The following attributes are deprecated and kept for migrating purposes.
         // They will be removed in a later release.
         "marginLeftSystemWindowInsets",
         "marginTopSystemWindowInsets",
@@ -84,7 +84,6 @@ public class InsetterBindingAdapters {
       final boolean oldMarginGestureTop,
       final boolean oldMarginGestureRight,
       final boolean oldMarginGestureBottom) {
-
     Insetter.setOnApplyInsetsListener(
         v,
         new OnApplyInsetsListener() {
@@ -97,56 +96,23 @@ public class InsetterBindingAdapters {
                 view,
                 insets,
                 initialState,
-                padSystemWindowLeft,
-                padSystemWindowTop,
-                padSystemWindowRight,
-                padSystemWindowBottom,
-                padGestureLeft,
-                padGestureTop,
-                padGestureRight,
-                padGestureBottom,
-                marginSystemWindowLeft || oldMarginSystemWindowLeft,
-                marginSystemWindowTop || oldMarginSystemWindowTop,
-                marginSystemWindowRight || oldMarginSystemWindowRight,
-                marginSystemWindowBottom || oldMarginSystemWindowBottom,
-                marginGestureLeft || oldMarginGestureLeft,
-                marginGestureTop || oldMarginGestureTop,
-                marginGestureRight || oldMarginGestureRight,
-                marginGestureBottom || oldMarginGestureBottom);
-          }
-        });
-  }
-
-  @BindingAdapter(
-      value = {
-        "paddingSystemWindowInsets",
-        "layout_marginSystemWindowInsets",
-        "paddingSystemGestureInsets",
-        "layout_marginSystemGestureInsets",
-      },
-      requireAll = false)
-  public static void applyInsetsFromFlags(
-      @NonNull final View v,
-      final int paddingSystemWindowInsets,
-      final int marginSystemWindowInsets,
-      final int paddingSystemGestureInsets,
-      final int marginSystemGestureInsets) {
-    Insetter.setOnApplyInsetsListener(
-        v,
-        new OnApplyInsetsListener() {
-          @Override
-          public void onApplyInsets(
-              @NonNull View view,
-              @NonNull WindowInsetsCompat insets,
-              @NonNull ViewState initialState) {
-            Insetter.applyInsetsToView(
-                view,
-                insets,
-                initialState,
-                paddingSystemWindowInsets,
-                marginSystemWindowInsets,
-                paddingSystemGestureInsets,
-                marginSystemGestureInsets);
+                Insetter.generateFlagInt(
+                    padSystemWindowLeft,
+                    padSystemWindowTop,
+                    padSystemWindowRight,
+                    padSystemWindowBottom),
+                Insetter.generateFlagInt(
+                    marginSystemWindowLeft || oldMarginSystemWindowLeft,
+                    marginSystemWindowTop || oldMarginSystemWindowTop,
+                    marginSystemWindowRight || oldMarginSystemWindowRight,
+                    marginSystemWindowBottom || oldMarginSystemWindowBottom),
+                Insetter.generateFlagInt(
+                    padGestureLeft, padGestureTop, padGestureRight, padGestureBottom),
+                Insetter.generateFlagInt(
+                    marginGestureLeft || oldMarginGestureLeft,
+                    marginGestureTop || oldMarginGestureTop,
+                    marginGestureRight || oldMarginGestureRight,
+                    marginGestureBottom || oldMarginGestureBottom));
           }
         });
   }
