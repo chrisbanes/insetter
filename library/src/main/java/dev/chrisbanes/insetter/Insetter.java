@@ -17,6 +17,7 @@
 package dev.chrisbanes.insetter;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +31,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Locale;
 
 /** A collection of utility functions to make handling {@link android.view.WindowInsets} easier. */
 public class Insetter {
+
+  static final String TAG = "Insetter";
 
   /** @hide */
   @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
@@ -149,6 +153,18 @@ public class Insetter {
       final int marginSystemWindowInsets,
       final int paddingSystemGestureInsets,
       final int marginSystemGestureInsets) {
+
+    if (Log.isLoggable(TAG, Log.DEBUG)) {
+      Log.d(
+          TAG,
+          String.format(
+              Locale.US,
+              "applyInsetsToView. View: %s. Insets: %s. State: %s",
+              view,
+              insets,
+              initialState));
+    }
+
     final ViewDimensions initialPadding = initialState.getPaddings();
     int paddingLeft = initialPadding.getLeft();
     if (hasFlag(paddingSystemGestureInsets, LEFT)) {
@@ -179,6 +195,19 @@ public class Insetter {
     }
 
     view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+
+    if (Log.isLoggable(TAG, Log.DEBUG)) {
+      Log.d(
+          TAG,
+          String.format(
+              Locale.US,
+              "applyInsetsToView. Applied padding to %s: left=%d, top=%d, right=%d, bottom=%d}",
+              view,
+              paddingLeft,
+              paddingTop,
+              paddingRight,
+              paddingBottom));
+    }
 
     // Now we can deal with margins
 
@@ -224,6 +253,19 @@ public class Insetter {
         mlp.rightMargin = marginRight;
         mlp.bottomMargin = marginBottom;
         view.setLayoutParams(lp);
+
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+          Log.d(
+              TAG,
+              String.format(
+                  Locale.US,
+                  "applyInsetsToView. Applied margin to %s: left=%d, top=%d, right=%d, bottom=%d}",
+                  view,
+                  marginLeft,
+                  marginTop,
+                  marginRight,
+                  marginBottom));
+        }
       }
     } else if (marginSystemGestureInsets != NONE || marginSystemWindowInsets != NONE) {
       throw new IllegalArgumentException(
