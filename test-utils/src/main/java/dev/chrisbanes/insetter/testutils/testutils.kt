@@ -20,6 +20,11 @@ import android.graphics.Rect
 import android.view.View
 import android.view.WindowInsets
 import androidx.annotation.RequiresApi
+import androidx.core.view.marginBottom
+import androidx.core.view.marginLeft
+import androidx.core.view.marginRight
+import androidx.core.view.marginTop
+import org.junit.Assert.assertEquals
 
 @RequiresApi(20)
 fun createWindowInsetsInstance(systemWindowInsets: Rect = Rect()): WindowInsets {
@@ -29,8 +34,30 @@ fun createWindowInsetsInstance(systemWindowInsets: Rect = Rect()): WindowInsets 
 }
 
 @RequiresApi(20)
-fun View.dispatchInsets(systemWindowInsets: Rect = Rect(), f: ((WindowInsets) -> WindowInsets)? = null) {
-    val insets = f?.invoke(createWindowInsetsInstance(systemWindowInsets))
-        ?: createWindowInsetsInstance(systemWindowInsets)
+fun View.dispatchInsets(systemWindowInsets: Rect = Rect()) {
+    val insets = createWindowInsetsInstance(systemWindowInsets)
     dispatchApplyWindowInsets(insets)
 }
+
+@RequiresApi(20)
+fun View.dispatchInsets(f: ((WindowInsets) -> WindowInsets)) {
+    dispatchApplyWindowInsets(f(createWindowInsetsInstance(Rect())))
+}
+
+fun View.assertPadding(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {
+    assertEquals(left, paddingLeft)
+    assertEquals(top, paddingTop)
+    assertEquals(right, paddingRight)
+    assertEquals(bottom, paddingBottom)
+}
+
+fun View.assertPadding(rect: Rect) = assertPadding(rect.left, rect.top, rect.right, rect.bottom)
+
+fun View.assertLayoutMargin(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {
+    assertEquals(left, marginLeft)
+    assertEquals(top, marginTop)
+    assertEquals(right, marginRight)
+    assertEquals(bottom, marginBottom)
+}
+
+fun View.assertLayoutMargin(rect: Rect) = assertLayoutMargin(rect.left, rect.top, rect.right, rect.bottom)

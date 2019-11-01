@@ -21,8 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/include_layout_padding_children" />
-
-    <include layout="@layout/include_layout_margin_children" />
+    <include layout="@layout/include_layout_syswin_padding_children" />
+    <include layout="@layout/include_layout_syswin_margin_children" />
 
 </dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>

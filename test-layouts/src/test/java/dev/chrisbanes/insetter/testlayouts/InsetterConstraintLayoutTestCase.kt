@@ -19,14 +19,11 @@ package dev.chrisbanes.insetter.testlayouts
 import android.app.Activity
 import android.graphics.Rect
 import android.view.View
-import androidx.core.view.marginLeft
-import androidx.core.view.marginTop
-import androidx.core.view.marginRight
-import androidx.core.view.marginBottom
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import dev.chrisbanes.insetter.testutils.assertLayoutMargin
+import dev.chrisbanes.insetter.testutils.assertPadding
 import dev.chrisbanes.insetter.testutils.dispatchInsets
 import dev.chrisbanes.insetter.widgets.InsetterConstraintLayout
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -56,7 +53,7 @@ class InsetterConstraintLayoutTestCase {
         val rect1 = Rect(5, 7, 9, 13)
         container.dispatchInsets(rect1)
         // ...and assert that the paddings change
-        assertViewState(rect1)
+        assertSystemWindowInsetViewState(rect1)
     }
 
     @Test
@@ -65,73 +62,72 @@ class InsetterConstraintLayoutTestCase {
         val rect1 = Rect(10, 20, 30, 40)
         container.dispatchInsets(rect1)
         // ...and assert that the paddings change
-        assertViewState(rect1)
+        assertSystemWindowInsetViewState(rect1)
 
         // Now dispatch different insets
         val rect2 = Rect(11, 22, 33, 44)
         container.dispatchInsets(rect2)
         // ...and assert that the paddings change
-        assertViewState(rect2)
+        assertSystemWindowInsetViewState(rect2)
     }
 
-    private fun assertViewState(systemWindowInsets: Rect) {
-        assertPaddings(systemWindowInsets)
-        assertMargins(systemWindowInsets)
-    }
+    private fun assertSystemWindowInsetViewState(systemWindowInsets: Rect) {
+        // -------------------------------------------
+        // Assert the system window padding views
+        // -------------------------------------------
 
-    private fun assertPaddings(systemWindowInsets: Rect) {
         with(container.findViewById<View>(R.id.padding_system_window_left)) {
-            assertEquals(systemWindowInsets.left, paddingLeft)
+            assertPadding(left = systemWindowInsets.left)
         }
         with(container.findViewById<View>(R.id.padding_system_window_top)) {
-            assertEquals(systemWindowInsets.top, paddingTop)
+            assertPadding(top = systemWindowInsets.top)
         }
         with(container.findViewById<View>(R.id.padding_system_window_right)) {
-            assertEquals(systemWindowInsets.right, paddingRight)
+            assertPadding(right = systemWindowInsets.right)
         }
         with(container.findViewById<View>(R.id.padding_system_window_bottom)) {
-            assertEquals(systemWindowInsets.bottom, paddingBottom)
+            assertPadding(bottom = systemWindowInsets.bottom)
         }
         with(container.findViewById<View>(R.id.padding_system_window_all)) {
-            assertEquals(systemWindowInsets.left, paddingLeft)
-            assertEquals(systemWindowInsets.top, paddingTop)
-            assertEquals(systemWindowInsets.right, paddingRight)
-            assertEquals(systemWindowInsets.bottom, paddingBottom)
+            assertPadding(systemWindowInsets)
         }
         with(container.findViewById<View>(R.id.padding_system_window_all_withpadding)) {
-            val widgetPadding = resources.getDimensionPixelSize(R.dimen.padding)
-            assertEquals(systemWindowInsets.left + widgetPadding, paddingLeft)
-            assertEquals(systemWindowInsets.top + widgetPadding, paddingTop)
-            assertEquals(systemWindowInsets.right + widgetPadding, paddingRight)
-            assertEquals(systemWindowInsets.bottom + widgetPadding, paddingBottom)
+            val layoutPadding = resources.getDimensionPixelSize(R.dimen.padding)
+            assertPadding(
+                systemWindowInsets.left + layoutPadding,
+                systemWindowInsets.top + layoutPadding,
+                systemWindowInsets.right + layoutPadding,
+                systemWindowInsets.bottom + layoutPadding
+            )
         }
-    }
 
-    private fun assertMargins(systemWindowInsets: Rect) {
+        // -------------------------------------------
+        // Assert the system window margin views
+        // -------------------------------------------
+
         with(container.findViewById<View>(R.id.margin_system_window_left)) {
-            assertEquals(systemWindowInsets.left, marginLeft)
+            assertLayoutMargin(left = systemWindowInsets.left)
         }
         with(container.findViewById<View>(R.id.margin_system_window_top)) {
-            assertEquals(systemWindowInsets.top, marginTop)
+            assertLayoutMargin(top = systemWindowInsets.top)
         }
         with(container.findViewById<View>(R.id.margin_system_window_right)) {
-            assertEquals(systemWindowInsets.right, marginRight)
+            assertLayoutMargin(right = systemWindowInsets.right)
         }
         with(container.findViewById<View>(R.id.margin_system_window_bottom)) {
-            assertEquals(systemWindowInsets.bottom, marginBottom)
+            assertLayoutMargin(bottom = systemWindowInsets.bottom)
         }
         with(container.findViewById<View>(R.id.margin_system_window_all)) {
-            assertEquals(systemWindowInsets.left, marginLeft)
-            assertEquals(systemWindowInsets.top, marginTop)
-            assertEquals(systemWindowInsets.right, marginRight)
-            assertEquals(systemWindowInsets.bottom, marginBottom)
+            assertLayoutMargin(systemWindowInsets)
         }
         with(container.findViewById<View>(R.id.margin_system_window_all_withmargin)) {
             val layoutMargin = resources.getDimensionPixelSize(R.dimen.margin)
-            assertEquals(systemWindowInsets.left + layoutMargin, marginLeft)
-            assertEquals(systemWindowInsets.top + layoutMargin, marginTop)
-            assertEquals(systemWindowInsets.right + layoutMargin, marginRight)
-            assertEquals(systemWindowInsets.bottom + layoutMargin, marginBottom)
+            assertLayoutMargin(
+                systemWindowInsets.left + layoutMargin,
+                systemWindowInsets.top + layoutMargin,
+                systemWindowInsets.right + layoutMargin,
+                systemWindowInsets.bottom + layoutMargin
+            )
         }
     }
 }
