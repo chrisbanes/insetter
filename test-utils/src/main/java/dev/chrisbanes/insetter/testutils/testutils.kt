@@ -16,32 +16,56 @@
 
 package dev.chrisbanes.insetter.testutils
 
+import android.graphics.Insets
 import android.graphics.Rect
+import android.os.Build
 import android.view.View
 import android.view.WindowInsets
-import androidx.annotation.RequiresApi
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.marginBottom
 import androidx.core.view.marginLeft
 import androidx.core.view.marginRight
 import androidx.core.view.marginTop
 import org.junit.Assert.assertEquals
 
-@RequiresApi(20)
-fun createWindowInsetsInstance(systemWindowInsets: Rect = Rect()): WindowInsets {
-    val constructor = WindowInsets::class.java.getConstructor(Rect::class.java)
-    constructor.isAccessible = true
-    return constructor.newInstance(systemWindowInsets)
+fun createInsets(
+    systemWindowInsets: Rect? = null,
+    systemGestureInsets: Rect? = null
+): WindowInsetsCompat = when {
+    Build.VERSION.SDK_INT >= 29 -> {
+        // On API 29+, we can use the new WindowInsets.Builder
+        WindowInsets.Builder().apply {
+            if (systemWindowInsets != null) {
+                setSystemWindowInsets(Insets.of(systemWindowInsets))
+            }
+            if (systemGestureInsets != null) {
+                setSystemGestureInsets(Insets.of(systemGestureInsets))
+            }
+        }.build().toWindowInsetsCompat()
+    }
+    Build.VERSION.SDK_INT >= 20 -> {
+        // Other we need to use reflection 🤮
+        val constructor = WindowInsets::class.java.getConstructor(Rect::class.java)
+        constructor.isAccessible = true
+        constructor.newInstance(systemWindowInsets ?: Rect()).toWindowInsetsCompat()
+    }
+    else -> WindowInsetsCompat(null)
 }
 
-@RequiresApi(20)
-fun View.dispatchInsets(systemWindowInsets: Rect = Rect()) {
-    val insets = createWindowInsetsInstance(systemWindowInsets)
-    dispatchApplyWindowInsets(insets)
+fun View.dispatchInsets(
+    systemWindowInsets: Rect? = null,
+    systemGestureInsets: Rect? = null
+): WindowInsetsCompat {
+    val insets = createInsets(systemWindowInsets, systemGestureInsets)
+    ViewCompat.dispatchApplyWindowInsets(this, insets)
+    return insets
 }
 
-@RequiresApi(20)
-fun View.dispatchInsets(f: ((WindowInsets) -> WindowInsets)) {
-    dispatchApplyWindowInsets(f(createWindowInsetsInstance(Rect())))
+fun View.dispatchInsets(f: ((WindowInsetsCompat) -> WindowInsetsCompat)): WindowInsetsCompat {
+    val insets = f(createInsets())
+    ViewCompat.dispatchApplyWindowInsets(this, insets)
+    return insets
 }
 
 fun View.assertPadding(left: Int = 0, top: Int = 0, right: Int = 0, bottom: Int = 0) {
@@ -61,3 +85,5 @@ fun View.assertLayoutMargin(left: Int = 0, top: Int = 0, right: Int = 0, bottom:
 }
 
 fun View.assertLayoutMargin(rect: Rect) = assertLayoutMargin(rect.left, rect.top, rect.right, rect.bottom)
+
+fun WindowInsets.toWindowInsetsCompat() = WindowInsetsCompat.toWindowInsetsCompat(this)

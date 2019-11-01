@@ -19,6 +19,7 @@ package dev.chrisbanes.insetter.testlayouts
 import android.app.Activity
 import android.graphics.Rect
 import android.view.View
+import androidx.core.view.WindowInsetsCompat
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import dev.chrisbanes.insetter.testutils.assertLayoutMargin
 import dev.chrisbanes.insetter.testutils.assertPadding
@@ -32,7 +33,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(minSdk = 23, maxSdk = 28)
+@Config(sdk = [Config.ALL_SDKS])
 class InsetterConstraintLayoutTestCase {
     @get:Rule
     val rule = ActivityScenarioRule(Activity::class.java)
@@ -50,28 +51,49 @@ class InsetterConstraintLayoutTestCase {
     @Test
     fun testSystemWindowInsets() {
         // Dispatch some initial insets
-        val rect1 = Rect(5, 7, 9, 13)
-        container.dispatchInsets(rect1)
-        // ...and assert that the paddings change
-        assertSystemWindowInsetViewState(rect1)
+        val insets = container.dispatchInsets(systemWindowInsets = Rect(5, 7, 9, 13))
+        // ...and assert that the child view state changes
+        assertChildViewState(insets)
     }
 
     @Test
     fun testSystemWindowInsetsWhichChange() {
         // Dispatch some initial insets
-        val rect1 = Rect(10, 20, 30, 40)
-        container.dispatchInsets(rect1)
-        // ...and assert that the paddings change
-        assertSystemWindowInsetViewState(rect1)
+        val insets = container.dispatchInsets(systemWindowInsets = Rect(10, 20, 30, 40))
+        // ...and assert that the child view state changes
+        assertChildViewState(insets)
 
         // Now dispatch different insets
-        val rect2 = Rect(11, 22, 33, 44)
-        container.dispatchInsets(rect2)
-        // ...and assert that the paddings change
-        assertSystemWindowInsetViewState(rect2)
+        val insets2 = container.dispatchInsets(systemWindowInsets = Rect(11, 22, 33, 44))
+        // ...and assert that the child view state changes
+        assertChildViewState(insets2)
     }
 
-    private fun assertSystemWindowInsetViewState(systemWindowInsets: Rect) {
+    @Test
+    fun testSystemGestureInsets() {
+        // Dispatch some initial insets
+        val insets = container.dispatchInsets(systemGestureInsets = Rect(5, 7, 9, 13))
+        // ...and assert that the child view state changes
+        assertChildViewState(insets)
+    }
+
+    @Test
+    fun testSystemGestureInsetsWhichChange() {
+        // Dispatch some initial insets
+        val insets = container.dispatchInsets(systemGestureInsets = Rect(10, 20, 30, 40))
+        // ...and assert that the child view state changes
+        assertChildViewState(insets)
+
+        // Now dispatch different insets
+        val insets2 = container.dispatchInsets(systemGestureInsets = Rect(11, 22, 33, 44))
+        // ...and assert that the child view state changes
+        assertChildViewState(insets2)
+    }
+
+    private fun assertChildViewState(insets: WindowInsetsCompat) {
+        val systemWindowInsets = insets.systemWindowInsets
+        val systemGestureInsets = insets.systemGestureInsets
+
         // -------------------------------------------
         // Assert the system window padding views
         // -------------------------------------------
@@ -89,7 +111,12 @@ class InsetterConstraintLayoutTestCase {
             assertPadding(bottom = systemWindowInsets.bottom)
         }
         with(container.findViewById<View>(R.id.padding_system_window_all)) {
-            assertPadding(systemWindowInsets)
+            assertPadding(
+                systemWindowInsets.left,
+                systemWindowInsets.top,
+                systemWindowInsets.right,
+                systemWindowInsets.bottom
+            )
         }
         with(container.findViewById<View>(R.id.padding_system_window_all_withpadding)) {
             val layoutPadding = resources.getDimensionPixelSize(R.dimen.padding)
@@ -118,7 +145,12 @@ class InsetterConstraintLayoutTestCase {
             assertLayoutMargin(bottom = systemWindowInsets.bottom)
         }
         with(container.findViewById<View>(R.id.margin_system_window_all)) {
-            assertLayoutMargin(systemWindowInsets)
+            assertLayoutMargin(
+                systemWindowInsets.left,
+                systemWindowInsets.top,
+                systemWindowInsets.right,
+                systemWindowInsets.bottom
+            )
         }
         with(container.findViewById<View>(R.id.margin_system_window_all_withmargin)) {
             val layoutMargin = resources.getDimensionPixelSize(R.dimen.margin)
@@ -127,6 +159,74 @@ class InsetterConstraintLayoutTestCase {
                 systemWindowInsets.top + layoutMargin,
                 systemWindowInsets.right + layoutMargin,
                 systemWindowInsets.bottom + layoutMargin
+            )
+        }
+
+        // -------------------------------------------
+        // Assert the system gesture padding views
+        // -------------------------------------------
+
+        with(container.findViewById<View>(R.id.padding_system_gesture_left)) {
+            assertPadding(left = systemGestureInsets.left)
+        }
+        with(container.findViewById<View>(R.id.padding_system_gesture_top)) {
+            assertPadding(top = systemGestureInsets.top)
+        }
+        with(container.findViewById<View>(R.id.padding_system_gesture_right)) {
+            assertPadding(right = systemGestureInsets.right)
+        }
+        with(container.findViewById<View>(R.id.padding_system_gesture_bottom)) {
+            assertPadding(bottom = systemGestureInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.padding_system_gesture_all)) {
+            assertPadding(
+                systemGestureInsets.left,
+                systemGestureInsets.top,
+                systemGestureInsets.right,
+                systemGestureInsets.bottom
+            )
+        }
+        with(container.findViewById<View>(R.id.padding_system_gesture_all_withpadding)) {
+            val layoutPadding = resources.getDimensionPixelSize(R.dimen.padding)
+            assertPadding(
+                systemGestureInsets.left + layoutPadding,
+                systemGestureInsets.top + layoutPadding,
+                systemGestureInsets.right + layoutPadding,
+                systemGestureInsets.bottom + layoutPadding
+            )
+        }
+
+        // -------------------------------------------
+        // Assert the system gesture margin views
+        // -------------------------------------------
+
+        with(container.findViewById<View>(R.id.margin_system_gesture_left)) {
+            assertLayoutMargin(left = systemGestureInsets.left)
+        }
+        with(container.findViewById<View>(R.id.margin_system_gesture_top)) {
+            assertLayoutMargin(top = systemGestureInsets.top)
+        }
+        with(container.findViewById<View>(R.id.margin_system_gesture_right)) {
+            assertLayoutMargin(right = systemGestureInsets.right)
+        }
+        with(container.findViewById<View>(R.id.margin_system_gesture_bottom)) {
+            assertLayoutMargin(bottom = systemGestureInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.margin_system_gesture_all)) {
+            assertLayoutMargin(
+                systemGestureInsets.left,
+                systemGestureInsets.top,
+                systemGestureInsets.right,
+                systemGestureInsets.bottom
+            )
+        }
+        with(container.findViewById<View>(R.id.margin_system_gesture_all_withmargin)) {
+            val layoutMargin = resources.getDimensionPixelSize(R.dimen.margin)
+            assertLayoutMargin(
+                systemGestureInsets.left + layoutMargin,
+                systemGestureInsets.top + layoutMargin,
+                systemGestureInsets.right + layoutMargin,
+                systemGestureInsets.bottom + layoutMargin
             )
         }
     }
