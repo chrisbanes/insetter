@@ -19,6 +19,8 @@ package dev.chrisbanes.insetter;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.core.util.ObjectsCompat;
+import java.util.Locale;
 
 public class ViewState {
   private ViewDimensions paddings;
@@ -57,5 +59,30 @@ public class ViewState {
       return new ViewDimensions(mlp.leftMargin, mlp.topMargin, mlp.rightMargin, mlp.bottomMargin);
     }
     return ViewDimensions.EMPTY;
+  }
+
+  @Override
+  public String toString() {
+    return String.format(Locale.US, "ViewState{paddings=%s, margins=%s}", paddings, margins);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    ViewState viewState = (ViewState) o;
+
+    if (!ObjectsCompat.equals(paddings, viewState.paddings)) {
+      return false;
+    }
+    return ObjectsCompat.equals(margins, viewState.margins);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = paddings != null ? paddings.hashCode() : 0;
+    result = 31 * result + (margins != null ? margins.hashCode() : 0);
+    return result;
   }
 }

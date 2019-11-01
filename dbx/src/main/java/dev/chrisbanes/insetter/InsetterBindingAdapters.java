@@ -46,7 +46,7 @@ public class InsetterBindingAdapters {
         "layout_marginTopGestureInsets",
         "layout_marginRightGestureInsets",
         "layout_marginBottomGestureInsets",
-        // The following attributes are kept here for migrating purposes.
+        // The following attributes are deprecated and kept for migrating purposes.
         // They will be removed in a later release.
         "marginLeftSystemWindowInsets",
         "marginTopSystemWindowInsets",
@@ -58,7 +58,7 @@ public class InsetterBindingAdapters {
         "marginBottomGestureInsets"
       },
       requireAll = false)
-  public static void applySystemWindows(
+  public static void applyInsetsFromBooleans(
       @NonNull final View v,
       final boolean padSystemWindowLeft,
       final boolean padSystemWindowTop,
@@ -84,7 +84,6 @@ public class InsetterBindingAdapters {
       final boolean oldMarginGestureTop,
       final boolean oldMarginGestureRight,
       final boolean oldMarginGestureBottom) {
-
     Insetter.setOnApplyInsetsListener(
         v,
         new OnApplyInsetsListener() {
@@ -97,22 +96,23 @@ public class InsetterBindingAdapters {
                 view,
                 insets,
                 initialState,
-                padSystemWindowLeft,
-                padSystemWindowTop,
-                padSystemWindowRight,
-                padSystemWindowBottom,
-                padGestureLeft,
-                padGestureTop,
-                padGestureRight,
-                padGestureBottom,
-                marginSystemWindowLeft || oldMarginSystemWindowLeft,
-                marginSystemWindowTop || oldMarginSystemWindowTop,
-                marginSystemWindowRight || oldMarginSystemWindowRight,
-                marginSystemWindowBottom || oldMarginSystemWindowBottom,
-                marginGestureLeft || oldMarginGestureLeft,
-                marginGestureTop || oldMarginGestureTop,
-                marginGestureRight || oldMarginGestureRight,
-                marginGestureBottom || oldMarginGestureBottom);
+                Insetter.generateFlagInt(
+                    padSystemWindowLeft,
+                    padSystemWindowTop,
+                    padSystemWindowRight,
+                    padSystemWindowBottom),
+                Insetter.generateFlagInt(
+                    marginSystemWindowLeft || oldMarginSystemWindowLeft,
+                    marginSystemWindowTop || oldMarginSystemWindowTop,
+                    marginSystemWindowRight || oldMarginSystemWindowRight,
+                    marginSystemWindowBottom || oldMarginSystemWindowBottom),
+                Insetter.generateFlagInt(
+                    padGestureLeft, padGestureTop, padGestureRight, padGestureBottom),
+                Insetter.generateFlagInt(
+                    marginGestureLeft || oldMarginGestureLeft,
+                    marginGestureTop || oldMarginGestureTop,
+                    marginGestureRight || oldMarginGestureRight,
+                    marginGestureBottom || oldMarginGestureBottom));
           }
         });
   }

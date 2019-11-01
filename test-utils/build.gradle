@@ -33,7 +33,15 @@ android {
     }
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
 dependencies {
     implementation Libs.AndroidX.core
     implementation Libs.Kotlin.stdlib
+    implementation Libs.junit
+    implementation Libs.AndroidX.coreKtx
 }
