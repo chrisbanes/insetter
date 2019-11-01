@@ -17,6 +17,7 @@
 include ':library'
 include ':ktx'
 include ':dbx'
+include ':test-dbx'
 include ':sample'
 include ':widgets'
 include ':test-utils'
