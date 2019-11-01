@@ -21,6 +21,7 @@ import android.graphics.Rect
 import android.os.Build
 import android.view.View
 import android.view.WindowInsets
+import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.marginBottom
@@ -86,4 +87,5 @@ fun View.assertLayoutMargin(left: Int = 0, top: Int = 0, right: Int = 0, bottom:
 
 fun View.assertLayoutMargin(rect: Rect) = assertLayoutMargin(rect.left, rect.top, rect.right, rect.bottom)
 
+@RequiresApi(20)
 fun WindowInsets.toWindowInsetsCompat() = WindowInsetsCompat.toWindowInsetsCompat(this)

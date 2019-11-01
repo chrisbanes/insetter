@@ -49,7 +49,7 @@ class InsetterConstraintLayoutTestCase {
     }
 
     @Test
-    fun testSystemWindowInsets() {
+    fun `system window insets single pass`() {
         // Dispatch some initial insets
         val insets = container.dispatchInsets(systemWindowInsets = Rect(5, 7, 9, 13))
         // ...and assert that the child view state changes
@@ -57,7 +57,7 @@ class InsetterConstraintLayoutTestCase {
     }
 
     @Test
-    fun testSystemWindowInsetsWhichChange() {
+    fun `system window insets multi-pass`() {
         // Dispatch some initial insets
         val insets = container.dispatchInsets(systemWindowInsets = Rect(10, 20, 30, 40))
         // ...and assert that the child view state changes
@@ -70,7 +70,7 @@ class InsetterConstraintLayoutTestCase {
     }
 
     @Test
-    fun testSystemGestureInsets() {
+    fun `system gesture insets single pass`() {
         // Dispatch some initial insets
         val insets = container.dispatchInsets(systemGestureInsets = Rect(5, 7, 9, 13))
         // ...and assert that the child view state changes
@@ -78,7 +78,7 @@ class InsetterConstraintLayoutTestCase {
     }
 
     @Test
-    fun testSystemGestureInsetsWhichChange() {
+    fun `system gesture insets multi-pass`() {
         // Dispatch some initial insets
         val insets = container.dispatchInsets(systemGestureInsets = Rect(10, 20, 30, 40))
         // ...and assert that the child view state changes
@@ -228,6 +228,26 @@ class InsetterConstraintLayoutTestCase {
                 systemGestureInsets.right + layoutMargin,
                 systemGestureInsets.bottom + layoutMargin
             )
+        }
+
+        // -------------------------------------------
+        // Assert the mixed inset views
+        // -------------------------------------------
+
+        with(container.findViewById<View>(R.id.padding_syswin_left_gest_right)) {
+            assertPadding(left = systemWindowInsets.left, right = systemGestureInsets.right)
+        }
+        with(container.findViewById<View>(R.id.padding_syswin_top_gest_bottom)) {
+            assertPadding(top = systemWindowInsets.top, bottom = systemGestureInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.padding_syswin_pad_vertical_gest_margin_horiz)) {
+            assertPadding(top = systemWindowInsets.top, bottom = systemGestureInsets.bottom)
+            assertLayoutMargin(left = systemGestureInsets.left, right = systemGestureInsets.right)
+        }
+        // Assert that a view with paddingSystemWindowInsets="top" and
+        // paddingSystemGestureInsets="top", the gesture insets win
+        with(container.findViewById<View>(R.id.padding_syswin_top_gest_top)) {
+            assertPadding(top = systemGestureInsets.top)
         }
     }
 }

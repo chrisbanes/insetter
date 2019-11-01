@@ -25,5 +25,6 @@
     <include layout="@layout/include_layout_syswin_margin_children" />
     <include layout="@layout/include_layout_sysgest_padding_children" />
     <include layout="@layout/include_layout_sysgest_margin_children" />
+    <include layout="@layout/include_layout_mixedinsets_children" />
 
 </dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>

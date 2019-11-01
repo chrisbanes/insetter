@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.graphics.Insets;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -154,6 +155,9 @@ public class Insetter {
       final int paddingSystemGestureInsets,
       final int marginSystemGestureInsets) {
 
+    final Insets systemWindowInsets = insets.getSystemWindowInsets();
+    final Insets systemGestureInsets = insets.getSystemGestureInsets();
+
     if (Log.isLoggable(TAG, Log.DEBUG)) {
       Log.d(
           TAG,
@@ -168,30 +172,30 @@ public class Insetter {
     final ViewDimensions initialPadding = initialState.getPaddings();
     int paddingLeft = initialPadding.getLeft();
     if (hasFlag(paddingSystemGestureInsets, LEFT)) {
-      paddingLeft += insets.getSystemGestureInsets().left;
+      paddingLeft += systemGestureInsets.left;
     } else if (hasFlag(paddingSystemWindowInsets, LEFT)) {
-      paddingLeft += insets.getSystemWindowInsetLeft();
+      paddingLeft += systemWindowInsets.left;
     }
 
     int paddingTop = initialPadding.getTop();
     if (hasFlag(paddingSystemGestureInsets, TOP)) {
-      paddingTop += insets.getSystemGestureInsets().top;
+      paddingTop += systemGestureInsets.top;
     } else if (hasFlag(paddingSystemWindowInsets, TOP)) {
-      paddingTop += insets.getSystemWindowInsetTop();
+      paddingTop += systemWindowInsets.top;
     }
 
     int paddingRight = initialPadding.getRight();
     if (hasFlag(paddingSystemGestureInsets, RIGHT)) {
-      paddingRight += insets.getSystemGestureInsets().right;
+      paddingRight += systemGestureInsets.right;
     } else if (hasFlag(paddingSystemWindowInsets, RIGHT)) {
-      paddingRight += insets.getSystemWindowInsetRight();
+      paddingRight += systemWindowInsets.right;
     }
 
     int paddingBottom = initialPadding.getBottom();
     if (hasFlag(paddingSystemGestureInsets, BOTTOM)) {
-      paddingBottom += insets.getSystemGestureInsets().bottom;
+      paddingBottom += systemGestureInsets.bottom;
     } else if (hasFlag(paddingSystemWindowInsets, BOTTOM)) {
-      paddingBottom += insets.getSystemWindowInsetBottom();
+      paddingBottom += systemWindowInsets.bottom;
     }
 
     view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
@@ -215,30 +219,30 @@ public class Insetter {
 
     int marginLeft = initialMargins.getLeft();
     if (hasFlag(marginSystemGestureInsets, LEFT)) {
-      marginLeft += insets.getSystemGestureInsets().left;
+      marginLeft += systemGestureInsets.left;
     } else if (hasFlag(marginSystemWindowInsets, LEFT)) {
-      marginLeft += insets.getSystemWindowInsetLeft();
+      marginLeft += systemWindowInsets.left;
     }
 
     int marginTop = initialMargins.getTop();
     if (hasFlag(marginSystemGestureInsets, TOP)) {
-      marginTop += insets.getSystemGestureInsets().top;
+      marginTop += systemGestureInsets.top;
     } else if (hasFlag(marginSystemWindowInsets, TOP)) {
-      marginTop += insets.getSystemWindowInsetTop();
+      marginTop += systemWindowInsets.top;
     }
 
     int marginRight = initialMargins.getRight();
     if (hasFlag(marginSystemGestureInsets, RIGHT)) {
-      marginRight += insets.getSystemGestureInsets().right;
+      marginRight += systemGestureInsets.right;
     } else if (hasFlag(marginSystemWindowInsets, RIGHT)) {
-      marginRight += insets.getSystemWindowInsetRight();
+      marginRight += systemWindowInsets.right;
     }
 
     int marginBottom = initialMargins.getBottom();
     if (hasFlag(marginSystemGestureInsets, BOTTOM)) {
-      marginBottom += insets.getSystemGestureInsets().bottom;
+      marginBottom += systemGestureInsets.bottom;
     } else if (hasFlag(marginSystemWindowInsets, BOTTOM)) {
-      marginBottom += insets.getSystemWindowInsetBottom();
+      marginBottom += systemWindowInsets.bottom;
     }
 
     final ViewGroup.LayoutParams lp = view.getLayoutParams();
