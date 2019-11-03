@@ -155,6 +155,7 @@ applying the [system window insets][swi] left and bottom using padding:
 <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
 
     <ImageView
+        android:padding="24dp"
         app:paddingSystemWindowInsets="left|bottom" />
 
 </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
@@ -174,9 +175,9 @@ The same behavior happens when using margin too.
 
 ## `InsetterConstraintLayout` vs `InsetterConstraintHelper`?
 
-We have two things here which both provide the same functionality on top of [ConstraintLayout][cl],
+We have two things which both provide the same functionality on top of [ConstraintLayout][cl],
 so how do you decide which to use? To help I've listed some of the benefits for each, allowing you
-to decide which to use:
+to decide:
 
 * `InsetterConstraintLayout` benefit #1. The attributes are defined directly on the children, which
 is clearer when reading the source (for code-review, etc).
@@ -200,5 +201,5 @@ this library provide very similar functionality at the cost of having to migrate
 [cl]: https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html
 [swi]: https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()
 [sgi]: https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemGestureInsets()
-[icl]: widgets/src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java
-[ich]: widgets/src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintHelper.java
+[icl]: src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java
+[ich]: src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintHelper.java
