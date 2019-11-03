@@ -170,32 +170,32 @@ public class Insetter {
     }
 
     final ViewDimensions initialPadding = initialState.getPaddings();
-    int paddingLeft = initialPadding.getLeft();
+    int paddingLeft = view.getPaddingLeft();
     if (hasFlag(paddingSystemGestureInsets, LEFT)) {
-      paddingLeft += systemGestureInsets.left;
+      paddingLeft = initialPadding.getLeft() + systemGestureInsets.left;
     } else if (hasFlag(paddingSystemWindowInsets, LEFT)) {
-      paddingLeft += systemWindowInsets.left;
+      paddingLeft = initialPadding.getLeft() + systemWindowInsets.left;
     }
 
-    int paddingTop = initialPadding.getTop();
+    int paddingTop = view.getPaddingTop();
     if (hasFlag(paddingSystemGestureInsets, TOP)) {
-      paddingTop += systemGestureInsets.top;
+      paddingTop = initialPadding.getTop() + systemGestureInsets.top;
     } else if (hasFlag(paddingSystemWindowInsets, TOP)) {
-      paddingTop += systemWindowInsets.top;
+      paddingTop = initialPadding.getTop() + systemWindowInsets.top;
     }
 
-    int paddingRight = initialPadding.getRight();
+    int paddingRight = view.getPaddingRight();
     if (hasFlag(paddingSystemGestureInsets, RIGHT)) {
-      paddingRight += systemGestureInsets.right;
+      paddingRight = initialPadding.getRight() + systemGestureInsets.right;
     } else if (hasFlag(paddingSystemWindowInsets, RIGHT)) {
-      paddingRight += systemWindowInsets.right;
+      paddingRight = initialPadding.getRight() + systemWindowInsets.right;
     }
 
-    int paddingBottom = initialPadding.getBottom();
+    int paddingBottom = view.getPaddingBottom();
     if (hasFlag(paddingSystemGestureInsets, BOTTOM)) {
-      paddingBottom += systemGestureInsets.bottom;
+      paddingBottom = initialPadding.getBottom() + systemGestureInsets.bottom;
     } else if (hasFlag(paddingSystemWindowInsets, BOTTOM)) {
-      paddingBottom += systemWindowInsets.bottom;
+      paddingBottom = initialPadding.getBottom() + systemWindowInsets.bottom;
     }
 
     view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
@@ -215,39 +215,39 @@ public class Insetter {
 
     // Now we can deal with margins
 
-    final ViewDimensions initialMargins = initialState.getMargins();
-
-    int marginLeft = initialMargins.getLeft();
-    if (hasFlag(marginSystemGestureInsets, LEFT)) {
-      marginLeft += systemGestureInsets.left;
-    } else if (hasFlag(marginSystemWindowInsets, LEFT)) {
-      marginLeft += systemWindowInsets.left;
-    }
-
-    int marginTop = initialMargins.getTop();
-    if (hasFlag(marginSystemGestureInsets, TOP)) {
-      marginTop += systemGestureInsets.top;
-    } else if (hasFlag(marginSystemWindowInsets, TOP)) {
-      marginTop += systemWindowInsets.top;
-    }
-
-    int marginRight = initialMargins.getRight();
-    if (hasFlag(marginSystemGestureInsets, RIGHT)) {
-      marginRight += systemGestureInsets.right;
-    } else if (hasFlag(marginSystemWindowInsets, RIGHT)) {
-      marginRight += systemWindowInsets.right;
-    }
-
-    int marginBottom = initialMargins.getBottom();
-    if (hasFlag(marginSystemGestureInsets, BOTTOM)) {
-      marginBottom += systemGestureInsets.bottom;
-    } else if (hasFlag(marginSystemWindowInsets, BOTTOM)) {
-      marginBottom += systemWindowInsets.bottom;
-    }
-
     final ViewGroup.LayoutParams lp = view.getLayoutParams();
     if (lp instanceof ViewGroup.MarginLayoutParams) {
-      ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
+      final ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
+      final ViewDimensions initialMargins = initialState.getMargins();
+
+      int marginLeft = mlp.leftMargin;
+      if (hasFlag(marginSystemGestureInsets, LEFT)) {
+        marginLeft = initialMargins.getLeft() + systemGestureInsets.left;
+      } else if (hasFlag(marginSystemWindowInsets, LEFT)) {
+        marginLeft = initialMargins.getLeft() + systemWindowInsets.left;
+      }
+
+      int marginTop = mlp.topMargin;
+      if (hasFlag(marginSystemGestureInsets, TOP)) {
+        marginTop = initialMargins.getTop() + systemGestureInsets.top;
+      } else if (hasFlag(marginSystemWindowInsets, TOP)) {
+        marginTop = initialMargins.getTop() + systemWindowInsets.top;
+      }
+
+      int marginRight = mlp.rightMargin;
+      if (hasFlag(marginSystemGestureInsets, RIGHT)) {
+        marginRight = initialMargins.getRight() + systemGestureInsets.right;
+      } else if (hasFlag(marginSystemWindowInsets, RIGHT)) {
+        marginRight = initialMargins.getRight() + systemWindowInsets.right;
+      }
+
+      int marginBottom = mlp.bottomMargin;
+      if (hasFlag(marginSystemGestureInsets, BOTTOM)) {
+        marginBottom = initialMargins.getBottom() + systemGestureInsets.bottom;
+      } else if (hasFlag(marginSystemWindowInsets, BOTTOM)) {
+        marginBottom = initialMargins.getBottom() + systemWindowInsets.bottom;
+      }
+
       if (mlp.leftMargin != marginLeft
           || mlp.topMargin != marginTop
           || mlp.rightMargin != marginRight

@@ -99,22 +99,9 @@ public class InsetterConstraintHelper extends ConstraintHelper {
 
     for (int i = 0; i < mCount; i++) {
       View view = container.getViewById(mIds[i]);
-      final WindowInsetsCompat previouslyAddedInsets =
-          (WindowInsetsCompat) view.getTag(R.id.insetter_previous_insets);
       final ViewState state = (ViewState) view.getTag(R.id.insetter_initial_state);
       if (state != null) {
-        if (insetsCompat.equals(previouslyAddedInsets)) {
-          // Other instance of this helper already added some of the insets to
-          // this view and we don't want to override them by using initial ViewState.
-          // We want them to add up to current view paddings/margins.
-          applyInsetsToChild(view, insetsCompat, new ViewState(view));
-        } else {
-          // There are no insets applied to this view or we got completely new insets
-          // so we want to override paddings/margins previously applied to this view.
-          // That's why we're using initial ViewState here.
-          applyInsetsToChild(view, insetsCompat, state);
-        }
-        view.setTag(R.id.insetter_previous_insets, insetsCompat);
+        applyInsetsToChild(view, insetsCompat, state);
       }
     }
 
