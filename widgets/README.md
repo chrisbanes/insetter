@@ -8,7 +8,7 @@ handling. Currently this library is focusing on building upon
 
 ## InsetterConstraintLayout
 
-[InsetterConstraintLayout](widgets/src/main/java/dev/chrisbanes/insetter/widgets/InsetterConstraintLayout.java)
+[InsetterConstraintLayout](widgets/src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java)
 is a [ConstraintLayout][cl] which adds support for a number of attributes to define inset behavior
 on child views.
 
@@ -23,7 +23,7 @@ Each of the attributes takes a combination of flags, defining which dimensions t
 insets should be applied to. An example can be seen below:
 
 ``` xml
-<dev.chrisbanes.insetter.widgets.InsetterConstraintLayout
+<dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -35,7 +35,7 @@ insets should be applied to. An example can be seen below:
         app:paddingSystemWindowInsets="left|top|right|bottom"
         android:src="@drawable/rectangle" />
 
-</dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+</dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
 ```
 
 Here, the `ImageView`'s padding on all dimensions will be increased by the [system window insets][swi].
@@ -46,13 +46,13 @@ You can also mix inset types, such as below where the view's padding will be usi
 [system window insets][swi] values, and the bottom [system gesture insets][sgi]:
 
 ``` xml
-<dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+<dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
 
     <ImageView
         app:paddingSystemWindowInsets="left|right"
         app:paddingSystemGestureInsets="bottom" />
 
-</dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+</dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
 ```
 
 ---
@@ -61,13 +61,13 @@ And similarly, you can mix application types. This time the view's padding will 
 [system window insets][swi] values, but the view's bottom margin which be using the [system gesture insets][sgi]:
 
 ``` xml
-<dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+<dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
 
     <ImageView
         app:paddingSystemWindowInsets="left|right"
         app:layout_marginSystemGestureInsets="bottom" />
 
-</dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+</dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
 ```
 
 ### Compound padding/margin
@@ -77,12 +77,12 @@ For example here we're using a padding of `24dp`, and also applying the
 [system window insets][swi] left and bottom using padding:
 
 ``` xml
-<dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+<dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
 
     <ImageView
         app:paddingSystemWindowInsets="left|bottom" />
 
-</dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+</dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
 ```
 
 If the bottom [system window insets][swi] is defined as `48dp` on the device, the final

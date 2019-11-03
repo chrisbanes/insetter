@@ -52,13 +52,13 @@ An extension library which provides versions of commonly used ViewGroups with en
 handling. Currently this library is focusing on building upon 
 [ConstraintLayout](https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html).
 
-[InsetterConstraintLayout](widgets/src/main/java/dev/chrisbanes/insetter/widgets/InsetterConstraintLayout.java) is the
+[InsetterConstraintLayout](widgets/src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java) is the
 primary widget we provide, which enables new attributes to define inset behavior on child views.
 The behavior enabled through `InsetterConstraintLayout` is similar to that provided by 
 the `insetter-dbx` library, but without the requirement of using data-binding.
 
 ``` xml
-<dev.chrisbanes.insetter.widgets.InsetterConstraintLayout
+<dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -70,7 +70,7 @@ the `insetter-dbx` library, but without the requirement of using data-binding.
         app:paddingSystemWindowInsets="left|top|right|bottom"
         android:src="@drawable/rectangle" />
 
-</dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+</dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
 ```
 
 📖 You can read more information [here](widgets/).
