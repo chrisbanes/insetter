@@ -50,6 +50,7 @@ object Libs {
         }
 
         const val core = "androidx.core:core:1.2.0-beta01"
+        const val coreKtx = "androidx.core:core-ktx:1.2.0-beta01"
     }
 
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:1.1.3"

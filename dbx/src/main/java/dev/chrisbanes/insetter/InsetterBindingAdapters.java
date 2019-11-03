@@ -34,57 +34,38 @@ public class InsetterBindingAdapters {
         "paddingTopSystemWindowInsets",
         "paddingRightSystemWindowInsets",
         "paddingBottomSystemWindowInsets",
-        "paddingLeftGestureInsets",
-        "paddingTopGestureInsets",
-        "paddingRightGestureInsets",
-        "paddingBottomGestureInsets",
+        "paddingLeftSystemGestureInsets",
+        "paddingTopSystemGestureInsets",
+        "paddingRightSystemGestureInsets",
+        "paddingBottomSystemGestureInsets",
         "layout_marginLeftSystemWindowInsets",
         "layout_marginTopSystemWindowInsets",
         "layout_marginRightSystemWindowInsets",
         "layout_marginBottomSystemWindowInsets",
-        "layout_marginLeftGestureInsets",
-        "layout_marginTopGestureInsets",
-        "layout_marginRightGestureInsets",
-        "layout_marginBottomGestureInsets",
-        // The following attributes are kept here for migrating purposes.
-        // They will be removed in a later release.
-        "marginLeftSystemWindowInsets",
-        "marginTopSystemWindowInsets",
-        "marginRightSystemWindowInsets",
-        "marginBottomSystemWindowInsets",
-        "marginLeftGestureInsets",
-        "marginTopGestureInsets",
-        "marginRightGestureInsets",
-        "marginBottomGestureInsets"
+        "layout_marginLeftSystemGestureInsets",
+        "layout_marginTopSystemGestureInsets",
+        "layout_marginRightSystemGestureInsets",
+        "layout_marginBottomSystemGestureInsets"
       },
       requireAll = false)
-  public static void applySystemWindows(
+  public static void applyInsetsFromBooleans(
       @NonNull final View v,
       final boolean padSystemWindowLeft,
       final boolean padSystemWindowTop,
       final boolean padSystemWindowRight,
       final boolean padSystemWindowBottom,
-      final boolean padGestureLeft,
-      final boolean padGestureTop,
-      final boolean padGestureRight,
-      final boolean padGestureBottom,
+      final boolean padSystemGestureLeft,
+      final boolean padSystemGestureTop,
+      final boolean padSystemGestureRight,
+      final boolean padSystemGestureBottom,
       final boolean marginSystemWindowLeft,
       final boolean marginSystemWindowTop,
       final boolean marginSystemWindowRight,
       final boolean marginSystemWindowBottom,
-      final boolean marginGestureLeft,
-      final boolean marginGestureTop,
-      final boolean marginGestureRight,
-      final boolean marginGestureBottom,
-      final boolean oldMarginSystemWindowLeft,
-      final boolean oldMarginSystemWindowTop,
-      final boolean oldMarginSystemWindowRight,
-      final boolean oldMarginSystemWindowBottom,
-      final boolean oldMarginGestureLeft,
-      final boolean oldMarginGestureTop,
-      final boolean oldMarginGestureRight,
-      final boolean oldMarginGestureBottom) {
-
+      final boolean marginSystemGestureLeft,
+      final boolean marginSystemGestureTop,
+      final boolean marginSystemGestureRight,
+      final boolean marginSystemGestureBottom) {
     Insetter.setOnApplyInsetsListener(
         v,
         new OnApplyInsetsListener() {
@@ -97,22 +78,26 @@ public class InsetterBindingAdapters {
                 view,
                 insets,
                 initialState,
-                padSystemWindowLeft,
-                padSystemWindowTop,
-                padSystemWindowRight,
-                padSystemWindowBottom,
-                padGestureLeft,
-                padGestureTop,
-                padGestureRight,
-                padGestureBottom,
-                marginSystemWindowLeft || oldMarginSystemWindowLeft,
-                marginSystemWindowTop || oldMarginSystemWindowTop,
-                marginSystemWindowRight || oldMarginSystemWindowRight,
-                marginSystemWindowBottom || oldMarginSystemWindowBottom,
-                marginGestureLeft || oldMarginGestureLeft,
-                marginGestureTop || oldMarginGestureTop,
-                marginGestureRight || oldMarginGestureRight,
-                marginGestureBottom || oldMarginGestureBottom);
+                Insetter.generateFlagInt(
+                    padSystemWindowLeft,
+                    padSystemWindowTop,
+                    padSystemWindowRight,
+                    padSystemWindowBottom),
+                Insetter.generateFlagInt(
+                    marginSystemWindowLeft,
+                    marginSystemWindowTop,
+                    marginSystemWindowRight,
+                    marginSystemWindowBottom),
+                Insetter.generateFlagInt(
+                    padSystemGestureLeft,
+                    padSystemGestureTop,
+                    padSystemGestureRight,
+                    padSystemGestureBottom),
+                Insetter.generateFlagInt(
+                    marginSystemGestureLeft,
+                    marginSystemGestureTop,
+                    marginSystemGestureRight,
+                    marginSystemGestureBottom));
           }
         });
   }

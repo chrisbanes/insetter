@@ -19,6 +19,7 @@ import dev.chrisbanes.insetter.buildsrc.Libs
 apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -42,6 +43,12 @@ android {
     }
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
 dependencies {
     implementation project(':library')
     implementation project(':dbx')
@@ -53,4 +60,5 @@ dependencies {
     testImplementation Libs.robolectric
     testImplementation Libs.AndroidX.Test.core
     testImplementation Libs.AndroidX.Test.ext
+    testImplementation Libs.AndroidX.coreKtx
 }

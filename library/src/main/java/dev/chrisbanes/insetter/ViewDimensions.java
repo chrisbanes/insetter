@@ -16,6 +16,8 @@
 
 package dev.chrisbanes.insetter;
 
+import java.util.Locale;
+
 public class ViewDimensions {
   private final int left;
   private final int top;
@@ -67,5 +69,16 @@ public class ViewDimensions {
     result = 31 * result + right;
     result = 31 * result + bottom;
     return result;
+  }
+
+  @Override
+  public String toString() {
+    return String.format(
+        Locale.US,
+        "ViewDimensions{left=%d, top=%d, right=%d, bottom=%d}",
+        left,
+        top,
+        right,
+        bottom);
   }
 }
