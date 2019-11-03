@@ -52,8 +52,8 @@ An extension library which provides versions of commonly used ViewGroups with en
 handling. Currently this library is focusing on building upon 
 [ConstraintLayout](https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html).
 
-[InsetterConstraintLayout](widgets/src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java) is the
-primary widget we provide, which enables new attributes to define inset behavior on child views.
+A example of a widget is [InsetterConstraintLayout](widgets/src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java),
+which enables new attributes to define inset behavior on child views.
 The behavior enabled through `InsetterConstraintLayout` is similar to that provided by 
 the `insetter-dbx` library, but without the requirement of using data-binding.
 
@@ -134,5 +134,5 @@ License for the specific language governing permissions and limitations under
 the License.
 ```
 
- [databinding]: https://developer.android.com/topic/libraries/data-binding
- [snap]: https://oss.sonatype.org/content/repositories/snapshots/
+[databinding]: https://developer.android.com/topic/libraries/data-binding
+[snap]: https://oss.sonatype.org/content/repositories/snapshots/
