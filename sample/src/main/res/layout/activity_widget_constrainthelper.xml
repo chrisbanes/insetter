@@ -16,17 +16,27 @@
   -->
 
 
-<dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- InsetterConstraintHelper doesn't need any constraints for layout, so we tell lint to
+        ignore the 'MissingConstraints' rule. -->
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:paddingSystemWindowInsets="left|top|right|bottom"
+        app:constraint_referenced_ids="image"
+        tools:ignore="MissingConstraints" />
+
     <ImageView
+        android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FF00FF"
-        app:paddingSystemWindowInsets="left|top|right|bottom"
-        android:src="@drawable/rectangle" />
+        android:src="@drawable/rectangle"/>
 
-</dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

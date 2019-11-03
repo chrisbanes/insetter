@@ -15,18 +15,16 @@
   ~ limitations under the License.
   -->
 
-
-<dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FF00FF"
-        app:paddingSystemWindowInsets="left|top|right|bottom"
-        android:src="@drawable/rectangle" />
+    <include layout="@layout/include_helper_syswin_padding_children" />
+    <include layout="@layout/include_helper_syswin_margin_children" />
+    <include layout="@layout/include_helper_sysgest_padding_children" />
+    <include layout="@layout/include_helper_sysgest_margin_children" />
+    <include layout="@layout/include_helper_mixedinsets_children" />
 
-</dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

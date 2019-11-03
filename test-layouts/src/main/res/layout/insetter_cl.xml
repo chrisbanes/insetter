@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 
-<dev.chrisbanes.insetter.widgets.InsetterConstraintLayout
+<dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
     android:layout_width="match_parent"
@@ -27,4 +27,4 @@
     <include layout="@layout/include_layout_sysgest_margin_children" />
     <include layout="@layout/include_layout_mixedinsets_children" />
 
-</dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+</dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>

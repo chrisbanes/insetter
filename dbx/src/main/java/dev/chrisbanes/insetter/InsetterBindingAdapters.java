@@ -78,22 +78,22 @@ public class InsetterBindingAdapters {
                 view,
                 insets,
                 initialState,
-                Insetter.generateFlagInt(
+                Insetter.generateEnumSet(
                     padSystemWindowLeft,
                     padSystemWindowTop,
                     padSystemWindowRight,
                     padSystemWindowBottom),
-                Insetter.generateFlagInt(
+                Insetter.generateEnumSet(
                     marginSystemWindowLeft,
                     marginSystemWindowTop,
                     marginSystemWindowRight,
                     marginSystemWindowBottom),
-                Insetter.generateFlagInt(
+                Insetter.generateEnumSet(
                     padSystemGestureLeft,
                     padSystemGestureTop,
                     padSystemGestureRight,
                     padSystemGestureBottom),
-                Insetter.generateFlagInt(
+                Insetter.generateEnumSet(
                     marginSystemGestureLeft,
                     marginSystemGestureTop,
                     marginSystemGestureRight,
