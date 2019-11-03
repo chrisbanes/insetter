@@ -17,92 +17,14 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:paddingSystemWindowInsets="left"
-        app:constraint_referenced_ids="system_window_left,system_window_all" />
-
-    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:paddingSystemWindowInsets="top"
-        app:constraint_referenced_ids="system_window_top,system_window_all" />
-
-    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:paddingSystemWindowInsets="right"
-        app:constraint_referenced_ids="system_window_right,system_window_all" />
-
-    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:paddingSystemWindowInsets="bottom"
-        app:constraint_referenced_ids="system_window_bottom,system_window_all" />
-
-    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:paddingSystemWindowInsets="left|top|right|bottom"
-        app:constraint_referenced_ids="system_window_all_withpadding" />
-
-    <View
-        android:id="@+id/system_window_left"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <View
-        android:id="@+id/system_window_top"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <View
-        android:id="@+id/system_window_right"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <View
-        android:id="@+id/system_window_bottom"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <View
-        android:id="@+id/system_window_all"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <View
-        android:id="@+id/system_window_all_withpadding"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:padding="@dimen/padding"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <include layout="@layout/include_helper_syswin_padding_children" />
+    <include layout="@layout/include_helper_syswin_margin_children" />
+    <include layout="@layout/include_helper_sysgest_padding_children" />
+    <include layout="@layout/include_helper_sysgest_margin_children" />
+    <include layout="@layout/include_helper_mixedinsets_children" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
