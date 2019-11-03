@@ -67,10 +67,10 @@
 
     <declare-styleable name="InsetterConstraintHelper">
         <attr name="paddingSystemWindowInsets" />
-        <attr name="marginSystemGestureInsets" />
+        <attr name="layout_marginSystemWindowInsets" />
 
         <attr name="paddingSystemGestureInsets" />
-        <attr name="marginSystemWindowInsets" />
+        <attr name="layout_marginSystemGestureInsets" />
     </declare-styleable>
 
 </resources>

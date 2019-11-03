@@ -23,7 +23,6 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.WindowInsets;
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintHelper;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -35,8 +34,9 @@ import dev.chrisbanes.insetter.widgets.R;
 public class InsetterConstraintHelper extends ConstraintHelper {
 
   public int paddingSystemWindowInsets = NONE;
-  public int paddingSystemGestureInsets = NONE;
   public int marginSystemWindowInsets = NONE;
+
+  public int paddingSystemGestureInsets = NONE;
   public int marginSystemGestureInsets = NONE;
 
   private ConstraintLayout container;
@@ -53,26 +53,26 @@ public class InsetterConstraintHelper extends ConstraintHelper {
     super(context, attrs, defStyleAttr);
 
     final TypedArray ta =
-        getContext().obtainStyledAttributes(attrs, R.styleable.InsetterConstraintHelper);
+        context.obtainStyledAttributes(attrs, R.styleable.InsetterConstraintHelper);
 
     paddingSystemWindowInsets =
         ta.getInt(
             R.styleable.InsetterConstraintHelper_paddingSystemWindowInsets,
             paddingSystemWindowInsets);
 
+    marginSystemWindowInsets =
+        ta.getInt(
+            R.styleable.InsetterConstraintHelper_layout_marginSystemWindowInsets,
+            marginSystemWindowInsets);
+
     paddingSystemGestureInsets =
         ta.getInt(
             R.styleable.InsetterConstraintHelper_paddingSystemGestureInsets,
             paddingSystemGestureInsets);
 
-    marginSystemWindowInsets =
-        ta.getInt(
-            R.styleable.InsetterConstraintHelper_marginSystemWindowInsets,
-            marginSystemWindowInsets);
-
     marginSystemGestureInsets =
         ta.getInt(
-            R.styleable.InsetterConstraintHelper_marginSystemGestureInsets,
+            R.styleable.InsetterConstraintHelper_layout_marginSystemGestureInsets,
             marginSystemGestureInsets);
 
     ta.recycle();
@@ -101,22 +101,17 @@ public class InsetterConstraintHelper extends ConstraintHelper {
       View view = container.getViewById(mIds[i]);
       final ViewState state = (ViewState) view.getTag(R.id.insetter_initial_state);
       if (state != null) {
-        applyInsetsToChild(view, insetsCompat, state);
+        Insetter.applyInsetsToView(
+            view,
+            insetsCompat,
+            state,
+            paddingSystemWindowInsets,
+            marginSystemWindowInsets,
+            paddingSystemGestureInsets,
+            marginSystemGestureInsets);
       }
     }
 
     return insetsCompat.toWindowInsets();
-  }
-
-  private void applyInsetsToChild(
-      @NonNull View view, @NonNull WindowInsetsCompat insets, @NonNull ViewState initialState) {
-    Insetter.applyInsetsToView(
-        view,
-        insets,
-        initialState,
-        paddingSystemWindowInsets,
-        marginSystemWindowInsets,
-        paddingSystemGestureInsets,
-        marginSystemGestureInsets);
   }
 }
