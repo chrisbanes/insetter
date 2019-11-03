@@ -16,11 +16,7 @@
 
 package dev.chrisbanes.insetter.widgets.constraintlayout;
 
-import static android.view.Gravity.BOTTOM;
-import static android.view.Gravity.LEFT;
-import static android.view.Gravity.NO_GRAVITY;
-import static android.view.Gravity.RIGHT;
-import static android.view.Gravity.TOP;
+import static dev.chrisbanes.insetter.Insetter.NONE;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -38,32 +34,24 @@ import dev.chrisbanes.insetter.widgets.R;
 
 public class InsetterConstraintHelper extends ConstraintHelper {
 
-  public int paddingSystemWindowInsets = NO_GRAVITY;
-  public int paddingSystemGestureInsets = NO_GRAVITY;
-  public int marginSystemWindowInsets = NO_GRAVITY;
-  public int marginSystemGestureInsets = NO_GRAVITY;
+  public int paddingSystemWindowInsets = NONE;
+  public int paddingSystemGestureInsets = NONE;
+  public int marginSystemWindowInsets = NONE;
+  public int marginSystemGestureInsets = NONE;
 
   private ConstraintLayout container;
 
   public InsetterConstraintHelper(Context context) {
-    super(context);
+    this(context, null);
   }
 
   public InsetterConstraintHelper(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    readAttrs(attrs);
+    this(context, attrs, 0);
   }
 
   public InsetterConstraintHelper(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
-    readAttrs(attrs);
-  }
 
-  private static boolean hasFlag(int value, int flag) {
-    return (value & flag) == flag;
-  }
-
-  private void readAttrs(AttributeSet attrs) {
     final TypedArray ta =
         getContext().obtainStyledAttributes(attrs, R.styleable.InsetterConstraintHelper);
 
@@ -135,26 +123,13 @@ public class InsetterConstraintHelper extends ConstraintHelper {
 
   private void applyInsetsToChild(
       @NonNull View view, @NonNull WindowInsetsCompat insets, @NonNull ViewState initialState) {
-
     Insetter.applyInsetsToView(
         view,
         insets,
         initialState,
-        hasFlag(paddingSystemWindowInsets, LEFT),
-        hasFlag(paddingSystemWindowInsets, TOP),
-        hasFlag(paddingSystemWindowInsets, RIGHT),
-        hasFlag(paddingSystemWindowInsets, BOTTOM),
-        hasFlag(paddingSystemGestureInsets, LEFT),
-        hasFlag(paddingSystemGestureInsets, TOP),
-        hasFlag(paddingSystemGestureInsets, RIGHT),
-        hasFlag(paddingSystemGestureInsets, BOTTOM),
-        hasFlag(marginSystemWindowInsets, LEFT),
-        hasFlag(marginSystemWindowInsets, TOP),
-        hasFlag(marginSystemWindowInsets, RIGHT),
-        hasFlag(marginSystemWindowInsets, BOTTOM),
-        hasFlag(marginSystemGestureInsets, LEFT),
-        hasFlag(marginSystemGestureInsets, TOP),
-        hasFlag(marginSystemGestureInsets, RIGHT),
-        hasFlag(marginSystemGestureInsets, BOTTOM));
+        paddingSystemWindowInsets,
+        marginSystemWindowInsets,
+        paddingSystemGestureInsets,
+        marginSystemGestureInsets);
   }
 }
