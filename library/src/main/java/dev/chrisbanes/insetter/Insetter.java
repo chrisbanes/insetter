@@ -47,6 +47,30 @@ public class Insetter {
    *
    * <p>This allows the listener to be able to append inset values to any existing view state
    * properties, rather than overwriting them.
+   *
+   * <p>Commonly, the listener will call through to {@link #applyInsetsToView(View,
+   * WindowInsetsCompat, ViewState, EnumSet, EnumSet, EnumSet, EnumSet)} to apply insets using the
+   * given options:
+   *
+   * <pre>
+   * Insetter.setOnApplyInsetsListener(
+   *     imageView,
+   *     new OnApplyInsetsListener() {
+   *       {@literal @}Override
+   *       public void onApplyInsets(
+   *           {@literal @}NonNull View view,
+   *           {@literal @}NonNull WindowInsetsCompat insets,
+   *           {@literal @}NonNull ViewState initialState) {
+   *         Insetter.applyInsetsToView(
+   *             view,
+   *             insets,
+   *             initialState,
+   *             // Options for applyInsetsToView()
+   *             ...
+   *         );
+   *       }
+   * });
+   * </pre>
    */
   public static void setOnApplyInsetsListener(
       @NonNull View view, @NonNull final OnApplyInsetsListener listener) {
@@ -110,13 +134,46 @@ public class Insetter {
    * paddingSystemGestureInsets} and {@code marginSystemGestureInsets} take an {@link EnumSet} of
    * {@link InsetDimension} values.
    *
+   * <p>This method will typically be called from {@link OnApplyInsetsListener#onApplyInsets(View,
+   * WindowInsetsCompat, ViewState)}, set using {@link #setOnApplyInsetsListener(View,
+   * OnApplyInsetsListener)}:
+   *
+   * <pre>
+   * Insetter.setOnApplyInsetsListener(
+   *     imageView,
+   *     new OnApplyInsetsListener() {
+   *       {@literal @}Override
+   *       public void onApplyInsets(
+   *           {@literal @}NonNull View view,
+   *           {@literal @}NonNull WindowInsetsCompat insets,
+   *           {@literal @}NonNull ViewState initialState) {
+   *         Insetter.applyInsetsToView(
+   *             view,
+   *             insets,
+   *             initialState,
+   *             // Apply bottom padding using system window insets
+   *             EnumSet.of(InsetDimension.BOTTOM),
+   *             // Apply no margin using system window insets
+   *             null,
+   *             // Apply no padding using system gesture insets
+   *             null,
+   *             // Apply no margin using system gesture insets
+   *             null);
+   *       }
+   * });
+   * </pre>
+   *
    * @param view the view to apply inset handling too
    * @param insets the insets to apply
    * @param initialState the initial view state of the view
-   * @param paddingSystemWindowInsets enum set defining padding handling of system window insets
-   * @param marginSystemWindowInsets enum set defining margin handling of system window insets
-   * @param paddingSystemGestureInsets enum set defining padding handling of system gesture insets
-   * @param marginSystemGestureInsets enum set defining margin handling of system gesture insets
+   * @param paddingSystemWindowInsets enum set defining padding handling of system window insets, or
+   *     {@code null} for no handling
+   * @param marginSystemWindowInsets enum set defining margin handling of system window insets, or
+   *     {@code null} for no handling
+   * @param paddingSystemGestureInsets enum set defining padding handling of system gesture insets,
+   *     or {@code null} for no handling
+   * @param marginSystemGestureInsets enum set defining margin handling of system gesture insets, or
+   *     {@code null} for no handling
    */
   public static void applyInsetsToView(
       @NonNull final View view,
