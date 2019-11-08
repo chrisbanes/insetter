@@ -19,6 +19,7 @@ package dev.chrisbanes.insetter
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.view.WindowInsetsCompat
+import java.util.EnumSet
 
 inline fun View.doOnApplyWindowInsets(
     crossinline f: (
@@ -32,9 +33,36 @@ inline fun View.doOnApplyWindowInsets(
     }
 }
 
-fun View.requestApplyInsetsWhenAttached() {
-    Insetter.requestApplyInsetsWhenAttached(this)
+/**
+ * TODO
+ *
+ * @param insets
+ * @param initialState
+ * @param paddingSystemWindowInsets
+ * @param marginSystemWindowInsets
+ * @param paddingSystemGestureInsets
+ * @param marginSystemGestureInsets
+ */
+inline fun View.applyInsets(
+    insets: WindowInsetsCompat,
+    initialState: ViewState = ViewState.EMPTY,
+    paddingSystemWindowInsets: EnumSet<InsetDimension>? = null,
+    marginSystemWindowInsets: EnumSet<InsetDimension>? = null,
+    paddingSystemGestureInsets: EnumSet<InsetDimension>? = null,
+    marginSystemGestureInsets: EnumSet<InsetDimension>? = null
+) {
+    Insetter.applyInsetsToView(
+            this,
+            insets,
+            initialState,
+            paddingSystemWindowInsets,
+            marginSystemWindowInsets,
+            paddingSystemGestureInsets,
+            marginSystemGestureInsets
+        )
 }
+
+inline fun View.requestApplyInsetsWhenAttached() = Insetter.requestApplyInsetsWhenAttached(this)
 
 /**
  * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to'edge.
@@ -45,4 +73,4 @@ fun View.requestApplyInsetsWhenAttached() {
  * @see Insetter.setEdgeToEdgeSystemUiFlags
  */
 @RequiresApi(16)
-fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean) = Insetter.setEdgeToEdgeSystemUiFlags(this, enabled)
+inline fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean) = Insetter.setEdgeToEdgeSystemUiFlags(this, enabled)

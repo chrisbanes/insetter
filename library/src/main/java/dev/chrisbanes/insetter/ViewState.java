@@ -27,7 +27,12 @@ public class ViewState {
   private ViewDimensions margins;
 
   public ViewState(@NonNull View view) {
-    updateForView(view);
+    this(createPaddingDimensions(view), createMarginDimensions(view));
+  }
+
+  private ViewState(@NonNull ViewDimensions paddings, @NonNull ViewDimensions margins) {
+    this.paddings = paddings;
+    this.margins = margins;
   }
 
   public ViewDimensions getPaddings() {
@@ -36,11 +41,6 @@ public class ViewState {
 
   public ViewDimensions getMargins() {
     return margins;
-  }
-
-  private void updateForView(@NonNull View view) {
-    paddings = createPaddingDimensions(view);
-    margins = createMarginDimensions(view);
   }
 
   @NonNull
@@ -85,4 +85,6 @@ public class ViewState {
     result = 31 * result + (margins != null ? margins.hashCode() : 0);
     return result;
   }
+
+  public static final ViewState EMPTY = new ViewState(ViewDimensions.EMPTY, ViewDimensions.EMPTY);
 }
