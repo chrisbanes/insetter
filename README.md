@@ -22,10 +22,10 @@ A Kotlin extension library, providing Kotlin-specific functionality. This librar
 extension functions allowing easy access to the helper functions from the base library.
 
 ``` kotlin
-bottomNav.doOnApplyWindowInsets { view, insets, initialPadding, initialMargins ->
+bottomNav.doOnApplyWindowInsets { view, insets, initialState ->
     // padding contains the original padding values after inflation
     view.updatePadding(
-        bottom = initialPadding.bottom + insets.systemWindowInsetBottom
+        bottom = initialState.paddings.bottom + insets.systemWindowInsetBottom
     )
 }
 ```
