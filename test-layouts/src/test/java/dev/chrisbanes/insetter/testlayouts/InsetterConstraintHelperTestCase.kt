@@ -241,7 +241,7 @@ class InsetterConstraintHelperTestCase {
             assertPadding(top = systemWindowInsets.top, bottom = systemGestureInsets.bottom)
         }
         with(container.findViewById<View>(R.id.padding_syswin_pad_vertical_gest_margin_horiz)) {
-            assertPadding(top = systemWindowInsets.top, bottom = systemGestureInsets.bottom)
+            assertPadding(top = systemWindowInsets.top, bottom = systemWindowInsets.bottom)
             assertLayoutMargin(left = systemGestureInsets.left, right = systemGestureInsets.right)
         }
         // Assert that a view with paddingSystemWindowInsets="top" and
