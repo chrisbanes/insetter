@@ -91,6 +91,7 @@ public class Insetter {
           new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
+              v.removeOnAttachStateChangeListener(this);
               ViewCompat.requestApplyInsets(v);
             }
 
