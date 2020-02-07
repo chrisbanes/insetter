@@ -413,7 +413,7 @@ public class Insetter {
     view.getWindowVisibleDisplayFrame(visibleWindowBounds);
     int visibleWindowHeight = visibleWindowBounds.height();
     int heightDiff = view.getRootView().getHeight() - visibleWindowHeight;
-    int marginOfError = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, view.getResources().getDisplayMetrics()));
+    int marginOfError = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, view.getResources().getDisplayMetrics()));
     return heightDiff > marginOfError;
   }
 
