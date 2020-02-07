@@ -46,3 +46,13 @@ fun View.requestApplyInsetsWhenAttached() {
  */
 @RequiresApi(16)
 fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean) = Insetter.setEdgeToEdgeSystemUiFlags(this, enabled)
+
+/**
+ * Applies padding or margin to the bottom of the view when the keyboard is displayed
+ * @param marginBottom whether to adjust the view's bottom margin
+ * @param paddingBottom whether to adjust the view's bottom padding
+ */
+fun View.applyInsetsWhenKeyboardDisplayed(marginBottom: Boolean = false,
+                                          paddingBottom: Boolean = false) {
+    Insetter.applyInsetsWhenKeyboardDisplayed(this, marginBottom, paddingBottom)
+}

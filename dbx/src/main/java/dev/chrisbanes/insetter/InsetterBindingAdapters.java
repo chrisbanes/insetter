@@ -102,6 +102,22 @@ public class InsetterBindingAdapters {
         });
   }
 
+  @BindingAdapter(
+            value = {
+                    "marginBottomForKeyboard",
+                    "paddingBottomForKeyboard"
+            },
+            requireAll = false)
+  public static void applyKeyboardInsetsFromBooleans(
+            @NonNull final View v,
+            final boolean marginBottomForKeyboard,
+            final boolean paddingBottomForKeyboard) {
+      Insetter.applyInsetsWhenKeyboardDisplayed(
+              v,
+              marginBottomForKeyboard,
+              paddingBottomForKeyboard);
+  }
+
   @BindingAdapter("layout_edgeToEdge")
   public static void setEdgeToEdgeFlags(@NonNull final View view, boolean enabled) {
     if (Build.VERSION.SDK_INT >= 16) {

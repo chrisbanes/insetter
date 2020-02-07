@@ -26,7 +26,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:paddingBottomForKeyboard="@{true}">
 
         <ImageView
             android:layout_width="match_parent"
@@ -41,7 +42,7 @@
 
         <ScrollView
             android:layout_width="260dp"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center">
 
             <LinearLayout
@@ -72,6 +73,13 @@
                     android:layout_height="wrap_content"
                     android:checked="@={state.paddingBottomSystemWindow}"
                     android:text="Padding: systemWindowInsets - Bottom" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Test keyboard resize"
+                    android:gravity="top"
+                    android:lines="20"/>
 
             </LinearLayout>
 

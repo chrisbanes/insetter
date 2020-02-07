@@ -17,7 +17,9 @@
 package dev.chrisbanes.insetter;
 
 import android.annotation.SuppressLint;
+import android.graphics.Rect;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -330,6 +332,89 @@ public class Insetter {
   public static void setEdgeToEdgeSystemUiFlags(@NonNull final View view, final boolean enabled) {
     view.setSystemUiVisibility(
         (view.getSystemUiVisibility() & ~EDGE_TO_EDGE_FLAGS) | (enabled ? EDGE_TO_EDGE_FLAGS : 0));
+  }
+
+  /**
+   * Applies padding or margin to the bottom of the view when the keyboard is displayed
+   * @param v the view to apply inset handling too
+   * @param marginBottomForKeyboard whether to adjust the view's bottom margin
+   * @param paddingBottomForKeyboard whether to adjust the view's bottom padding
+   */
+  public static void applyInsetsWhenKeyboardDisplayed(@NonNull final View v,
+                                                      final boolean marginBottomForKeyboard,
+                                                      final boolean paddingBottomForKeyboard) {
+    setOnApplyInsetsListener(v, new OnApplyInsetsListener() {
+      @Override
+      public void onApplyInsets(@NonNull View view, @NonNull WindowInsetsCompat insets, @NonNull ViewState initialState) {
+        boolean keyboardOpen = isKeyboardOpen(view);
+
+        int paddingBottom;
+        if (keyboardOpen) {
+          paddingBottom = insets.getSystemWindowInsetBottom();
+        } else {
+          paddingBottom = initialState.getPaddings().getBottom();
+        }
+
+        int marginBottom;
+        if (keyboardOpen) {
+          marginBottom = insets.getSystemWindowInsetBottom();
+        } else {
+          marginBottom = initialState.getMargins().getBottom();
+        }
+
+        if (marginBottomForKeyboard) {
+          final ViewGroup.LayoutParams lp = view.getLayoutParams();
+          if (lp instanceof ViewGroup.MarginLayoutParams) {
+            final ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
+
+            if (mlp.bottomMargin != marginBottom) {
+              mlp.bottomMargin = marginBottom;
+              view.setLayoutParams(lp);
+
+              if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(
+                        TAG,
+                        String.format(
+                                Locale.US,
+                                "applyInsetsWhenKeyboardDisplayed. Applied margin to %s: bottom=%d}",
+                                view,
+                                marginBottom));
+              }
+            }
+          }
+        }
+
+        if (paddingBottomForKeyboard) {
+          view.setPadding(view.getPaddingLeft(),
+                  view.getPaddingTop(),
+                  view.getPaddingRight(),
+                  paddingBottom);
+
+          if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(
+                    TAG,
+                    String.format(
+                            Locale.US,
+                            "applyInsetsWhenKeyboardDisplayed. Applied padding to %s: bottom=%d}",
+                            view,
+                            marginBottom));
+          }
+        }
+
+      }
+    });
+  }
+
+  /**
+   * Determines if the keyboard is open by comparing the visible window height to the height
+   */
+  private static boolean isKeyboardOpen(View view) {
+    Rect visibleWindowBounds = new Rect();
+    view.getWindowVisibleDisplayFrame(visibleWindowBounds);
+    int visibleWindowHeight = visibleWindowBounds.height();
+    int heightDiff = view.getRootView().getHeight() - visibleWindowHeight;
+    int marginOfError = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, view.getResources().getDisplayMetrics()));
+    return heightDiff > marginOfError;
   }
 
   @SuppressLint("InlinedApi")
