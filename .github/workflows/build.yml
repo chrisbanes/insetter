@@ -33,11 +33,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Run Spotless Check (fail fast)
-        run: ./gradlew spotlessCheck --scan
-
-      - name: Build and lint
-        run: ./gradlew assemble lintDebug --scan
+      - name: Build, lint and spotless
+        run: ./gradlew spotlessCheck assemble lintDebug --scan
 
       - name: Clean secrets
         if: always()
