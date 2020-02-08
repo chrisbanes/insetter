@@ -14,27 +14,26 @@
  * limitations under the License.
  */
 
-package dev.chrisbanes.insetter.testlayouts
+package dev.chrisbanes.insetter.widgets
 
 import android.app.Activity
 import android.graphics.Rect
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowInsetsCompat
+import androidx.test.annotation.UiThreadTest
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.filters.SdkSuppress
 import dev.chrisbanes.insetter.testutils.assertLayoutMargin
 import dev.chrisbanes.insetter.testutils.assertPadding
 import dev.chrisbanes.insetter.testutils.dispatchInsets
+import dev.chrisbanes.insetter.widgets.test.R
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Config.ALL_SDKS])
-class InsetterConstraintHelperTestCase {
+@SdkSuppress(minSdkVersion = 20)
+class InsetsConstraintLayoutTestCase {
     @get:Rule
     val rule = ActivityScenarioRule(Activity::class.java)
 
@@ -43,13 +42,14 @@ class InsetterConstraintHelperTestCase {
     @Before
     fun setup() {
         rule.scenario.onActivity { activity ->
-            activity.setContentView(R.layout.insetter_clh)
+            activity.setContentView(R.layout.insetter_cl)
             container = activity.findViewById(R.id.root)
         }
     }
 
     @Test
-    fun `system window insets single pass`() {
+    @UiThreadTest
+    fun systemWindowInsets_singlePass() {
         // Dispatch some initial insets
         val insets = container.dispatchInsets(systemWindowInsets = Rect(5, 7, 9, 13))
         // ...and assert that the child view state changes
@@ -57,7 +57,8 @@ class InsetterConstraintHelperTestCase {
     }
 
     @Test
-    fun `system window insets multi-pass`() {
+    @UiThreadTest
+    fun systemWindowInsets_multiPass() {
         // Dispatch some initial insets
         val insets = container.dispatchInsets(systemWindowInsets = Rect(10, 20, 30, 40))
         // ...and assert that the child view state changes
@@ -70,7 +71,8 @@ class InsetterConstraintHelperTestCase {
     }
 
     @Test
-    fun `system gesture insets single pass`() {
+    @UiThreadTest
+    fun systemGestureInsets_singlePass() {
         // Dispatch some initial insets
         val insets = container.dispatchInsets(systemGestureInsets = Rect(5, 7, 9, 13))
         // ...and assert that the child view state changes
@@ -78,7 +80,8 @@ class InsetterConstraintHelperTestCase {
     }
 
     @Test
-    fun `system gesture insets multi-pass`() {
+    @UiThreadTest
+    fun systemGestureInsets_multiPass() {
         // Dispatch some initial insets
         val insets = container.dispatchInsets(systemGestureInsets = Rect(10, 20, 30, 40))
         // ...and assert that the child view state changes

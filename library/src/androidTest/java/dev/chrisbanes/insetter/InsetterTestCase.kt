@@ -23,20 +23,25 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.core.view.WindowInsetsCompat
+import androidx.test.annotation.UiThreadTest
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.filters.SdkSuppress
 import dev.chrisbanes.insetter.Insetter.EDGE_TO_EDGE_FLAGS
-import dev.chrisbanes.insetter.testutils.dispatchInsets
-import org.junit.Assert.*
+import junit.framework.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
-@RunWith(RobolectricTestRunner::class)
-@Config(minSdk = 23, maxSdk = 28)
-class InsetsUtilsTestCase {
+/**
+ * InsetsTestCase
+ *
+ * Devices running API 19 or below are suppressed, since all of the related functionality is
+ * a no-op on those platform levels.
+ */
+@SdkSuppress(minSdkVersion = 20)
+class InsetterTestCase {
     @get:Rule
     val rule = ActivityScenarioRule(Activity::class.java)
 
@@ -53,39 +58,65 @@ class InsetsUtilsTestCase {
     }
 
     @Test
-    fun test_ApplyInsetsListener_paddingValues() {
+    fun test_setOnApplyInsetsListener_paddingValues() {
         view.setPadding(11, 12, 13, 14)
         addViewToContainer()
 
-        Insetter.setOnApplyInsetsListener(view) { _, _, initialState ->
-            assertEquals(11, initialState.paddings.left)
-            assertEquals(12, initialState.paddings.top)
-            assertEquals(13, initialState.paddings.right)
-            assertEquals(14, initialState.paddings.bottom)
+        lateinit var viewState: ViewState
+
+        val latch = CountDownLatch(1)
+        rule.scenario.onActivity {
+            Insetter.setOnApplyInsetsListener(view) { _, _, initialState ->
+                viewState = initialState
+                latch.countDown()
+            }
         }
+
+        assertTrue(latch.await(5, TimeUnit.SECONDS))
+
+        assertNotNull(viewState)
+        assertEquals(11, viewState.paddings.left)
+        assertEquals(12, viewState.paddings.top)
+        assertEquals(13, viewState.paddings.right)
+        assertEquals(14, viewState.paddings.bottom)
     }
 
     @Test
-    fun test_ApplyInsetsListener_marginValues() {
+    fun test_setOnApplyInsetsListener_marginValues() {
         val marginLp = FrameLayout.LayoutParams(10, 10).apply {
             setMargins(11, 12, 13, 14)
         }
         addViewToContainer(marginLp)
 
-        Insetter.setOnApplyInsetsListener(view) { _, _, initialState ->
-            assertEquals(11, initialState.margins.left)
-            assertEquals(12, initialState.margins.top)
-            assertEquals(13, initialState.margins.right)
-            assertEquals(14, initialState.margins.bottom)
+        lateinit var viewState: ViewState
+
+        val latch = CountDownLatch(1)
+        rule.scenario.onActivity {
+            Insetter.setOnApplyInsetsListener(view) { _, _, initialState ->
+                viewState = initialState
+                latch.countDown()
+            }
         }
+
+        assertTrue(latch.await(5, TimeUnit.SECONDS))
+
+        assertNotNull(viewState)
+        assertEquals(11, viewState.margins.left)
+        assertEquals(12, viewState.margins.top)
+        assertEquals(13, viewState.margins.right)
+        assertEquals(14, viewState.margins.bottom)
     }
 
     @Test
     fun test_requestApplyInsetsWhenAttached_dispatchesWhenAttached() {
         var resultInsets: WindowInsetsCompat? = null
 
-        Insetter.setOnApplyInsetsListener(view) { _, insets, _ ->
-            resultInsets = insets
+        val latch = CountDownLatch(1)
+        rule.scenario.onActivity {
+            Insetter.setOnApplyInsetsListener(view) { _, insets, _ ->
+                resultInsets = insets
+                latch.countDown()
+            }
         }
 
         // We shouldn't have insets now since the view isn't attached
@@ -94,13 +125,16 @@ class InsetsUtilsTestCase {
         // Add the view to the container, which triggers an inset pass on the container
         addViewToContainer()
 
+        assertTrue(latch.await(5, TimeUnit.SECONDS))
+
         // Assert we now have insets
         assertNotNull(resultInsets)
     }
 
     @Test
+    @UiThreadTest
     fun test_setEdgeToEdgeSystemUiFlags() {
-        addViewToContainer()
+        addViewToContainer(setEdgeToEdgeFlags = false)
 
         Insetter.setEdgeToEdgeSystemUiFlags(view, true)
         assertEquals(EDGE_TO_EDGE_FLAGS, view.systemUiVisibility and EDGE_TO_EDGE_FLAGS)
@@ -110,8 +144,9 @@ class InsetsUtilsTestCase {
     }
 
     @Test
+    @UiThreadTest
     fun test_setEdgeToEdgeSystemUiFlags_doesntOverwrite() {
-        addViewToContainer()
+        addViewToContainer(setEdgeToEdgeFlags = false)
 
         // Set some other system-ui flags not related to layout
         val otherFlags = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
@@ -123,11 +158,19 @@ class InsetsUtilsTestCase {
         assertEquals(otherFlags, view.systemUiVisibility and otherFlags)
     }
 
-    private fun addViewToContainer(lp: ViewGroup.LayoutParams? = null) {
-        if (lp != null) container.addView(view, lp) else container.addView(view)
-
-        // Dispatch some insets from the container, which is similar to how the system
-        // would dispatch them
-        container.dispatchInsets()
+    private fun addViewToContainer(
+        lp: ViewGroup.LayoutParams? = null,
+        setEdgeToEdgeFlags: Boolean = true
+    ) {
+        rule.scenario.onActivity {
+            if (lp != null) {
+                container.addView(view, lp)
+            } else {
+                container.addView(view)
+            }
+            if (setEdgeToEdgeFlags) {
+                view.systemUiVisibility = EDGE_TO_EDGE_FLAGS
+            }
+        }
     }
 }

@@ -29,7 +29,6 @@ object Libs {
     const val gradleMavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.8.0"
 
     const val junit = "junit:junit:4.12"
-    const val robolectric = "org.robolectric:robolectric:4.3"
 
     object Kotlin {
         private const val version = "1.3.10"
