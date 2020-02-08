@@ -46,6 +46,14 @@ dependencies {
     api project(':library')
 
     api Libs.constraintLayout
+
+    androidTestImplementation project(':test-utils')
+    androidTestImplementation Libs.Kotlin.stdlib
+    androidTestImplementation Libs.junit
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.ext
+    androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.coreKtx
 }
 
 apply plugin: "com.vanniktech.maven.publish"

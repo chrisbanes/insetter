@@ -18,7 +18,9 @@
     package="dev.chrisbanes.insetter">
 
     <application>
-        <activity android:name="android.app.Activity" />
+        <activity
+            android:name="android.app.Activity"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
     </application>
 
 </manifest>

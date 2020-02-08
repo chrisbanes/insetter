@@ -51,12 +51,12 @@ android {
 dependencies {
     api Libs.AndroidX.core
 
-    testImplementation project(':test-utils')
-    testImplementation Libs.Kotlin.stdlib
-    testImplementation Libs.junit
-    testImplementation Libs.robolectric
-    testImplementation Libs.AndroidX.Test.core
-    testImplementation Libs.AndroidX.Test.ext
+    androidTestImplementation project(':test-utils')
+    androidTestImplementation Libs.Kotlin.stdlib
+    androidTestImplementation Libs.junit
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.ext
+    androidTestImplementation Libs.AndroidX.Test.rules
 }
 
 apply plugin: "com.vanniktech.maven.publish"
