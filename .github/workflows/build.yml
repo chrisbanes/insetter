@@ -4,9 +4,12 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        api-level: [21, 23, 26, 29]
     env:
-      JAVA_TOOL_OPTIONS: -Xmx5120m
+      JAVA_TOOL_OPTIONS: -Xmx3072m
       GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2 -Dkotlin.incremental=false -Dkotlin.compiler.execution.strategy=in-process
       TERM: dumb
 
@@ -54,7 +57,10 @@ jobs:
         run: ./gradlew assemble --scan
 
       - name: Run tests
-        run: ./gradlew testDebug --scan
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          script: ./gradlew connectedCheck
 
       - name: Run Lint
         run: ./gradlew lintDebug --scan
