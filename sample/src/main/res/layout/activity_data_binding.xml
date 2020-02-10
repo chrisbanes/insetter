@@ -27,7 +27,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:paddingBottomForKeyboard="@{true}">
+        app:paddingBottomForIme="@{true}">
 
         <ImageView
             android:layout_width="match_parent"
@@ -84,6 +84,14 @@
             </LinearLayout>
 
         </ScrollView>
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_add_circle_black_24dp"
+            app:layout_marginBottomSystemWindowInsets="@{true}" />
 
     </FrameLayout>
 </layout>

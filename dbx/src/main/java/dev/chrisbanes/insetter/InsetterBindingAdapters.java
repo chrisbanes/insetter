@@ -104,18 +104,18 @@ public class InsetterBindingAdapters {
 
   @BindingAdapter(
             value = {
-                    "marginBottomForKeyboard",
-                    "paddingBottomForKeyboard"
+                    "marginBottomForIme",
+                    "paddingBottomForIme"
             },
             requireAll = false)
-  public static void applyKeyboardInsetsFromBooleans(
+  public static void applyImeInsetsFromBooleans(
             @NonNull final View v,
-            final boolean marginBottomForKeyboard,
-            final boolean paddingBottomForKeyboard) {
-      Insetter.applyInsetsWhenKeyboardDisplayed(
+            final boolean marginBottomForIme,
+            final boolean paddingBottomForIme) {
+      Insetter.applyInsetsWhenImeDisplayed(
               v,
-              marginBottomForKeyboard,
-              paddingBottomForKeyboard);
+              marginBottomForIme,
+              paddingBottomForIme);
   }
 
   @BindingAdapter("layout_edgeToEdge")

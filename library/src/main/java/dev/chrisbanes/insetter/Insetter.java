@@ -19,7 +19,6 @@ package dev.chrisbanes.insetter;
 import android.annotation.SuppressLint;
 import android.graphics.Rect;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -143,6 +142,7 @@ public class Insetter {
               insets,
               initialState));
     }
+    Boolean isIMEOpen = Insetter.isIMEOpen.update(view).get();
 
     final ViewDimensions initialPadding = initialState.getPaddings();
     int paddingLeft = view.getPaddingLeft();
@@ -178,7 +178,11 @@ public class Insetter {
       paddingBottom = initialPadding.getBottom() + systemGestureInsets.bottom;
     } else if (paddingSystemWindowInsets != null
         && paddingSystemWindowInsets.contains(InsetDimension.BOTTOM)) {
-      paddingBottom = initialPadding.getBottom() + systemWindowInsets.bottom;
+      if (isIMEOpen != true) {
+        paddingBottom = initialPadding.getBottom() + systemWindowInsets.bottom;
+      } else {
+        paddingBottom = initialPadding.getBottom();
+      }
     }
 
     view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
@@ -236,7 +240,11 @@ public class Insetter {
         marginBottom = initialMargins.getBottom() + systemGestureInsets.bottom;
       } else if (marginSystemWindowInsets != null
           && marginSystemWindowInsets.contains(InsetDimension.BOTTOM)) {
-        marginBottom = initialMargins.getBottom() + systemWindowInsets.bottom;
+        if (isIMEOpen != true) {
+          marginBottom = initialMargins.getBottom() + systemWindowInsets.bottom;
+        } else {
+          marginBottom = initialMargins.getBottom();
+        }
       }
 
       if (mlp.leftMargin != marginLeft
@@ -335,34 +343,35 @@ public class Insetter {
   }
 
   /**
-   * Applies padding or margin to the bottom of the view when the keyboard is displayed
+   * Applies padding or margin to the bottom of the view when the IME (keyboard) is displayed
    * @param v the view to apply inset handling too
-   * @param marginBottomForKeyboard whether to adjust the view's bottom margin
-   * @param paddingBottomForKeyboard whether to adjust the view's bottom padding
+   * @param marginBottomForIme whether to adjust the view's bottom margin
+   * @param paddingBottomForIme whether to adjust the view's bottom padding
    */
-  public static void applyInsetsWhenKeyboardDisplayed(@NonNull final View v,
-                                                      final boolean marginBottomForKeyboard,
-                                                      final boolean paddingBottomForKeyboard) {
+  public static void applyInsetsWhenImeDisplayed(@NonNull final View v,
+                                                 final boolean marginBottomForIme,
+                                                 final boolean paddingBottomForIme) {
     setOnApplyInsetsListener(v, new OnApplyInsetsListener() {
       @Override
       public void onApplyInsets(@NonNull View view, @NonNull WindowInsetsCompat insets, @NonNull ViewState initialState) {
-        boolean keyboardOpen = isKeyboardOpen(view);
+        Boolean isIMEOpen = Insetter.isIMEOpen.update(view).get();
+        if (isIMEOpen == null) return;
 
         int paddingBottom;
-        if (keyboardOpen) {
+        if (isIMEOpen) {
           paddingBottom = insets.getSystemWindowInsetBottom();
         } else {
           paddingBottom = initialState.getPaddings().getBottom();
         }
 
         int marginBottom;
-        if (keyboardOpen) {
+        if (isIMEOpen) {
           marginBottom = insets.getSystemWindowInsetBottom();
         } else {
           marginBottom = initialState.getMargins().getBottom();
         }
 
-        if (marginBottomForKeyboard) {
+        if (marginBottomForIme) {
           final ViewGroup.LayoutParams lp = view.getLayoutParams();
           if (lp instanceof ViewGroup.MarginLayoutParams) {
             final ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) lp;
@@ -376,7 +385,7 @@ public class Insetter {
                         TAG,
                         String.format(
                                 Locale.US,
-                                "applyInsetsWhenKeyboardDisplayed. Applied margin to %s: bottom=%d}",
+                                "applyInsetsWhenImeDisplayed. Applied margin to %s: bottom=%d}",
                                 view,
                                 marginBottom));
               }
@@ -384,7 +393,7 @@ public class Insetter {
           }
         }
 
-        if (paddingBottomForKeyboard) {
+        if (paddingBottomForIme) {
           view.setPadding(view.getPaddingLeft(),
                   view.getPaddingTop(),
                   view.getPaddingRight(),
@@ -395,7 +404,7 @@ public class Insetter {
                     TAG,
                     String.format(
                             Locale.US,
-                            "applyInsetsWhenKeyboardDisplayed. Applied padding to %s: bottom=%d}",
+                            "applyInsetsWhenImeDisplayed. Applied padding to %s: bottom=%d}",
                             view,
                             marginBottom));
           }
@@ -406,15 +415,21 @@ public class Insetter {
   }
 
   /**
-   * Determines if the keyboard is open by comparing the visible window height to the height
+   * Determines if the IME (keyboard) is open by comparing the visible window height to the height
    */
-  private static boolean isKeyboardOpen(View view) {
-    Rect visibleWindowBounds = new Rect();
-    view.getWindowVisibleDisplayFrame(visibleWindowBounds);
-    int visibleWindowHeight = visibleWindowBounds.height();
-    int heightDiff = view.getRootView().getHeight() - visibleWindowHeight;
-    int marginOfError = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, view.getResources().getDisplayMetrics()));
-    return heightDiff > marginOfError;
+  private static IMEOpen isIMEOpen = new IMEOpen();
+
+  private static class IMEOpen extends ThreadLocal<Boolean> {
+    private IMEOpen update(View view) {
+          Rect visibleWindowBounds = new Rect();
+          view.getWindowVisibleDisplayFrame(visibleWindowBounds);
+          int visibleWindowHeight = visibleWindowBounds.height();
+          int heightDiff = view.getRootView().getHeight() - visibleWindowHeight;
+          int marginOfError = view.getResources().getDimensionPixelSize(R.dimen.ime_margin);
+          boolean result = heightDiff > marginOfError;
+          isIMEOpen.set(result);
+          return this;
+      }
   }
 
   @SuppressLint("InlinedApi")
