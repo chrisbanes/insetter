@@ -14,7 +14,4 @@
   ~ limitations under the License.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.chrisbanes.insetter">
-
-</manifest>
+<manifest package="dev.chrisbanes.insetter.ktx" />
