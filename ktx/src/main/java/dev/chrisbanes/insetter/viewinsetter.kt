@@ -45,4 +45,4 @@ fun View.requestApplyInsetsWhenAttached() {
  * @see Insetter.setEdgeToEdgeSystemUiFlags
  */
 @RequiresApi(16)
-fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean) = Insetter.setEdgeToEdgeSystemUiFlags(this, enabled)
+fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) = Insetter.setEdgeToEdgeSystemUiFlags(this, enabled)
