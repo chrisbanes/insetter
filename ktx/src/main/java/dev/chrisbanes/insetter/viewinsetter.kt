@@ -45,4 +45,121 @@ fun View.requestApplyInsetsWhenAttached() {
  * @see Insetter.setEdgeToEdgeSystemUiFlags
  */
 @RequiresApi(16)
-fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) = Insetter.setEdgeToEdgeSystemUiFlags(this, enabled)
+fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) =
+    Insetter.setEdgeToEdgeSystemUiFlags(this, enabled)
+
+/**
+ * Apply system window insets to padding
+ *
+ * @param left apply left indent if true
+ * @param top apply in upper indent if true
+ * @param right apply in the right indent if true
+ * @param bottom apply in the bottom indent if true
+ * */
+fun View.applySystemWindowInsetsToPadding(
+    left: Boolean = false,
+    top: Boolean = false,
+    right: Boolean = false,
+    bottom: Boolean = false
+) {
+
+    doOnApplyWindowInsets { view, insets, initialViewState ->
+        Insetter.applyInsetsToView(
+            view,
+            insets,
+            initialViewState,
+            Insetter.generateEnumSet(left, top, right, bottom),
+            null,
+            null,
+            null
+        )
+
+    }
+}
+
+/**
+ * Apply system window insets to margin
+ *
+ * @param left apply left indent if true
+ * @param top apply in upper indent if true
+ * @param right apply in the right indent if true
+ * @param bottom apply in the bottom indent if true
+ * */
+fun View.applySystemWindowInsetsToMargin(
+    left: Boolean = false,
+    top: Boolean = false,
+    right: Boolean = false,
+    bottom: Boolean = false
+) {
+
+    doOnApplyWindowInsets { view, insets, initialViewState ->
+        Insetter.applyInsetsToView(
+            view,
+            insets,
+            initialViewState,
+            null,
+            Insetter.generateEnumSet(left, top, right, bottom),
+            null,
+            null
+        )
+
+    }
+}
+
+/**
+ * Apply system gesture insets to padding
+ *
+ * @param left apply left indent if true
+ * @param top apply in upper indent if true
+ * @param right apply in the right indent if true
+ * @param bottom apply in the bottom indent if true
+ * */
+fun View.applySystemGestureInsetsToPadding(
+    left: Boolean = false,
+    top: Boolean = false,
+    right: Boolean = false,
+    bottom: Boolean = false
+) {
+
+    doOnApplyWindowInsets { view, insets, initialViewState ->
+        Insetter.applyInsetsToView(
+            view,
+            insets,
+            initialViewState,
+            null,
+            null,
+            Insetter.generateEnumSet(left, top, right, bottom),
+            null
+        )
+
+    }
+}
+
+/**
+ * Apply system gesture insets to margin
+ *
+ * @param left apply left indent if true
+ * @param top apply in upper indent if true
+ * @param right apply in the right indent if true
+ * @param bottom apply in the bottom indent if true
+ * */
+fun View.applySystemGestureInsetsToMargin(
+    left: Boolean = false,
+    top: Boolean = false,
+    right: Boolean = false,
+    bottom: Boolean = false
+) {
+
+    doOnApplyWindowInsets { view, insets, initialViewState ->
+        Insetter.applyInsetsToView(
+            view,
+            insets,
+            initialViewState,
+            null,
+            null,
+            null,
+            Insetter.generateEnumSet(left, top, right, bottom)
+        )
+
+    }
+}
