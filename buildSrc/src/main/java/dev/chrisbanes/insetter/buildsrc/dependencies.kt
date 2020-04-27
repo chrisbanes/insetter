@@ -21,17 +21,16 @@ object Versions {
 }
 
 object Libs {
-    // We need to use an old version of AGP since that controls which data-binding version
-    // we use in dbx. Keeping one stable AGP version behind means we're not forcing people to
-    // unnecessarily
-    const val androidGradlePlugin = "com.android.tools.build:gradle:3.5.0"
+    // We need to use a stable version of AGP since that controls which data-binding version
+    // we use in dbx
+    const val androidGradlePlugin = "com.android.tools.build:gradle:3.6.0"
 
     const val gradleMavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.11.1"
 
     const val junit = "junit:junit:4.12"
 
     object Kotlin {
-        private const val version = "1.3.10"
+        private const val version = "1.3.31"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
