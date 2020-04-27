@@ -12,8 +12,9 @@ captures
 .idea/caches
 .idea/navEditor.xml
 .idea/tasks.xml
-.idea/tasks.xml
 .idea/modules.xml
+.idea/compiler.xml
+/.idea/jarRepositories.xml
 gradle.xml
 *.iml
 
@@ -24,6 +25,3 @@ gradle.xml
 # Do not commit plain-text signing info
 release/*.properties
 release/*.gpg
-
-# Do not commit firebase config
-google-services.json

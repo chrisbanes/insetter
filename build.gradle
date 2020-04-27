@@ -32,7 +32,7 @@ buildscript {
 }
 
 plugins {
-    id "com.diffplug.gradle.spotless" version "3.24.3"
+    id "com.diffplug.gradle.spotless" version "3.28.1"
 }
 
 subprojects {

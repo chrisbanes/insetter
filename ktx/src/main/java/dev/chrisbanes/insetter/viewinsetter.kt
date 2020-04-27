@@ -21,15 +21,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.WindowInsetsCompat
 
 inline fun View.doOnApplyWindowInsets(
-    crossinline f: (
-        view: View,
-        insets: WindowInsetsCompat,
-        initialState: ViewState
-    ) -> Unit
-) {
-    Insetter.setOnApplyInsetsListener(this) { view, insets, initialState ->
-        f(view, insets, initialState)
-    }
+    crossinline f: (view: View, insets: WindowInsetsCompat, initialState: ViewState) -> Unit
+) = Insetter.setOnApplyInsetsListener(this) { view, insets, initialState ->
+    f(view, insets, initialState)
 }
 
 fun View.requestApplyInsetsWhenAttached() {
@@ -61,20 +55,16 @@ fun View.applySystemWindowInsetsToPadding(
     top: Boolean = false,
     right: Boolean = false,
     bottom: Boolean = false
-) {
-
-    doOnApplyWindowInsets { view, insets, initialViewState ->
-        Insetter.applyInsetsToView(
-            view,
-            insets,
-            initialViewState,
-            Insetter.generateEnumSet(left, top, right, bottom),
-            null,
-            null,
-            null
-        )
-
-    }
+) = doOnApplyWindowInsets { view, insets, initialViewState ->
+    Insetter.applyInsetsToView(
+        view,
+        insets,
+        initialViewState,
+        Insetter.generateEnumSet(left, top, right, bottom),
+        null,
+        null,
+        null
+    )
 }
 
 /**
@@ -90,20 +80,16 @@ fun View.applySystemWindowInsetsToMargin(
     top: Boolean = false,
     right: Boolean = false,
     bottom: Boolean = false
-) {
-
-    doOnApplyWindowInsets { view, insets, initialViewState ->
-        Insetter.applyInsetsToView(
-            view,
-            insets,
-            initialViewState,
-            null,
-            Insetter.generateEnumSet(left, top, right, bottom),
-            null,
-            null
-        )
-
-    }
+) = doOnApplyWindowInsets { view, insets, initialViewState ->
+    Insetter.applyInsetsToView(
+        view,
+        insets,
+        initialViewState,
+        null,
+        Insetter.generateEnumSet(left, top, right, bottom),
+        null,
+        null
+    )
 }
 
 /**
@@ -119,20 +105,16 @@ fun View.applySystemGestureInsetsToPadding(
     top: Boolean = false,
     right: Boolean = false,
     bottom: Boolean = false
-) {
-
-    doOnApplyWindowInsets { view, insets, initialViewState ->
-        Insetter.applyInsetsToView(
-            view,
-            insets,
-            initialViewState,
-            null,
-            null,
-            Insetter.generateEnumSet(left, top, right, bottom),
-            null
-        )
-
-    }
+) = doOnApplyWindowInsets { view, insets, initialViewState ->
+    Insetter.applyInsetsToView(
+        view,
+        insets,
+        initialViewState,
+        null,
+        null,
+        Insetter.generateEnumSet(left, top, right, bottom),
+        null
+    )
 }
 
 /**
@@ -148,18 +130,14 @@ fun View.applySystemGestureInsetsToMargin(
     top: Boolean = false,
     right: Boolean = false,
     bottom: Boolean = false
-) {
-
-    doOnApplyWindowInsets { view, insets, initialViewState ->
-        Insetter.applyInsetsToView(
-            view,
-            insets,
-            initialViewState,
-            null,
-            null,
-            null,
-            Insetter.generateEnumSet(left, top, right, bottom)
-        )
-
-    }
+) = doOnApplyWindowInsets { view, insets, initialViewState ->
+    Insetter.applyInsetsToView(
+        view,
+        insets,
+        initialViewState,
+        null,
+        null,
+        null,
+        Insetter.generateEnumSet(left, top, right, bottom)
+    )
 }

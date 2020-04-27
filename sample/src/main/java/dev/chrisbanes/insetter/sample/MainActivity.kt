@@ -22,7 +22,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ListView
 import android.widget.SimpleAdapter
-
 import java.text.Collator
 import java.util.ArrayList
 import java.util.Collections
