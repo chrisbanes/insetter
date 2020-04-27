@@ -26,7 +26,7 @@ object Libs {
     // unnecessarily
     const val androidGradlePlugin = "com.android.tools.build:gradle:3.5.0"
 
-    const val gradleMavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.8.0"
+    const val gradleMavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.11.1"
 
     const val junit = "junit:junit:4.12"
 
