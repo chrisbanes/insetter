@@ -17,14 +17,14 @@
 package dev.chrisbanes.insetter.buildsrc
 
 object Versions {
-    const val ktlint = "0.33.0"
+    const val ktlint = "0.36.0"
 }
 
 object Libs {
     // We need to use an old version of AGP since that controls which data-binding version
     // we use in dbx. Keeping one stable AGP version behind means we're not forcing people to
     // unnecessarily
-    const val androidGradlePlugin = "com.android.tools.build:gradle:3.4.0"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:3.5.0"
 
     const val gradleMavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.8.0"
 
@@ -48,8 +48,8 @@ object Libs {
             const val espressoCore = "androidx.test.espresso:espresso-core:3.2.0"
         }
 
-        const val core = "androidx.core:core:1.2.0-beta01"
-        const val coreKtx = "androidx.core:core-ktx:1.2.0-beta01"
+        const val core = "androidx.core:core:1.2.0"
+        const val coreKtx = "androidx.core:core-ktx:1.2.0"
     }
 
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:1.1.3"
