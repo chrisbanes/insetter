@@ -19,7 +19,8 @@ package dev.chrisbanes.insetter.widgets
 import android.app.Activity
 import android.graphics.Rect
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.FrameLayout
+import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import androidx.test.annotation.UiThreadTest
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -37,7 +38,7 @@ class InsetsConstraintLayoutTestCase {
     @get:Rule
     val rule = ActivityScenarioRule(Activity::class.java)
 
-    private lateinit var container: ConstraintLayout
+    private lateinit var container: FrameLayout
 
     @Before
     fun setup() {
@@ -97,9 +98,14 @@ class InsetsConstraintLayoutTestCase {
         val systemWindowInsets = insets.systemWindowInsets
         val systemGestureInsets = insets.systemGestureInsets
 
-        // -------------------------------------------
-        // Assert the system window padding views
-        // -------------------------------------------
+        assertSystemWindowPaddingView(systemWindowInsets)
+        assertSystemWindowMarginView(systemWindowInsets)
+        assertSystemGesturePaddingView(systemGestureInsets)
+        assertSystemGestureMarginView(systemGestureInsets)
+        assertMixedInsetViews(systemWindowInsets, systemGestureInsets)
+    }
+
+    private fun assertSystemWindowPaddingView(systemWindowInsets: Insets) {
 
         with(container.findViewById<View>(R.id.padding_system_window_left)) {
             assertPadding(left = systemWindowInsets.left)
@@ -130,11 +136,49 @@ class InsetsConstraintLayoutTestCase {
                 systemWindowInsets.bottom + layoutPadding
             )
         }
+        with(container.findViewById<View>(R.id.container_padding_system_window_left)) {
+            assertPadding(left = systemWindowInsets.left)
+        }
+        with(container.findViewById<View>(R.id.container_padding_system_window_top)) {
+            assertPadding(top = systemWindowInsets.top)
+        }
+        with(container.findViewById<View>(R.id.container_padding_system_window_right)) {
+            assertPadding(right = systemWindowInsets.right)
+        }
+        with(container.findViewById<View>(R.id.container_padding_system_window_bottom)) {
+            assertPadding(bottom = systemWindowInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.container_padding_system_window_all)) {
+            assertPadding(
+                left = systemWindowInsets.left,
+                top = systemWindowInsets.top,
+                right = systemWindowInsets.right,
+                bottom = systemWindowInsets.bottom
+            )
+        }
+        with(container.findViewById<View>(R.id.nested_padding_system_window_left)) {
+            assertPadding(left = systemWindowInsets.left)
+        }
+        with(container.findViewById<View>(R.id.nested_padding_system_window_top)) {
+            assertPadding(top = systemWindowInsets.top)
+        }
+        with(container.findViewById<View>(R.id.nested_padding_system_window_right)) {
+            assertPadding(right = systemWindowInsets.right)
+        }
+        with(container.findViewById<View>(R.id.nested_padding_system_window_bottom)) {
+            assertPadding(bottom = systemWindowInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.nested_padding_system_window_all)) {
+            assertPadding(
+                left = systemWindowInsets.left,
+                top = systemWindowInsets.top,
+                right = systemWindowInsets.right,
+                bottom = systemWindowInsets.bottom
+            )
+        }
+    }
 
-        // -------------------------------------------
-        // Assert the system window margin views
-        // -------------------------------------------
-
+    private fun assertSystemWindowMarginView(systemWindowInsets: Insets) {
         with(container.findViewById<View>(R.id.margin_system_window_left)) {
             assertLayoutMargin(left = systemWindowInsets.left)
         }
@@ -164,11 +208,49 @@ class InsetsConstraintLayoutTestCase {
                 systemWindowInsets.bottom + layoutMargin
             )
         }
+        with(container.findViewById<View>(R.id.container_margin_system_window_left)) {
+            assertLayoutMargin(left = systemWindowInsets.left)
+        }
+        with(container.findViewById<View>(R.id.container_margin_system_window_top)) {
+            assertLayoutMargin(top = systemWindowInsets.top)
+        }
+        with(container.findViewById<View>(R.id.container_margin_system_window_right)) {
+            assertLayoutMargin(right = systemWindowInsets.right)
+        }
+        with(container.findViewById<View>(R.id.container_margin_system_window_bottom)) {
+            assertLayoutMargin(bottom = systemWindowInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.container_margin_system_window_all)) {
+            assertLayoutMargin(
+                left = systemWindowInsets.left,
+                top = systemWindowInsets.top,
+                right = systemWindowInsets.right,
+                bottom = systemWindowInsets.bottom
+            )
+        }
+        with(container.findViewById<View>(R.id.nested_margin_system_window_left)) {
+            assertLayoutMargin(left = systemWindowInsets.left)
+        }
+        with(container.findViewById<View>(R.id.nested_margin_system_window_top)) {
+            assertLayoutMargin(top = systemWindowInsets.top)
+        }
+        with(container.findViewById<View>(R.id.nested_margin_system_window_right)) {
+            assertLayoutMargin(right = systemWindowInsets.right)
+        }
+        with(container.findViewById<View>(R.id.nested_margin_system_window_bottom)) {
+            assertLayoutMargin(bottom = systemWindowInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.nested_margin_system_window_all)) {
+            assertLayoutMargin(
+                left = systemWindowInsets.left,
+                top = systemWindowInsets.top,
+                right = systemWindowInsets.right,
+                bottom = systemWindowInsets.bottom
+            )
+        }
+    }
 
-        // -------------------------------------------
-        // Assert the system gesture padding views
-        // -------------------------------------------
-
+    private fun assertSystemGesturePaddingView(systemGestureInsets: Insets) {
         with(container.findViewById<View>(R.id.padding_system_gesture_left)) {
             assertPadding(left = systemGestureInsets.left)
         }
@@ -198,11 +280,49 @@ class InsetsConstraintLayoutTestCase {
                 systemGestureInsets.bottom + layoutPadding
             )
         }
+        with(container.findViewById<View>(R.id.container_padding_system_gesture_left)) {
+            assertPadding(left = systemGestureInsets.left)
+        }
+        with(container.findViewById<View>(R.id.container_padding_system_gesture_top)) {
+            assertPadding(top = systemGestureInsets.top)
+        }
+        with(container.findViewById<View>(R.id.container_padding_system_gesture_right)) {
+            assertPadding(right = systemGestureInsets.right)
+        }
+        with(container.findViewById<View>(R.id.container_padding_system_gesture_bottom)) {
+            assertPadding(bottom = systemGestureInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.container_padding_system_gesture_all)) {
+            assertPadding(
+                left = systemGestureInsets.left,
+                top = systemGestureInsets.top,
+                right = systemGestureInsets.right,
+                bottom = systemGestureInsets.bottom
+            )
+        }
+        with(container.findViewById<View>(R.id.nested_padding_system_gesture_left)) {
+            assertPadding(left = systemGestureInsets.left)
+        }
+        with(container.findViewById<View>(R.id.nested_padding_system_gesture_top)) {
+            assertPadding(top = systemGestureInsets.top)
+        }
+        with(container.findViewById<View>(R.id.nested_padding_system_gesture_right)) {
+            assertPadding(right = systemGestureInsets.right)
+        }
+        with(container.findViewById<View>(R.id.nested_padding_system_gesture_bottom)) {
+            assertPadding(bottom = systemGestureInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.nested_padding_system_gesture_all)) {
+            assertPadding(
+                left = systemGestureInsets.left,
+                top = systemGestureInsets.top,
+                right = systemGestureInsets.right,
+                bottom = systemGestureInsets.bottom
+            )
+        }
+    }
 
-        // -------------------------------------------
-        // Assert the system gesture margin views
-        // -------------------------------------------
-
+    private fun assertSystemGestureMarginView(systemGestureInsets: Insets) {
         with(container.findViewById<View>(R.id.margin_system_gesture_left)) {
             assertLayoutMargin(left = systemGestureInsets.left)
         }
@@ -232,10 +352,49 @@ class InsetsConstraintLayoutTestCase {
                 systemGestureInsets.bottom + layoutMargin
             )
         }
+        with(container.findViewById<View>(R.id.container_margin_system_gesture_left)) {
+            assertLayoutMargin(left = systemGestureInsets.left)
+        }
+        with(container.findViewById<View>(R.id.container_margin_system_gesture_top)) {
+            assertLayoutMargin(top = systemGestureInsets.top)
+        }
+        with(container.findViewById<View>(R.id.container_margin_system_gesture_right)) {
+            assertLayoutMargin(right = systemGestureInsets.right)
+        }
+        with(container.findViewById<View>(R.id.container_margin_system_gesture_bottom)) {
+            assertLayoutMargin(bottom = systemGestureInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.container_margin_system_gesture_all)) {
+            assertLayoutMargin(
+                left = systemGestureInsets.left,
+                top = systemGestureInsets.top,
+                right = systemGestureInsets.right,
+                bottom = systemGestureInsets.bottom
+            )
+        }
+        with(container.findViewById<View>(R.id.nested_margin_system_gesture_left)) {
+            assertLayoutMargin(left = systemGestureInsets.left)
+        }
+        with(container.findViewById<View>(R.id.nested_margin_system_gesture_top)) {
+            assertLayoutMargin(top = systemGestureInsets.top)
+        }
+        with(container.findViewById<View>(R.id.nested_margin_system_gesture_right)) {
+            assertLayoutMargin(right = systemGestureInsets.right)
+        }
+        with(container.findViewById<View>(R.id.nested_margin_system_gesture_bottom)) {
+            assertLayoutMargin(bottom = systemGestureInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.nested_margin_system_gesture_all)) {
+            assertLayoutMargin(
+                left = systemGestureInsets.left,
+                top = systemGestureInsets.top,
+                right = systemGestureInsets.right,
+                bottom = systemGestureInsets.bottom
+            )
+        }
+    }
 
-        // -------------------------------------------
-        // Assert the mixed inset views
-        // -------------------------------------------
+    private fun assertMixedInsetViews(systemWindowInsets: Insets, systemGestureInsets: Insets) {
 
         with(container.findViewById<View>(R.id.padding_syswin_left_gest_right)) {
             assertPadding(left = systemWindowInsets.left, right = systemGestureInsets.right)
@@ -247,9 +406,36 @@ class InsetsConstraintLayoutTestCase {
             assertPadding(top = systemWindowInsets.top, bottom = systemWindowInsets.bottom)
             assertLayoutMargin(left = systemGestureInsets.left, right = systemGestureInsets.right)
         }
+        with(container.findViewById<View>(R.id.container_padding_syswin_left_gest_right)) {
+            assertPadding(left = systemWindowInsets.left, right = systemGestureInsets.right)
+        }
+        with(container.findViewById<View>(R.id.container_padding_syswin_top_gest_bottom)) {
+            assertPadding(top = systemWindowInsets.top, bottom = systemGestureInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.container_padding_syswin_pad_vertical_gest_margin_horiz)) {
+            assertPadding(top = systemWindowInsets.top, bottom = systemWindowInsets.bottom)
+            assertLayoutMargin(left = systemGestureInsets.left, right = systemGestureInsets.right)
+        }
+        with(container.findViewById<View>(R.id.nested_padding_syswin_left_gest_right)) {
+            assertPadding(left = systemWindowInsets.left, right = systemGestureInsets.right)
+        }
+        with(container.findViewById<View>(R.id.nested_padding_syswin_top_gest_bottom)) {
+            assertPadding(top = systemWindowInsets.top, bottom = systemGestureInsets.bottom)
+        }
+        with(container.findViewById<View>(R.id.nested_padding_syswin_pad_vertical_gest_margin_horiz)) {
+            assertPadding(top = systemWindowInsets.top, bottom = systemWindowInsets.bottom)
+            assertLayoutMargin(left = systemGestureInsets.left, right = systemGestureInsets.right)
+        }
+
         // Assert that a view with paddingSystemWindowInsets="top" and
         // paddingSystemGestureInsets="top", the gesture insets win
         with(container.findViewById<View>(R.id.padding_syswin_top_gest_top)) {
+            assertPadding(top = systemGestureInsets.top)
+        }
+        with(container.findViewById<View>(R.id.container_padding_syswin_top_gest_top)) {
+            assertPadding(top = systemGestureInsets.top)
+        }
+        with(container.findViewById<View>(R.id.nested_padding_syswin_top_gest_top)) {
             assertPadding(top = systemGestureInsets.top)
         }
     }

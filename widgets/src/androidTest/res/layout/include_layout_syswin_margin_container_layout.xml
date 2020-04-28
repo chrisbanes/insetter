@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_margin_system_window_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_marginSystemWindowInsets="left">
+
+        <View
+            android:id="@+id/nested_margin_system_window_left"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginSystemWindowInsets="left" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_margin_system_window_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_marginSystemWindowInsets="top">
+
+        <View
+            android:id="@+id/nested_margin_system_window_top"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginSystemWindowInsets="top" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_margin_system_window_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_marginSystemWindowInsets="right">
+
+        <View
+            android:id="@+id/nested_margin_system_window_right"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginSystemWindowInsets="right" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_margin_system_window_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_marginSystemWindowInsets="bottom">
+
+        <View
+            android:id="@+id/nested_margin_system_window_bottom"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginSystemWindowInsets="bottom" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_margin_system_window_all"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_marginSystemWindowInsets="left|top|right|bottom">
+
+        <View
+            android:id="@+id/nested_margin_system_window_all"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginSystemWindowInsets="left|top|right|bottom" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+</merge>

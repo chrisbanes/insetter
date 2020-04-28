@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_padding_syswin_left_gest_right"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:paddingSystemGestureInsets="right"
+        app:paddingSystemWindowInsets="left">
+
+        <View
+            android:id="@+id/nested_padding_syswin_left_gest_right"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:paddingSystemGestureInsets="right"
+            app:paddingSystemWindowInsets="left" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_padding_syswin_top_gest_bottom"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:paddingSystemGestureInsets="bottom"
+        app:paddingSystemWindowInsets="top">
+
+        <View
+            android:id="@+id/nested_padding_syswin_top_gest_bottom"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:paddingSystemGestureInsets="bottom"
+            app:paddingSystemWindowInsets="top" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_padding_syswin_top_gest_top"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:paddingSystemGestureInsets="top"
+        app:paddingSystemWindowInsets="top">
+
+        <View
+            android:id="@+id/nested_padding_syswin_top_gest_top"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:paddingSystemGestureInsets="top"
+            app:paddingSystemWindowInsets="top" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_padding_syswin_pad_vertical_gest_margin_horiz"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_marginSystemGestureInsets="left|right"
+        app:paddingSystemWindowInsets="top|bottom">
+
+        <View
+            android:id="@+id/nested_padding_syswin_pad_vertical_gest_margin_horiz"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginSystemGestureInsets="left|right"
+            app:paddingSystemWindowInsets="top|bottom" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+</merge>

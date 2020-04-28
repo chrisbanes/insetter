@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_margin_system_gesture_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_marginSystemGestureInsets="left">
+
+        <View
+            android:id="@+id/nested_margin_system_gesture_left"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginSystemGestureInsets="left" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_margin_system_gesture_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_marginSystemGestureInsets="top">
+
+        <View
+            android:id="@+id/nested_margin_system_gesture_top"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginSystemGestureInsets="top" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_margin_system_gesture_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_marginSystemGestureInsets="right">
+
+        <View
+            android:id="@+id/nested_margin_system_gesture_right"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginSystemGestureInsets="right" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_margin_system_gesture_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_marginSystemGestureInsets="bottom">
+
+        <View
+            android:id="@+id/nested_margin_system_gesture_bottom"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginSystemGestureInsets="bottom" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_margin_system_gesture_all"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_marginSystemGestureInsets="left|top|right|bottom">
+
+        <View
+            android:id="@+id/nested_margin_system_gesture_all"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginSystemGestureInsets="left|top|right|bottom" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+</merge>

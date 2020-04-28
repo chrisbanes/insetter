@@ -21,15 +21,15 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowInsets;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.util.ObjectsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import dev.chrisbanes.insetter.InsetDimension;
 import dev.chrisbanes.insetter.Insetter;
+import dev.chrisbanes.insetter.OnApplyInsetsListener;
 import dev.chrisbanes.insetter.ViewState;
 import dev.chrisbanes.insetter.widgets.R;
 import java.util.EnumSet;
@@ -57,47 +57,105 @@ import java.util.EnumSet;
  * &lt;/dev.chrisbanes.insetter.widgets.InsetterConstraintLayout&gt;
  * </pre>
  *
- * Each of the attributes accept a combination of flags which define which dimensions the relevant
- * insets will be applied with.
+ * <p>Each of the attributes accept a combination of flags which define which dimensions the
+ * relevant insets will be applied with.
  */
 public class InsetterConstraintLayout extends ConstraintLayout {
 
+  private EnumSet<InsetDimension> systemWindowInsetsPaddingDimensions = null;
+  private EnumSet<InsetDimension> systemGestureInsetsPaddingDimensions = null;
+  private EnumSet<InsetDimension> systemWindowInsetsMarginDimensions = null;
+  private EnumSet<InsetDimension> systemGestureInsetsMarginDimensions = null;
+
   public InsetterConstraintLayout(Context context) {
     super(context);
+    init(null);
   }
 
   public InsetterConstraintLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
+    init(attrs);
   }
 
   public InsetterConstraintLayout(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
+    init(attrs);
+  }
+
+  private void init(@Nullable AttributeSet attrs) {
+
+    if (attrs != null) {
+      final TypedArray ta =
+          getContext().obtainStyledAttributes(attrs, R.styleable.InsetterConstraintLayout_Layout);
+
+      final int paddingSystemWindowInsetsFlags =
+          ta.getInt(R.styleable.InsetterConstraintHelper_paddingSystemWindowInsets, 0);
+      systemWindowInsetsPaddingDimensions =
+          AttributeHelper.flagToEnumSet(paddingSystemWindowInsetsFlags);
+
+      final int marginSystemWindowInsetsFlags =
+          ta.getInt(R.styleable.InsetterConstraintHelper_layout_marginSystemWindowInsets, 0);
+      systemWindowInsetsMarginDimensions =
+          AttributeHelper.flagToEnumSet(marginSystemWindowInsetsFlags);
+
+      final int paddingSystemGestureInsetsFlags =
+          ta.getInt(R.styleable.InsetterConstraintHelper_paddingSystemGestureInsets, 0);
+      systemGestureInsetsPaddingDimensions =
+          AttributeHelper.flagToEnumSet(paddingSystemGestureInsetsFlags);
+
+      final int marginSystemGestureInsetsFlags =
+          ta.getInt(R.styleable.InsetterConstraintHelper_layout_marginSystemGestureInsets, 0);
+      systemGestureInsetsMarginDimensions =
+          AttributeHelper.flagToEnumSet(marginSystemGestureInsetsFlags);
+
+      ta.recycle();
+    }
+
+    applyWindowInsets();
+  }
+
+  private void applyWindowInsets() {
+    Insetter.setOnApplyInsetsListener(
+        this,
+        new OnApplyInsetsListener() {
+          @Override
+          public void onApplyInsets(
+              @NonNull View view,
+              @NonNull WindowInsetsCompat insets,
+              @NonNull ViewState initialState) {
+
+            // Apply insets for current InsetterConstraintLayout
+            Insetter.applyInsetsToView(
+                view,
+                insets,
+                initialState,
+                systemWindowInsetsPaddingDimensions,
+                systemWindowInsetsMarginDimensions,
+                systemGestureInsetsPaddingDimensions,
+                systemGestureInsetsMarginDimensions);
+
+            // Apply insets for child views
+            for (int i = 0; i < getChildCount(); i++) {
+              final View childView = getChildAt(i);
+              final ViewState state = (ViewState) childView.getTag(R.id.insetter_initial_state);
+              final LayoutParams lp = (LayoutParams) childView.getLayoutParams();
+              Insetter.applyInsetsToView(
+                  childView,
+                  insets,
+                  state,
+                  lp.systemWindowInsetsPaddingDimensions,
+                  lp.systemWindowInsetsMarginDimensions,
+                  lp.systemGestureInsetsPaddingDimensions,
+                  lp.systemGestureInsetsMarginDimensions);
+            }
+          }
+        });
   }
 
   @Override
   public void onViewAdded(View view) {
     super.onViewAdded(view);
     view.setTag(R.id.insetter_initial_state, new ViewState(view));
-  }
-
-  @Override
-  @RequiresApi(20)
-  public WindowInsets onApplyWindowInsets(WindowInsets insets) {
-    final WindowInsetsCompat insetsCompat = WindowInsetsCompat.toWindowInsetsCompat(insets);
-    for (int i = 0; i < getChildCount(); i++) {
-      final View view = getChildAt(i);
-      final ViewState state = (ViewState) view.getTag(R.id.insetter_initial_state);
-      final LayoutParams lp = (LayoutParams) view.getLayoutParams();
-      Insetter.applyInsetsToView(
-          view,
-          insetsCompat,
-          state,
-          lp.systemWindowInsetsPaddingDimensions,
-          lp.systemWindowInsetsMarginDimensions,
-          lp.systemGestureInsetsPaddingDimensions,
-          lp.systemGestureInsetsMarginDimensions);
-    }
-    return insetsCompat.toWindowInsets();
   }
 
   @Override

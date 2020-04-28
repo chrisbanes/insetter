@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_padding_system_window_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:paddingSystemWindowInsets="left">
+
+        <View
+            android:id="@+id/nested_padding_system_window_left"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:paddingSystemWindowInsets="left" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_padding_system_window_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:paddingSystemWindowInsets="top">
+
+        <View
+            android:id="@+id/nested_padding_system_window_top"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:paddingSystemWindowInsets="top" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_padding_system_window_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:paddingSystemWindowInsets="right">
+
+        <View
+            android:id="@+id/nested_padding_system_window_right"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:paddingSystemWindowInsets="right" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_padding_system_window_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:paddingSystemWindowInsets="bottom" >
+
+        <View
+            android:id="@+id/nested_padding_system_window_bottom"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:paddingSystemWindowInsets="bottom" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+    <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
+        android:id="@+id/container_padding_system_window_all"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:paddingSystemWindowInsets="left|top|right|bottom" >
+
+        <View
+            android:id="@+id/nested_padding_system_window_all"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:paddingSystemWindowInsets="left|top|right|bottom" />
+
+    </dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
+
+</merge>
