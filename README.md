@@ -28,6 +28,11 @@ bottomNav.doOnApplyWindowInsets { view, insets, initialState ->
         bottom = initialState.paddings.bottom + insets.systemWindowInsetBottom
     )
 }
+
+// More expressive extension methods are recommended to avoid boilerplate code 
+// and make code easier to read.
+bottomNav.applySystemWindowInsetsToPadding(bottom = true)
+btnConfirm.applySystemWindowInsetsToMargin(bottom = true, right = true)
 ```
 
 ### [insetter-dbx](dbx/)
