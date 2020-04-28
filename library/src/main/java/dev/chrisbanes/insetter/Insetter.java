@@ -340,7 +340,7 @@ public class Insetter {
           | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
 
   @Nullable
-  static EnumSet<InsetDimension> generateEnumSet(
+  public static EnumSet<InsetDimension> generateEnumSet(
       boolean left, boolean top, boolean right, boolean bottom) {
     if (!left && !top && !right && !bottom) {
       // Fast path if all dimensions are disabled
