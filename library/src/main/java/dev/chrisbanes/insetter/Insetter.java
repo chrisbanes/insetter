@@ -32,7 +32,7 @@ import java.util.EnumSet;
 import java.util.Locale;
 
 /** A collection of utility functions to make handling {@link android.view.WindowInsets} easier. */
-public class Insetter {
+public final class Insetter {
 
   static final String TAG = "Insetter";
 
