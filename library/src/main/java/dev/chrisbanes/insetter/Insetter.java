@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -28,6 +29,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
 import java.util.EnumSet;
 import java.util.Locale;
 
@@ -38,6 +40,64 @@ public final class Insetter {
 
   private Insetter() {
     // private constructor. No instantiating.
+  }
+
+  public static class Builder {
+
+    @Nullable private EnumSet<InsetDimension> paddingSystemWindowInsets;
+    @Nullable private EnumSet<InsetDimension> marginSystemWindowInsets;
+    @Nullable private EnumSet<InsetDimension> paddingSystemGestureInsets;
+    @Nullable private EnumSet<InsetDimension> marginSystemGestureInsets;
+
+    private Builder() {
+
+    }
+
+    public Builder applySystemWindowInsets(
+            @NonNull Method method, @NonNull EnumSet<InsetDimension> dimensions) {
+
+      if (!dimensions.isEmpty()) {
+        switch (method) {
+          case PADDING:
+            paddingSystemWindowInsets = dimensions;
+            break;
+          case MARGIN:
+            marginSystemWindowInsets = dimensions;
+            break;
+        }
+      }
+
+      return this;
+    }
+
+    public Builder applySystemGestureInsets(
+            @NonNull Method method, @NonNull EnumSet<InsetDimension> dimensions) {
+
+      if (!dimensions.isEmpty()) {
+        switch (method) {
+          case PADDING:
+            paddingSystemGestureInsets = dimensions;
+            break;
+          case MARGIN:
+            marginSystemGestureInsets = dimensions;
+            break;
+        }
+      }
+
+      return this;
+    }
+
+    public Builder consumeInsets() {
+      return this;
+    }
+
+    public void applyToView(@NonNull View view) {
+
+    }
+  }
+
+  public static Builder build() {
+    return new Builder();
   }
 
   /**
