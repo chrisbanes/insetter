@@ -329,58 +329,6 @@ public final class Insetter {
   }
 
   /**
-   * @deprecated this method will be removed in a future version (before v1.0). Please use {@link
-   *     #applyInsetsToView(View, WindowInsetsCompat, ViewState, EnumSet, EnumSet, EnumSet,
-   *     EnumSet)} instead.
-   */
-  @Deprecated
-  public static void applyInsetsToView(
-      @NonNull final View view,
-      @NonNull final WindowInsetsCompat insets,
-      @NonNull final ViewState initialState,
-      final boolean paddingSystemWindowLeft,
-      final boolean paddingSystemWindowTop,
-      final boolean paddingSystemWindowRight,
-      final boolean paddingSystemWindowBottom,
-      final boolean paddingSystemGestureLeft,
-      final boolean paddingSystemGestureTop,
-      final boolean paddingSystemGestureRight,
-      final boolean paddingSystemGestureBottom,
-      final boolean marginSystemWindowLeft,
-      final boolean marginSystemWindowTop,
-      final boolean marginSystemWindowRight,
-      final boolean marginSystemWindowBottom,
-      final boolean marginSystemGestureLeft,
-      final boolean marginSystemGestureTop,
-      final boolean marginSystemGestureRight,
-      final boolean marginSystemGestureBottom) {
-    applyInsetsToView(
-        view,
-        insets,
-        initialState,
-        generateEnumSet(
-            paddingSystemWindowLeft,
-            paddingSystemWindowTop,
-            paddingSystemWindowRight,
-            paddingSystemWindowBottom),
-        generateEnumSet(
-            marginSystemWindowLeft,
-            marginSystemWindowTop,
-            marginSystemWindowRight,
-            marginSystemWindowBottom),
-        generateEnumSet(
-            paddingSystemGestureLeft,
-            paddingSystemGestureTop,
-            paddingSystemGestureRight,
-            paddingSystemGestureBottom),
-        generateEnumSet(
-            marginSystemGestureLeft,
-            marginSystemGestureTop,
-            marginSystemGestureRight,
-            marginSystemGestureBottom));
-  }
-
-  /**
    * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to-edge'.
    *
    * @param enabled true if the view should request to be laid out 'edge-to-edge', false if not
