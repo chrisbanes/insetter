@@ -165,6 +165,7 @@ public final class Insetter {
     }
   }
 
+  /** Returns a instance of {@link Builder} used for creating an instance of {@link Insetter}. */
   public static Builder builder() {
     return new Builder();
   }
