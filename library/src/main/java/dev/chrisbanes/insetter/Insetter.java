@@ -61,9 +61,9 @@ public final class Insetter {
 
     @NonNull
     public Builder applySystemWindowInsets(
-        @NonNull Method method, @NonNull EnumSet<InsetDimension> dimensions) {
+        @NonNull Method method, @Nullable EnumSet<InsetDimension> dimensions) {
 
-      if (!dimensions.isEmpty()) {
+      if (dimensions != null && !dimensions.isEmpty()) {
         switch (method) {
           case PADDING:
             paddingSystemWindowInsets = dimensions;
@@ -79,9 +79,9 @@ public final class Insetter {
 
     @NonNull
     public Builder applySystemGestureInsets(
-        @NonNull Method method, @NonNull EnumSet<InsetDimension> dimensions) {
+        @NonNull Method method, @Nullable EnumSet<InsetDimension> dimensions) {
 
-      if (!dimensions.isEmpty()) {
+      if (dimensions != null && !dimensions.isEmpty()) {
         switch (method) {
           case PADDING:
             paddingSystemGestureInsets = dimensions;
@@ -134,7 +134,7 @@ public final class Insetter {
     }
   }
 
-  public static Builder build() {
+  public static Builder builder() {
     return new Builder();
   }
 
