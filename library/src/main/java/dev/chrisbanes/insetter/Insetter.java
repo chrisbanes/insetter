@@ -52,6 +52,7 @@ public final class Insetter {
     consumeSystemWindowInsets = builder.consumeSystemWindowInsets;
   }
 
+  /** A builder class for creating an {@link Insetter} instance. */
   public static final class Builder {
 
     @Nullable private OnApplyInsetsListener onApplyInsetsListener;
@@ -72,7 +73,7 @@ public final class Insetter {
      * @see Insetter#setOnApplyInsetsListener(View)
      */
     @NonNull
-    public Builder setOnApplyInsetsListener(OnApplyInsetsListener onApplyInsetsListener) {
+    public Builder setOnApplyInsetsListener(@Nullable OnApplyInsetsListener onApplyInsetsListener) {
       this.onApplyInsetsListener = onApplyInsetsListener;
       return this;
     }
@@ -135,7 +136,7 @@ public final class Insetter {
 
     /**
      * @param consumeSystemWindowInsets true if the system window insets should be consumed, false
-     *     if not
+     *     if not. If unset, the default behavior is to not consume system window insets.
      * @see Insetter#setOnApplyInsetsListener(View)
      */
     @NonNull
@@ -144,11 +145,20 @@ public final class Insetter {
       return this;
     }
 
-    /** @param view the {@link View} on which {@link WindowInsetsCompat} should be applied */
-    public void applyToView(@NonNull View view) {
-      build().setOnApplyInsetsListener(view);
+    /**
+     * Builds the {@link Insetter} instance and sets it as a {@link OnApplyWindowInsetsListener} on
+     * the provided {@link View}.
+     *
+     * @param view the {@link View} on which {@link WindowInsetsCompat} should be applied
+     */
+    @NonNull
+    public Insetter applyToView(@NonNull View view) {
+      Insetter insetter = build();
+      insetter.setOnApplyInsetsListener(view);
+      return insetter;
     }
 
+    /** Builds the {@link Insetter} instance. */
     @NonNull
     public Insetter build() {
       return new Insetter(this);
