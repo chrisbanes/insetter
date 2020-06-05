@@ -79,6 +79,7 @@ public final class Insetter {
      * @param onApplyInsetsListener Callback for supplying custom logic to apply insets. If set,
      *                              Insetter will ignore any specified dimensions to apply, and the
      *                              caller is responsible for applying insets.
+     * @see Insetter#setOnApplyInsetsListener(View)
      */
     @NonNull
     public Builder setOnApplyInsetsListener(OnApplyInsetsListener onApplyInsetsListener) {
@@ -86,6 +87,11 @@ public final class Insetter {
       return this;
     }
 
+    /**
+     * @param dimensions Enum set defining padding handling of system window insets.
+     *                   Ignored if {@link Insetter#onApplyInsetsListener } is set.
+     * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
+     */
     @NonNull
     public Builder applySystemWindowInsetsToPadding(@Nullable EnumSet<InsetDimension> dimensions) {
       if (dimensions != null && !dimensions.isEmpty()) {
@@ -95,6 +101,11 @@ public final class Insetter {
       return this;
     }
 
+    /**
+     * @param dimensions Enum set defining margin handling of system window insets.
+     *                   Ignored if {@link Insetter#onApplyInsetsListener } is set.
+     * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
+     */
     @NonNull
     public Builder applySystemWindowInsetsToMargin(@Nullable EnumSet<InsetDimension> dimensions) {
       if (dimensions != null && !dimensions.isEmpty()) {
@@ -104,6 +115,11 @@ public final class Insetter {
       return this;
     }
 
+    /**
+     * @param dimensions Enum set defining padding handling of system gesture insets.
+     *                   Ignored if {@link Insetter#onApplyInsetsListener } is set.
+     * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
+     */
     @NonNull
     public Builder applySystemGestureInsetsToPadding(@Nullable EnumSet<InsetDimension> dimensions) {
       if (dimensions != null && !dimensions.isEmpty()) {
@@ -113,6 +129,11 @@ public final class Insetter {
       return this;
     }
 
+    /**
+     * @param dimensions Enum set defining margin handling of system gesture insets.
+     *                   Ignored if {@link Insetter#onApplyInsetsListener } is set.
+     * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
+     */
     @NonNull
     public Builder applySystemGestureInsetsToMargin(@Nullable EnumSet<InsetDimension> dimensions) {
       if (dimensions != null && !dimensions.isEmpty()) {
@@ -122,12 +143,20 @@ public final class Insetter {
       return this;
     }
 
+    /**
+     * @param consumeSystemWindowInsets true if the system window insets should be consumed,
+     *                                  false if not
+     * @see Insetter#setOnApplyInsetsListener(View)
+     */
     @NonNull
     public Builder consumeSystemWindowInsets(boolean consumeSystemWindowInsets) {
       this.consumeSystemWindowInsets = consumeSystemWindowInsets;
       return this;
     }
 
+    /**
+     * @param view the {@link View} on which {@link WindowInsetsCompat} should be applied
+     */
     public void applyToView(@NonNull View view) {
       build().setOnApplyInsetsListener(view);
     }

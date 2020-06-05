@@ -46,6 +46,7 @@ fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) =
  * @param top apply in upper indent if true
  * @param right apply in the right indent if true
  * @param bottom apply in the bottom indent if true
+ * @param consume consume the system window insets if true
  * */
 fun View.applySystemWindowInsetsToPadding(
     left: Boolean = false,
@@ -65,6 +66,7 @@ fun View.applySystemWindowInsetsToPadding(
  * @param top apply in upper indent if true
  * @param right apply in the right indent if true
  * @param bottom apply in the bottom indent if true
+ * @param consume consume the system window insets if true
  * */
 fun View.applySystemWindowInsetsToMargin(
     left: Boolean = false,
@@ -84,6 +86,7 @@ fun View.applySystemWindowInsetsToMargin(
  * @param top apply in upper indent if true
  * @param right apply in the right indent if true
  * @param bottom apply in the bottom indent if true
+ * @param consume consume the system window insets if true
  * */
 fun View.applySystemGestureInsetsToPadding(
     left: Boolean = false,
@@ -103,6 +106,7 @@ fun View.applySystemGestureInsetsToPadding(
  * @param top apply in upper indent if true
  * @param right apply in the right indent if true
  * @param bottom apply in the bottom indent if true
+ * @param consume consume the system window insets if true
  * */
 fun View.applySystemGestureInsetsToMargin(
     left: Boolean = false,
