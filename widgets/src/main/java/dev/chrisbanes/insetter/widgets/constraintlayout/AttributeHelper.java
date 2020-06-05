@@ -17,9 +17,8 @@
 package dev.chrisbanes.insetter.widgets.constraintlayout;
 
 import android.view.Gravity;
-import androidx.annotation.Nullable;
-import dev.chrisbanes.insetter.Insetter.Side;
-import java.util.EnumSet;
+import androidx.annotation.NonNull;
+import dev.chrisbanes.insetter.Sides;
 
 class AttributeHelper {
   // These values match the values in attrs.xml
@@ -28,17 +27,13 @@ class AttributeHelper {
   private static final int RIGHT = Gravity.RIGHT;
   private static final int BOTTOM = Gravity.BOTTOM;
 
-  @Nullable
-  static EnumSet<Side> flagToEnumSet(int value) {
+  @NonNull
+  static Sides flagToSides(int value) {
     // Fast path if the value is empty
-    if (value == 0) return null;
+    if (value == 0) return Sides.NONE;
 
-    final EnumSet<Side> set = EnumSet.noneOf(Side.class);
-    if (hasFlag(value, LEFT)) set.add(Side.LEFT);
-    if (hasFlag(value, TOP)) set.add(Side.TOP);
-    if (hasFlag(value, RIGHT)) set.add(Side.RIGHT);
-    if (hasFlag(value, BOTTOM)) set.add(Side.BOTTOM);
-    return set;
+    return Sides.create(
+        hasFlag(value, LEFT), hasFlag(value, TOP), hasFlag(value, RIGHT), hasFlag(value, BOTTOM));
   }
 
   private static boolean hasFlag(int value, int flag) {

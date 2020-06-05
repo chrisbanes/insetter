@@ -28,7 +28,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import java.util.EnumSet;
 import java.util.Locale;
 
 /** A helper class to make handling {@link android.view.WindowInsets} easier. */
@@ -37,10 +36,10 @@ public final class Insetter {
   static final String TAG = "Insetter";
 
   @Nullable private OnApplyInsetsListener onApplyInsetsListener;
-  @NonNull private EnumSet<Side> paddingSystemWindowInsets;
-  @NonNull private EnumSet<Side> marginSystemWindowInsets;
-  @NonNull private EnumSet<Side> paddingSystemGestureInsets;
-  @NonNull private EnumSet<Side> marginSystemGestureInsets;
+  @NonNull private Sides paddingSystemWindowInsets;
+  @NonNull private Sides marginSystemWindowInsets;
+  @NonNull private Sides paddingSystemGestureInsets;
+  @NonNull private Sides marginSystemGestureInsets;
   private boolean consumeSystemWindowInsets;
 
   private Insetter(@NonNull Builder builder) {
@@ -52,14 +51,14 @@ public final class Insetter {
     consumeSystemWindowInsets = builder.consumeSystemWindowInsets;
   }
 
-  /** A builder class for creating an {@link Insetter} instance. */
+  /** A builder class for creating instances of {@link Insetter}. */
   public static final class Builder {
 
     @Nullable private OnApplyInsetsListener onApplyInsetsListener;
-    @NonNull private EnumSet<Side> paddingSystemWindowInsets = EnumSet.noneOf(Side.class);
-    @NonNull private EnumSet<Side> marginSystemWindowInsets = EnumSet.noneOf(Side.class);
-    @NonNull private EnumSet<Side> paddingSystemGestureInsets = EnumSet.noneOf(Side.class);
-    @NonNull private EnumSet<Side> marginSystemGestureInsets = EnumSet.noneOf(Side.class);
+    @NonNull private Sides paddingSystemWindowInsets = Sides.NONE;
+    @NonNull private Sides marginSystemWindowInsets = Sides.NONE;
+    @NonNull private Sides paddingSystemGestureInsets = Sides.NONE;
+    @NonNull private Sides marginSystemGestureInsets = Sides.NONE;
     private boolean consumeSystemWindowInsets;
 
     private Builder() {
@@ -68,7 +67,7 @@ public final class Insetter {
 
     /**
      * @param onApplyInsetsListener Callback for supplying custom logic to apply insets. If set,
-     *     Insetter will ignore any specified dimensions to apply, and the caller is responsible for
+     *     Insetter will ignore any specified {@link Sides}, and the caller is responsible for
      *     applying insets.
      * @see Insetter#setOnApplyInsetsListener(View)
      */
@@ -79,56 +78,56 @@ public final class Insetter {
     }
 
     /**
-     * @param dimensions Enum set defining padding handling of system window insets. Ignored if
-     *     {@link Insetter#onApplyInsetsListener } is set.
+     * @param sides specifies the {@link Sides} on which the system window insets should be applied
+     *     to the padding. Ignored if {@link Insetter#onApplyInsetsListener } is set.
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
-    public Builder applySystemWindowInsetsToPadding(@Nullable EnumSet<Side> dimensions) {
-      if (dimensions != null && !dimensions.isEmpty()) {
-        paddingSystemWindowInsets = dimensions;
+    public Builder applySystemWindowInsetsToPadding(@Nullable Sides sides) {
+      if (sides != null) {
+        paddingSystemWindowInsets = sides;
       }
 
       return this;
     }
 
     /**
-     * @param dimensions Enum set defining margin handling of system window insets. Ignored if
-     *     {@link Insetter#onApplyInsetsListener } is set.
+     * @param sides specifies the {@link Sides} on which the system window insets should be applied
+     *     to the margin. Ignored if {@link Insetter#onApplyInsetsListener } is set.
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
-    public Builder applySystemWindowInsetsToMargin(@Nullable EnumSet<Side> dimensions) {
-      if (dimensions != null && !dimensions.isEmpty()) {
-        marginSystemWindowInsets = dimensions;
+    public Builder applySystemWindowInsetsToMargin(@Nullable Sides sides) {
+      if (sides != null) {
+        marginSystemWindowInsets = sides;
       }
 
       return this;
     }
 
     /**
-     * @param dimensions Enum set defining padding handling of system gesture insets. Ignored if
-     *     {@link Insetter#onApplyInsetsListener } is set.
+     * @param sides specifies the {@link Sides} on which the system gesture insets should be applied
+     *     to the padding. Ignored if {@link Insetter#onApplyInsetsListener } is set.
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
-    public Builder applySystemGestureInsetsToPadding(@Nullable EnumSet<Side> dimensions) {
-      if (dimensions != null && !dimensions.isEmpty()) {
-        paddingSystemGestureInsets = dimensions;
+    public Builder applySystemGestureInsetsToPadding(@Nullable Sides sides) {
+      if (sides != null) {
+        paddingSystemGestureInsets = sides;
       }
 
       return this;
     }
 
     /**
-     * @param dimensions Enum set defining margin handling of system gesture insets. Ignored if
-     *     {@link Insetter#onApplyInsetsListener } is set.
+     * @param sides specifies the {@link Sides} on which the system gesture insets should be applied
+     *     to the margin. Ignored if {@link Insetter#onApplyInsetsListener } is set.
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
-    public Builder applySystemGestureInsetsToMargin(@Nullable EnumSet<Side> dimensions) {
-      if (dimensions != null && !dimensions.isEmpty()) {
-        marginSystemGestureInsets = dimensions;
+    public Builder applySystemGestureInsetsToMargin(@Nullable Sides sides) {
+      if (sides != null) {
+        marginSystemGestureInsets = sides;
       }
 
       return this;
@@ -255,8 +254,7 @@ public final class Insetter {
    *
    * <p>How the given insets are applied depends on the options provided via the various parameters.
    * Each of {@code paddingSystemWindowInsets}, {@code marginSystemWindowInsets}, {@code
-   * paddingSystemGestureInsets} and {@code marginSystemGestureInsets} take an {@link EnumSet} of
-   * {@link Side} values.
+   * paddingSystemGestureInsets} and {@code marginSystemGestureInsets} accept {@link Sides} values.
    *
    * @param view the view to apply inset handling too
    * @param insets the insets to apply
@@ -283,30 +281,30 @@ public final class Insetter {
 
     final ViewDimensions initialPadding = initialState.getPaddings();
     int paddingLeft = view.getPaddingLeft();
-    if (paddingSystemGestureInsets.contains(Side.LEFT)) {
+    if (paddingSystemGestureInsets.left()) {
       paddingLeft = initialPadding.getLeft() + systemGestureInsets.left;
-    } else if (paddingSystemWindowInsets.contains(Side.LEFT)) {
+    } else if (paddingSystemWindowInsets.left()) {
       paddingLeft = initialPadding.getLeft() + systemWindowInsets.left;
     }
 
     int paddingTop = view.getPaddingTop();
-    if (paddingSystemGestureInsets.contains(Side.TOP)) {
+    if (paddingSystemGestureInsets.top()) {
       paddingTop = initialPadding.getTop() + systemGestureInsets.top;
-    } else if (paddingSystemWindowInsets.contains(Side.TOP)) {
+    } else if (paddingSystemWindowInsets.top()) {
       paddingTop = initialPadding.getTop() + systemWindowInsets.top;
     }
 
     int paddingRight = view.getPaddingRight();
-    if (paddingSystemGestureInsets.contains(Side.RIGHT)) {
+    if (paddingSystemGestureInsets.right()) {
       paddingRight = initialPadding.getRight() + systemGestureInsets.right;
-    } else if (paddingSystemWindowInsets.contains(Side.RIGHT)) {
+    } else if (paddingSystemWindowInsets.right()) {
       paddingRight = initialPadding.getRight() + systemWindowInsets.right;
     }
 
     int paddingBottom = view.getPaddingBottom();
-    if (paddingSystemGestureInsets.contains(Side.BOTTOM)) {
+    if (paddingSystemGestureInsets.bottom()) {
       paddingBottom = initialPadding.getBottom() + systemGestureInsets.bottom;
-    } else if (paddingSystemWindowInsets.contains(Side.BOTTOM)) {
+    } else if (paddingSystemWindowInsets.bottom()) {
       paddingBottom = initialPadding.getBottom() + systemWindowInsets.bottom;
     }
 
@@ -333,30 +331,30 @@ public final class Insetter {
       final ViewDimensions initialMargins = initialState.getMargins();
 
       int marginLeft = mlp.leftMargin;
-      if (marginSystemGestureInsets.contains(Side.LEFT)) {
+      if (marginSystemGestureInsets.left()) {
         marginLeft = initialMargins.getLeft() + systemGestureInsets.left;
-      } else if (marginSystemWindowInsets.contains(Side.LEFT)) {
+      } else if (marginSystemWindowInsets.left()) {
         marginLeft = initialMargins.getLeft() + systemWindowInsets.left;
       }
 
       int marginTop = mlp.topMargin;
-      if (marginSystemGestureInsets.contains(Side.TOP)) {
+      if (marginSystemGestureInsets.top()) {
         marginTop = initialMargins.getTop() + systemGestureInsets.top;
-      } else if (marginSystemWindowInsets.contains(Side.TOP)) {
+      } else if (marginSystemWindowInsets.top()) {
         marginTop = initialMargins.getTop() + systemWindowInsets.top;
       }
 
       int marginRight = mlp.rightMargin;
-      if (marginSystemGestureInsets.contains(Side.RIGHT)) {
+      if (marginSystemGestureInsets.right()) {
         marginRight = initialMargins.getRight() + systemGestureInsets.right;
-      } else if (marginSystemWindowInsets.contains(Side.RIGHT)) {
+      } else if (marginSystemWindowInsets.right()) {
         marginRight = initialMargins.getRight() + systemWindowInsets.right;
       }
 
       int marginBottom = mlp.bottomMargin;
-      if (marginSystemGestureInsets.contains(Side.BOTTOM)) {
+      if (marginSystemGestureInsets.bottom()) {
         marginBottom = initialMargins.getBottom() + systemGestureInsets.bottom;
-      } else if (marginSystemWindowInsets.contains(Side.BOTTOM)) {
+      } else if (marginSystemWindowInsets.bottom()) {
         marginBottom = initialMargins.getBottom() + systemWindowInsets.bottom;
       }
 
@@ -383,7 +381,7 @@ public final class Insetter {
                   marginBottom));
         }
       }
-    } else if (!marginSystemGestureInsets.isEmpty() || !marginSystemWindowInsets.isEmpty()) {
+    } else if (marginSystemGestureInsets.hasSidesSet() || marginSystemWindowInsets.hasSidesSet()) {
       throw new IllegalArgumentException(
           "Margin inset handling requested but view LayoutParams do not"
               + " extend MarginLayoutParams");
@@ -408,31 +406,4 @@ public final class Insetter {
       View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
           | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
           | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-
-  @Nullable
-  public static EnumSet<Side> generateEnumSet(
-      boolean left, boolean top, boolean right, boolean bottom) {
-    if (!left && !top && !right && !bottom) {
-      // Fast path if all dimensions are disabled
-      return null;
-    }
-    final EnumSet<Side> set = EnumSet.noneOf(Side.class);
-    if (left) set.add(Side.LEFT);
-    if (top) set.add(Side.TOP);
-    if (right) set.add(Side.RIGHT);
-    if (bottom) set.add(Side.BOTTOM);
-    return set;
-  }
-
-  /**
-   * Enum containing the sides to which insets can be applied.
-   *
-   * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
-   */
-  public enum Side {
-    LEFT,
-    TOP,
-    RIGHT,
-    BOTTOM
-  }
 }
