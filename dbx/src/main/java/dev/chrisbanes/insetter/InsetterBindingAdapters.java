@@ -20,7 +20,6 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.BindingAdapter;
 
 public class InsetterBindingAdapters {
@@ -66,40 +65,44 @@ public class InsetterBindingAdapters {
       final boolean marginSystemGestureTop,
       final boolean marginSystemGestureRight,
       final boolean marginSystemGestureBottom) {
-    Insetter.setOnApplyInsetsListener(
-        v,
-        new OnApplyInsetsListener() {
-          @Override
-          public void onApplyInsets(
-              @NonNull View view,
-              @NonNull WindowInsetsCompat insets,
-              @NonNull ViewState initialState) {
-            Insetter.applyInsetsToView(
-                view,
-                insets,
-                initialState,
-                Insetter.generateEnumSet(
-                    padSystemWindowLeft,
-                    padSystemWindowTop,
-                    padSystemWindowRight,
-                    padSystemWindowBottom),
-                Insetter.generateEnumSet(
-                    marginSystemWindowLeft,
-                    marginSystemWindowTop,
-                    marginSystemWindowRight,
-                    marginSystemWindowBottom),
-                Insetter.generateEnumSet(
-                    padSystemGestureLeft,
-                    padSystemGestureTop,
-                    padSystemGestureRight,
-                    padSystemGestureBottom),
-                Insetter.generateEnumSet(
-                    marginSystemGestureLeft,
-                    marginSystemGestureTop,
-                    marginSystemGestureRight,
-                    marginSystemGestureBottom));
-          }
-        });
+    Insetter.builder()
+        .applySystemWindowInsets(
+            Method.PADDING,
+            Insetter.generateEnumSet(
+                padSystemWindowLeft,
+                padSystemWindowTop,
+                padSystemWindowRight,
+                padSystemWindowBottom
+            )
+        )
+        .applySystemWindowInsets(
+            Method.MARGIN,
+            Insetter.generateEnumSet(
+                marginSystemWindowLeft,
+                marginSystemWindowTop,
+                marginSystemWindowRight,
+                marginSystemWindowBottom
+            )
+        )
+        .applySystemGestureInsets(
+            Method.PADDING,
+            Insetter.generateEnumSet(
+                padSystemGestureLeft,
+                padSystemGestureTop,
+                padSystemGestureRight,
+                padSystemGestureBottom
+            )
+        )
+        .applySystemGestureInsets(
+            Method.MARGIN,
+            Insetter.generateEnumSet(
+                marginSystemGestureLeft,
+                marginSystemGestureTop,
+                marginSystemGestureRight,
+                marginSystemGestureBottom
+            )
+        )
+        .applyToView(v);
   }
 
   @BindingAdapter("layout_edgeToEdge")
