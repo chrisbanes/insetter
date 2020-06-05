@@ -21,10 +21,11 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.WindowInsetsCompat
 
 inline fun View.doOnApplyWindowInsets(
-    crossinline f: (view: View, insets: WindowInsetsCompat, initialState: ViewState) -> WindowInsetsCompat
-) = Insetter.setOnApplyInsetsListener(this) { view, insets, initialState ->
-    f(view, insets, initialState)
-}
+    crossinline f: (view: View, insets: WindowInsetsCompat, initialState: ViewState) -> Unit
+) = Insetter.builder()
+    .setOnApplyInsetsListener { view, insets, initialState ->
+        f(view, insets, initialState)
+    }.applyToView(this)
 
 /**
  * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to'edge.

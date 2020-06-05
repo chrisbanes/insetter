@@ -69,10 +69,12 @@ class InsetterTestCase {
 
         val latch = CountDownLatch(1)
         rule.scenario.onActivity {
-            Insetter.setOnApplyInsetsListener(view) { _, _, initialState ->
-                viewState = initialState
-                latch.countDown()
-            }
+            Insetter.builder()
+                .setOnApplyInsetsListener { _, _, initialState ->
+                    viewState = initialState
+                    latch.countDown()
+                }
+                .applyToView(view)
         }
 
         assertTrue(latch.await(5, TimeUnit.SECONDS))
@@ -95,10 +97,12 @@ class InsetterTestCase {
 
         val latch = CountDownLatch(1)
         rule.scenario.onActivity {
-            Insetter.setOnApplyInsetsListener(view) { _, _, initialState ->
-                viewState = initialState
-                latch.countDown()
-            }
+            Insetter.builder()
+                .setOnApplyInsetsListener { _, _, initialState ->
+                    viewState = initialState
+                    latch.countDown()
+                }
+                .applyToView(view)
         }
 
         assertTrue(latch.await(5, TimeUnit.SECONDS))
@@ -116,10 +120,12 @@ class InsetterTestCase {
 
         val latch = CountDownLatch(1)
         rule.scenario.onActivity {
-            Insetter.setOnApplyInsetsListener(view) { _, insets, _ ->
-                resultInsets = insets
-                latch.countDown()
-            }
+            Insetter.builder()
+                .setOnApplyInsetsListener { _, insets, _ ->
+                    resultInsets = insets
+                    latch.countDown()
+                }
+                .applyToView(view)
         }
 
         // We shouldn't have insets now since the view isn't attached

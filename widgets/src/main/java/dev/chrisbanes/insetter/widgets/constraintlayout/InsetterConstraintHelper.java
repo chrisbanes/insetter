@@ -30,6 +30,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import dev.chrisbanes.insetter.InsetDimension;
 import dev.chrisbanes.insetter.Insetter;
+import dev.chrisbanes.insetter.Method;
 import dev.chrisbanes.insetter.ViewState;
 import dev.chrisbanes.insetter.widgets.R;
 import java.util.EnumSet;
@@ -169,14 +170,13 @@ public class InsetterConstraintHelper extends ConstraintHelper {
       View view = container.getViewById(mIds[i]);
       final ViewState state = (ViewState) view.getTag(R.id.insetter_initial_state);
       if (state != null) {
-        Insetter.applyInsetsToView(
-            view,
-            insetsCompat,
-            state,
-            systemWindowInsetsPaddingDimensions,
-            systemWindowInsetsMarginDimensions,
-            systemGestureInsetsPaddingDimensions,
-            systemGestureInsetsMarginDimensions);
+        Insetter.builder()
+            .applySystemWindowInsets(Method.PADDING, systemWindowInsetsPaddingDimensions)
+            .applySystemWindowInsets(Method.MARGIN, systemWindowInsetsMarginDimensions)
+            .applySystemGestureInsets(Method.PADDING, systemGestureInsetsPaddingDimensions)
+            .applySystemGestureInsets(Method.MARGIN, systemGestureInsetsMarginDimensions)
+            .build()
+            .applyInsetsToView(view, insetsCompat, state);
       }
     }
 

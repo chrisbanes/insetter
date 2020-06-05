@@ -22,6 +22,6 @@ import androidx.annotation.NonNull;
 import androidx.core.view.WindowInsetsCompat;
 
 public interface OnApplyInsetsListener {
-  WindowInsetsCompat onApplyInsets(
+  void onApplyInsets(
       @NonNull View view, @NonNull WindowInsetsCompat insets, @NonNull ViewState initialState);
 }
