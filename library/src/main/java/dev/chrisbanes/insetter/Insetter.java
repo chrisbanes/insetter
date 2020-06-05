@@ -42,7 +42,7 @@ public final class Insetter {
     // private constructor. No instantiating.
   }
 
-  public static class Builder {
+  public static final class Builder {
 
     @Nullable
     private EnumSet<InsetDimension> paddingSystemWindowInsets;
@@ -52,11 +52,10 @@ public final class Insetter {
     private EnumSet<InsetDimension> paddingSystemGestureInsets;
     @Nullable
     private EnumSet<InsetDimension> marginSystemGestureInsets;
-    @Nullable
-    private OnConsumeInsetsListener consumeInsetsListener;
+    private boolean consumeSystemWindowInsets;
 
     private Builder() {
-
+      // private constructor. No instantiating.
     }
 
     @NonNull
@@ -96,8 +95,8 @@ public final class Insetter {
     }
 
     @NonNull
-    public Builder consumeInsets(@NonNull final OnConsumeInsetsListener listener) {
-      consumeInsetsListener = listener;
+    public Builder consumeSystemWindowInsets() {
+      consumeSystemWindowInsets = true;
       return this;
     }
 
@@ -120,8 +119,8 @@ public final class Insetter {
               marginSystemGestureInsets
           );
 
-          if (consumeInsetsListener != null) {
-            return consumeInsetsListener.onConsumeInsets(insets);
+          if (consumeSystemWindowInsets) {
+            return insets.consumeSystemWindowInsets();
           } else {
             return insets;
           }
@@ -146,6 +145,7 @@ public final class Insetter {
    * <p>This allows the listener to be able to append inset values to any existing view state
    * properties, rather than overwriting them.
    */
+  @VisibleForTesting
   public static void setOnApplyInsetsListener(
       @NonNull View view, @NonNull final OnApplyInsetsListener listener) {
 
@@ -215,7 +215,7 @@ public final class Insetter {
    * @param paddingSystemGestureInsets enum set defining padding handling of system gesture insets
    * @param marginSystemGestureInsets enum set defining margin handling of system gesture insets
    */
-  public static void applyInsetsToView(
+  private static void applyInsetsToView(
       @NonNull final View view,
       @NonNull final WindowInsetsCompat insets,
       @NonNull final ViewState initialState,
