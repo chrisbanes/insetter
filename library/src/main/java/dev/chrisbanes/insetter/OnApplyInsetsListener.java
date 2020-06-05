@@ -17,7 +17,6 @@
 package dev.chrisbanes.insetter;
 
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.core.view.WindowInsetsCompat;
 
