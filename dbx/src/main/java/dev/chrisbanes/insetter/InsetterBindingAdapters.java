@@ -73,33 +73,25 @@ public class InsetterBindingAdapters {
                 padSystemWindowLeft,
                 padSystemWindowTop,
                 padSystemWindowRight,
-                padSystemWindowBottom
-            )
-        )
+                padSystemWindowBottom))
         .applySystemWindowInsetsToMargin(
             Insetter.generateEnumSet(
                 marginSystemWindowLeft,
                 marginSystemWindowTop,
                 marginSystemWindowRight,
-                marginSystemWindowBottom
-            )
-        )
+                marginSystemWindowBottom))
         .applySystemGestureInsetsToPadding(
             Insetter.generateEnumSet(
                 padSystemGestureLeft,
                 padSystemGestureTop,
                 padSystemGestureRight,
-                padSystemGestureBottom
-            )
-        )
+                padSystemGestureBottom))
         .applySystemGestureInsetsToMargin(
             Insetter.generateEnumSet(
                 marginSystemGestureLeft,
                 marginSystemGestureTop,
                 marginSystemGestureRight,
-                marginSystemGestureBottom
-            )
-        )
+                marginSystemGestureBottom))
         .consumeSystemWindowInsets(consumeSystemWindowInsets)
         .applyToView(v);
   }
