@@ -87,36 +87,36 @@ public final class Insetter {
     }
 
     @NonNull
-    public Builder applySystemWindowInsets(
-        @NonNull Method method, @Nullable EnumSet<InsetDimension> dimensions) {
-
+    public Builder applySystemWindowInsetsToPadding(@Nullable EnumSet<InsetDimension> dimensions) {
       if (dimensions != null && !dimensions.isEmpty()) {
-        switch (method) {
-          case PADDING:
-            paddingSystemWindowInsets = dimensions;
-            break;
-          case MARGIN:
-            marginSystemWindowInsets = dimensions;
-            break;
-        }
+        paddingSystemWindowInsets = dimensions;
       }
 
       return this;
     }
 
     @NonNull
-    public Builder applySystemGestureInsets(
-        @NonNull Method method, @Nullable EnumSet<InsetDimension> dimensions) {
-
+    public Builder applySystemWindowInsetsToMargin(@Nullable EnumSet<InsetDimension> dimensions) {
       if (dimensions != null && !dimensions.isEmpty()) {
-        switch (method) {
-          case PADDING:
-            paddingSystemGestureInsets = dimensions;
-            break;
-          case MARGIN:
-            marginSystemGestureInsets = dimensions;
-            break;
-        }
+        marginSystemWindowInsets = dimensions;
+      }
+
+      return this;
+    }
+
+    @NonNull
+    public Builder applySystemGestureInsetsToPadding(@Nullable EnumSet<InsetDimension> dimensions) {
+      if (dimensions != null && !dimensions.isEmpty()) {
+        paddingSystemGestureInsets = dimensions;
+      }
+
+      return this;
+    }
+
+    @NonNull
+    public Builder applySystemGestureInsetsToMargin(@Nullable EnumSet<InsetDimension> dimensions) {
+      if (dimensions != null && !dimensions.isEmpty()) {
+        marginSystemGestureInsets = dimensions;
       }
 
       return this;

@@ -18,13 +18,11 @@ package dev.chrisbanes.insetter;
 
 import android.view.View;
 import androidx.core.view.WindowInsetsCompat;
-import java.util.EnumSet;
 
 /**
  * Enum containing the dimensions which insets can be applied to.
  *
- * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState, EnumSet, EnumSet, EnumSet,
- *     EnumSet)
+ * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
  */
 public enum InsetDimension {
   LEFT,

@@ -68,8 +68,7 @@ public class InsetterBindingAdapters {
       final boolean marginSystemGestureRight,
       final boolean marginSystemGestureBottom) {
     Insetter.builder()
-        .applySystemWindowInsets(
-            Method.PADDING,
+        .applySystemWindowInsetsToPadding(
             Insetter.generateEnumSet(
                 padSystemWindowLeft,
                 padSystemWindowTop,
@@ -77,8 +76,7 @@ public class InsetterBindingAdapters {
                 padSystemWindowBottom
             )
         )
-        .applySystemWindowInsets(
-            Method.MARGIN,
+        .applySystemWindowInsetsToMargin(
             Insetter.generateEnumSet(
                 marginSystemWindowLeft,
                 marginSystemWindowTop,
@@ -86,8 +84,7 @@ public class InsetterBindingAdapters {
                 marginSystemWindowBottom
             )
         )
-        .applySystemGestureInsets(
-            Method.PADDING,
+        .applySystemGestureInsetsToPadding(
             Insetter.generateEnumSet(
                 padSystemGestureLeft,
                 padSystemGestureTop,
@@ -95,8 +92,7 @@ public class InsetterBindingAdapters {
                 padSystemGestureBottom
             )
         )
-        .applySystemGestureInsets(
-            Method.MARGIN,
+        .applySystemGestureInsetsToMargin(
             Insetter.generateEnumSet(
                 marginSystemGestureLeft,
                 marginSystemGestureTop,
