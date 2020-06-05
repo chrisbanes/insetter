@@ -20,7 +20,6 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -29,7 +28,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import java.util.EnumSet;
 import java.util.Locale;
 
@@ -145,7 +143,6 @@ public final class Insetter {
    * <p>This allows the listener to be able to append inset values to any existing view state
    * properties, rather than overwriting them.
    */
-  @VisibleForTesting
   public static void setOnApplyInsetsListener(
       @NonNull View view, @NonNull final OnApplyInsetsListener listener) {
 
