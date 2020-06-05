@@ -26,10 +26,6 @@ inline fun View.doOnApplyWindowInsets(
     f(view, insets, initialState)
 }
 
-fun View.requestApplyInsetsWhenAttached() {
-    Insetter.requestApplyInsetsWhenAttached(this)
-}
-
 /**
  * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to'edge.
  *
@@ -54,9 +50,11 @@ fun View.applySystemWindowInsetsToPadding(
     left: Boolean = false,
     top: Boolean = false,
     right: Boolean = false,
-    bottom: Boolean = false
+    bottom: Boolean = false,
+    consume: Boolean = false
 ) = Insetter.builder()
     .applySystemWindowInsets(Method.PADDING, Insetter.generateEnumSet(left, top, right, bottom))
+    .consumeSystemWindowInsets(consume)
     .applyToView(this)
 
 /**
@@ -71,9 +69,11 @@ fun View.applySystemWindowInsetsToMargin(
     left: Boolean = false,
     top: Boolean = false,
     right: Boolean = false,
-    bottom: Boolean = false
+    bottom: Boolean = false,
+    consume: Boolean = false
 ) = Insetter.builder()
     .applySystemWindowInsets(Method.MARGIN, Insetter.generateEnumSet(left, top, right, bottom))
+    .consumeSystemWindowInsets(consume)
     .applyToView(this)
 
 /**
@@ -88,9 +88,11 @@ fun View.applySystemGestureInsetsToPadding(
     left: Boolean = false,
     top: Boolean = false,
     right: Boolean = false,
-    bottom: Boolean = false
+    bottom: Boolean = false,
+    consume: Boolean = false
 ) = Insetter.builder()
     .applySystemGestureInsets(Method.PADDING, Insetter.generateEnumSet(left, top, right, bottom))
+    .consumeSystemWindowInsets(consume)
     .applyToView(this)
 
 /**
@@ -105,7 +107,9 @@ fun View.applySystemGestureInsetsToMargin(
     left: Boolean = false,
     top: Boolean = false,
     right: Boolean = false,
-    bottom: Boolean = false
+    bottom: Boolean = false,
+    consume: Boolean = false
 ) = Insetter.builder()
     .applySystemGestureInsets(Method.MARGIN, Insetter.generateEnumSet(left, top, right, bottom))
+    .consumeSystemWindowInsets(consume)
     .applyToView(this)

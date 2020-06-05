@@ -93,41 +93,39 @@ public final class Insetter {
     }
 
     @NonNull
-    public Builder consumeSystemWindowInsets() {
-      consumeSystemWindowInsets = true;
+    public Builder consumeSystemWindowInsets(boolean consumeSystemWindowInsets) {
+      this.consumeSystemWindowInsets = consumeSystemWindowInsets;
       return this;
     }
 
-    @NonNull
-    public OnApplyInsetsListener build() {
-      return new OnApplyInsetsListener() {
-        @Override
-        public WindowInsetsCompat onApplyInsets(
-            @NonNull View view,
-            @NonNull WindowInsetsCompat insets,
-            @NonNull ViewState initialState) {
-
-          applyInsetsToView(
-              view,
-              insets,
-              initialState,
-              paddingSystemWindowInsets,
-              marginSystemWindowInsets,
-              paddingSystemGestureInsets,
-              marginSystemGestureInsets
-          );
-
-          if (consumeSystemWindowInsets) {
-            return insets.consumeSystemWindowInsets();
-          } else {
-            return insets;
-          }
-        }
-      };
-    }
-
     public void applyToView(@NonNull View view) {
-      setOnApplyInsetsListener(view, build());
+      setOnApplyInsetsListener(
+          view,
+          new OnApplyInsetsListener() {
+            @Override
+            public WindowInsetsCompat onApplyInsets(
+                @NonNull View view,
+                @NonNull WindowInsetsCompat insets,
+                @NonNull ViewState initialState) {
+
+              applyInsetsToView(
+                  view,
+                  insets,
+                  initialState,
+                  paddingSystemWindowInsets,
+                  marginSystemWindowInsets,
+                  paddingSystemGestureInsets,
+                  marginSystemGestureInsets
+              );
+
+              if (consumeSystemWindowInsets) {
+                return insets.consumeSystemWindowInsets();
+              } else {
+                return insets;
+              }
+            }
+          }
+      );
     }
   }
 
@@ -173,7 +171,7 @@ public final class Insetter {
    * A wrapper around {@link ViewCompat#requestApplyInsets(View)} which ensures the request will
    * happen, regardless of whether the view is attached or not.
    */
-  public static void requestApplyInsetsWhenAttached(@NonNull final View view) {
+  private static void requestApplyInsetsWhenAttached(@NonNull final View view) {
     if (ViewCompat.isAttachedToWindow(view)) {
       // If the view is already attached, we can request a pass
       ViewCompat.requestApplyInsets(view);
@@ -212,7 +210,7 @@ public final class Insetter {
    * @param paddingSystemGestureInsets enum set defining padding handling of system gesture insets
    * @param marginSystemGestureInsets enum set defining margin handling of system gesture insets
    */
-  private static void applyInsetsToView(
+  public static void applyInsetsToView(
       @NonNull final View view,
       @NonNull final WindowInsetsCompat insets,
       @NonNull final ViewState initialState,
