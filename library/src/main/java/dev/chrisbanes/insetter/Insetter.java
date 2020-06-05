@@ -44,17 +44,24 @@ public final class Insetter {
 
   public static class Builder {
 
-    @Nullable private EnumSet<InsetDimension> paddingSystemWindowInsets;
-    @Nullable private EnumSet<InsetDimension> marginSystemWindowInsets;
-    @Nullable private EnumSet<InsetDimension> paddingSystemGestureInsets;
-    @Nullable private EnumSet<InsetDimension> marginSystemGestureInsets;
+    @Nullable
+    private EnumSet<InsetDimension> paddingSystemWindowInsets;
+    @Nullable
+    private EnumSet<InsetDimension> marginSystemWindowInsets;
+    @Nullable
+    private EnumSet<InsetDimension> paddingSystemGestureInsets;
+    @Nullable
+    private EnumSet<InsetDimension> marginSystemGestureInsets;
+    @Nullable
+    private OnConsumeInsetsListener consumeInsetsListener;
 
     private Builder() {
 
     }
 
+    @NonNull
     public Builder applySystemWindowInsets(
-            @NonNull Method method, @NonNull EnumSet<InsetDimension> dimensions) {
+        @NonNull Method method, @NonNull EnumSet<InsetDimension> dimensions) {
 
       if (!dimensions.isEmpty()) {
         switch (method) {
@@ -70,8 +77,9 @@ public final class Insetter {
       return this;
     }
 
+    @NonNull
     public Builder applySystemGestureInsets(
-            @NonNull Method method, @NonNull EnumSet<InsetDimension> dimensions) {
+        @NonNull Method method, @NonNull EnumSet<InsetDimension> dimensions) {
 
       if (!dimensions.isEmpty()) {
         switch (method) {
@@ -87,12 +95,42 @@ public final class Insetter {
       return this;
     }
 
-    public Builder consumeInsets() {
+    @NonNull
+    public Builder consumeInsets(@NonNull final OnConsumeInsetsListener listener) {
+      consumeInsetsListener = listener;
       return this;
     }
 
-    public void applyToView(@NonNull View view) {
+    @NonNull
+    public OnApplyInsetsListener build() {
+      return new OnApplyInsetsListener() {
+        @Override
+        public WindowInsetsCompat onApplyInsets(
+            @NonNull View view,
+            @NonNull WindowInsetsCompat insets,
+            @NonNull ViewState initialState) {
 
+          applyInsetsToView(
+              view,
+              insets,
+              initialState,
+              paddingSystemWindowInsets,
+              marginSystemWindowInsets,
+              paddingSystemGestureInsets,
+              marginSystemGestureInsets
+          );
+
+          if (consumeInsetsListener != null) {
+            return consumeInsetsListener.onConsumeInsets(insets);
+          } else {
+            return insets;
+          }
+        }
+      };
+    }
+
+    public void applyToView(@NonNull View view) {
+      setOnApplyInsetsListener(view, build());
     }
   }
 
@@ -126,9 +164,7 @@ public final class Insetter {
         new OnApplyWindowInsetsListener() {
           @Override
           public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
-            listener.onApplyInsets(v, insets, initialState);
-            // Always return the initial insets instance
-            return insets;
+            return listener.onApplyInsets(v, insets, initialState);
           }
         });
 

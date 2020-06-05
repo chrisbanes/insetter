@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,9 @@
 
 package dev.chrisbanes.insetter;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.core.view.WindowInsetsCompat;
 
-public interface OnApplyInsetsListener {
-  WindowInsetsCompat onApplyInsets(
-      @NonNull View view, @NonNull WindowInsetsCompat insets, @NonNull ViewState initialState);
+public interface OnConsumeInsetsListener {
+  WindowInsetsCompat onConsumeInsets(@NonNull WindowInsetsCompat insets);
 }
