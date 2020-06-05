@@ -29,6 +29,7 @@ public class InsetterBindingAdapters {
 
   @BindingAdapter(
       value = {
+        "consumeSystemWindowInsets",
         "paddingLeftSystemWindowInsets",
         "paddingTopSystemWindowInsets",
         "paddingRightSystemWindowInsets",
@@ -49,6 +50,7 @@ public class InsetterBindingAdapters {
       requireAll = false)
   public static void applyInsetsFromBooleans(
       @NonNull final View v,
+      final boolean consumeSystemWindowInsets,
       final boolean padSystemWindowLeft,
       final boolean padSystemWindowTop,
       final boolean padSystemWindowRight,
@@ -102,6 +104,7 @@ public class InsetterBindingAdapters {
                 marginSystemGestureBottom
             )
         )
+        .consumeSystemWindowInsets(consumeSystemWindowInsets)
         .applyToView(v);
   }
 
