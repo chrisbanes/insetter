@@ -36,16 +36,11 @@ public final class Insetter {
 
   static final String TAG = "Insetter";
 
-  @Nullable
-  private OnApplyInsetsListener onApplyInsetsListener;
-  @Nullable
-  private EnumSet<InsetDimension> paddingSystemWindowInsets;
-  @Nullable
-  private EnumSet<InsetDimension> marginSystemWindowInsets;
-  @Nullable
-  private EnumSet<InsetDimension> paddingSystemGestureInsets;
-  @Nullable
-  private EnumSet<InsetDimension> marginSystemGestureInsets;
+  @Nullable private OnApplyInsetsListener onApplyInsetsListener;
+  @Nullable private EnumSet<InsetDimension> paddingSystemWindowInsets;
+  @Nullable private EnumSet<InsetDimension> marginSystemWindowInsets;
+  @Nullable private EnumSet<InsetDimension> paddingSystemGestureInsets;
+  @Nullable private EnumSet<InsetDimension> marginSystemGestureInsets;
   private boolean consumeSystemWindowInsets;
 
   private Insetter(@NonNull Builder builder) {
@@ -59,16 +54,11 @@ public final class Insetter {
 
   public static final class Builder {
 
-    @Nullable
-    private OnApplyInsetsListener onApplyInsetsListener;
-    @Nullable
-    private EnumSet<InsetDimension> paddingSystemWindowInsets;
-    @Nullable
-    private EnumSet<InsetDimension> marginSystemWindowInsets;
-    @Nullable
-    private EnumSet<InsetDimension> paddingSystemGestureInsets;
-    @Nullable
-    private EnumSet<InsetDimension> marginSystemGestureInsets;
+    @Nullable private OnApplyInsetsListener onApplyInsetsListener;
+    @Nullable private EnumSet<InsetDimension> paddingSystemWindowInsets;
+    @Nullable private EnumSet<InsetDimension> marginSystemWindowInsets;
+    @Nullable private EnumSet<InsetDimension> paddingSystemGestureInsets;
+    @Nullable private EnumSet<InsetDimension> marginSystemGestureInsets;
     private boolean consumeSystemWindowInsets;
 
     private Builder() {
@@ -77,8 +67,8 @@ public final class Insetter {
 
     /**
      * @param onApplyInsetsListener Callback for supplying custom logic to apply insets. If set,
-     *                              Insetter will ignore any specified dimensions to apply, and the
-     *                              caller is responsible for applying insets.
+     *     Insetter will ignore any specified dimensions to apply, and the caller is responsible for
+     *     applying insets.
      * @see Insetter#setOnApplyInsetsListener(View)
      */
     @NonNull
@@ -88,8 +78,8 @@ public final class Insetter {
     }
 
     /**
-     * @param dimensions Enum set defining padding handling of system window insets.
-     *                   Ignored if {@link Insetter#onApplyInsetsListener } is set.
+     * @param dimensions Enum set defining padding handling of system window insets. Ignored if
+     *     {@link Insetter#onApplyInsetsListener } is set.
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
@@ -102,8 +92,8 @@ public final class Insetter {
     }
 
     /**
-     * @param dimensions Enum set defining margin handling of system window insets.
-     *                   Ignored if {@link Insetter#onApplyInsetsListener } is set.
+     * @param dimensions Enum set defining margin handling of system window insets. Ignored if
+     *     {@link Insetter#onApplyInsetsListener } is set.
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
@@ -116,8 +106,8 @@ public final class Insetter {
     }
 
     /**
-     * @param dimensions Enum set defining padding handling of system gesture insets.
-     *                   Ignored if {@link Insetter#onApplyInsetsListener } is set.
+     * @param dimensions Enum set defining padding handling of system gesture insets. Ignored if
+     *     {@link Insetter#onApplyInsetsListener } is set.
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
@@ -130,8 +120,8 @@ public final class Insetter {
     }
 
     /**
-     * @param dimensions Enum set defining margin handling of system gesture insets.
-     *                   Ignored if {@link Insetter#onApplyInsetsListener } is set.
+     * @param dimensions Enum set defining margin handling of system gesture insets. Ignored if
+     *     {@link Insetter#onApplyInsetsListener } is set.
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
@@ -144,8 +134,8 @@ public final class Insetter {
     }
 
     /**
-     * @param consumeSystemWindowInsets true if the system window insets should be consumed,
-     *                                  false if not
+     * @param consumeSystemWindowInsets true if the system window insets should be consumed, false
+     *     if not
      * @see Insetter#setOnApplyInsetsListener(View)
      */
     @NonNull
@@ -154,9 +144,7 @@ public final class Insetter {
       return this;
     }
 
-    /**
-     * @param view the {@link View} on which {@link WindowInsetsCompat} should be applied
-     */
+    /** @param view the {@link View} on which {@link WindowInsetsCompat} should be applied */
     public void applyToView(@NonNull View view) {
       build().setOnApplyInsetsListener(view);
     }
@@ -179,20 +167,21 @@ public final class Insetter {
    * <p>This allows the listener to be able to append inset values to any existing view state
    * properties, rather than overwriting them.
    */
-  private void setOnApplyInsetsListener(
-      @NonNull View view) {
+  private void setOnApplyInsetsListener(@NonNull View view) {
 
-    final OnApplyInsetsListener listener = onApplyInsetsListener != null ? onApplyInsetsListener :
-        new OnApplyInsetsListener() {
-          @Override
-          public void onApplyInsets(
-              @NonNull View view,
-              @NonNull WindowInsetsCompat insets,
-              @NonNull ViewState initialState) {
+    final OnApplyInsetsListener listener =
+        onApplyInsetsListener != null
+            ? onApplyInsetsListener
+            : new OnApplyInsetsListener() {
+              @Override
+              public void onApplyInsets(
+                  @NonNull View view,
+                  @NonNull WindowInsetsCompat insets,
+                  @NonNull ViewState initialState) {
 
-            applyInsetsToView(view, insets, initialState);
-          }
-        };
+                applyInsetsToView(view, insets, initialState);
+              }
+            };
 
     final ViewState tagState = (ViewState) view.getTag(R.id.insetter_initial_state);
 
