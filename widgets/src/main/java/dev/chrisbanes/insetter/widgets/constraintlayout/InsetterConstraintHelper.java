@@ -101,10 +101,10 @@ import dev.chrisbanes.insetter.widgets.R;
  * </pre>
  */
 public class InsetterConstraintHelper extends ConstraintHelper {
-  private Sides systemWindowInsetsPaddingDimensions;
-  private Sides systemGestureInsetsPaddingDimensions;
-  private Sides systemWindowInsetsMarginDimensions;
-  private Sides systemGestureInsetsMarginDimensions;
+  private Sides systemWindowInsetsPaddingSides;
+  private Sides systemGestureInsetsPaddingSides;
+  private Sides systemWindowInsetsMarginSides;
+  private Sides systemGestureInsetsMarginSides;
 
   private ConstraintLayout container;
 
@@ -124,21 +124,21 @@ public class InsetterConstraintHelper extends ConstraintHelper {
 
     final int paddingSystemWindowInsetsFlags =
         ta.getInt(R.styleable.InsetterConstraintHelper_paddingSystemWindowInsets, 0);
-    systemWindowInsetsPaddingDimensions =
+    systemWindowInsetsPaddingSides =
         AttributeHelper.flagToSides(paddingSystemWindowInsetsFlags);
 
     final int marginSystemWindowInsetsFlags =
         ta.getInt(R.styleable.InsetterConstraintHelper_layout_marginSystemWindowInsets, 0);
-    systemWindowInsetsMarginDimensions = AttributeHelper.flagToSides(marginSystemWindowInsetsFlags);
+    systemWindowInsetsMarginSides = AttributeHelper.flagToSides(marginSystemWindowInsetsFlags);
 
     final int paddingSystemGestureInsetsFlags =
         ta.getInt(R.styleable.InsetterConstraintHelper_paddingSystemGestureInsets, 0);
-    systemGestureInsetsPaddingDimensions =
+    systemGestureInsetsPaddingSides =
         AttributeHelper.flagToSides(paddingSystemGestureInsetsFlags);
 
     final int marginSystemGestureInsetsFlags =
         ta.getInt(R.styleable.InsetterConstraintHelper_layout_marginSystemGestureInsets, 0);
-    systemGestureInsetsMarginDimensions =
+    systemGestureInsetsMarginSides =
         AttributeHelper.flagToSides(marginSystemGestureInsetsFlags);
 
     ta.recycle();
@@ -168,10 +168,10 @@ public class InsetterConstraintHelper extends ConstraintHelper {
       final ViewState state = (ViewState) view.getTag(R.id.insetter_initial_state);
       if (state != null) {
         Insetter.builder()
-            .applySystemWindowInsetsToPadding(systemWindowInsetsPaddingDimensions)
-            .applySystemWindowInsetsToMargin(systemWindowInsetsMarginDimensions)
-            .applySystemGestureInsetsToPadding(systemGestureInsetsPaddingDimensions)
-            .applySystemGestureInsetsToMargin(systemGestureInsetsMarginDimensions)
+            .applySystemWindowInsetsToPadding(systemWindowInsetsPaddingSides)
+            .applySystemWindowInsetsToMargin(systemWindowInsetsMarginSides)
+            .applySystemGestureInsetsToPadding(systemGestureInsetsPaddingSides)
+            .applySystemGestureInsetsToMargin(systemGestureInsetsMarginSides)
             .build()
             .applyInsetsToView(view, insetsCompat, state);
       }
@@ -188,8 +188,8 @@ public class InsetterConstraintHelper extends ConstraintHelper {
    * @see WindowInsetsCompat#getSystemWindowInsets()
    */
   @Nullable
-  public Sides getSystemWindowInsetsPaddingDimensions() {
-    return systemWindowInsetsPaddingDimensions;
+  public Sides getSystemWindowInsetsPaddingSides() {
+    return systemWindowInsetsPaddingSides;
   }
 
   /**
@@ -199,9 +199,9 @@ public class InsetterConstraintHelper extends ConstraintHelper {
    *
    * @see WindowInsetsCompat#getSystemWindowInsets()
    */
-  public void setSystemWindowInsetsPaddingDimensions(@Nullable Sides values) {
-    if (!ObjectsCompat.equals(systemWindowInsetsPaddingDimensions, values)) {
-      systemWindowInsetsPaddingDimensions = values;
+  public void setSystemWindowInsetsPaddingSides(@Nullable Sides values) {
+    if (!ObjectsCompat.equals(systemWindowInsetsPaddingSides, values)) {
+      systemWindowInsetsPaddingSides = values;
       ViewCompat.requestApplyInsets(this);
     }
   }
@@ -214,8 +214,8 @@ public class InsetterConstraintHelper extends ConstraintHelper {
    * @see WindowInsetsCompat#getSystemGestureInsets()
    */
   @Nullable
-  public Sides getSystemGestureInsetsPaddingDimensions() {
-    return systemGestureInsetsPaddingDimensions;
+  public Sides getSystemGestureInsetsPaddingSides() {
+    return systemGestureInsetsPaddingSides;
   }
 
   /**
@@ -225,9 +225,9 @@ public class InsetterConstraintHelper extends ConstraintHelper {
    *
    * @see WindowInsetsCompat#getSystemGestureInsets()
    */
-  public void setSystemGestureInsetsPaddingDimensions(@Nullable Sides values) {
-    if (!ObjectsCompat.equals(systemGestureInsetsPaddingDimensions, values)) {
-      systemGestureInsetsPaddingDimensions = values;
+  public void setSystemGestureInsetsPaddingSides(@Nullable Sides values) {
+    if (!ObjectsCompat.equals(systemGestureInsetsPaddingSides, values)) {
+      systemGestureInsetsPaddingSides = values;
       ViewCompat.requestApplyInsets(this);
     }
   }
@@ -240,8 +240,8 @@ public class InsetterConstraintHelper extends ConstraintHelper {
    * @see WindowInsetsCompat#getSystemWindowInsets()
    */
   @Nullable
-  public Sides getSystemWindowInsetsMarginDimensions() {
-    return systemWindowInsetsMarginDimensions;
+  public Sides getSystemWindowInsetsMarginSides() {
+    return systemWindowInsetsMarginSides;
   }
 
   /**
@@ -251,9 +251,9 @@ public class InsetterConstraintHelper extends ConstraintHelper {
    *
    * @see WindowInsetsCompat#getSystemWindowInsets()
    */
-  public void setSystemWindowInsetsMarginDimensions(@Nullable Sides values) {
-    if (!ObjectsCompat.equals(systemWindowInsetsMarginDimensions, values)) {
-      systemWindowInsetsMarginDimensions = values;
+  public void setSystemWindowInsetsMarginSides(@Nullable Sides values) {
+    if (!ObjectsCompat.equals(systemWindowInsetsMarginSides, values)) {
+      systemWindowInsetsMarginSides = values;
       ViewCompat.requestApplyInsets(this);
     }
   }
@@ -266,8 +266,8 @@ public class InsetterConstraintHelper extends ConstraintHelper {
    * @see WindowInsetsCompat#getSystemGestureInsets()
    */
   @Nullable
-  public Sides getSystemGestureInsetsMarginDimensions() {
-    return systemGestureInsetsMarginDimensions;
+  public Sides getSystemGestureInsetsMarginSides() {
+    return systemGestureInsetsMarginSides;
   }
 
   /**
@@ -277,9 +277,9 @@ public class InsetterConstraintHelper extends ConstraintHelper {
    *
    * @see WindowInsetsCompat#getSystemGestureInsets()
    */
-  public void setSystemGestureInsetsMarginDimensions(@Nullable Sides values) {
-    if (!ObjectsCompat.equals(systemGestureInsetsMarginDimensions, values)) {
-      systemGestureInsetsMarginDimensions = values;
+  public void setSystemGestureInsetsMarginSides(@Nullable Sides values) {
+    if (!ObjectsCompat.equals(systemGestureInsetsMarginSides, values)) {
+      systemGestureInsetsMarginSides = values;
       ViewCompat.requestApplyInsets(this);
     }
   }
