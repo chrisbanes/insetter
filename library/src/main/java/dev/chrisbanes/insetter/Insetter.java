@@ -28,6 +28,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import dev.chrisbanes.insetter.Sides.Side;
 import java.util.Locale;
 
 /** A helper class to make handling {@link android.view.WindowInsets} easier. */
@@ -36,10 +37,10 @@ public final class Insetter {
   static final String TAG = "Insetter";
 
   @Nullable private OnApplyInsetsListener onApplyInsetsListener;
-  @NonNull private Sides paddingSystemWindowInsets;
-  @NonNull private Sides marginSystemWindowInsets;
-  @NonNull private Sides paddingSystemGestureInsets;
-  @NonNull private Sides marginSystemGestureInsets;
+  private int paddingSystemWindowInsets;
+  private int marginSystemWindowInsets;
+  private int paddingSystemGestureInsets;
+  private int marginSystemGestureInsets;
   private boolean consumeSystemWindowInsets;
 
   private Insetter(@NonNull Builder builder) {
@@ -55,10 +56,10 @@ public final class Insetter {
   public static final class Builder {
 
     @Nullable private OnApplyInsetsListener onApplyInsetsListener;
-    @NonNull private Sides paddingSystemWindowInsets = Sides.NONE;
-    @NonNull private Sides marginSystemWindowInsets = Sides.NONE;
-    @NonNull private Sides paddingSystemGestureInsets = Sides.NONE;
-    @NonNull private Sides marginSystemGestureInsets = Sides.NONE;
+    private int paddingSystemWindowInsets;
+    private int marginSystemWindowInsets;
+    private int paddingSystemGestureInsets;
+    private int marginSystemGestureInsets;
     private boolean consumeSystemWindowInsets;
 
     private Builder() {
@@ -67,8 +68,8 @@ public final class Insetter {
 
     /**
      * @param onApplyInsetsListener Callback for supplying custom logic to apply insets. If set,
-     *     Insetter will ignore any specified {@link Sides}, and the caller is responsible for
-     *     applying insets.
+     *     Insetter will ignore any specified side flags, and the caller is responsible for applying
+     *     insets.
      * @see Insetter#setOnApplyInsetsListener(View)
      */
     @NonNull
@@ -78,58 +79,46 @@ public final class Insetter {
     }
 
     /**
-     * @param sides specifies the {@link Sides} on which the system window insets should be applied
-     *     to the padding. Ignored if {@link Insetter#onApplyInsetsListener } is set.
+     * @param flags specifies the sides on which the system window insets should be applied to the
+     *     padding. Ignored if {@link Insetter#onApplyInsetsListener } is set.
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
-    public Builder applySystemWindowInsetsToPadding(@Nullable Sides sides) {
-      if (sides != null) {
-        paddingSystemWindowInsets = sides;
-      }
-
+    public Builder applySystemWindowInsetsToPadding(@Side int flags) {
+      paddingSystemWindowInsets = flags;
       return this;
     }
 
     /**
-     * @param sides specifies the {@link Sides} on which the system window insets should be applied
-     *     to the margin. Ignored if {@link Insetter#onApplyInsetsListener } is set.
+     * @param flags specifies the sides on which the system window insets should be applied to the
+     *     margin. Ignored if {@link Insetter#onApplyInsetsListener } is set.
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
-    public Builder applySystemWindowInsetsToMargin(@Nullable Sides sides) {
-      if (sides != null) {
-        marginSystemWindowInsets = sides;
-      }
-
+    public Builder applySystemWindowInsetsToMargin(@Side int flags) {
+      marginSystemWindowInsets = flags;
       return this;
     }
 
     /**
-     * @param sides specifies the {@link Sides} on which the system gesture insets should be applied
-     *     to the padding. Ignored if {@link Insetter#onApplyInsetsListener } is set.
+     * @param flags specifies the sides on which the system gesture insets should be applied to the
+     *     padding. Ignored if {@link Insetter#onApplyInsetsListener } is set.
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
-    public Builder applySystemGestureInsetsToPadding(@Nullable Sides sides) {
-      if (sides != null) {
-        paddingSystemGestureInsets = sides;
-      }
-
+    public Builder applySystemGestureInsetsToPadding(@Side int flags) {
+      paddingSystemGestureInsets = flags;
       return this;
     }
 
     /**
-     * @param sides specifies the {@link Sides} on which the system gesture insets should be applied
-     *     to the margin. Ignored if {@link Insetter#onApplyInsetsListener } is set.
+     * @param flags specifies the sides on which the system gesture insets should be applied to the
+     *     margin. Ignored if {@link Insetter#onApplyInsetsListener } is set.
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
-    public Builder applySystemGestureInsetsToMargin(@Nullable Sides sides) {
-      if (sides != null) {
-        marginSystemGestureInsets = sides;
-      }
-
+    public Builder applySystemGestureInsetsToMargin(@Side int flags) {
+      marginSystemGestureInsets = flags;
       return this;
     }
 
@@ -254,7 +243,7 @@ public final class Insetter {
    *
    * <p>How the given insets are applied depends on the options provided via the various parameters.
    * Each of {@code paddingSystemWindowInsets}, {@code marginSystemWindowInsets}, {@code
-   * paddingSystemGestureInsets} and {@code marginSystemGestureInsets} accept {@link Sides} values.
+   * paddingSystemGestureInsets} and {@code marginSystemGestureInsets} accept side flag values.
    *
    * @param view the view to apply inset handling too
    * @param insets the insets to apply
@@ -281,30 +270,30 @@ public final class Insetter {
 
     final ViewDimensions initialPadding = initialState.getPaddings();
     int paddingLeft = view.getPaddingLeft();
-    if (paddingSystemGestureInsets.left()) {
+    if (Sides.hasSide(paddingSystemGestureInsets, Sides.LEFT)) {
       paddingLeft = initialPadding.getLeft() + systemGestureInsets.left;
-    } else if (paddingSystemWindowInsets.left()) {
+    } else if (Sides.hasSide(paddingSystemWindowInsets, Sides.LEFT)) {
       paddingLeft = initialPadding.getLeft() + systemWindowInsets.left;
     }
 
     int paddingTop = view.getPaddingTop();
-    if (paddingSystemGestureInsets.top()) {
+    if (Sides.hasSide(paddingSystemGestureInsets, Sides.TOP)) {
       paddingTop = initialPadding.getTop() + systemGestureInsets.top;
-    } else if (paddingSystemWindowInsets.top()) {
+    } else if (Sides.hasSide(paddingSystemWindowInsets, Sides.TOP)) {
       paddingTop = initialPadding.getTop() + systemWindowInsets.top;
     }
 
     int paddingRight = view.getPaddingRight();
-    if (paddingSystemGestureInsets.right()) {
+    if (Sides.hasSide(paddingSystemGestureInsets, Sides.RIGHT)) {
       paddingRight = initialPadding.getRight() + systemGestureInsets.right;
-    } else if (paddingSystemWindowInsets.right()) {
+    } else if (Sides.hasSide(paddingSystemWindowInsets, Sides.RIGHT)) {
       paddingRight = initialPadding.getRight() + systemWindowInsets.right;
     }
 
     int paddingBottom = view.getPaddingBottom();
-    if (paddingSystemGestureInsets.bottom()) {
+    if (Sides.hasSide(paddingSystemGestureInsets, Sides.BOTTOM)) {
       paddingBottom = initialPadding.getBottom() + systemGestureInsets.bottom;
-    } else if (paddingSystemWindowInsets.bottom()) {
+    } else if (Sides.hasSide(paddingSystemWindowInsets, Sides.BOTTOM)) {
       paddingBottom = initialPadding.getBottom() + systemWindowInsets.bottom;
     }
 
@@ -331,30 +320,30 @@ public final class Insetter {
       final ViewDimensions initialMargins = initialState.getMargins();
 
       int marginLeft = mlp.leftMargin;
-      if (marginSystemGestureInsets.left()) {
+      if (Sides.hasSide(marginSystemGestureInsets, Sides.LEFT)) {
         marginLeft = initialMargins.getLeft() + systemGestureInsets.left;
-      } else if (marginSystemWindowInsets.left()) {
+      } else if (Sides.hasSide(marginSystemWindowInsets, Sides.LEFT)) {
         marginLeft = initialMargins.getLeft() + systemWindowInsets.left;
       }
 
       int marginTop = mlp.topMargin;
-      if (marginSystemGestureInsets.top()) {
+      if (Sides.hasSide(marginSystemGestureInsets, Sides.TOP)) {
         marginTop = initialMargins.getTop() + systemGestureInsets.top;
-      } else if (marginSystemWindowInsets.top()) {
+      } else if (Sides.hasSide(marginSystemWindowInsets, Sides.TOP)) {
         marginTop = initialMargins.getTop() + systemWindowInsets.top;
       }
 
       int marginRight = mlp.rightMargin;
-      if (marginSystemGestureInsets.right()) {
+      if (Sides.hasSide(marginSystemGestureInsets, Sides.RIGHT)) {
         marginRight = initialMargins.getRight() + systemGestureInsets.right;
-      } else if (marginSystemWindowInsets.right()) {
+      } else if (Sides.hasSide(marginSystemWindowInsets, Sides.RIGHT)) {
         marginRight = initialMargins.getRight() + systemWindowInsets.right;
       }
 
       int marginBottom = mlp.bottomMargin;
-      if (marginSystemGestureInsets.bottom()) {
+      if (Sides.hasSide(marginSystemGestureInsets, Sides.BOTTOM)) {
         marginBottom = initialMargins.getBottom() + systemGestureInsets.bottom;
-      } else if (marginSystemWindowInsets.bottom()) {
+      } else if (Sides.hasSide(marginSystemWindowInsets, Sides.BOTTOM)) {
         marginBottom = initialMargins.getBottom() + systemWindowInsets.bottom;
       }
 
@@ -381,7 +370,7 @@ public final class Insetter {
                   marginBottom));
         }
       }
-    } else if (marginSystemGestureInsets.hasSidesSet() || marginSystemWindowInsets.hasSidesSet()) {
+    } else if (marginSystemGestureInsets != 0 || marginSystemWindowInsets != 0) {
       throw new IllegalArgumentException(
           "Margin inset handling requested but view LayoutParams do not"
               + " extend MarginLayoutParams");

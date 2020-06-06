@@ -17,7 +17,6 @@
 package dev.chrisbanes.insetter.widgets.constraintlayout;
 
 import android.view.Gravity;
-import androidx.annotation.NonNull;
 import dev.chrisbanes.insetter.Sides;
 
 class AttributeHelper {
@@ -27,10 +26,9 @@ class AttributeHelper {
   private static final int RIGHT = Gravity.RIGHT;
   private static final int BOTTOM = Gravity.BOTTOM;
 
-  @NonNull
-  static Sides flagToSides(int value) {
+  static int flagToSides(int value) {
     // Fast path if the value is empty
-    if (value == 0) return Sides.NONE;
+    if (value == 0) return 0;
 
     return Sides.create(
         hasFlag(value, LEFT), hasFlag(value, TOP), hasFlag(value, RIGHT), hasFlag(value, BOTTOM));

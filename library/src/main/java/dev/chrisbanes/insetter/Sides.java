@@ -16,136 +16,47 @@
 
 package dev.chrisbanes.insetter;
 
+import androidx.annotation.IntDef;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.Locale;
+
 /**
  * A class specifying the sides of a {@link android.view.View} on which the relevant insets should
  * be applied.
  */
 public final class Sides {
-  public static final Sides NONE = Sides.create(false, false, false, false);
 
-  private final boolean left;
-  private final boolean top;
-  private final boolean right;
-  private final boolean bottom;
+  @IntDef(
+      flag = true,
+      value = {LEFT, TOP, RIGHT, BOTTOM})
+  @Retention(RetentionPolicy.SOURCE)
+  public @interface Side {}
 
-  private Sides(Builder builder) {
-    left = builder.left;
-    top = builder.top;
-    right = builder.right;
-    bottom = builder.bottom;
+  public static final int LEFT = 1;
+
+  public static final int TOP = 1 << 1;
+
+  public static final int RIGHT = 1 << 2;
+
+  public static final int BOTTOM = 1 << 3;
+
+  @Side
+  public static int create(boolean left, boolean top, boolean right, boolean bottom) {
+    return (left ? LEFT : 0) | (top ? TOP : 0) | (right ? RIGHT : 0) | (bottom ? BOTTOM : 0);
   }
 
-  /**
-   * Returns true if applying the relevant insets to the left side of the {@link android.view.View}
-   * is enabled, false otherwise.
-   */
-  public boolean left() {
-    return left;
+  protected static boolean hasSide(int sides, @Side int flag) {
+    return (sides & flag) == flag;
   }
 
-  /**
-   * Returns true if applying the relevant insets to the top side of the {@link android.view.View}
-   * is enabled, false otherwise.
-   */
-  public boolean top() {
-    return top;
-  }
-
-  /**
-   * Returns true if applying the relevant insets to the right side of the {@link android.view.View}
-   * is enabled, false otherwise.
-   */
-  public boolean right() {
-    return right;
-  }
-
-  /**
-   * Returns true if applying the relevant insets to the bottom side of the {@link
-   * android.view.View} is enabled, false otherwise.
-   */
-  public boolean bottom() {
-    return bottom;
-  }
-
-  /**
-   * Returns true if applying the relevant insets to any sides of the {@link android.view.View} is
-   * enabled, false otherwise.
-   */
-  public boolean hasSidesSet() {
-    return left || top || right || bottom;
-  }
-
-  /**
-   * A convenience method for instances of {@link Sides} when all sides are used.
-   *
-   * @param left true to enable setting the relevant insets on the left side of the {@link
-   *     android.view.View}, false otherwise. Disabled by default.
-   * @param top true to enable setting the relevant insets on the top side of the {@link
-   *     android.view.View}, false otherwise. Disabled by default.
-   * @param right true to enable setting the relevant insets on the right side of the {@link
-   *     android.view.View}, false otherwise. Disabled by default.
-   * @param bottom true to enable setting the relevant insets on the bottom side of the {@link
-   *     android.view.View}, false otherwise. Disabled by default.
-   */
-  public static Sides create(boolean left, boolean top, boolean right, boolean bottom) {
-    return Sides.builder().left(left).top(top).right(right).bottom(bottom).build();
-  }
-
-  /** Returns a build for creating an instance of {@link Sides}. */
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  /** A builder class for creating instances of {@link Sides}. */
-  public static final class Builder {
-    private boolean left;
-    private boolean top;
-    private boolean right;
-    private boolean bottom;
-
-    private Builder() {
-      // private constructor.
-    }
-
-    /**
-     * @param left true to enable setting the relevant insets on the left side of the {@link
-     *     android.view.View}, false otherwise. Disabled by default.
-     */
-    public Builder left(boolean left) {
-      this.left = left;
-      return this;
-    }
-
-    /**
-     * @param top true to enable setting the relevant insets on the top side of the {@link
-     *     android.view.View}, false otherwise. Disabled by default.
-     */
-    public Builder top(boolean top) {
-      this.top = top;
-      return this;
-    }
-
-    /**
-     * @param right true to enable setting the relevant insets on the right side of the {@link
-     *     android.view.View}, false otherwise. Disabled by default.
-     */
-    public Builder right(boolean right) {
-      this.right = right;
-      return this;
-    }
-
-    /**
-     * @param bottom true to enable setting the relevant insets on the bottom side of the {@link
-     *     android.view.View}, false otherwise. Disabled by default.
-     */
-    public Builder bottom(boolean bottom) {
-      this.bottom = bottom;
-      return this;
-    }
-
-    /** Builds the {@link Sides} instance. */
-    public Sides build() {
-      return new Sides(this);
-    }
+  private static String toString(@Side int sides) {
+    return String.format(
+        Locale.US,
+        "Sides{left=%b, top=%b, right=%b, bottom=%b}",
+        hasSide(sides, Sides.LEFT),
+        hasSide(sides, Sides.TOP),
+        hasSide(sides, Sides.RIGHT),
+        hasSide(sides, Sides.BOTTOM));
   }
 }
