@@ -25,13 +25,13 @@ import java.util.Locale;
  * A class specifying the sides of a {@link android.view.View} on which the relevant insets should
  * be applied.
  */
-public final class Sides {
+public final class SideUtils {
 
   @IntDef(
       flag = true,
       value = {LEFT, TOP, RIGHT, BOTTOM})
   @Retention(RetentionPolicy.SOURCE)
-  public @interface Side {}
+  public @interface Sides {}
 
   public static final int LEFT = 1;
 
@@ -41,22 +41,22 @@ public final class Sides {
 
   public static final int BOTTOM = 1 << 3;
 
-  @Side
+  @Sides
   public static int create(boolean left, boolean top, boolean right, boolean bottom) {
     return (left ? LEFT : 0) | (top ? TOP : 0) | (right ? RIGHT : 0) | (bottom ? BOTTOM : 0);
   }
 
-  protected static boolean hasSide(int sides, @Side int flag) {
+  protected static boolean hasSide(int sides, @Sides int flag) {
     return (sides & flag) == flag;
   }
 
-  private static String toString(@Side int sides) {
+  private static String toString(@Sides int sides) {
     return String.format(
         Locale.US,
         "Sides{left=%b, top=%b, right=%b, bottom=%b}",
-        hasSide(sides, Sides.LEFT),
-        hasSide(sides, Sides.TOP),
-        hasSide(sides, Sides.RIGHT),
-        hasSide(sides, Sides.BOTTOM));
+        hasSide(sides, SideUtils.LEFT),
+        hasSide(sides, SideUtils.TOP),
+        hasSide(sides, SideUtils.RIGHT),
+        hasSide(sides, SideUtils.BOTTOM));
   }
 }

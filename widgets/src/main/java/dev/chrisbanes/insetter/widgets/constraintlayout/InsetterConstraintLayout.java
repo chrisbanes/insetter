@@ -28,7 +28,7 @@ import androidx.core.util.ObjectsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import dev.chrisbanes.insetter.Insetter;
-import dev.chrisbanes.insetter.Sides.Side;
+import dev.chrisbanes.insetter.SideUtils.Sides;
 import dev.chrisbanes.insetter.ViewState;
 import dev.chrisbanes.insetter.widgets.R;
 
@@ -208,7 +208,7 @@ public class InsetterConstraintLayout extends ConstraintLayout {
      *
      * @see WindowInsetsCompat#getSystemWindowInsets()
      */
-    public void setSystemWindowInsetsPaddingSides(@Side int flags) {
+    public void setSystemWindowInsetsPaddingSides(@Sides int flags) {
       if (!ObjectsCompat.equals(systemWindowInsetsPaddingSides, flags)) {
         systemWindowInsetsPaddingSides = flags;
         requestApplyInsetsRequired = true;
@@ -233,7 +233,7 @@ public class InsetterConstraintLayout extends ConstraintLayout {
      *
      * @see WindowInsetsCompat#getSystemGestureInsets()
      */
-    public void setSystemGestureInsetsPaddingSides(@Side int flags) {
+    public void setSystemGestureInsetsPaddingSides(@Sides int flags) {
       if (!ObjectsCompat.equals(systemGestureInsetsPaddingSides, flags)) {
         systemGestureInsetsPaddingSides = flags;
         requestApplyInsetsRequired = true;
@@ -258,7 +258,7 @@ public class InsetterConstraintLayout extends ConstraintLayout {
      *
      * @see WindowInsetsCompat#getSystemWindowInsets()
      */
-    public void setSystemWindowInsetsMarginSides(@Side int flags) {
+    public void setSystemWindowInsetsMarginSides(@Sides int flags) {
       if (!ObjectsCompat.equals(systemWindowInsetsMarginSides, flags)) {
         systemWindowInsetsMarginSides = flags;
         requestApplyInsetsRequired = true;
@@ -283,7 +283,7 @@ public class InsetterConstraintLayout extends ConstraintLayout {
      *
      * @see WindowInsetsCompat#getSystemGestureInsets()
      */
-    public void setSystemGestureInsetsMarginSides(@Side int flags) {
+    public void setSystemGestureInsetsMarginSides(@Sides int flags) {
       if (!ObjectsCompat.equals(systemGestureInsetsMarginSides, flags)) {
         systemGestureInsetsMarginSides = flags;
         requestApplyInsetsRequired = true;

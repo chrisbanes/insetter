@@ -28,7 +28,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import dev.chrisbanes.insetter.Sides.Side;
+import dev.chrisbanes.insetter.SideUtils.Sides;
 import java.util.Locale;
 
 /** A helper class to make handling {@link android.view.WindowInsets} easier. */
@@ -84,7 +84,7 @@ public final class Insetter {
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
-    public Builder applySystemWindowInsetsToPadding(@Side int flags) {
+    public Builder applySystemWindowInsetsToPadding(@Sides int flags) {
       paddingSystemWindowInsets = flags;
       return this;
     }
@@ -95,7 +95,7 @@ public final class Insetter {
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
-    public Builder applySystemWindowInsetsToMargin(@Side int flags) {
+    public Builder applySystemWindowInsetsToMargin(@Sides int flags) {
       marginSystemWindowInsets = flags;
       return this;
     }
@@ -106,7 +106,7 @@ public final class Insetter {
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
-    public Builder applySystemGestureInsetsToPadding(@Side int flags) {
+    public Builder applySystemGestureInsetsToPadding(@Sides int flags) {
       paddingSystemGestureInsets = flags;
       return this;
     }
@@ -117,7 +117,7 @@ public final class Insetter {
      * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState)
      */
     @NonNull
-    public Builder applySystemGestureInsetsToMargin(@Side int flags) {
+    public Builder applySystemGestureInsetsToMargin(@Sides int flags) {
       marginSystemGestureInsets = flags;
       return this;
     }
@@ -270,30 +270,30 @@ public final class Insetter {
 
     final ViewDimensions initialPadding = initialState.getPaddings();
     int paddingLeft = view.getPaddingLeft();
-    if (Sides.hasSide(paddingSystemGestureInsets, Sides.LEFT)) {
+    if (SideUtils.hasSide(paddingSystemGestureInsets, SideUtils.LEFT)) {
       paddingLeft = initialPadding.getLeft() + systemGestureInsets.left;
-    } else if (Sides.hasSide(paddingSystemWindowInsets, Sides.LEFT)) {
+    } else if (SideUtils.hasSide(paddingSystemWindowInsets, SideUtils.LEFT)) {
       paddingLeft = initialPadding.getLeft() + systemWindowInsets.left;
     }
 
     int paddingTop = view.getPaddingTop();
-    if (Sides.hasSide(paddingSystemGestureInsets, Sides.TOP)) {
+    if (SideUtils.hasSide(paddingSystemGestureInsets, SideUtils.TOP)) {
       paddingTop = initialPadding.getTop() + systemGestureInsets.top;
-    } else if (Sides.hasSide(paddingSystemWindowInsets, Sides.TOP)) {
+    } else if (SideUtils.hasSide(paddingSystemWindowInsets, SideUtils.TOP)) {
       paddingTop = initialPadding.getTop() + systemWindowInsets.top;
     }
 
     int paddingRight = view.getPaddingRight();
-    if (Sides.hasSide(paddingSystemGestureInsets, Sides.RIGHT)) {
+    if (SideUtils.hasSide(paddingSystemGestureInsets, SideUtils.RIGHT)) {
       paddingRight = initialPadding.getRight() + systemGestureInsets.right;
-    } else if (Sides.hasSide(paddingSystemWindowInsets, Sides.RIGHT)) {
+    } else if (SideUtils.hasSide(paddingSystemWindowInsets, SideUtils.RIGHT)) {
       paddingRight = initialPadding.getRight() + systemWindowInsets.right;
     }
 
     int paddingBottom = view.getPaddingBottom();
-    if (Sides.hasSide(paddingSystemGestureInsets, Sides.BOTTOM)) {
+    if (SideUtils.hasSide(paddingSystemGestureInsets, SideUtils.BOTTOM)) {
       paddingBottom = initialPadding.getBottom() + systemGestureInsets.bottom;
-    } else if (Sides.hasSide(paddingSystemWindowInsets, Sides.BOTTOM)) {
+    } else if (SideUtils.hasSide(paddingSystemWindowInsets, SideUtils.BOTTOM)) {
       paddingBottom = initialPadding.getBottom() + systemWindowInsets.bottom;
     }
 
@@ -320,30 +320,30 @@ public final class Insetter {
       final ViewDimensions initialMargins = initialState.getMargins();
 
       int marginLeft = mlp.leftMargin;
-      if (Sides.hasSide(marginSystemGestureInsets, Sides.LEFT)) {
+      if (SideUtils.hasSide(marginSystemGestureInsets, SideUtils.LEFT)) {
         marginLeft = initialMargins.getLeft() + systemGestureInsets.left;
-      } else if (Sides.hasSide(marginSystemWindowInsets, Sides.LEFT)) {
+      } else if (SideUtils.hasSide(marginSystemWindowInsets, SideUtils.LEFT)) {
         marginLeft = initialMargins.getLeft() + systemWindowInsets.left;
       }
 
       int marginTop = mlp.topMargin;
-      if (Sides.hasSide(marginSystemGestureInsets, Sides.TOP)) {
+      if (SideUtils.hasSide(marginSystemGestureInsets, SideUtils.TOP)) {
         marginTop = initialMargins.getTop() + systemGestureInsets.top;
-      } else if (Sides.hasSide(marginSystemWindowInsets, Sides.TOP)) {
+      } else if (SideUtils.hasSide(marginSystemWindowInsets, SideUtils.TOP)) {
         marginTop = initialMargins.getTop() + systemWindowInsets.top;
       }
 
       int marginRight = mlp.rightMargin;
-      if (Sides.hasSide(marginSystemGestureInsets, Sides.RIGHT)) {
+      if (SideUtils.hasSide(marginSystemGestureInsets, SideUtils.RIGHT)) {
         marginRight = initialMargins.getRight() + systemGestureInsets.right;
-      } else if (Sides.hasSide(marginSystemWindowInsets, Sides.RIGHT)) {
+      } else if (SideUtils.hasSide(marginSystemWindowInsets, SideUtils.RIGHT)) {
         marginRight = initialMargins.getRight() + systemWindowInsets.right;
       }
 
       int marginBottom = mlp.bottomMargin;
-      if (Sides.hasSide(marginSystemGestureInsets, Sides.BOTTOM)) {
+      if (SideUtils.hasSide(marginSystemGestureInsets, SideUtils.BOTTOM)) {
         marginBottom = initialMargins.getBottom() + systemGestureInsets.bottom;
-      } else if (Sides.hasSide(marginSystemWindowInsets, Sides.BOTTOM)) {
+      } else if (SideUtils.hasSide(marginSystemWindowInsets, SideUtils.BOTTOM)) {
         marginBottom = initialMargins.getBottom() + systemWindowInsets.bottom;
       }
 

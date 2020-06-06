@@ -17,7 +17,7 @@
 package dev.chrisbanes.insetter.widgets.constraintlayout;
 
 import android.view.Gravity;
-import dev.chrisbanes.insetter.Sides;
+import dev.chrisbanes.insetter.SideUtils;
 
 class AttributeHelper {
   // These values match the values in attrs.xml
@@ -30,7 +30,7 @@ class AttributeHelper {
     // Fast path if the value is empty
     if (value == 0) return 0;
 
-    return Sides.create(
+    return SideUtils.create(
         hasFlag(value, LEFT), hasFlag(value, TOP), hasFlag(value, RIGHT), hasFlag(value, BOTTOM));
   }
 
