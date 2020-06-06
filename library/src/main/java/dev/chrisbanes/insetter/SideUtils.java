@@ -16,9 +16,6 @@
 
 package dev.chrisbanes.insetter;
 
-import androidx.annotation.IntDef;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.Locale;
 
 /**
@@ -27,23 +24,12 @@ import java.util.Locale;
  */
 public final class SideUtils {
 
-  @IntDef(
-      flag = true,
-      value = {LEFT, TOP, RIGHT, BOTTOM})
-  @Retention(RetentionPolicy.SOURCE)
-  public @interface Sides {}
-
-  public static final int LEFT = 1;
-
-  public static final int TOP = 1 << 1;
-
-  public static final int RIGHT = 1 << 2;
-
-  public static final int BOTTOM = 1 << 3;
-
   @Sides
   public static int create(boolean left, boolean top, boolean right, boolean bottom) {
-    return (left ? LEFT : 0) | (top ? TOP : 0) | (right ? RIGHT : 0) | (bottom ? BOTTOM : 0);
+    return (left ? Side.LEFT : 0)
+        | (top ? Side.TOP : 0)
+        | (right ? Side.RIGHT : 0)
+        | (bottom ? Side.BOTTOM : 0);
   }
 
   protected static boolean hasSide(int sides, @Sides int flag) {
@@ -54,9 +40,9 @@ public final class SideUtils {
     return String.format(
         Locale.US,
         "Sides{left=%b, top=%b, right=%b, bottom=%b}",
-        hasSide(sides, SideUtils.LEFT),
-        hasSide(sides, SideUtils.TOP),
-        hasSide(sides, SideUtils.RIGHT),
-        hasSide(sides, SideUtils.BOTTOM));
+        hasSide(sides, Side.LEFT),
+        hasSide(sides, Side.TOP),
+        hasSide(sides, Side.RIGHT),
+        hasSide(sides, Side.BOTTOM));
   }
 }

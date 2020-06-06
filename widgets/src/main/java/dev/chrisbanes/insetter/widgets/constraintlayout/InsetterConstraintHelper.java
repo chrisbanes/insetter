@@ -28,7 +28,7 @@ import androidx.core.util.ObjectsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import dev.chrisbanes.insetter.Insetter;
-import dev.chrisbanes.insetter.SideUtils.Sides;
+import dev.chrisbanes.insetter.Sides;
 import dev.chrisbanes.insetter.ViewState;
 import dev.chrisbanes.insetter.widgets.R;
 
