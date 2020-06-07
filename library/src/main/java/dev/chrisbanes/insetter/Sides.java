@@ -22,6 +22,6 @@ import java.lang.annotation.RetentionPolicy;
 
 @IntDef(
     flag = true,
-    value = {Side.LEFT, Side.TOP, Side.RIGHT, Side.BOTTOM})
+    value = {Side.LEFT, Side.TOP, Side.RIGHT, Side.BOTTOM, Side.ALL})
 @Retention(RetentionPolicy.SOURCE)
 public @interface Sides {}

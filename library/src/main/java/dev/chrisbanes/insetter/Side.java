@@ -27,6 +27,8 @@ public final class Side {
 
   public static final int BOTTOM = 1 << 3;
 
+  public static final int ALL = LEFT | TOP | RIGHT | BOTTOM;
+
   private Side() {
     // no instantiation
   }
