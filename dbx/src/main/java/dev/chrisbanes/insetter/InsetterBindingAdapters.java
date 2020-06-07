@@ -69,25 +69,25 @@ public class InsetterBindingAdapters {
       final boolean marginSystemGestureBottom) {
     Insetter.builder()
         .applySystemWindowInsetsToPadding(
-            SideUtils.create(
+            Side.create(
                 padSystemWindowLeft,
                 padSystemWindowTop,
                 padSystemWindowRight,
                 padSystemWindowBottom))
         .applySystemWindowInsetsToMargin(
-            SideUtils.create(
+            Side.create(
                 marginSystemWindowLeft,
                 marginSystemWindowTop,
                 marginSystemWindowRight,
                 marginSystemWindowBottom))
         .applySystemGestureInsetsToPadding(
-            SideUtils.create(
+            Side.create(
                 padSystemGestureLeft,
                 padSystemGestureTop,
                 padSystemGestureRight,
                 padSystemGestureBottom))
         .applySystemGestureInsetsToMargin(
-            SideUtils.create(
+            Side.create(
                 marginSystemGestureLeft,
                 marginSystemGestureTop,
                 marginSystemGestureRight,

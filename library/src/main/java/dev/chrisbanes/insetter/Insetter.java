@@ -369,7 +369,7 @@ public final class Insetter {
                   marginBottom));
         }
       }
-    } else if (marginSystemGestureInsets != 0 || marginSystemWindowInsets != 0) {
+    } else if (marginSystemGestureInsets != Side.NONE || marginSystemWindowInsets != Side.NONE) {
       throw new IllegalArgumentException(
           "Margin inset handling requested but view LayoutParams do not"
               + " extend MarginLayoutParams");

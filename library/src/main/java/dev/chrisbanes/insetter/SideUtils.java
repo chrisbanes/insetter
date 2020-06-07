@@ -24,14 +24,6 @@ import java.util.Locale;
  */
 public final class SideUtils {
 
-  @Sides
-  public static int create(boolean left, boolean top, boolean right, boolean bottom) {
-    return (left ? Side.LEFT : 0)
-        | (top ? Side.TOP : 0)
-        | (right ? Side.RIGHT : 0)
-        | (bottom ? Side.BOTTOM : 0);
-  }
-
   protected static boolean hasSide(int sides, @Sides int flag) {
     return (sides & flag) == flag;
   }

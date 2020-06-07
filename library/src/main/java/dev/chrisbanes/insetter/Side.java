@@ -17,6 +17,8 @@
 package dev.chrisbanes.insetter;
 
 public final class Side {
+  public static final int NONE = 0;
+
   public static final int LEFT = 1;
 
   public static final int TOP = 1 << 1;
@@ -27,5 +29,13 @@ public final class Side {
 
   private Side() {
     // no instantiation
+  }
+
+  @Sides
+  public static int create(boolean left, boolean top, boolean right, boolean bottom) {
+    return (left ? Side.LEFT : 0)
+        | (top ? Side.TOP : 0)
+        | (right ? Side.RIGHT : 0)
+        | (bottom ? Side.BOTTOM : 0);
   }
 }

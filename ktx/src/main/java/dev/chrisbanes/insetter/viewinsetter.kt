@@ -55,7 +55,7 @@ fun View.applySystemWindowInsetsToPadding(
     bottom: Boolean = false,
     consume: Boolean = false
 ) = Insetter.builder()
-    .applySystemWindowInsetsToPadding(SideUtils.create(left, top, right, bottom))
+    .applySystemWindowInsetsToPadding(Side.create(left, top, right, bottom))
     .consumeSystemWindowInsets(consume)
     .applyToView(this)
 
@@ -75,7 +75,7 @@ fun View.applySystemWindowInsetsToMargin(
     bottom: Boolean = false,
     consume: Boolean = false
 ) = Insetter.builder()
-    .applySystemWindowInsetsToMargin(SideUtils.create(left, top, right, bottom))
+    .applySystemWindowInsetsToMargin(Side.create(left, top, right, bottom))
     .consumeSystemWindowInsets(consume)
     .applyToView(this)
 
@@ -95,7 +95,7 @@ fun View.applySystemGestureInsetsToPadding(
     bottom: Boolean = false,
     consume: Boolean = false
 ) = Insetter.builder()
-    .applySystemGestureInsetsToPadding(SideUtils.create(left, top, right, bottom))
+    .applySystemGestureInsetsToPadding(Side.create(left, top, right, bottom))
     .consumeSystemWindowInsets(consume)
     .applyToView(this)
 
@@ -115,6 +115,6 @@ fun View.applySystemGestureInsetsToMargin(
     bottom: Boolean = false,
     consume: Boolean = false
 ) = Insetter.builder()
-    .applySystemGestureInsetsToMargin(SideUtils.create(left, top, right, bottom))
+    .applySystemGestureInsetsToMargin(Side.create(left, top, right, bottom))
     .consumeSystemWindowInsets(consume)
     .applyToView(this)
