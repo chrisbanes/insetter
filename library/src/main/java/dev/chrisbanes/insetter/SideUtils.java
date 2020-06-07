@@ -22,13 +22,13 @@ import java.util.Locale;
  * A class specifying the sides of a {@link android.view.View} on which the relevant insets should
  * be applied.
  */
-public final class SideUtils {
+class SideUtils {
 
-  protected static boolean hasSide(int sides, @Sides int flag) {
+  static boolean hasSide(int sides, @Sides int flag) {
     return (sides & flag) == flag;
   }
 
-  private static String toString(@Sides int sides) {
+  static String toString(@Sides int sides) {
     return String.format(
         Locale.US,
         "Sides{left=%b, top=%b, right=%b, bottom=%b}",
