@@ -1,6 +1,6 @@
 # Insetter
 
-[![GitHub release](https://img.shields.io/github/v/release/chrisbanes/insetter?style=for-the-badge)](https://search.maven.org/search?q=g:dev.chrisbanes%20insetter)
+[![GitHub release](https://maven-badges.herokuapp.com/maven-central/dev.chrisbanes/insetter/badge.svg)](https://search.maven.org/search?q=g:dev.chrisbanes%20insetter)
 
 Insetter is a library to help apps handle
 [WindowInsets](https://developer.android.com/reference/android/view/WindowInsets.html) more easily.
@@ -13,24 +13,27 @@ There are a number of libraries available:
 ### insetter
 [![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter)
 
-The base library which is written in Java.
+The base library which is written in Java, and provides an easy-to-use
+[Builder](/library/src/main/java/dev/chrisbanes/insetter/Insetter.java) for
+[OnApplyWindowInsetsListener](https://developer.android.com/reference/androidx/core/view/OnApplyWindowInsetsListener)
+instances:
+
+``` java
+ Insetter.builder()
+     // This will apply the system window insets as padding to left, bottom and right of the view,
+     // maintaining the original padding (from the layout XML, style, etc)
+     .applySystemWindowInsetsToPadding(Side.LEFT | Side.BOTTOM | Side.RIGHT)
+     // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
+     .applyToView(view);
+```
 
 ### insetter-ktx
 [![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter-ktx/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter-ktx)
 
 A Kotlin extension library, providing Kotlin-specific functionality. This library contains
-extension functions allowing easy access to the helper functions from the base library.
+extension functions allowing easy access to the helper functions from the base library:
 
 ``` kotlin
-bottomNav.doOnApplyWindowInsets { view, insets, initialState ->
-    // padding contains the original padding values after inflation
-    view.updatePadding(
-        bottom = initialState.paddings.bottom + insets.systemWindowInsetBottom
-    )
-}
-
-// More expressive extension methods are recommended to avoid boilerplate code 
-// and make code easier to read.
 bottomNav.applySystemWindowInsetsToPadding(bottom = true)
 btnConfirm.applySystemWindowInsetsToMargin(bottom = true, right = true)
 ```
@@ -110,8 +113,33 @@ dependencies {
 }
 ```
 
-Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
-These are updated on every commit.
+### Snapshots
+
+Snapshots of the current development version are available, which track the latest commit.
+
+<details><summary>Snapshot repository instructions</summary>
+
+The snapshots are deployed to
+[Sonatype's `snapshots` repository](https://oss.sonatype.org/content/repositories/snapshots/dev/chrisbanes/insetter/):
+
+```groovy
+repositories {
+    // ...
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
+dependencies {
+    // Check the latest SNAPSHOT version from the link above
+    implementation "dev.chrisbanes:insetter:<latest version>-SNAPSHOT"
+    implementation "dev.chrisbanes:insetter-dbx:<latest version>-SNAPSHOT"
+    implementation "dev.chrisbanes:insetter-ktx:<latest version>-SNAPSHOT"
+    implementation "dev.chrisbanes:insetter-widgets:<latest version>-SNAPSHOT"
+}
+```
+
+</details>
+
+---
 
 ## Contributions
 
