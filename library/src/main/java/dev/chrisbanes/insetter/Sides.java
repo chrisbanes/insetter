@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,12 @@
 
 package dev.chrisbanes.insetter;
 
-import android.view.View;
-import androidx.core.view.WindowInsetsCompat;
-import java.util.EnumSet;
+import androidx.annotation.IntDef;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-/**
- * Enum containing the dimensions which insets can be applied to.
- *
- * @see Insetter#applyInsetsToView(View, WindowInsetsCompat, ViewState, EnumSet, EnumSet, EnumSet,
- *     EnumSet)
- */
-public enum InsetDimension {
-  LEFT,
-  TOP,
-  RIGHT,
-  BOTTOM
-}
+@IntDef(
+    flag = true,
+    value = {Side.LEFT, Side.TOP, Side.RIGHT, Side.BOTTOM, Side.ALL})
+@Retention(RetentionPolicy.SOURCE)
+public @interface Sides {}

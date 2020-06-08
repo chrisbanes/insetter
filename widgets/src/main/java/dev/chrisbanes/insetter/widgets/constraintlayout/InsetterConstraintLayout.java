@@ -22,17 +22,14 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.util.ObjectsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import dev.chrisbanes.insetter.InsetDimension;
 import dev.chrisbanes.insetter.Insetter;
+import dev.chrisbanes.insetter.Sides;
 import dev.chrisbanes.insetter.ViewState;
 import dev.chrisbanes.insetter.widgets.R;
-import java.util.EnumSet;
 
 /**
  * An extension to {@link ConstraintLayout} which adds enhanced support for inset handling.
@@ -57,8 +54,8 @@ import java.util.EnumSet;
  * &lt;/dev.chrisbanes.insetter.widgets.InsetterConstraintLayout&gt;
  * </pre>
  *
- * Each of the attributes accept a combination of flags which define which dimensions the relevant
- * insets will be applied with.
+ * Each of the attributes accepts a combination of flags which defines the sides on which the
+ * relevant insets will be applied.
  */
 public class InsetterConstraintLayout extends ConstraintLayout {
 
@@ -88,14 +85,13 @@ public class InsetterConstraintLayout extends ConstraintLayout {
       final View view = getChildAt(i);
       final ViewState state = (ViewState) view.getTag(R.id.insetter_initial_state);
       final LayoutParams lp = (LayoutParams) view.getLayoutParams();
-      Insetter.applyInsetsToView(
-          view,
-          insetsCompat,
-          state,
-          lp.systemWindowInsetsPaddingDimensions,
-          lp.systemWindowInsetsMarginDimensions,
-          lp.systemGestureInsetsPaddingDimensions,
-          lp.systemGestureInsetsMarginDimensions);
+      Insetter.builder()
+          .applySystemWindowInsetsToPadding(lp.systemWindowInsetsPaddingSides)
+          .applySystemWindowInsetsToMargin(lp.systemWindowInsetsMarginSides)
+          .applySystemGestureInsetsToPadding(lp.systemGestureInsetsPaddingSides)
+          .applySystemGestureInsetsToMargin(lp.systemGestureInsetsMarginSides)
+          .build()
+          .applyInsetsToView(view, insetsCompat, state);
     }
     return insetsCompat.toWindowInsets();
   }
@@ -136,10 +132,10 @@ public class InsetterConstraintLayout extends ConstraintLayout {
   }
 
   public static class LayoutParams extends ConstraintLayout.LayoutParams {
-    private EnumSet<InsetDimension> systemWindowInsetsPaddingDimensions = null;
-    private EnumSet<InsetDimension> systemGestureInsetsPaddingDimensions = null;
-    private EnumSet<InsetDimension> systemWindowInsetsMarginDimensions = null;
-    private EnumSet<InsetDimension> systemGestureInsetsMarginDimensions = null;
+    private int systemWindowInsetsPaddingSides;
+    private int systemGestureInsetsPaddingSides;
+    private int systemWindowInsetsMarginSides;
+    private int systemGestureInsetsMarginSides;
 
     private boolean requestApplyInsetsRequired = true;
 
@@ -157,10 +153,10 @@ public class InsetterConstraintLayout extends ConstraintLayout {
 
     public LayoutParams(LayoutParams source) {
       super(source);
-      systemWindowInsetsPaddingDimensions = source.systemWindowInsetsPaddingDimensions;
-      systemWindowInsetsMarginDimensions = source.systemWindowInsetsMarginDimensions;
-      systemGestureInsetsPaddingDimensions = source.systemGestureInsetsPaddingDimensions;
-      systemGestureInsetsMarginDimensions = source.systemGestureInsetsMarginDimensions;
+      systemWindowInsetsPaddingSides = source.systemWindowInsetsPaddingSides;
+      systemWindowInsetsMarginSides = source.systemWindowInsetsMarginSides;
+      systemGestureInsetsPaddingSides = source.systemGestureInsetsPaddingSides;
+      systemGestureInsetsMarginSides = source.systemGestureInsetsMarginSides;
     }
 
     public LayoutParams(Context c, AttributeSet attrs) {
@@ -171,23 +167,20 @@ public class InsetterConstraintLayout extends ConstraintLayout {
 
       final int paddingSystemWindowInsetsFlags =
           ta.getInt(R.styleable.InsetterConstraintHelper_paddingSystemWindowInsets, 0);
-      systemWindowInsetsPaddingDimensions =
-          AttributeHelper.flagToEnumSet(paddingSystemWindowInsetsFlags);
+      systemWindowInsetsPaddingSides = AttributeHelper.flagToSides(paddingSystemWindowInsetsFlags);
 
       final int marginSystemWindowInsetsFlags =
           ta.getInt(R.styleable.InsetterConstraintHelper_layout_marginSystemWindowInsets, 0);
-      systemWindowInsetsMarginDimensions =
-          AttributeHelper.flagToEnumSet(marginSystemWindowInsetsFlags);
+      systemWindowInsetsMarginSides = AttributeHelper.flagToSides(marginSystemWindowInsetsFlags);
 
       final int paddingSystemGestureInsetsFlags =
           ta.getInt(R.styleable.InsetterConstraintHelper_paddingSystemGestureInsets, 0);
-      systemGestureInsetsPaddingDimensions =
-          AttributeHelper.flagToEnumSet(paddingSystemGestureInsetsFlags);
+      systemGestureInsetsPaddingSides =
+          AttributeHelper.flagToSides(paddingSystemGestureInsetsFlags);
 
       final int marginSystemGestureInsetsFlags =
           ta.getInt(R.styleable.InsetterConstraintHelper_layout_marginSystemGestureInsets, 0);
-      systemGestureInsetsMarginDimensions =
-          AttributeHelper.flagToEnumSet(marginSystemGestureInsetsFlags);
+      systemGestureInsetsMarginSides = AttributeHelper.flagToSides(marginSystemGestureInsetsFlags);
 
       ta.recycle();
     }
@@ -197,113 +190,101 @@ public class InsetterConstraintLayout extends ConstraintLayout {
     }
 
     /**
-     * Returns the {@link EnumSet} of {@link InsetDimension}s which define which padding dimensions
-     * should be applied using the system window insets.
+     * Returns the sides on which system window insets should be applied to the padding.
      *
      * <p>This value can be set using the {@code app:paddingSystemWindowInsets} attribute.
      *
      * @see WindowInsetsCompat#getSystemWindowInsets()
      */
-    @Nullable
-    public EnumSet<InsetDimension> getSystemWindowInsetsPaddingDimensions() {
-      return systemWindowInsetsPaddingDimensions;
+    public int getSystemWindowInsetsPaddingSides() {
+      return systemWindowInsetsPaddingSides;
     }
 
     /**
-     * Set the {@link InsetDimension}s which define which padding dimensions should be applied using
-     * the system window insets.
+     * Set the sides on which system window insets should be applied to the padding.
      *
      * <p>This value can be set using the {@code app:paddingSystemWindowInsets} attribute.
      *
      * @see WindowInsetsCompat#getSystemWindowInsets()
      */
-    public void setSystemWindowInsetsPaddingDimensions(@Nullable EnumSet<InsetDimension> values) {
-      if (!ObjectsCompat.equals(systemWindowInsetsPaddingDimensions, values)) {
-        systemWindowInsetsPaddingDimensions = values;
+    public void setSystemWindowInsetsPaddingSides(@Sides int flags) {
+      if (systemWindowInsetsPaddingSides != flags) {
+        systemWindowInsetsPaddingSides = flags;
         requestApplyInsetsRequired = true;
       }
     }
 
     /**
-     * Returns the {@link EnumSet} of {@link InsetDimension}s which define which padding dimensions
-     * should be applied using the system gesture insets.
+     * Returns the sides on which system gesture insets should be applied to the padding.
      *
      * <p>This value can be set using the {@code app:paddingSystemGestureInsets} attribute.
      *
      * @see WindowInsetsCompat#getSystemGestureInsets()
      */
-    @Nullable
-    public EnumSet<InsetDimension> getSystemGestureInsetsPaddingDimensions() {
-      return systemGestureInsetsPaddingDimensions;
+    public int getSystemGestureInsetsPaddingSides() {
+      return systemGestureInsetsPaddingSides;
     }
 
     /**
-     * Set the {@link InsetDimension}s which define which padding dimensions should be applied using
-     * the system gesture insets.
+     * Set the sides on which system gesture insets should be applied to the padding.
      *
      * <p>This value can be set using the {@code app:paddingSystemGestureInsets} attribute.
      *
      * @see WindowInsetsCompat#getSystemGestureInsets()
      */
-    public void setSystemGestureInsetsPaddingDimensions(@Nullable EnumSet<InsetDimension> values) {
-      if (!ObjectsCompat.equals(systemGestureInsetsPaddingDimensions, values)) {
-        systemGestureInsetsPaddingDimensions = values;
+    public void setSystemGestureInsetsPaddingSides(@Sides int flags) {
+      if (systemGestureInsetsPaddingSides != flags) {
+        systemGestureInsetsPaddingSides = flags;
         requestApplyInsetsRequired = true;
       }
     }
 
     /**
-     * Returns the {@link EnumSet} of {@link InsetDimension}s which define which margin dimensions
-     * should be applied using the system window insets.
+     * Returns the sides on which system window insets should be applied to the margin.
      *
      * <p>This value can be set using the {@code app:layout_marginSystemWindowInsets} attribute.
      *
      * @see WindowInsetsCompat#getSystemWindowInsets()
      */
-    @Nullable
-    public EnumSet<InsetDimension> getSystemWindowInsetsMarginDimensions() {
-      return systemWindowInsetsMarginDimensions;
+    public int getSystemWindowInsetsMarginSides() {
+      return systemWindowInsetsMarginSides;
     }
 
     /**
-     * Set the {@link InsetDimension}s which define which margin dimensions should be applied using
-     * the system window insets.
+     * Set the sides on which system window insets should be applied to the margin.
      *
      * <p>This value can be set using the {@code app:layout_marginSystemWindowInsets} attribute.
      *
      * @see WindowInsetsCompat#getSystemWindowInsets()
      */
-    public void setSystemWindowInsetsMarginDimensions(@Nullable EnumSet<InsetDimension> values) {
-      if (!ObjectsCompat.equals(systemWindowInsetsMarginDimensions, values)) {
-        systemWindowInsetsMarginDimensions = values;
+    public void setSystemWindowInsetsMarginSides(@Sides int flags) {
+      if (systemWindowInsetsMarginSides != flags) {
+        systemWindowInsetsMarginSides = flags;
         requestApplyInsetsRequired = true;
       }
     }
 
     /**
-     * Returns the {@link EnumSet} of {@link InsetDimension}s which define which margin dimensions
-     * should be applied using the system gesture insets.
+     * Returns the sidess on which system gesture insets should be applied to the margin.
      *
      * <p>This value can be set using the {@code app:layout_marginSystemGestureInsets} attribute.
      *
      * @see WindowInsetsCompat#getSystemGestureInsets()
      */
-    @Nullable
-    public EnumSet<InsetDimension> getSystemGestureInsetsMarginDimensions() {
-      return systemGestureInsetsMarginDimensions;
+    public int getSystemGestureInsetsMarginSides() {
+      return systemGestureInsetsMarginSides;
     }
 
     /**
-     * Set the {@link InsetDimension}s which define which margin dimensions should be applied using
-     * the system gesture insets.
+     * Set the sides on which system gesture insets should be applied to the margin.
      *
      * <p>This value can be set using the {@code app:layout_marginSystemGestureInsets} attribute.
      *
      * @see WindowInsetsCompat#getSystemGestureInsets()
      */
-    public void setSystemGestureInsetsMarginDimensions(@Nullable EnumSet<InsetDimension> values) {
-      if (!ObjectsCompat.equals(systemGestureInsetsMarginDimensions, values)) {
-        systemGestureInsetsMarginDimensions = values;
+    public void setSystemGestureInsetsMarginSides(@Sides int flags) {
+      if (systemGestureInsetsMarginSides != flags) {
+        systemGestureInsetsMarginSides = flags;
         requestApplyInsetsRequired = true;
       }
     }

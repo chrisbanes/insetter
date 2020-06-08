@@ -21,6 +21,15 @@ import androidx.databinding.Bindable
 
 class DataBindingState : BaseObservable() {
     @Bindable
+    var consumeSystemWindowInsets = false
+        set(value) {
+            if (value != field) {
+                field = value
+                notifyPropertyChanged(BR.consumeSystemWindowInsets)
+            }
+        }
+
+    @Bindable
     var paddingLeftSystemWindow = false
         set(value) {
             if (value != field) {

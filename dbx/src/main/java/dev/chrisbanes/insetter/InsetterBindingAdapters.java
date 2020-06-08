@@ -20,7 +20,6 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.BindingAdapter;
 
 public class InsetterBindingAdapters {
@@ -30,6 +29,7 @@ public class InsetterBindingAdapters {
 
   @BindingAdapter(
       value = {
+        "consumeSystemWindowInsets",
         "paddingLeftSystemWindowInsets",
         "paddingTopSystemWindowInsets",
         "paddingRightSystemWindowInsets",
@@ -50,6 +50,7 @@ public class InsetterBindingAdapters {
       requireAll = false)
   public static void applyInsetsFromBooleans(
       @NonNull final View v,
+      final boolean consumeSystemWindowInsets,
       final boolean padSystemWindowLeft,
       final boolean padSystemWindowTop,
       final boolean padSystemWindowRight,
@@ -66,40 +67,33 @@ public class InsetterBindingAdapters {
       final boolean marginSystemGestureTop,
       final boolean marginSystemGestureRight,
       final boolean marginSystemGestureBottom) {
-    Insetter.setOnApplyInsetsListener(
-        v,
-        new OnApplyInsetsListener() {
-          @Override
-          public void onApplyInsets(
-              @NonNull View view,
-              @NonNull WindowInsetsCompat insets,
-              @NonNull ViewState initialState) {
-            Insetter.applyInsetsToView(
-                view,
-                insets,
-                initialState,
-                Insetter.generateEnumSet(
-                    padSystemWindowLeft,
-                    padSystemWindowTop,
-                    padSystemWindowRight,
-                    padSystemWindowBottom),
-                Insetter.generateEnumSet(
-                    marginSystemWindowLeft,
-                    marginSystemWindowTop,
-                    marginSystemWindowRight,
-                    marginSystemWindowBottom),
-                Insetter.generateEnumSet(
-                    padSystemGestureLeft,
-                    padSystemGestureTop,
-                    padSystemGestureRight,
-                    padSystemGestureBottom),
-                Insetter.generateEnumSet(
-                    marginSystemGestureLeft,
-                    marginSystemGestureTop,
-                    marginSystemGestureRight,
-                    marginSystemGestureBottom));
-          }
-        });
+    Insetter.builder()
+        .applySystemWindowInsetsToPadding(
+            Side.create(
+                padSystemWindowLeft,
+                padSystemWindowTop,
+                padSystemWindowRight,
+                padSystemWindowBottom))
+        .applySystemWindowInsetsToMargin(
+            Side.create(
+                marginSystemWindowLeft,
+                marginSystemWindowTop,
+                marginSystemWindowRight,
+                marginSystemWindowBottom))
+        .applySystemGestureInsetsToPadding(
+            Side.create(
+                padSystemGestureLeft,
+                padSystemGestureTop,
+                padSystemGestureRight,
+                padSystemGestureBottom))
+        .applySystemGestureInsetsToMargin(
+            Side.create(
+                marginSystemGestureLeft,
+                marginSystemGestureTop,
+                marginSystemGestureRight,
+                marginSystemGestureBottom))
+        .consumeSystemWindowInsets(consumeSystemWindowInsets)
+        .applyToView(v);
   }
 
   @BindingAdapter("layout_edgeToEdge")
