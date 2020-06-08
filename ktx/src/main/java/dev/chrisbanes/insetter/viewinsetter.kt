@@ -20,6 +20,17 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.view.WindowInsetsCompat
 
+/**
+ * Helper function for applying an insets listener which is aware of the [View]'s initial
+ * padding and margin state.
+ */
+@Deprecated(
+    "Use Insetter.builder() directly",
+    ReplaceWith(
+        "Insetter.builder().setOnApplyInsetsListener(f).applyToView(this)",
+        "dev.chrisbanes.insetter.Insetter"
+    )
+)
 inline fun View.doOnApplyWindowInsets(
     crossinline f: (view: View, insets: WindowInsetsCompat, initialState: ViewState) -> Unit
 ) = Insetter.builder()
@@ -40,14 +51,14 @@ fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) =
     Insetter.setEdgeToEdgeSystemUiFlags(this, enabled)
 
 /**
- * Apply system window insets to padding
+ * Apply the system window insets as the padding of this [View].
  *
  * @param left apply left indent if true
  * @param top apply in upper indent if true
  * @param right apply in the right indent if true
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
- * */
+ */
 fun View.applySystemWindowInsetsToPadding(
     left: Boolean = false,
     top: Boolean = false,
@@ -60,7 +71,7 @@ fun View.applySystemWindowInsetsToPadding(
     .applyToView(this)
 
 /**
- * Apply system window insets to margin
+ * Apply the system window insets to the margins on this [View].
  *
  * @param left apply left indent if true
  * @param top apply in upper indent if true
@@ -80,7 +91,7 @@ fun View.applySystemWindowInsetsToMargin(
     .applyToView(this)
 
 /**
- * Apply system gesture insets to padding
+ * Apply system gesture insets to the padding of this [View].
  *
  * @param left apply left indent if true
  * @param top apply in upper indent if true
@@ -100,7 +111,7 @@ fun View.applySystemGestureInsetsToPadding(
     .applyToView(this)
 
 /**
- * Apply system gesture insets to margin
+ * Apply system gesture insets to the margins on this [View].
  *
  * @param left apply left indent if true
  * @param top apply in upper indent if true
