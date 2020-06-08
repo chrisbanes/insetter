@@ -30,7 +30,32 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import java.util.Locale;
 
-/** A helper class to make handling {@link android.view.WindowInsets} easier. */
+/**
+ * A helper class to make handling {@link android.view.WindowInsets} easier.
+ *
+ * <p>It includes a {@link Builder} for building easy-to-use {@link OnApplyWindowInsetsListener}
+ * instances:
+ *
+ * <pre>
+ * Insetter.builder()
+ *     // This will apply the system window insets as padding to left, bottom and right of the view
+ *     .applySystemWindowInsetsToPadding(Side.LEFT | Side.BOTTOM | Side.RIGHT)
+ *     // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
+ *     .applyToView(view);
+ * </pre>
+ *
+ * Each inset type as on Android 10 (API level 29) is included, with variants for applying the inset
+ * as either padding or margin on the view.
+ *
+ * <p>You can also provide custom logic via the {@link
+ * Builder#setOnApplyInsetsListener(OnApplyInsetsListener)} function. The listener type is slightly
+ * different to {@link OnApplyWindowInsetsListener}, in that it contains a third parameter to tell
+ * you what the initial view padding/margin state is.
+ *
+ * <p>By default the listener will not consume any insets which are passed to it. If you wish to
+ * consume the system window insets, you can use the {@link
+ * Builder#consumeSystemWindowInsets(boolean)} function.
+ */
 public final class Insetter {
 
   static final String TAG = "Insetter";
