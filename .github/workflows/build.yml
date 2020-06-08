@@ -99,7 +99,7 @@ jobs:
           path: junit
 
   deploy:
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     runs-on: macOS-latest
     needs: [build, test]
     env:
