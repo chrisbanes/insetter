@@ -72,7 +72,9 @@ class MainActivity : ListActivity() {
                 val nextLabel = if (prefixPath == null) labelPath[0] else labelPath[prefixPath.size]
                 if (prefixPath?.size ?: 0 == labelPath.size - 1) {
                     addItem(
-                        myData, nextLabel, activityIntent(
+                        myData,
+                        nextLabel,
+                        activityIntent(
                             info.activityInfo.applicationInfo.packageName,
                             info.activityInfo.name
                         )
@@ -80,7 +82,9 @@ class MainActivity : ListActivity() {
                 } else {
                     if (entries[nextLabel] == null) {
                         addItem(
-                            myData, nextLabel, browseIntent(
+                            myData,
+                            nextLabel,
+                            browseIntent(
                                 if (prefix == "") nextLabel else "$prefix/$nextLabel"
                             )
                         )
