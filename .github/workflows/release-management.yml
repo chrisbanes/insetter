@@ -7,9 +7,6 @@ on:
 
 jobs:
   update_draft_release:
-    # Disabled due to https://github.com/release-drafter/release-drafter/issues/563
-    if: ${{ false }}
-
     runs-on: ubuntu-latest
     steps:
       - uses: release-drafter/release-drafter@v5
