@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -28,6 +29,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Locale;
 
 /**
@@ -44,8 +47,8 @@ import java.util.Locale;
  *     .applyToView(view);
  * </pre>
  *
- * Each inset type as on Android 10 (API level 29) is included, with variants for applying the inset
- * as either padding or margin on the view.
+ * <p>Each inset type as on Android 10 (API level 29) is included, with variants for applying the
+ * inset as either padding or margin on the view.
  *
  * <p>You can also provide custom logic via the {@link
  * Builder#setOnApplyInsetsListener(OnApplyInsetsListener)} function. The listener type is slightly
@@ -58,6 +61,25 @@ import java.util.Locale;
  */
 public final class Insetter {
 
+  /** No consumption happens. This is the default value. */
+  public static final int CONSUME_NONE = 0;
+
+  /**
+   * All sides are consumed. This is similar to {@link
+   * WindowInsetsCompat#consumeSystemWindowInsets()}.
+   */
+  public static final int CONSUME_ALL = 1;
+
+  /**
+   * Any specified sides are consumed. This selectively consumes any sides which are set via {@link
+   * Builder#applySystemWindowInsetsToPadding(int)} or other related functions.
+   */
+  public static final int CONSUME_AUTO = 2;
+
+  @IntDef(value = {CONSUME_NONE, CONSUME_ALL, CONSUME_AUTO})
+  @Retention(RetentionPolicy.SOURCE)
+  public @interface ConsumeOptions {}
+
   static final String TAG = "Insetter";
 
   @Nullable private OnApplyInsetsListener onApplyInsetsListener;
@@ -65,7 +87,7 @@ public final class Insetter {
   private int marginSystemWindowInsets;
   private int paddingSystemGestureInsets;
   private int marginSystemGestureInsets;
-  private boolean consumeSystemWindowInsets;
+  private int consumeSystemWindowInsets;
 
   private Insetter(@NonNull Builder builder) {
     onApplyInsetsListener = builder.onApplyInsetsListener;
@@ -84,7 +106,7 @@ public final class Insetter {
     private int marginSystemWindowInsets;
     private int paddingSystemGestureInsets;
     private int marginSystemGestureInsets;
-    private boolean consumeSystemWindowInsets;
+    private int consumeSystemWindowInsets = CONSUME_NONE;
 
     private Builder() {
       // private constructor.
@@ -153,7 +175,18 @@ public final class Insetter {
      */
     @NonNull
     public Builder consumeSystemWindowInsets(boolean consumeSystemWindowInsets) {
-      this.consumeSystemWindowInsets = consumeSystemWindowInsets;
+      return consumeSystemWindowInsets(consumeSystemWindowInsets ? CONSUME_ALL : CONSUME_NONE);
+    }
+
+    /**
+     * @param consume how the system window insets should be consumed.
+     * @see Insetter#CONSUME_NONE
+     * @see Insetter#CONSUME_ALL
+     * @see Insetter#CONSUME_AUTO
+     */
+    @NonNull
+    public Builder consumeSystemWindowInsets(@ConsumeOptions int consume) {
+      this.consumeSystemWindowInsets = consume;
       return this;
     }
 
@@ -192,20 +225,6 @@ public final class Insetter {
    */
   private void setOnApplyInsetsListener(@NonNull View view) {
 
-    final OnApplyInsetsListener listener =
-        onApplyInsetsListener != null
-            ? onApplyInsetsListener
-            : new OnApplyInsetsListener() {
-              @Override
-              public void onApplyInsets(
-                  @NonNull View view,
-                  @NonNull WindowInsetsCompat insets,
-                  @NonNull ViewState initialState) {
-
-                applyInsetsToView(view, insets, initialState);
-              }
-            };
-
     final ViewState tagState = (ViewState) view.getTag(R.id.insetter_initial_state);
 
     final ViewState initialState;
@@ -221,12 +240,54 @@ public final class Insetter {
         new OnApplyWindowInsetsListener() {
           @Override
           public WindowInsetsCompat onApplyWindowInsets(View v, WindowInsetsCompat insets) {
-            listener.onApplyInsets(v, insets, initialState);
-
-            if (consumeSystemWindowInsets) {
-              return insets.consumeSystemWindowInsets();
+            final @Sides int sidesApplied;
+            if (onApplyInsetsListener != null) {
+              onApplyInsetsListener.onApplyInsets(v, insets, initialState);
+              // We don't have what sides all have been applied, so we assume all
+              sidesApplied = Side.ALL;
             } else {
-              return insets;
+              applyInsetsToView(v, insets, initialState);
+              sidesApplied =
+                  paddingSystemWindowInsets
+                      | marginSystemWindowInsets
+                      | paddingSystemGestureInsets
+                      | marginSystemGestureInsets;
+            }
+
+            switch (consumeSystemWindowInsets) {
+              case CONSUME_ALL:
+                return insets.consumeSystemWindowInsets();
+              case CONSUME_AUTO:
+                if ((sidesApplied & Side.ALL) == Side.NONE) {
+                  // If we did not apply any sides, just return the insets
+                  return insets;
+                } else if ((sidesApplied & Side.ALL) == Side.ALL) {
+                  // If all sides were applied, just return a consumed insets
+                  return insets.consumeSystemWindowInsets();
+                } else {
+                  // Otherwise we need to go through and consume each side
+                  int left = insets.getSystemWindowInsetLeft();
+                  int top = insets.getSystemWindowInsetTop();
+                  int right = insets.getSystemWindowInsetRight();
+                  int bottom = insets.getSystemWindowInsetBottom();
+
+                  if (SideUtils.hasSide(sidesApplied, Side.LEFT)) {
+                    left = 0;
+                  }
+                  if (SideUtils.hasSide(sidesApplied, Side.TOP)) {
+                    top = 0;
+                  }
+                  if (SideUtils.hasSide(sidesApplied, Side.RIGHT)) {
+                    right = 0;
+                  }
+                  if (SideUtils.hasSide(sidesApplied, Side.BOTTOM)) {
+                    bottom = 0;
+                  }
+                  return insets.replaceSystemWindowInsets(left, top, right, bottom);
+                }
+              case CONSUME_NONE:
+              default:
+                return insets;
             }
           }
         });
