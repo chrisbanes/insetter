@@ -18,6 +18,7 @@ to specific dimensions to views.
  * `app:layout_marginTopSystemWindowInsets`: to apply the top dimension to the view's `layout_marginTop` .
  * `app:layout_marginRightSystemWindowInsets`: to apply the right dimension to the view's `layout_marginRight`.
  * `app:layout_marginBottomSystemWindowInsets`: to apply the bottom dimension to the view's `layout_marginBottom`.
+ * `consumeSystemWindowInsets`: whether to consume the system window insets. Defaults to `false`.
 
 ## Applying [system gesture insets][sgi]
 The following attributes are useful in being able to apply the [system gesture insets][sgi] insets,

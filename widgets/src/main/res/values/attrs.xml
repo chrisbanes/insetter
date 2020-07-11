@@ -57,9 +57,16 @@
         <flag name="right" value="0x05" />
     </attr>
 
+    <attr name="consumeSystemWindowInsets">
+        <enum name="none" value="0" />
+        <enum name="all" value="1" />
+        <enum name="auto" value="2" />
+    </attr>
+
     <declare-styleable name="InsetterConstraintLayout_Layout">
         <attr name="paddingSystemWindowInsets" />
         <attr name="layout_marginSystemWindowInsets" />
+        <attr name="consumeSystemWindowInsets" />
 
         <attr name="paddingSystemGestureInsets" />
         <attr name="layout_marginSystemGestureInsets" />
@@ -68,6 +75,7 @@
     <declare-styleable name="InsetterConstraintHelper">
         <attr name="paddingSystemWindowInsets" />
         <attr name="layout_marginSystemWindowInsets" />
+        <attr name="consumeSystemWindowInsets" />
 
         <attr name="paddingSystemGestureInsets" />
         <attr name="layout_marginSystemGestureInsets" />

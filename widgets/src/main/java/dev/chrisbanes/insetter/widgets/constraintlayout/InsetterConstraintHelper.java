@@ -101,6 +101,8 @@ import dev.chrisbanes.insetter.widgets.R;
 public class InsetterConstraintHelper extends ConstraintHelper {
   private int systemWindowInsetsPaddingSides;
   private int systemGestureInsetsPaddingSides;
+  private int consumeSystemWindowInsets;
+
   private int systemWindowInsetsMarginSides;
   private int systemGestureInsetsMarginSides;
 
@@ -136,6 +138,10 @@ public class InsetterConstraintHelper extends ConstraintHelper {
         ta.getInt(R.styleable.InsetterConstraintHelper_layout_marginSystemGestureInsets, 0);
     systemGestureInsetsMarginSides = AttributeHelper.flagToSides(marginSystemGestureInsetsFlags);
 
+    consumeSystemWindowInsets =
+        ta.getInt(
+            R.styleable.InsetterConstraintHelper_consumeSystemWindowInsets, Insetter.CONSUME_NONE);
+
     ta.recycle();
   }
 
@@ -167,6 +173,7 @@ public class InsetterConstraintHelper extends ConstraintHelper {
             .applySystemWindowInsetsToMargin(systemWindowInsetsMarginSides)
             .applySystemGestureInsetsToPadding(systemGestureInsetsPaddingSides)
             .applySystemGestureInsetsToMargin(systemGestureInsetsMarginSides)
+            .consumeSystemWindowInsets(consumeSystemWindowInsets)
             .build()
             .applyInsetsToView(view, insetsCompat, state);
       }
@@ -271,6 +278,23 @@ public class InsetterConstraintHelper extends ConstraintHelper {
   public void setSystemGestureInsetsMarginSides(@Sides int flags) {
     if (systemGestureInsetsMarginSides != flags) {
       systemGestureInsetsMarginSides = flags;
+      ViewCompat.requestApplyInsets(this);
+    }
+  }
+
+  /** Returns how the system window insets are consumed. */
+  @Insetter.ConsumeOptions
+  public int getConsumeSystemWindowInsets() {
+    return consumeSystemWindowInsets;
+  }
+
+  /**
+   * Set whether how to consume the system window insets. Can be one of {@link
+   * Insetter.CONSUME_NONE}, {@link Insetter.CONSUME_ALL} or {@link Insetter.CONSUME_AUTO}.
+   */
+  public void setConsumeSystemWindowInsets(@Insetter.ConsumeOptions int consume) {
+    if (consumeSystemWindowInsets != consume) {
+      consumeSystemWindowInsets = consume;
       ViewCompat.requestApplyInsets(this);
     }
   }
