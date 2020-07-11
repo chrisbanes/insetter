@@ -18,8 +18,8 @@ package dev.chrisbanes.insetter.sample
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.View
 import androidx.databinding.DataBindingUtil
+import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.sample.databinding.ActivityDataBindingBinding
 
 class DataBindingSample : Activity() {
@@ -34,8 +34,6 @@ class DataBindingSample : Activity() {
         )
         binding.state = DataBindingState()
 
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        Insetter.setEdgeToEdgeSystemUiFlags(window.decorView, true)
     }
 }
