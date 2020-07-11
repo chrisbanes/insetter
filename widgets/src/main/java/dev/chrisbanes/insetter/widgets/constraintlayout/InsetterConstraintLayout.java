@@ -134,6 +134,8 @@ public class InsetterConstraintLayout extends ConstraintLayout {
   public static class LayoutParams extends ConstraintLayout.LayoutParams {
     private int systemWindowInsetsPaddingSides;
     private int systemGestureInsetsPaddingSides;
+    private int consumeSystemWindowInsets = Insetter.CONSUME_NONE;
+
     private int systemWindowInsetsMarginSides;
     private int systemGestureInsetsMarginSides;
 
@@ -155,6 +157,8 @@ public class InsetterConstraintLayout extends ConstraintLayout {
       super(source);
       systemWindowInsetsPaddingSides = source.systemWindowInsetsPaddingSides;
       systemWindowInsetsMarginSides = source.systemWindowInsetsMarginSides;
+      consumeSystemWindowInsets = source.consumeSystemWindowInsets;
+
       systemGestureInsetsPaddingSides = source.systemGestureInsetsPaddingSides;
       systemGestureInsetsMarginSides = source.systemGestureInsetsMarginSides;
     }
@@ -166,21 +170,27 @@ public class InsetterConstraintLayout extends ConstraintLayout {
           c.obtainStyledAttributes(attrs, R.styleable.InsetterConstraintLayout_Layout);
 
       final int paddingSystemWindowInsetsFlags =
-          ta.getInt(R.styleable.InsetterConstraintHelper_paddingSystemWindowInsets, 0);
+          ta.getInt(R.styleable.InsetterConstraintLayout_Layout_paddingSystemWindowInsets, 0);
       systemWindowInsetsPaddingSides = AttributeHelper.flagToSides(paddingSystemWindowInsetsFlags);
 
       final int marginSystemWindowInsetsFlags =
-          ta.getInt(R.styleable.InsetterConstraintHelper_layout_marginSystemWindowInsets, 0);
+          ta.getInt(R.styleable.InsetterConstraintLayout_Layout_layout_marginSystemWindowInsets, 0);
       systemWindowInsetsMarginSides = AttributeHelper.flagToSides(marginSystemWindowInsetsFlags);
 
       final int paddingSystemGestureInsetsFlags =
-          ta.getInt(R.styleable.InsetterConstraintHelper_paddingSystemGestureInsets, 0);
+          ta.getInt(R.styleable.InsetterConstraintLayout_Layout_paddingSystemGestureInsets, 0);
       systemGestureInsetsPaddingSides =
           AttributeHelper.flagToSides(paddingSystemGestureInsetsFlags);
 
       final int marginSystemGestureInsetsFlags =
-          ta.getInt(R.styleable.InsetterConstraintHelper_layout_marginSystemGestureInsets, 0);
+          ta.getInt(
+              R.styleable.InsetterConstraintLayout_Layout_layout_marginSystemGestureInsets, 0);
       systemGestureInsetsMarginSides = AttributeHelper.flagToSides(marginSystemGestureInsetsFlags);
+
+      consumeSystemWindowInsets =
+          ta.getInt(
+              R.styleable.InsetterConstraintLayout_Layout_consumeSystemWindowInsets,
+              consumeSystemWindowInsets);
 
       ta.recycle();
     }
@@ -285,6 +295,23 @@ public class InsetterConstraintLayout extends ConstraintLayout {
     public void setSystemGestureInsetsMarginSides(@Sides int flags) {
       if (systemGestureInsetsMarginSides != flags) {
         systemGestureInsetsMarginSides = flags;
+        requestApplyInsetsRequired = true;
+      }
+    }
+
+    /** Returns how the system window insets are consumed. */
+    @Insetter.ConsumeOptions
+    public int getConsumeSystemWindowInsets() {
+      return consumeSystemWindowInsets;
+    }
+
+    /**
+     * Set whether how to consume the system window insets. Can be one of {@link
+     * Insetter.CONSUME_NONE}, {@link Insetter.CONSUME_ALL} or {@link Insetter.CONSUME_AUTO}.
+     */
+    public void setConsumeSystemWindowInsets(@Insetter.ConsumeOptions int consume) {
+      if (consumeSystemWindowInsets != consume) {
+        consumeSystemWindowInsets = consume;
         requestApplyInsetsRequired = true;
       }
     }
