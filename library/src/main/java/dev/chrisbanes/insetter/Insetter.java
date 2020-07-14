@@ -116,7 +116,7 @@ public final class Insetter {
      * @param onApplyInsetsListener Callback for supplying custom logic to apply insets. If set,
      *     Insetter will ignore any specified side flags, and the caller is responsible for applying
      *     insets.
-     * @see Insetter#setOnApplyInsetsListener(View)
+     * @see Insetter#applyToView(View)
      */
     @NonNull
     public Builder setOnApplyInsetsListener(@Nullable OnApplyInsetsListener onApplyInsetsListener) {
@@ -171,7 +171,7 @@ public final class Insetter {
     /**
      * @param consumeSystemWindowInsets true if the system window insets should be consumed, false
      *     if not. If unset, the default behavior is to not consume system window insets.
-     * @see Insetter#setOnApplyInsetsListener(View)
+     * @see Insetter#applyToView(View)
      */
     @NonNull
     public Builder consumeSystemWindowInsets(boolean consumeSystemWindowInsets) {
@@ -199,7 +199,7 @@ public final class Insetter {
     @NonNull
     public Insetter applyToView(@NonNull View view) {
       Insetter insetter = build();
-      insetter.setOnApplyInsetsListener(view);
+      insetter.applyToView(view);
       return insetter;
     }
 
@@ -223,7 +223,7 @@ public final class Insetter {
    * <p>This allows the listener to be able to append inset values to any existing view state
    * properties, rather than overwriting them.
    */
-  private void setOnApplyInsetsListener(@NonNull View view) {
+  public void applyToView(@NonNull View view) {
 
     final ViewState tagState = (ViewState) view.getTag(R.id.insetter_initial_state);
 
