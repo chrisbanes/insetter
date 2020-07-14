@@ -164,18 +164,20 @@ public class InsetterConstraintHelper extends ConstraintHelper {
   public WindowInsets onApplyWindowInsets(WindowInsets insets) {
     final WindowInsetsCompat insetsCompat = WindowInsetsCompat.toWindowInsetsCompat(insets);
 
-    for (int i = 0; i < mCount; i++) {
-      View view = container.getViewById(mIds[i]);
-      final ViewState state = (ViewState) view.getTag(R.id.insetter_initial_state);
-      if (state != null) {
+    Insetter insetter =
         Insetter.builder()
             .applySystemWindowInsetsToPadding(systemWindowInsetsPaddingSides)
             .applySystemWindowInsetsToMargin(systemWindowInsetsMarginSides)
             .applySystemGestureInsetsToPadding(systemGestureInsetsPaddingSides)
             .applySystemGestureInsetsToMargin(systemGestureInsetsMarginSides)
             .consumeSystemWindowInsets(consumeSystemWindowInsets)
-            .build()
-            .applyInsetsToView(view, insetsCompat, state);
+            .build();
+
+    for (int i = 0; i < mCount; i++) {
+      View view = container.getViewById(mIds[i]);
+      final ViewState state = (ViewState) view.getTag(R.id.insetter_initial_state);
+      if (state != null) {
+        insetter.applyInsetsToView(view, insetsCompat, state);
       }
     }
 
