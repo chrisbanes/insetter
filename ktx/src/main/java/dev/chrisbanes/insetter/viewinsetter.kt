@@ -129,3 +129,21 @@ fun View.applySystemGestureInsetsToMargin(
     .applySystemGestureInsetsToMargin(Side.create(left, top, right, bottom))
     .consumeSystemWindowInsets(consume)
     .applyToView(this)
+
+/**
+ * Helper function for constructing an object of insetter {@link Insetter}.
+ * */
+inline fun buildInsetter(crossinline setup: Insetter.Builder.() -> Unit): Insetter {
+    val builder = Insetter.builder()
+    builder.setup()
+    return builder.build()
+}
+
+/**
+ * Helper function for constructing and applying insetts
+ * */
+inline fun View.applyInsetter(crossinline setup: Insetter.Builder.() -> Unit) {
+    val builder = Insetter.builder()
+    builder.setup()
+    builder.applyToView(this)
+}

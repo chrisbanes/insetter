@@ -34,8 +34,27 @@ A Kotlin extension library, providing Kotlin-specific functionality. This librar
 extension functions allowing easy access to the helper functions from the base library:
 
 ``` kotlin
+
+val insetter = buildInsetter {
+    applySystemWindowInsetsToPadding(Side.BOTTOM)
+    applySystemWindowInsetsToMargin(Side.BOTTOM or Side.RIGHT)
+    }
+
+insetter.applyToView(bottomNav)
+insetter.applyToView(btnConfirm)
+
+//or 
+
+bottomNav.applyInsetter {
+    applySystemWindowInsetsToPadding(Side.BOTTOM)
+    applySystemWindowInsetsToMargin(Side.BOTTOM or Side.RIGHT)
+}
+
+//or
+
 bottomNav.applySystemWindowInsetsToPadding(bottom = true)
 btnConfirm.applySystemWindowInsetsToMargin(bottom = true, right = true)
+
 ```
 
 ### [insetter-dbx](dbx/)
