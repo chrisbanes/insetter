@@ -32,7 +32,7 @@ buildscript {
 }
 
 plugins {
-    id "com.diffplug.gradle.spotless" version "3.28.1"
+    id "com.diffplug.spotless" version "5.3.0"
 }
 
 subprojects {
@@ -41,28 +41,27 @@ subprojects {
         jcenter()
     }
 
-    apply plugin: 'com.diffplug.gradle.spotless'
+    apply plugin: 'com.diffplug.spotless'
     spotless {
         kotlin {
             target "**/*.kt"
             ktlint(Versions.ktlint)
-            licenseHeaderFile project.rootProject.file('spotless/copyright.txt')
+            licenseHeaderFile rootProject.file('spotless/copyright.txt')
         }
 
         java {
             target "**/*.java"
             googleJavaFormat()
-            licenseHeaderFile project.rootProject.file('spotless/copyright.txt')
+            licenseHeaderFile rootProject.file('spotless/copyright.txt')
         }
         groovyGradle {
             // same as groovy, but for .gradle (defaults to '*.gradle')
             target '**/*.gradle'
-            paddedCell() // Avoid cyclic ambiguities
             // the Groovy Eclipse formatter extends the Java Eclipse formatter,
             // so it formats Java files by default (unless `excludeJava` is used).
-            greclipse().configFile(project.rootProject.file('spotless/greclipse.properties'))
-            licenseHeaderFile project.rootProject.file('spotless/copyright.txt'),
-                              '(buildscript|apply|import)'
+            greclipse().configFile(rootProject.file('spotless/greclipse.properties'))
+            licenseHeaderFile rootProject.file('spotless/copyright.txt'),
+                    '(buildscript|apply|import)'
         }
     }
 
