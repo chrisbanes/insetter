@@ -17,6 +17,7 @@
 package dev.chrisbanes.insetter;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -441,6 +442,10 @@ public final class Insetter {
         mlp.rightMargin = marginRight;
         mlp.bottomMargin = marginBottom;
         view.setLayoutParams(lp);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+          view.getParent().requestLayout();
+        }
 
         if (Log.isLoggable(TAG, Log.DEBUG)) {
           Log.d(
