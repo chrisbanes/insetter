@@ -19,7 +19,7 @@ import dev.chrisbanes.insetter.buildsrc.Libs
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 15
@@ -27,10 +27,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    dataBinding {
+    buildFeatures {
         // We need to enable data-binding for any consumers to be able to use
         // any BindingAdapters in this library
-        enabled = true
+        dataBinding = true
+        buildConfig = false
     }
 
     lintOptions {
@@ -38,11 +39,6 @@ android {
         textOutput 'stdout'
         // We run a full lint analysis as build part in CI, so skip vital checks for assemble tasks.
         checkReleaseBuilds false
-    }
-
-    // TODO replace with https://issuetracker.google.com/issues/72050365 once released.
-    libraryVariants.all {
-        it.generateBuildConfig.enabled = false
     }
 }
 
