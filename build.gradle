@@ -29,11 +29,19 @@ buildscript {
         classpath Libs.dokka
 
         classpath Libs.gradleMavenPublishPlugin
+
+        classpath Libs.Kotlin.binaryCompatibility
     }
 }
 
 plugins {
     id "com.diffplug.spotless" version "5.7.0"
+}
+
+apply plugin: 'binary-compatibility-validator'
+apiValidation {
+    // Ignore the sample from API tracking/checking
+    ignoredProjects += ["sample", "test-utils"]
 }
 
 subprojects {

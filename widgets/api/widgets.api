@@ -1,0 +1,53 @@
+public class dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintHelper : androidx/constraintlayout/widget/ConstraintHelper {
+	public fun <init> (Landroid/content/Context;)V
+	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;)V
+	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;I)V
+	public fun getConsumeSystemWindowInsets ()I
+	public fun getSystemGestureInsetsMarginSides ()I
+	public fun getSystemGestureInsetsPaddingSides ()I
+	public fun getSystemWindowInsetsMarginSides ()I
+	public fun getSystemWindowInsetsPaddingSides ()I
+	public fun onApplyWindowInsets (Landroid/view/WindowInsets;)Landroid/view/WindowInsets;
+	protected fun onAttachedToWindow ()V
+	public fun setConsumeSystemWindowInsets (I)V
+	public fun setSystemGestureInsetsMarginSides (I)V
+	public fun setSystemGestureInsetsPaddingSides (I)V
+	public fun setSystemWindowInsetsMarginSides (I)V
+	public fun setSystemWindowInsetsPaddingSides (I)V
+}
+
+public class dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout : androidx/constraintlayout/widget/ConstraintLayout {
+	public fun <init> (Landroid/content/Context;)V
+	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;)V
+	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;I)V
+	protected fun checkLayoutParams (Landroid/view/ViewGroup$LayoutParams;)Z
+	protected synthetic fun generateDefaultLayoutParams ()Landroid/view/ViewGroup$LayoutParams;
+	protected synthetic fun generateDefaultLayoutParams ()Landroidx/constraintlayout/widget/ConstraintLayout$LayoutParams;
+	protected fun generateDefaultLayoutParams ()Ldev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout$LayoutParams;
+	public synthetic fun generateLayoutParams (Landroid/util/AttributeSet;)Landroid/view/ViewGroup$LayoutParams;
+	public synthetic fun generateLayoutParams (Landroid/util/AttributeSet;)Landroidx/constraintlayout/widget/ConstraintLayout$LayoutParams;
+	public fun generateLayoutParams (Landroid/util/AttributeSet;)Ldev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout$LayoutParams;
+	protected fun generateLayoutParams (Landroid/view/ViewGroup$LayoutParams;)Landroid/view/ViewGroup$LayoutParams;
+	public fun onApplyWindowInsets (Landroid/view/WindowInsets;)Landroid/view/WindowInsets;
+	protected fun onLayout (ZIIII)V
+	public fun onViewAdded (Landroid/view/View;)V
+}
+
+public class dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout$LayoutParams : androidx/constraintlayout/widget/ConstraintLayout$LayoutParams {
+	public fun <init> (II)V
+	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;)V
+	public fun <init> (Landroid/view/ViewGroup$LayoutParams;)V
+	public fun <init> (Landroidx/constraintlayout/widget/ConstraintLayout$LayoutParams;)V
+	public fun <init> (Ldev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout$LayoutParams;)V
+	public fun getConsumeSystemWindowInsets ()I
+	public fun getSystemGestureInsetsMarginSides ()I
+	public fun getSystemGestureInsetsPaddingSides ()I
+	public fun getSystemWindowInsetsMarginSides ()I
+	public fun getSystemWindowInsetsPaddingSides ()I
+	public fun setConsumeSystemWindowInsets (I)V
+	public fun setSystemGestureInsetsMarginSides (I)V
+	public fun setSystemGestureInsetsPaddingSides (I)V
+	public fun setSystemWindowInsetsMarginSides (I)V
+	public fun setSystemWindowInsetsPaddingSides (I)V
+}
+
