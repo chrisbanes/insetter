@@ -26,7 +26,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.test.annotation.UiThreadTest
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.filters.SdkSuppress
-import dev.chrisbanes.insetter.Insetter.EDGE_TO_EDGE_FLAGS
+import dev.chrisbanes.insetter.Insetter.Companion.EDGE_TO_EDGE_FLAGS
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
