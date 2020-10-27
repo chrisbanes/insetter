@@ -1,0 +1,62 @@
+public final class dev/chrisbanes/insetter/Insetter {
+	public static final field CONSUME_ALL I
+	public static final field CONSUME_AUTO I
+	public static final field CONSUME_NONE I
+	public fun applyInsetsToView (Landroid/view/View;Landroidx/core/view/WindowInsetsCompat;Ldev/chrisbanes/insetter/ViewState;)V
+	public fun applyToView (Landroid/view/View;)V
+	public static fun builder ()Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static fun setEdgeToEdgeSystemUiFlags (Landroid/view/View;Z)V
+}
+
+public final class dev/chrisbanes/insetter/Insetter$Builder {
+	public fun applySystemGestureInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public fun applySystemGestureInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public fun applySystemWindowInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public fun applySystemWindowInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public fun applyToView (Landroid/view/View;)Ldev/chrisbanes/insetter/Insetter;
+	public fun build ()Ldev/chrisbanes/insetter/Insetter;
+	public fun consumeSystemWindowInsets (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public fun consumeSystemWindowInsets (Z)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public fun setOnApplyInsetsListener (Ldev/chrisbanes/insetter/OnApplyInsetsListener;)Ldev/chrisbanes/insetter/Insetter$Builder;
+}
+
+public abstract interface annotation class dev/chrisbanes/insetter/Insetter$ConsumeOptions : java/lang/annotation/Annotation {
+}
+
+public abstract interface class dev/chrisbanes/insetter/OnApplyInsetsListener {
+	public abstract fun onApplyInsets (Landroid/view/View;Landroidx/core/view/WindowInsetsCompat;Ldev/chrisbanes/insetter/ViewState;)V
+}
+
+public final class dev/chrisbanes/insetter/Side {
+	public static final field ALL I
+	public static final field BOTTOM I
+	public static final field LEFT I
+	public static final field NONE I
+	public static final field RIGHT I
+	public static final field TOP I
+	public static fun create (ZZZZ)I
+}
+
+public abstract interface annotation class dev/chrisbanes/insetter/Sides : java/lang/annotation/Annotation {
+}
+
+public class dev/chrisbanes/insetter/ViewDimensions {
+	public static final field EMPTY Ldev/chrisbanes/insetter/ViewDimensions;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getBottom ()I
+	public fun getLeft ()I
+	public fun getRight ()I
+	public fun getTop ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public class dev/chrisbanes/insetter/ViewState {
+	public fun <init> (Landroid/view/View;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getMargins ()Ldev/chrisbanes/insetter/ViewDimensions;
+	public fun getPaddings ()Ldev/chrisbanes/insetter/ViewDimensions;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+

@@ -33,6 +33,8 @@ object Libs {
         private const val version = "1.4.10"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
+
+        const val binaryCompatibility = "org.jetbrains.kotlinx:binary-compatibility-validator:0.2.3"
     }
 
     const val dokka = "org.jetbrains.dokka:dokka-gradle-plugin:1.4.10"
