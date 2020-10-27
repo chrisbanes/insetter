@@ -17,7 +17,7 @@
 package dev.chrisbanes.insetter.buildsrc
 
 object Versions {
-    const val ktlint = "0.37.2"
+    const val ktlint = "0.39.0"
 }
 
 object Libs {
@@ -25,15 +25,17 @@ object Libs {
     // we use in dbx
     const val androidGradlePlugin = "com.android.tools.build:gradle:4.0.1"
 
-    const val gradleMavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.12.0"
+    const val gradleMavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.13.0"
 
     const val junit = "junit:junit:4.12"
 
     object Kotlin {
-        private const val version = "1.3.72"
+        private const val version = "1.4.10"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
+
+    const val dokka = "org.jetbrains.dokka:dokka-gradle-plugin:1.4.10"
 
     object AndroidX {
         object Test {
@@ -47,8 +49,8 @@ object Libs {
             const val espressoCore = "androidx.test.espresso:espresso-core:3.2.0"
         }
 
-        const val core = "androidx.core:core:1.5.0-alpha02"
-        const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha02"
+        const val core = "androidx.core:core:1.5.0-alpha04"
+        const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha04"
     }
 
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0"
