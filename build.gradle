@@ -74,6 +74,16 @@ subprojects {
         }
     }
 
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions {
+            // Treat all Kotlin warnings as errors
+            allWarningsAsErrors = true
+
+            // Set JVM target to 1.8
+            jvmTarget = "1.8"
+        }
+    }
+
     // Read in the signing.properties file if it is exists
     def signingPropsFile = rootProject.file('release/signing.properties')
     if (signingPropsFile.exists()) {
@@ -82,7 +92,7 @@ subprojects {
         localProperties.each { prop ->
             if (prop.key == "signing.secretKeyRingFile") {
                 // If this is the key ring, treat it as a relative path
-                project.ext.set(prop.key, this.rootProject.file(prop.value).absolutePath)
+                project.ext.set(prop.key, rootProject.file(prop.value).absolutePath)
             } else {
                 project.ext.set(prop.key, prop.value)
             }

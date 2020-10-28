@@ -20,6 +20,10 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 
+kotlin {
+    explicitApi()
+}
+
 android {
     compileSdkVersion 30
 
