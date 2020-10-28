@@ -11,7 +11,6 @@ public final class dev/chrisbanes/insetter/Insetter {
 }
 
 public final class dev/chrisbanes/insetter/Insetter$Builder {
-	public fun <init> ()V
 	public final fun applySystemGestureInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun applySystemGestureInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun applySystemWindowInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;

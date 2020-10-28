@@ -78,7 +78,7 @@ class Insetter private constructor(builder: Builder) {
     }
 
     /** A builder class for creating instances of [Insetter].  */
-    class Builder {
+    class Builder internal constructor() {
         internal var onApplyInsetsListener: OnApplyInsetsListener? = null
         internal var paddingSystemWindowInsets = 0
         internal var marginSystemWindowInsets = 0

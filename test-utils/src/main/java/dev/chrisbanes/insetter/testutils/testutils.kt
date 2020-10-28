@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package dev.chrisbanes.insetter.testutils
 
 import android.graphics.Insets

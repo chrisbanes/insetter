@@ -142,6 +142,7 @@ class InsetterTestCase {
 
     @Test
     @UiThreadTest
+    @Suppress("DEPRECATION")
     fun test_setEdgeToEdgeSystemUiFlags() {
         addViewToContainer(setEdgeToEdgeFlags = false)
 
@@ -154,6 +155,7 @@ class InsetterTestCase {
 
     @Test
     @UiThreadTest
+    @Suppress("DEPRECATION")
     fun test_setEdgeToEdgeSystemUiFlags_doesntOverwrite() {
         addViewToContainer(setEdgeToEdgeFlags = false)
 
@@ -178,6 +180,7 @@ class InsetterTestCase {
                 container.addView(view)
             }
             if (setEdgeToEdgeFlags) {
+                @Suppress("DEPRECATION")
                 view.systemUiVisibility = EDGE_TO_EDGE_FLAGS
             }
         }
