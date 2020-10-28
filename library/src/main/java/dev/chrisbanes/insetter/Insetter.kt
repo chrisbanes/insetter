@@ -98,8 +98,8 @@ class Insetter private constructor(builder: Builder) {
         }
 
         /**
-         * @param flags specifies the sides on which the system window insets should be applied to the
-         * padding. Ignored if [Insetter.onApplyInsetsListener] is set.
+         * @param flags specifies the sides on which the system window insets should be applied
+         * to the padding. Ignored if [Insetter.onApplyInsetsListener] is set.
          * @see Insetter.applyInsetsToView
          */
         fun applySystemWindowInsetsToPadding(@Sides flags: Int): Builder {
@@ -108,8 +108,8 @@ class Insetter private constructor(builder: Builder) {
         }
 
         /**
-         * @param flags specifies the sides on which the system window insets should be applied to the
-         * margin. Ignored if [Insetter.onApplyInsetsListener] is set.
+         * @param flags specifies the sides on which the system window insets should be applied
+         * to the margin. Ignored if [Insetter.onApplyInsetsListener] is set.
          * @see Insetter.applyInsetsToView
          */
         fun applySystemWindowInsetsToMargin(@Sides flags: Int): Builder {
@@ -118,8 +118,8 @@ class Insetter private constructor(builder: Builder) {
         }
 
         /**
-         * @param flags specifies the sides on which the system gesture insets should be applied to the
-         * padding. Ignored if [Insetter.onApplyInsetsListener] is set.
+         * @param flags specifies the sides on which the system gesture insets should be applied
+         * to the padding. Ignored if [Insetter.onApplyInsetsListener] is set.
          * @see Insetter.applyInsetsToView
          */
         fun applySystemGestureInsetsToPadding(@Sides flags: Int): Builder {
@@ -128,8 +128,8 @@ class Insetter private constructor(builder: Builder) {
         }
 
         /**
-         * @param flags specifies the sides on which the system gesture insets should be applied to the
-         * margin. Ignored if [Insetter.onApplyInsetsListener] is set.
+         * @param flags specifies the sides on which the system gesture insets should be applied
+         * to the margin. Ignored if [Insetter.onApplyInsetsListener] is set.
          * @see Insetter.applyInsetsToView
          */
         fun applySystemGestureInsetsToMargin(@Sides flags: Int): Builder {
@@ -138,8 +138,8 @@ class Insetter private constructor(builder: Builder) {
         }
 
         /**
-         * @param consumeSystemWindowInsets true if the system window insets should be consumed, false
-         * if not. If unset, the default behavior is to not consume system window insets.
+         * @param consumeSystemWindowInsets true if the system window insets should be consumed,
+         * false if not. If unset, the default behavior is to not consume system window insets.
          * @see Insetter.applyToView
          */
         fun consumeSystemWindowInsets(consumeSystemWindowInsets: Boolean): Builder {
@@ -199,16 +199,14 @@ class Insetter private constructor(builder: Builder) {
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             @Sides val sidesApplied = if (onApplyInsetsListener != null) {
                 onApplyInsetsListener.onApplyInsets(v, insets, initialState)
-                // We don't have what sides all have been applied, so we assume all
+                // We don't know what sides have been applied, so we assume all
                 Side.ALL
             } else {
                 applyInsetsToView(v, insets, initialState)
-                (
-                    paddingSystemWindowInsets
-                        or marginSystemWindowInsets
-                        or paddingSystemGestureInsets
-                        or marginSystemGestureInsets
-                    )
+                paddingSystemWindowInsets or
+                    marginSystemWindowInsets or
+                    paddingSystemGestureInsets or
+                    marginSystemGestureInsets
             }
 
             when (consumeSystemWindowInsets) {
@@ -303,7 +301,8 @@ class Insetter private constructor(builder: Builder) {
         if (Log.isLoggable(TAG, Log.DEBUG)) {
             Log.d(
                 TAG,
-                "applyInsetsToView. Applied padding to $view: left=$paddingLeft, top=$paddingTop, right=$paddingRight, bottom=$paddingBottom}"
+                "applyInsetsToView. Applied padding to $view: left=$paddingLeft, " +
+                    "top=$paddingTop, right=$paddingRight, bottom=$paddingBottom}"
             )
         }
 
@@ -350,12 +349,14 @@ class Insetter private constructor(builder: Builder) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                     view.parent.requestLayout()
                 }
+
                 if (Log.isLoggable(TAG, Log.DEBUG)) {
                     Log.d(
                         TAG,
                         String.format(
                             Locale.US,
-                            "applyInsetsToView. Applied margin to %s: left=%d, top=%d, right=%d, bottom=%d}",
+                            "applyInsetsToView. Applied margin to %s: left=%d, top=%d, " +
+                                "right=%d, bottom=%d}",
                             view,
                             marginLeft,
                             marginTop,
@@ -365,13 +366,16 @@ class Insetter private constructor(builder: Builder) {
                     )
                 }
             }
-        } else {
-            require(!(marginSystemGestureInsets != Side.NONE || marginSystemWindowInsets != Side.NONE)) {
-                (
-                    "Margin inset handling requested but view LayoutParams do not" +
-                        " extend MarginLayoutParams"
-                    )
-            }
+        } else if (marginSystemWindowInsets != Side.NONE) {
+            error(
+                "Margin system window insets handling requested but View's LayoutParams " +
+                    "do not extend MarginLayoutParams"
+            )
+        } else if (marginSystemGestureInsets != Side.NONE) {
+            error(
+                "Margin system gesture insets handling requested but View's LayoutParams " +
+                    "do not extend MarginLayoutParams"
+            )
         }
     }
 
