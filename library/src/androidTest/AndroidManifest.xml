@@ -17,6 +17,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dev.chrisbanes.insetter">
 
+    <uses-sdk android:targetSdkVersion="30" />
+
     <application>
         <activity
             android:name="android.app.Activity"
