@@ -36,7 +36,8 @@ object Side {
         (if (right) RIGHT else 0) or
         (if (bottom) BOTTOM else 0)
 
-    internal fun hasSide(sides: Int, @Sides flag: Int): Boolean {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun hasSide(sides: Int, @Sides flag: Int): Boolean {
         return sides and flag == flag
     }
 }
