@@ -130,7 +130,6 @@ dependencies {
     // Check the latest SNAPSHOT version from the link above
     implementation "dev.chrisbanes:insetter:<latest version>-SNAPSHOT"
     implementation "dev.chrisbanes:insetter-dbx:<latest version>-SNAPSHOT"
-    implementation "dev.chrisbanes:insetter-ktx:<latest version>-SNAPSHOT"
     implementation "dev.chrisbanes:insetter-widgets:<latest version>-SNAPSHOT"
 }
 ```
