@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2019 Google LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <merge>
+
+        <View
+            android:id="@+id/left"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginLeftSystemWindowInsets="@{true}" />
+
+        <View
+            android:id="@+id/top"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginTopSystemWindowInsets="@{true}" />
+
+        <View
+            android:id="@+id/right"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginRightSystemWindowInsets="@{true}" />
+
+        <View
+            android:id="@+id/bottom"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginBottomSystemWindowInsets="@{true}" />
+
+        <View
+            android:id="@+id/all"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_marginLeftSystemWindowInsets="@{true}"
+            app:layout_marginTopSystemWindowInsets="@{true}"
+            app:layout_marginRightSystemWindowInsets="@{true}"
+            app:layout_marginBottomSystemWindowInsets="@{true}" />
+
+        <View
+            android:id="@+id/all_withmargin"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="@dimen/margin"
+            app:layout_marginLeftSystemWindowInsets="@{true}"
+            app:layout_marginTopSystemWindowInsets="@{true}"
+            app:layout_marginRightSystemWindowInsets="@{true}"
+            app:layout_marginBottomSystemWindowInsets="@{true}" />
+
+    </merge>
+</layout>

@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
+import dev.chrisbanes.insetter.buildsrc.Libs
+
 apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
@@ -41,7 +46,19 @@ android {
 }
 
 dependencies {
-    api project(':library')
-}
+    implementation project(':dbx')
 
-apply plugin: "com.vanniktech.maven.publish"
+    // We need to explicitly add a kapt dependency for the data-binding compiler.
+    kaptAndroidTest "androidx.databinding:databinding-compiler:${Libs.androidGradlePluginVersion}"
+    // We need to explicitly depend on LiveData for data-binding to work. Not sure why this
+    // doesn't transitively resolve
+    androidTestImplementation "androidx.lifecycle:lifecycle-livedata:2.1.0"
+
+    androidTestImplementation project(':test-utils')
+    androidTestImplementation Libs.Kotlin.stdlib
+    androidTestImplementation Libs.junit
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.ext
+    androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.coreKtx
+}
