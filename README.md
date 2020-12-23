@@ -10,11 +10,11 @@ blog post.
 
 There are a number of libraries available:
 
-### insetter
+### [insetter](library/)
 [![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter)
 
-The base library which is written in Java, and provides an easy-to-use
-[Builder](/library/src/main/java/dev/chrisbanes/insetter/Insetter.java) for
+The base library which provides an easy-to-use
+[Builder](/library/src/main/java/dev/chrisbanes/insetter/Insetter.kt) for
 [OnApplyWindowInsetsListener](https://developer.android.com/reference/androidx/core/view/OnApplyWindowInsetsListener)
 instances:
 
@@ -27,11 +27,7 @@ instances:
      .applyToView(view);
 ```
 
-### insetter-ktx
-[![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter-ktx/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter-ktx)
-
-A Kotlin extension library, providing Kotlin-specific functionality. This library contains
-extension functions allowing easy access to the helper functions from the base library:
+It also provides some extension functions allowing easy access to the library functions:
 
 ``` kotlin
 bottomNav.applySystemWindowInsetsToPadding(bottom = true)
@@ -83,6 +79,11 @@ the `insetter-dbx` library, but without the requirement of using data-binding.
 
 📖 You can read more information [here](widgets/).
 
+### insetter-ktx
+
+The old insetter-ktx library is now an empty alias to the main [library](library/).
+A separate KTX library is no longer required, as the main library is now written in Kotlin.
+
 ## ⚠️ Attention 🚧
 
 The library is being written to production quality, but it is not adhering to semantic versioning,
@@ -104,9 +105,6 @@ dependencies {
 
     // If you're using data-binding use this
     implementation "dev.chrisbanes:insetter-dbx:<latest version>"
-
-    // If you're using Kotlin use this too
-    implementation "dev.chrisbanes:insetter-ktx:<latest version>"
   
     // If you would like to use the enhanced widget set, use this
     implementation "dev.chrisbanes:insetter-widgets:<latest version>"
@@ -132,7 +130,6 @@ dependencies {
     // Check the latest SNAPSHOT version from the link above
     implementation "dev.chrisbanes:insetter:<latest version>-SNAPSHOT"
     implementation "dev.chrisbanes:insetter-dbx:<latest version>-SNAPSHOT"
-    implementation "dev.chrisbanes:insetter-ktx:<latest version>-SNAPSHOT"
     implementation "dev.chrisbanes:insetter-widgets:<latest version>-SNAPSHOT"
 }
 ```

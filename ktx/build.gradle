@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import dev.chrisbanes.insetter.buildsrc.Libs
-
 apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
@@ -43,11 +41,6 @@ android {
 
 dependencies {
     api project(':library')
-    api Libs.AndroidX.core
-
-    api Libs.Kotlin.stdlib
-
-    testImplementation Libs.junit
 }
 
 apply plugin: "com.vanniktech.maven.publish"
