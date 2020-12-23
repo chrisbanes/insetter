@@ -14,27 +14,10 @@
  * limitations under the License.
  */
 
-package dev.chrisbanes.insetter;
+package dev.chrisbanes.insetter
 
-import java.util.Locale;
+import androidx.annotation.IntDef
 
-/**
- * A class specifying the sides of a {@link android.view.View} on which the relevant insets should
- * be applied.
- */
-class SideUtils {
-
-  static boolean hasSide(int sides, @Sides int flag) {
-    return (sides & flag) == flag;
-  }
-
-  static String toString(@Sides int sides) {
-    return String.format(
-        Locale.US,
-        "Sides{left=%b, top=%b, right=%b, bottom=%b}",
-        hasSide(sides, Side.LEFT),
-        hasSide(sides, Side.TOP),
-        hasSide(sides, Side.RIGHT),
-        hasSide(sides, Side.BOTTOM));
-  }
-}
+@IntDef(flag = true, value = [Side.LEFT, Side.TOP, Side.RIGHT, Side.BOTTOM, Side.ALL])
+@Retention(AnnotationRetention.SOURCE)
+annotation class Sides

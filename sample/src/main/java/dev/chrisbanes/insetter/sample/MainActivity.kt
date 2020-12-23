@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION") // ListActivity
+
 package dev.chrisbanes.insetter.sample
 
 import android.app.ListActivity
@@ -49,7 +51,7 @@ class MainActivity : ListActivity() {
         val mainIntent = Intent(Intent.ACTION_MAIN, null)
         mainIntent.addCategory("dev.chrisbanes.insetter.sample.SAMPLE_CODE")
 
-        val list = packageManager.queryIntentActivities(mainIntent, 0) ?: return myData
+        val list = packageManager.queryIntentActivities(mainIntent, 0)
 
         val prefixPath: Array<String>?
         var prefixWithSlash = prefix

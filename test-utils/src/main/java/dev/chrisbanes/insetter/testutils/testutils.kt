@@ -16,12 +16,11 @@
 
 package dev.chrisbanes.insetter.testutils
 
-import android.graphics.Insets
 import android.graphics.Rect
-import android.os.Build
 import android.view.View
 import android.view.WindowInsets
 import androidx.annotation.RequiresApi
+import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.marginBottom
@@ -30,29 +29,19 @@ import androidx.core.view.marginRight
 import androidx.core.view.marginTop
 import org.junit.Assert.assertEquals
 
-fun createInsets(
+private fun createInsets(
     systemWindowInsets: Rect? = null,
     systemGestureInsets: Rect? = null
-): WindowInsetsCompat = when {
-    Build.VERSION.SDK_INT >= 29 -> {
-        // On API 29+, we can use the new WindowInsets.Builder
-        WindowInsets.Builder().apply {
-            if (systemWindowInsets != null) {
-                setSystemWindowInsets(Insets.of(systemWindowInsets))
-            }
-            if (systemGestureInsets != null) {
-                setSystemGestureInsets(Insets.of(systemGestureInsets))
-            }
-        }.build().toWindowInsetsCompat()
-    }
-    Build.VERSION.SDK_INT >= 20 -> {
-        // Other we need to use reflection 🤮
-        val constructor = WindowInsets::class.java.getConstructor(Rect::class.java)
-        constructor.isAccessible = true
-        constructor.newInstance(systemWindowInsets ?: Rect()).toWindowInsetsCompat()
-    }
-    else -> WindowInsetsCompat(null)
-}
+): WindowInsetsCompat = WindowInsetsCompat.Builder()
+    .setInsetsIgnoringVisibility(
+        WindowInsetsCompat.Type.systemBars(),
+        systemWindowInsets?.let { Insets.of(it) } ?: Insets.NONE
+    )
+    .setInsetsIgnoringVisibility(
+        WindowInsetsCompat.Type.systemGestures(),
+        systemGestureInsets?.let { Insets.of(it) } ?: Insets.NONE
+    )
+    .build()
 
 fun View.dispatchInsets(
     systemWindowInsets: Rect? = null,

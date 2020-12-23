@@ -18,8 +18,8 @@ package dev.chrisbanes.insetter.sample
 
 import android.app.Activity
 import android.os.Bundle
+import androidx.core.view.WindowCompat
 import androidx.databinding.DataBindingUtil
-import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.sample.databinding.ActivityDataBindingBinding
 
 class DataBindingSample : Activity() {
@@ -34,6 +34,6 @@ class DataBindingSample : Activity() {
         )
         binding.state = DataBindingState()
 
-        Insetter.setEdgeToEdgeSystemUiFlags(window.decorView, true)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 }

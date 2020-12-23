@@ -46,7 +46,9 @@ inline fun View.doOnApplyWindowInsets(
  * @see View.setSystemUiVisibility
  * @see Insetter.setEdgeToEdgeSystemUiFlags
  */
+@Suppress("DEPRECATION")
 @RequiresApi(16)
+@Deprecated("Use WindowCompat.setDecorFitsSystemWindows() instead")
 fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) =
     Insetter.setEdgeToEdgeSystemUiFlags(this, enabled)
 

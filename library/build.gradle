@@ -20,6 +20,10 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 
+kotlin {
+    explicitApi()
+}
+
 android {
     compileSdkVersion 30
 
@@ -49,9 +53,9 @@ android {
 
 dependencies {
     api Libs.AndroidX.core
+    implementation Libs.Kotlin.stdlib
 
     androidTestImplementation project(':test-utils')
-    androidTestImplementation Libs.Kotlin.stdlib
     androidTestImplementation Libs.junit
     androidTestImplementation Libs.AndroidX.Test.core
     androidTestImplementation Libs.AndroidX.Test.ext

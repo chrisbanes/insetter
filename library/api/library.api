@@ -2,22 +2,29 @@ public final class dev/chrisbanes/insetter/Insetter {
 	public static final field CONSUME_ALL I
 	public static final field CONSUME_AUTO I
 	public static final field CONSUME_NONE I
-	public fun applyInsetsToView (Landroid/view/View;Landroidx/core/view/WindowInsetsCompat;Ldev/chrisbanes/insetter/ViewState;)V
-	public fun applyToView (Landroid/view/View;)V
-	public static fun builder ()Ldev/chrisbanes/insetter/Insetter$Builder;
-	public static fun setEdgeToEdgeSystemUiFlags (Landroid/view/View;Z)V
+	public static final field Companion Ldev/chrisbanes/insetter/Insetter$Companion;
+	public synthetic fun <init> (Ldev/chrisbanes/insetter/Insetter$Builder;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun applyInsetsToView (Landroid/view/View;Landroidx/core/view/WindowInsetsCompat;Ldev/chrisbanes/insetter/ViewState;)V
+	public final fun applyToView (Landroid/view/View;)V
+	public static final fun builder ()Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static final fun setEdgeToEdgeSystemUiFlags (Landroid/view/View;Z)V
 }
 
 public final class dev/chrisbanes/insetter/Insetter$Builder {
-	public fun applySystemGestureInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public fun applySystemGestureInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public fun applySystemWindowInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public fun applySystemWindowInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public fun applyToView (Landroid/view/View;)Ldev/chrisbanes/insetter/Insetter;
-	public fun build ()Ldev/chrisbanes/insetter/Insetter;
-	public fun consumeSystemWindowInsets (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public fun consumeSystemWindowInsets (Z)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public fun setOnApplyInsetsListener (Ldev/chrisbanes/insetter/OnApplyInsetsListener;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun applySystemGestureInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun applySystemGestureInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun applySystemWindowInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun applySystemWindowInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun applyToView (Landroid/view/View;)Ldev/chrisbanes/insetter/Insetter;
+	public final fun build ()Ldev/chrisbanes/insetter/Insetter;
+	public final fun consumeSystemWindowInsets (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun consumeSystemWindowInsets (Z)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun setOnApplyInsetsListener (Ldev/chrisbanes/insetter/OnApplyInsetsListener;)Ldev/chrisbanes/insetter/Insetter$Builder;
+}
+
+public final class dev/chrisbanes/insetter/Insetter$Companion {
+	public final fun builder ()Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun setEdgeToEdgeSystemUiFlags (Landroid/view/View;Z)V
 }
 
 public abstract interface annotation class dev/chrisbanes/insetter/Insetter$ConsumeOptions : java/lang/annotation/Annotation {
@@ -30,32 +37,51 @@ public abstract interface class dev/chrisbanes/insetter/OnApplyInsetsListener {
 public final class dev/chrisbanes/insetter/Side {
 	public static final field ALL I
 	public static final field BOTTOM I
+	public static final field INSTANCE Ldev/chrisbanes/insetter/Side;
 	public static final field LEFT I
 	public static final field NONE I
 	public static final field RIGHT I
 	public static final field TOP I
-	public static fun create (ZZZZ)I
+	public static final fun create (ZZZZ)I
 }
 
 public abstract interface annotation class dev/chrisbanes/insetter/Sides : java/lang/annotation/Annotation {
 }
 
-public class dev/chrisbanes/insetter/ViewDimensions {
+public final class dev/chrisbanes/insetter/ViewDimensions {
+	public static final field Companion Ldev/chrisbanes/insetter/ViewDimensions$Companion;
 	public static final field EMPTY Ldev/chrisbanes/insetter/ViewDimensions;
+	public fun <init> (IIII)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()I
+	public final fun copy (IIII)Ldev/chrisbanes/insetter/ViewDimensions;
+	public static synthetic fun copy$default (Ldev/chrisbanes/insetter/ViewDimensions;IIIIILjava/lang/Object;)Ldev/chrisbanes/insetter/ViewDimensions;
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getBottom ()I
-	public fun getLeft ()I
-	public fun getRight ()I
-	public fun getTop ()I
+	public final fun getBottom ()I
+	public final fun getLeft ()I
+	public final fun getRight ()I
+	public final fun getTop ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public class dev/chrisbanes/insetter/ViewState {
+public final class dev/chrisbanes/insetter/ViewDimensions$Companion {
+}
+
+public final class dev/chrisbanes/insetter/ViewState {
+	public fun <init> ()V
 	public fun <init> (Landroid/view/View;)V
+	public fun <init> (Ldev/chrisbanes/insetter/ViewDimensions;Ldev/chrisbanes/insetter/ViewDimensions;)V
+	public synthetic fun <init> (Ldev/chrisbanes/insetter/ViewDimensions;Ldev/chrisbanes/insetter/ViewDimensions;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ldev/chrisbanes/insetter/ViewDimensions;
+	public final fun component2 ()Ldev/chrisbanes/insetter/ViewDimensions;
+	public final fun copy (Ldev/chrisbanes/insetter/ViewDimensions;Ldev/chrisbanes/insetter/ViewDimensions;)Ldev/chrisbanes/insetter/ViewState;
+	public static synthetic fun copy$default (Ldev/chrisbanes/insetter/ViewState;Ldev/chrisbanes/insetter/ViewDimensions;Ldev/chrisbanes/insetter/ViewDimensions;ILjava/lang/Object;)Ldev/chrisbanes/insetter/ViewState;
 	public fun equals (Ljava/lang/Object;)Z
-	public fun getMargins ()Ldev/chrisbanes/insetter/ViewDimensions;
-	public fun getPaddings ()Ldev/chrisbanes/insetter/ViewDimensions;
+	public final fun getMargins ()Ldev/chrisbanes/insetter/ViewDimensions;
+	public final fun getPaddings ()Ldev/chrisbanes/insetter/ViewDimensions;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

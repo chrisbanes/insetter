@@ -94,7 +94,9 @@ class InsetsConstraintLayoutTestCase {
     }
 
     private fun assertChildViewState(insets: WindowInsetsCompat) {
+        @Suppress("DEPRECATION")
         val systemWindowInsets = insets.systemWindowInsets
+        @Suppress("DEPRECATION")
         val systemGestureInsets = insets.systemGestureInsets
 
         // -------------------------------------------

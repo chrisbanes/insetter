@@ -18,7 +18,7 @@ package dev.chrisbanes.insetter.sample
 
 import android.app.Activity
 import android.os.Bundle
-import dev.chrisbanes.insetter.Insetter
+import androidx.core.view.WindowCompat
 
 class InsetterConstraintLayoutSample : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +26,6 @@ class InsetterConstraintLayoutSample : Activity() {
 
         setContentView(R.layout.activity_widget_constraintlayout)
 
-        Insetter.setEdgeToEdgeSystemUiFlags(window.decorView, true)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 }

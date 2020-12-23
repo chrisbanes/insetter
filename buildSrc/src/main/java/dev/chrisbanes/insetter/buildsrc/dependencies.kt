@@ -17,7 +17,7 @@
 package dev.chrisbanes.insetter.buildsrc
 
 object Versions {
-    const val ktlint = "0.39.0"
+    const val ktlint = "0.40.0"
 }
 
 object Libs {
@@ -51,8 +51,8 @@ object Libs {
             const val espressoCore = "androidx.test.espresso:espresso-core:3.2.0"
         }
 
-        const val core = "androidx.core:core:1.5.0-alpha04"
-        const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha04"
+        const val core = "androidx.core:core:1.5.0-alpha05"
+        const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha05"
     }
 
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0"

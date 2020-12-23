@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Google LLC
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package dev.chrisbanes.insetter;
+package dev.chrisbanes.insetter
 
-import androidx.annotation.IntDef;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-@IntDef(
-    flag = true,
-    value = {Side.LEFT, Side.TOP, Side.RIGHT, Side.BOTTOM, Side.ALL})
-@Retention(RetentionPolicy.SOURCE)
-public @interface Sides {}
+data class ViewDimensions(
+    val left: Int,
+    val top: Int,
+    val right: Int,
+    val bottom: Int
+) {
+    companion object {
+        @JvmField
+        val EMPTY = ViewDimensions(0, 0, 0, 0)
+    }
+}

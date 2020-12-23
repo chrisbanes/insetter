@@ -97,6 +97,7 @@ public class InsetterBindingAdapters {
   }
 
   @BindingAdapter("layout_edgeToEdge")
+  @Deprecated
   public static void setEdgeToEdgeFlags(@NonNull final View view, boolean enabled) {
     if (Build.VERSION.SDK_INT >= 16) {
       Insetter.setEdgeToEdgeSystemUiFlags(view, enabled);
