@@ -1,0 +1,51 @@
+# Project information
+site_name: 'Insetter'
+site_description: 'A group of libraries to help write Jetpack Compose apps.'
+site_author: 'Chris Banes'
+site_url: 'https://chrisbanes.github.io/insetter/'
+remote_branch: gh-pages
+
+docs_dir: docs-gen
+
+# Repository
+repo_name: 'Insetter'
+repo_url: 'https://github.com/chrisbanes/insetter'
+
+# Navigation
+nav:
+  - 'Overview': index.md
+  - 'DBX': dbx.md
+  - 'Widgets': widgets.md
+  - 'API':
+    - 'Core library': api/library/library/
+    - 'DBX': api/dbx/dbx/
+    - 'Widgets': api/widgets/widgets/
+  - 'Contributing': contributing.md
+# Configuration
+theme:
+  name: 'material'
+  language: 'en'
+  icon:
+    logo: material/overscan
+  palette:
+    primary: 'black'
+    accent: 'deep orange'
+  font:
+    text: 'IBM Plex Sans'
+    code: 'IBM Plex Mono'
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.betterem
+  - pymdownx.superfences
+
+extra:
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/chrisbanes

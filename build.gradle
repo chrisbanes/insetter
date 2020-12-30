@@ -20,13 +20,15 @@ import dev.chrisbanes.insetter.buildsrc.Versions
 buildscript {
     repositories {
         google()
+        mavenCentral()
         jcenter()
     }
 
     dependencies {
         classpath Libs.androidGradlePlugin
         classpath Libs.Kotlin.gradlePlugin
-        classpath Libs.dokka
+
+        classpath Libs.Dokka.gradlePlugin
 
         classpath Libs.gradleMavenPublishPlugin
 
@@ -44,12 +46,22 @@ apiValidation {
     ignoredProjects += ["sample", "test-utils"]
 }
 
-subprojects {
+apply plugin: 'org.jetbrains.dokka'
+
+tasks.withType(org.jetbrains.dokka.gradle.DokkaMultiModuleTask).configureEach {
+    outputDirectory = rootProject.file('docs/api')
+    failOnWarning = true
+}
+
+allprojects {
     repositories {
         google()
+        mavenCentral()
         jcenter()
     }
+}
 
+subprojects {
     apply plugin: 'com.diffplug.spotless'
     spotless {
         kotlin {
@@ -95,6 +107,40 @@ subprojects {
                 project.ext.set(prop.key, rootProject.file(prop.value).absolutePath)
             } else {
                 project.ext.set(prop.key, prop.value)
+            }
+        }
+    }
+
+    // Must be afterEvaluate or else com.vanniktech.maven.publish will overwrite our
+    // dokka and version configuration.
+    afterEvaluate {
+        tasks.withType(org.jetbrains.dokka.gradle.DokkaTask).configureEach {
+            dokkaSourceSets.configureEach {
+                reportUndocumented.set(true)
+                skipEmptyPackages.set(true)
+                skipDeprecated.set(true)
+                jdkVersion.set(8)
+
+                // Add Android SDK packages
+                noAndroidSdkLink.set(false)
+
+                // AndroidX docs
+                externalDocumentationLink {
+                    url.set(new URL("https://developer.android.com/reference/"))
+                    packageListUrl.set(new URL("https://developer.android.com/reference/androidx/package-list"))
+                }
+                externalDocumentationLink {
+                    url.set(new URL("https://developer.android.com/reference/kotlin/"))
+                    packageListUrl.set(new URL("https://developer.android.com/reference/kotlin/androidx/package-list"))
+                }
+
+                sourceLink {
+                    localDirectory.set(project.file("src/main/java"))
+                    // URL showing where the source code can be accessed through the web browser
+                    remoteUrl.set(new URL("https://github.com/chrisbanes/insetter/blob/main/${project.name}/src/main/java"))
+                    // Suffix which is used to append the line number to the URL. Use #L for GitHub
+                    remoteLineSuffix.set("#L")
+                }
             }
         }
     }
