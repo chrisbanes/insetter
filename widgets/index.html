@@ -1,0 +1,768 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A group of libraries to help write Jetpack Compose apps.">
+      
+      
+      
+        <link rel="canonical" href="https://chrisbanes.github.io/insetter/widgets/">
+      
+      
+        <meta name="author" content="Chris Banes">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.6">
+    
+    
+      
+        <title>Widgets - Insetter</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6910b76c.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.196e0c26.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,400i,700%7CIBM+Plex+Mono&display=fallback">
+        <style>body,input{font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"IBM Plex Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="deep-orange">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#insetter-widgets" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://chrisbanes.github.io/insetter/" title="Insetter" class="md-header-nav__button md-logo" aria-label="Insetter">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5L10 8h4l-2-2.5m6 4.5v4l2.5-2-2.5-2M6 10l-2.5 2L6 14v-4m8 6h-4l2 2.5 2-2.5m7-13H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H3V5h18v14z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            Insetter
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Widgets
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/chrisbanes/insetter/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Insetter
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://chrisbanes.github.io/insetter/" title="Insetter" class="md-nav__button md-logo" aria-label="Insetter">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5L10 8h4l-2-2.5m6 4.5v4l2.5-2-2.5-2M6 10l-2.5 2L6 14v-4m8 6h-4l2 2.5 2-2.5m7-13H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 16H3V5h18v14z"/></svg>
+
+    </a>
+    Insetter
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/chrisbanes/insetter/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Insetter
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../dbx/" class="md-nav__link">
+      DBX
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Widgets
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      Widgets
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#insetterconstraintlayout" class="md-nav__link">
+    InsetterConstraintLayout
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#insetterconstrainthelper" class="md-nav__link">
+    InsetterConstraintHelper
+  </a>
+  
+    <nav class="md-nav" aria-label="InsetterConstraintHelper">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#different-flag-combinations" class="md-nav__link">
+    Different flag combinations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compound-paddingmargin" class="md-nav__link">
+    Compound padding/margin
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#insetterconstraintlayout-vs-insetterconstrainthelper" class="md-nav__link">
+    InsetterConstraintLayout vs InsetterConstraintHelper?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-should-i-use-this-vs-the-dbx-library" class="md-nav__link">
+    When should I use this vs the dbx library?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
+    <label class="md-nav__link" for="nav-4">
+      API
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="API" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon"></span>
+        API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/library/library/" class="md-nav__link">
+      Core library
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/dbx/dbx/" class="md-nav__link">
+      DBX
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/ktx/ktx/" class="md-nav__link">
+      KTX
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/widgets/widgets/" class="md-nav__link">
+      Widgets
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../contributing/" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#insetterconstraintlayout" class="md-nav__link">
+    InsetterConstraintLayout
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#insetterconstrainthelper" class="md-nav__link">
+    InsetterConstraintHelper
+  </a>
+  
+    <nav class="md-nav" aria-label="InsetterConstraintHelper">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#different-flag-combinations" class="md-nav__link">
+    Different flag combinations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compound-paddingmargin" class="md-nav__link">
+    Compound padding/margin
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#insetterconstraintlayout-vs-insetterconstrainthelper" class="md-nav__link">
+    InsetterConstraintLayout vs InsetterConstraintHelper?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-should-i-use-this-vs-the-dbx-library" class="md-nav__link">
+    When should I use this vs the dbx library?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/chrisbanes/insetter/edit/master/docs/widgets.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="insetter-widgets">insetter-widgets<a class="headerlink" href="#insetter-widgets" title="Permanent link">&para;</a></h1>
+<p>An extension library which provides versions of commonly used ViewGroups with enhanced inset
+handling. Currently this library is focusing on building upon 
+<a href="https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html">ConstraintLayout</a>.</p>
+<p>There are currently two ways to use Insetter with <a href="https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html">ConstraintLayout</a>:
+<a href="src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java">InsetterConstraintLayout</a> which is a subclass, or <a href="src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintHelper.java">InsetterConstraintHelper</a> which is a constraint helper.</p>
+<h2 id="insetterconstraintlayout">InsetterConstraintLayout<a class="headerlink" href="#insetterconstraintlayout" title="Permanent link">&para;</a></h2>
+<p><a href="src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java">InsetterConstraintLayout</a> is a <a href="https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html">ConstraintLayout</a> which adds support for a number of
+attributes to define inset behavior on child views.</p>
+<p>The attributes currently provided are:</p>
+<ul>
+<li><code>app:paddingSystemWindowInsets</code>: to apply the <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()">system window insets</a> using padding.</li>
+<li><code>app:layout_marginSystemWindowInsets</code>: to apply the <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()">system window insets</a> using margin.</li>
+<li><code>app:paddingSystemGestureInsets</code>:  to apply the <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemGestureInsets()">system gesture insets</a> using padding.</li>
+<li><code>app:layout_marginSystemGestureInsets</code>: to apply the <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemGestureInsets()">system gesture insets</a> using margin.</li>
+</ul>
+<p>Each of the attributes takes a combination of flags, defining which dimensions the chosen
+insets should be applied to. An example can be seen below:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout</span>
+    <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="na">xmlns:app=</span><span class="s">&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+    <span class="na">android:layout_width=</span><span class="s">&quot;...&quot;</span>
+    <span class="na">android:layout_height=</span><span class="s">&quot;...&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;ImageView</span>
+        <span class="na">android:layout_width=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">app:paddingSystemWindowInsets=</span><span class="s">&quot;left|top|right|bottom&quot;</span>
+        <span class="na">android:src=</span><span class="s">&quot;@drawable/rectangle&quot;</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout&gt;</span>
+</code></pre></div>
+<p>Here, the <code>ImageView</code>'s padding on all dimensions will be increased by the <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()">system window insets</a>.</p>
+<hr />
+<p>You can also mix inset types, such as below where the view's padding will be using the left and right
+<a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()">system window insets</a> values, and the bottom <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemGestureInsets()">system gesture insets</a>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout&gt;</span>
+
+    <span class="nt">&lt;ImageView</span>
+        <span class="na">app:paddingSystemWindowInsets=</span><span class="s">&quot;left|right&quot;</span>
+        <span class="na">app:paddingSystemGestureInsets=</span><span class="s">&quot;bottom&quot;</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout&gt;</span>
+</code></pre></div>
+<hr />
+<p>And similarly, you can mix application types. This time the view's padding will be using the left and right
+<a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()">system window insets</a> values, but the view's bottom margin which be using the <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemGestureInsets()">system gesture insets</a>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout&gt;</span>
+
+    <span class="nt">&lt;ImageView</span>
+        <span class="na">app:paddingSystemWindowInsets=</span><span class="s">&quot;left|right&quot;</span>
+        <span class="na">app:layout_marginSystemGestureInsets=</span><span class="s">&quot;bottom&quot;</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout&gt;</span>
+</code></pre></div>
+<h2 id="insetterconstrainthelper">InsetterConstraintHelper<a class="headerlink" href="#insetterconstrainthelper" title="Permanent link">&para;</a></h2>
+<p>Next up we have <a href="src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintHelper.java">InsetterConstraintHelper</a>, a constraint helper allowing you to apply inset
+handling to all of the helper's referenced views.</p>
+<p>Let's look at an example:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
+    <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="na">xmlns:app=</span><span class="s">&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+    <span class="na">android:layout_width=</span><span class="s">&quot;...&quot;</span>
+    <span class="na">android:layout_height=</span><span class="s">&quot;...&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper</span>
+        <span class="na">android:layout_width=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">app:paddingSystemWindowInsets=</span><span class="s">&quot;left|top|right|bottom&quot;</span>
+        <span class="na">app:constraint_referenced_ids=</span><span class="s">&quot;image,button&quot;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;ImageView</span>
+        <span class="na">android:id=</span><span class="s">&quot;@+id/image&quot;</span> <span class="err">...</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;Button</span>
+        <span class="na">android:id=</span><span class="s">&quot;@+id/button&quot;</span> <span class="err">...</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+</code></pre></div>
+<p>Here you can see that we've defined a <code>InsetterConstraintHelper</code>, setting
+<code>app:paddingSystemWindowInsets</code> on the helper itself. The defined insets will be applied to all
+of the views listed in the <code>app:constraint_referenced_ids</code> attribute, in this example
+<code>@id/image</code> and <code>@id/button</code>.</p>
+<p>The attributes supported on <a href="src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintHelper.java"><code>InsetterConstraintHelper</code></a> are the same as <a href="src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java"><code>InsetterConstraintLayout</code></a>:</p>
+<ul>
+<li><code>app:paddingSystemWindowInsets</code>: to apply the <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()">system window insets</a> using padding.</li>
+<li><code>app:layout_marginSystemWindowInsets</code>: to apply the <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()">system window insets</a> using margin.</li>
+<li><code>app:paddingSystemGestureInsets</code>:  to apply the <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemGestureInsets()">system gesture insets</a> using padding.</li>
+<li><code>app:layout_marginSystemGestureInsets</code>: to apply the <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemGestureInsets()">system gesture insets</a> using margin.</li>
+</ul>
+<h3 id="different-flag-combinations">Different flag combinations<a class="headerlink" href="#different-flag-combinations" title="Permanent link">&para;</a></h3>
+<p>If you have views which require different flag combinations, you need to define a
+<code>InsetterConstraintHelper</code> per combination. Lets modify the example above, making <code>@id/image</code>
+and <code>@id/button</code> use different flags:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span> <span class="err">...</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper</span>
+        <span class="na">android:layout_width=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">app:paddingSystemWindowInsets=</span><span class="s">&quot;left|right&quot;</span>
+        <span class="na">app:constraint_referenced_ids=</span><span class="s">&quot;image&quot;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper</span>
+        <span class="na">android:layout_width=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">app:layout_marginSystemWindowInsets=</span><span class="s">&quot;bottom&quot;</span>
+        <span class="na">app:constraint_referenced_ids=</span><span class="s">&quot;button&quot;</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;ImageView</span>
+        <span class="na">android:id=</span><span class="s">&quot;@+id/image&quot;</span> <span class="err">...</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;Button</span>
+        <span class="na">android:id=</span><span class="s">&quot;@+id/button&quot;</span> <span class="err">...</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+</code></pre></div>
+<p><em>Thanks to <a href="https://github.com/mzgreen">mzgreen</a> for contributing InsetterConstraintHelper.</em></p>
+<h2 id="compound-paddingmargin">Compound padding/margin<a class="headerlink" href="#compound-paddingmargin" title="Permanent link">&para;</a></h2>
+<p>For all of the widgets in this library, you can safely set any padding or margins on the view
+and the values will be maintained. In the example below we're using a padding of <code>24dp</code>, and also
+applying the <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()">system window insets</a> left and bottom using padding:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout&gt;</span>
+
+    <span class="nt">&lt;ImageView</span>
+        <span class="na">android:padding=</span><span class="s">&quot;24dp&quot;</span>
+        <span class="na">app:paddingSystemWindowInsets=</span><span class="s">&quot;left|bottom&quot;</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout&gt;</span>
+</code></pre></div>
+<p>If the bottom <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()">system window insets</a> is defined as <code>48dp</code> on the device, the final
+applied padding for the view will be:</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Layout padding</th>
+<th>System window insets</th>
+<th>Final applied padding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Left</td>
+<td>24dp</td>
+<td>0dp</td>
+<td>24dp</td>
+</tr>
+<tr>
+<td>Top</td>
+<td>24dp</td>
+<td>0dp</td>
+<td><strong>24dp</strong> (0 + 24)</td>
+</tr>
+<tr>
+<td>Right</td>
+<td>24dp</td>
+<td>0dp</td>
+<td>24dp</td>
+</tr>
+<tr>
+<td>Bottom</td>
+<td>24dp</td>
+<td>48dp</td>
+<td><strong>72dp</strong> (24 + 48)</td>
+</tr>
+</tbody>
+</table>
+<p>The same behavior happens when using margin too.</p>
+<h2 id="insetterconstraintlayout-vs-insetterconstrainthelper"><code>InsetterConstraintLayout</code> vs <code>InsetterConstraintHelper</code>?<a class="headerlink" href="#insetterconstraintlayout-vs-insetterconstrainthelper" title="Permanent link">&para;</a></h2>
+<p>We have two things which both provide the same functionality on top of <a href="https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html">ConstraintLayout</a>,
+so how do you decide which to use? To help I've listed some of the benefits for each, allowing you
+to decide:</p>
+<ul>
+<li><code>InsetterConstraintLayout</code> benefit #1. The attributes are defined directly on the children, which
+is clearer when reading the source (for code-review, etc).</li>
+<li>
+<p><code>InsetterConstraintLayout</code> benefit #2. Each view can use a different combination of flags very easily.
+To achieve the same with <code>InsetterConstraintHelper</code> requires creating a separate <code>InsetterConstraintHelper</code>
+per flag combination.</p>
+</li>
+<li>
+<p><code>InsetterConstraintHelper</code> benefit #1. The helper works with any <a href="https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html">ConstraintLayout</a> class,
+including MotionLayout.</p>
+</li>
+</ul>
+<h2 id="when-should-i-use-this-vs-the-dbx-library">When should I use this vs the dbx library?<a class="headerlink" href="#when-should-i-use-this-vs-the-dbx-library" title="Permanent link">&para;</a></h2>
+<p>The behavior provided by the widgets in this library are designed to be copies of that provided by
+the <code>insetter-dbx</code> library, but without the requirement of using <a href="https://developer.android.com/topic/libraries/data-binding">data-binding</a>.
+If you're already using <a href="https://developer.android.com/topic/libraries/data-binding">data-binding</a> I recommend using the dbx library and it's
+binding adapters, since they work with any view type.</p>
+<p>However, if you do not use <a href="https://developer.android.com/topic/libraries/data-binding">data-binding</a> and do not wish to do so, the widgets in
+this library provide very similar functionality at the cost of having to migrate to our widget types.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../dbx/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                DBX
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../contributing/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Contributing
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/chrisbanes" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.fd16492e.min.js"></script>
+      <script src="../assets/javascripts/bundle.7836ba4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

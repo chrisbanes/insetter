@@ -1,0 +1,10 @@
+<div class="sideMenuPart" id="nav-submenu" pageId="////PointingToDeclaration//-128862158">
+  <div class="overview"><a href="dbx/index.html"><span>dbx</span></a><span class="navButton pull-right" onclick="document.getElementById(&quot;nav-submenu&quot;).classList.toggle(&quot;hidden&quot;);"><span class="navButtonContent"></span></span></div>
+  <div class="sideMenuPart" id="nav-submenu-0" pageId="dev.chrisbanes.insetter////PointingToDeclaration//-128862158">
+    <div class="overview"><a href="dbx/dev.chrisbanes.insetter/index.html"><span>dev.</span><wbr></wbr><span>chrisbanes.</span><wbr></wbr><span>insetter</span></a><span class="navButton pull-right" onclick="document.getElementById(&quot;nav-submenu-0&quot;).classList.toggle(&quot;hidden&quot;);"><span class="navButtonContent"></span></span></div>
+    <div class="sideMenuPart" id="nav-submenu-0-0" pageId="dev.chrisbanes.insetter/InsetterBindingAdapters///PointingToDeclaration//-128862158">
+      <div class="overview"><a href="dbx/dev.chrisbanes.insetter/-insetter-binding-adapters/index.html"><span>Insetter</span><wbr></wbr><span>Binding</span><wbr></wbr><span>Adapters</span></a></div>
+    </div>
+  </div>
+</div>
+
