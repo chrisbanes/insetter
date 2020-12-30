@@ -1,7 +1,5 @@
 # insetter-widgets
 
-[![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter-widgets/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter-widgets)
-
 An extension library which provides versions of commonly used ViewGroups with enhanced inset
 handling. Currently this library is focusing on building upon 
 [ConstraintLayout][cl].

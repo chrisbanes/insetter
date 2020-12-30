@@ -38,7 +38,10 @@ object Libs {
         const val binaryCompatibility = "org.jetbrains.kotlinx:binary-compatibility-validator:0.2.3"
     }
 
-    const val dokka = "org.jetbrains.dokka:dokka-gradle-plugin:1.4.10"
+    object Dokka {
+        private const val version = "1.4.10.2"
+        const val gradlePlugin = "org.jetbrains.dokka:dokka-gradle-plugin:$version"
+    }
 
     object AndroidX {
         object Test {

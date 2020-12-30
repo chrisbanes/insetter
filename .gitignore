@@ -6,6 +6,12 @@ captures
 
 /local.properties
 
+# docs
+docs/api
+docs-gen
+site
+*.bak
+
 # IntelliJ .idea folder
 .idea/workspace.xml
 .idea/libraries

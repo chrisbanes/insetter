@@ -1,7 +1,5 @@
 # insetter-dbx
 
-[![javadoc.io](https://javadoc.io/badge2/dev.chrisbanes/insetter-dbx/javadoc.io.svg)](https://javadoc.io/doc/dev.chrisbanes/insetter-dbx)
-
 A [Data Binding][databinding] extension library, providing [Data Binding][databinding]-specific functionality.
 This primarily contains binding adapters, which allow access to the helper functions from your layouts.
 Currently the attributes provided are:
