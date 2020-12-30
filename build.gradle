@@ -37,7 +37,7 @@ buildscript {
 }
 
 plugins {
-    id "com.diffplug.spotless" version "5.7.0"
+    id "com.diffplug.spotless" version "5.8.2"
 }
 
 apply plugin: 'binary-compatibility-validator'
@@ -74,15 +74,6 @@ subprojects {
             target "**/*.java"
             googleJavaFormat()
             licenseHeaderFile rootProject.file('spotless/copyright.txt')
-        }
-        groovyGradle {
-            // same as groovy, but for .gradle (defaults to '*.gradle')
-            target '**/*.gradle'
-            // the Groovy Eclipse formatter extends the Java Eclipse formatter,
-            // so it formats Java files by default (unless `excludeJava` is used).
-            greclipse().configFile(rootProject.file('spotless/greclipse.properties'))
-            licenseHeaderFile rootProject.file('spotless/copyright.txt'),
-                    '(buildscript|apply|import)'
         }
     }
 
