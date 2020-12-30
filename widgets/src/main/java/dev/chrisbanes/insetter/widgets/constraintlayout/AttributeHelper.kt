@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,27 +18,23 @@ package dev.chrisbanes.insetter.widgets.constraintlayout
 
 import android.view.Gravity
 import dev.chrisbanes.insetter.Side.create
+import dev.chrisbanes.insetter.Sides
 
-internal object AttributeHelper {
-    // These values match the values in attrs.xml
-    private const val LEFT = Gravity.LEFT
-    private const val TOP = Gravity.TOP
-    private const val RIGHT = Gravity.RIGHT
-    private const val BOTTOM = Gravity.BOTTOM
+// These values match the values in attrs.xml
+private const val LEFT = Gravity.LEFT
+private const val TOP = Gravity.TOP
+private const val RIGHT = Gravity.RIGHT
+private const val BOTTOM = Gravity.BOTTOM
 
-    @JvmStatic
-    fun flagToSides(value: Int): Int {
-        // Fast path if the value is empty
-        return if (value == 0) 0 else create(
-            hasFlag(value, LEFT),
-            hasFlag(value, TOP),
-            hasFlag(value, RIGHT),
-            hasFlag(value, BOTTOM)
-        )
-    }
-
-    @JvmStatic
-    private fun hasFlag(value: Int, flag: Int): Boolean {
-        return value and flag == flag
-    }
+@Sides
+internal fun flagToSides(value: Int): Int {
+    // Fast path if the value is empty
+    return if (value == 0) 0 else create(
+        hasFlag(value, LEFT),
+        hasFlag(value, TOP),
+        hasFlag(value, RIGHT),
+        hasFlag(value, BOTTOM)
+    )
 }
+
+private fun hasFlag(value: Int, flag: Int): Boolean = value and flag == flag

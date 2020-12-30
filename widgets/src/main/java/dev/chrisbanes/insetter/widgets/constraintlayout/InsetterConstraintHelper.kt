@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -96,7 +96,7 @@ import kotlin.properties.Delegates.observable
  * &lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
 </pre> *
  */
-class InsetterConstraintHelper @JvmOverloads constructor(
+open class InsetterConstraintHelper @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -150,18 +150,27 @@ class InsetterConstraintHelper @JvmOverloads constructor(
         val ta = context.obtainStyledAttributes(attrs, R.styleable.InsetterConstraintHelper)
         val paddingSystemWindowInsetsFlags =
             ta.getInt(R.styleable.InsetterConstraintHelper_paddingSystemWindowInsets, 0)
-        systemWindowInsetsPaddingSides = AttributeHelper.flagToSides(paddingSystemWindowInsetsFlags)
+        systemWindowInsetsPaddingSides = flagToSides(paddingSystemWindowInsetsFlags)
         val marginSystemWindowInsetsFlags =
-            ta.getInt(R.styleable.InsetterConstraintHelper_layout_marginSystemWindowInsets, 0)
-        systemWindowInsetsMarginSides = AttributeHelper.flagToSides(marginSystemWindowInsetsFlags)
+            ta.getInt(
+                R.styleable.InsetterConstraintHelper_layout_marginSystemWindowInsets,
+                0
+            )
+        systemWindowInsetsMarginSides = flagToSides(marginSystemWindowInsetsFlags)
         val paddingSystemGestureInsetsFlags =
-            ta.getInt(R.styleable.InsetterConstraintHelper_paddingSystemGestureInsets, 0)
-        systemGestureInsetsPaddingSides = AttributeHelper.flagToSides(paddingSystemGestureInsetsFlags)
-        val marginSystemGestureInsetsFlags =
-            ta.getInt(R.styleable.InsetterConstraintHelper_layout_marginSystemGestureInsets, 0)
-        systemGestureInsetsMarginSides = AttributeHelper.flagToSides(marginSystemGestureInsetsFlags)
+            ta.getInt(
+                R.styleable.InsetterConstraintHelper_paddingSystemGestureInsets,
+                0
+            )
+        systemGestureInsetsPaddingSides = flagToSides(paddingSystemGestureInsetsFlags)
+        val marginSystemGestureInsetsFlags = ta.getInt(
+            R.styleable.InsetterConstraintHelper_layout_marginSystemGestureInsets,
+            0
+        )
+        systemGestureInsetsMarginSides = flagToSides(marginSystemGestureInsetsFlags)
         consumeSystemWindowInsets = ta.getInt(
-            R.styleable.InsetterConstraintHelper_consumeSystemWindowInsets, Insetter.CONSUME_NONE
+            R.styleable.InsetterConstraintHelper_consumeSystemWindowInsets,
+            Insetter.CONSUME_NONE
         )
         ta.recycle()
 
