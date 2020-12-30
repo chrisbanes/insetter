@@ -59,6 +59,13 @@ import java.util.Locale
 class Insetter private constructor(builder: Builder) {
     @IntDef(value = [CONSUME_NONE, CONSUME_ALL, CONSUME_AUTO])
     @Retention(AnnotationRetention.SOURCE)
+    @Target(
+        AnnotationTarget.VALUE_PARAMETER,
+        AnnotationTarget.PROPERTY,
+        AnnotationTarget.LOCAL_VARIABLE,
+        AnnotationTarget.FIELD,
+        AnnotationTarget.FUNCTION
+    )
     annotation class ConsumeOptions
 
     private val onApplyInsetsListener: OnApplyInsetsListener?
