@@ -1,0 +1,31 @@
+public abstract interface class androidx/databinding/DataBindingComponent {
+}
+
+public class androidx/databinding/library/baseAdapters/BR {
+	public static field _all I
+	public fun <init> ()V
+}
+
+public class dev/chrisbanes/insetter/InsetterBindingAdapters {
+	public static fun applyInsetsFromBooleans (Landroid/view/View;ZZZZZZZZZZZZZZZZZ)V
+	public static fun setEdgeToEdgeFlags (Landroid/view/View;Z)V
+}
+
+public class dev/chrisbanes/insetter/dbx/BR {
+	public static field _all I
+	public fun <init> ()V
+}
+
+public class dev/chrisbanes/insetter/dbx/DataBinderMapperImpl : androidx/databinding/DataBinderMapper {
+	public fun <init> ()V
+	public fun collectDependencies ()Ljava/util/List;
+	public fun convertBrIdToString (I)Ljava/lang/String;
+	public fun getDataBinder (Landroidx/databinding/DataBindingComponent;Landroid/view/View;I)Landroidx/databinding/ViewDataBinding;
+	public fun getDataBinder (Landroidx/databinding/DataBindingComponent;[Landroid/view/View;I)Landroidx/databinding/ViewDataBinding;
+	public fun getLayoutId (Ljava/lang/String;)I
+}
+
+public class dev/chrisbanes/insetter/dbx/DataBindingInfo {
+	public fun <init> ()V
+}
+

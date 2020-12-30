@@ -43,7 +43,7 @@ plugins {
 apply plugin: 'binary-compatibility-validator'
 apiValidation {
     // Ignore the sample from API tracking/checking
-    ignoredProjects += ["sample", "test-utils"]
+    ignoredProjects += ["sample", "test-utils", "test-dbx"]
 }
 
 apply plugin: 'org.jetbrains.dokka'
