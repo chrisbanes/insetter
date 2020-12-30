@@ -48,6 +48,8 @@ dependencies {
 
     api Libs.constraintLayout
 
+    implementation Libs.Kotlin.stdlib
+
     androidTestImplementation project(':test-utils')
     androidTestImplementation Libs.Kotlin.stdlib
     androidTestImplementation Libs.junit
