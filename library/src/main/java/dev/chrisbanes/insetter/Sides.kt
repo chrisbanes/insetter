@@ -24,6 +24,7 @@ import androidx.annotation.IntDef
     AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.PROPERTY,
     AnnotationTarget.LOCAL_VARIABLE,
-    AnnotationTarget.FIELD
+    AnnotationTarget.FIELD,
+    AnnotationTarget.FUNCTION
 )
 annotation class Sides
