@@ -35,24 +35,24 @@ import kotlin.properties.Delegates.observable
 /**
  * An extension to [ConstraintLayout] which adds enhanced support for inset handling.
  *
+ * This class supports the use of `paddingSystemWindowInsets`, `paddingSystemGestureInsets`,
+ * `layout_marginSystemWindowInsets` and `layout_marginSystemGestureInsets` attributes on children:
  *
- * This class supports the use of `paddingSystemWindowInsets`, `paddingSystemGestureInsets`, `layout_marginSystemWindowInsets` and `layout_marginSystemGestureInsets` attributes on children:
+ * ```
+ * <dev.chrisbanes.insetter.widgets.InsetterConstraintLayout
+ *   xmlns:android="http://schemas.android.com/apk/res/android"
+ *   xmlns:app="http://schemas.android.com/apk/res-auto"
+ *   android:layout_width="match_parent"
+ *   android:layout_height="match_parent">
  *
- * <pre>
- * &lt;dev.chrisbanes.insetter.widgets.InsetterConstraintLayout
- * xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
- * xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
- * android:layout_width=&quot;match_parent&quot;
- * android:layout_height=&quot;match_parent&quot;&gt;
+ *   <ImageView
+ *     android:layout_width="match_parent"
+ *     android:layout_height="match_parent"
+ *     app:paddingSystemWindowInsets="left|top|right|bottom"
+ *     android:src="@drawable/icon">
  *
- * &lt;ImageView
- * android:layout_width=&quot;match_parent&quot;
- * android:layout_height=&quot;match_parent&quot;
- * app:paddingSystemWindowInsets=&quot;left|top|right|bottom&quot;
- * android:src=&quot;@drawable/icon&quot; /&gt;
- *
- * &lt;/dev.chrisbanes.insetter.widgets.InsetterConstraintLayout&gt;
-</pre> *
+ * </dev.chrisbanes.insetter.widgets.InsetterConstraintLayout>
+ * ```
  *
  * Each of the attributes accepts a combination of flags which defines the sides on which the
  * relevant insets will be applied.
@@ -75,7 +75,6 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
             val view = getChildAt(i)
             val state = view.getTag(R.id.insetter_initial_state) as ViewState
             val lp = view.layoutParams as LayoutParams
-
             lp.insetter.applyInsetsToView(view, insetsCompat, state)
         }
         return insetsCompat.toWindowInsets()!!

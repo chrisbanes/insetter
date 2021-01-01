@@ -33,68 +33,66 @@ import kotlin.properties.Delegates.observable
 /**
  * An [ConstraintHelper] which adds enhanced support for inset handling.
  *
+ * This class supports the use of the `paddingSystemWindowInsets`,
+ * `paddingSystemGestureInsets`, `layout_marginSystemWindowInsets` and
+ * `layout_marginSystemGestureInsets` attributes, which are then applied to any referenced children.
  *
- * This class supports the use of `paddingSystemWindowInsets`, `paddingSystemGestureInsets`, `layout_marginSystemWindowInsets` and `layout_marginSystemGestureInsets` attributes, which are then applied to any referenced children.
  * Each of the attributes accepts a combination of flags which defines the sides on which the
  * relevant insets will be applied.
  *
- * <pre>
- * &lt;androidx.constraintlayout.widget.ConstraintLayout
- * xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
- * xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
- * android:layout_width=&quot;match_parent&quot;
- * android:layout_height=&quot;match_parent&quot;&gt;
+ * ```
+ * <androidx.constraintlayout.widget.ConstraintLayout
+ *   xmlns:android="http://schemas.android.com/apk/res/android"
+ *   xmlns:app="http://schemas.android.com/apk/res-auto"
+ *   android:layout_width="match_parent"
+ *   android:layout_height="match_parent">
  *
- * &lt;dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
- * android:layout_width=&quot;wrap_content&quot;
- * android:layout_height=&quot;wrap_content&quot;
- * app:paddingSystemWindowInsets=&quot;left|top|right|bottom&quot;
- * app:constraint_referenced_ids=&quot;image&quot; /&gt;
+ *   <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
+ *     android:layout_width="wrap_content"
+ *     android:layout_height="wrap_content"
+ *     app:paddingSystemWindowInsets="left|top|right|bottom"
+ *     app:constraint_referenced_ids="image" />
  *
- * &lt;ImageView
- * android:id=&quot;@+id/image&quot;
- * android:layout_width=&quot;wrap_content&quot;
- * android:layout_height=&quot;wrap_content&quot;
- * android:src=&quot;@drawable/icon&quot; /&gt;
+ *   <ImageView
+ *     android:id="@+id/image"
+ *     android:layout_width="wrap_content"
+ *     android:layout_height="wrap_content"
+ *     android:src="@drawable/icon" />
  *
- * &lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
-</pre> *
+ * </androidx.constraintlayout.widget.ConstraintLayout>
+ * ```
+ *
+ * ### Apply to multiple views
  *
  * A [InsetterConstraintHelper] can be applied to multiple views, but appending the ID name to
  * the `constraint_referenced_ids` attribute on the helper, like so:
  *
- * <pre>
- * &lt;dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
- * android:layout_width=&quot;wrap_content&quot;
- * android:layout_height=&quot;wrap_content&quot;
- * app:paddingSystemWindowInsets=&quot;left|top|right|bottom&quot;
- * app:constraint_referenced_ids=&quot;image,button,toolbar&quot; /&gt;
-</pre> *
+ * ```
+ * <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
+ *   android:layout_width="wrap_content"
+ *   android:layout_height="wrap_content"
+ *   app:paddingSystemWindowInsets="left|top|right|bottom"
+ *   app:constraint_referenced_ids="image,toolbar" />
+ * ```
+ *
+ * ### Multiple helpers
  *
  * Multiple [InsetterConstraintHelper]s can also safely be applied to a single view, if
  * required:
  *
- * <pre>
- * &lt;androidx.constraintlayout.widget.ConstraintLayout ...&gt;
+ * ```
+ * <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
+ *   android:layout_width="wrap_content"
+ *   android:layout_height="wrap_content"
+ *   app:paddingSystemWindowInsets="left|right"
+ *   app:constraint_referenced_ids="image" />
  *
- * &lt;dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
- * android:layout_width=&quot;wrap_content&quot;
- * android:layout_height=&quot;wrap_content&quot;
- * app:paddingSystemWindowInsets=&quot;left|right&quot;
- * app:constraint_referenced_ids=&quot;image&quot; /&gt;
- *
- * &lt;dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
- * android:layout_width=&quot;wrap_content&quot;
- * android:layout_height=&quot;wrap_content&quot;
- * app:paddingSystemWindowInsets=&quot;top|bottom&quot;
- * app:constraint_referenced_ids=&quot;image&quot; /&gt;
- *
- * &lt;ImageView
- * android:id=&quot;@+id/image&quot;
- * ... /&gt;
- *
- * &lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
-</pre> *
+ * <dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintHelper
+ *   android:layout_width="wrap_content"
+ *   android:layout_height="wrap_content"
+ *   app:paddingSystemGestureInsets="top|bottom"
+ *   app:constraint_referenced_ids="image" />
+ * ```
  */
 open class InsetterConstraintHelper @JvmOverloads constructor(
     context: Context,
