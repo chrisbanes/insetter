@@ -42,7 +42,6 @@ android {
 
 dependencies {
     implementation project(':library')
-    implementation project(':ktx')
     implementation project(':dbx')
     implementation project(':widgets')
 

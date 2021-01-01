@@ -26,7 +26,6 @@ gradleEnterprise {
 }
 
 include ':library'
-include ':ktx'
 include ':dbx'
 include ':test-dbx'
 include ':sample'

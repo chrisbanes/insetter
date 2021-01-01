@@ -80,8 +80,7 @@ the `insetter-dbx` library, but without the requirement of using data-binding.
 
 ### insetter-ktx
 
-The old insetter-ktx library is now an empty alias to the main [library](library/).
-A separate KTX library is no longer required, as the main library is now written in Kotlin.
+The old `insetter-ktx` library has now removed, as all of the KTX funtions have been moved to the main [library](library/). You can safely remove any references to the `insetter-ktx` dependency, and replace it with the core library.
 
 ## ⚠️ Attention 🚧
 
