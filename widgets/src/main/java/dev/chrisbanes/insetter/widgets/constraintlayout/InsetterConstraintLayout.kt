@@ -71,12 +71,14 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
     @RequiresApi(20)
     override fun onApplyWindowInsets(insets: WindowInsets): WindowInsets {
         val insetsCompat = WindowInsetsCompat.toWindowInsetsCompat(insets)
+
         for (i in 0 until childCount) {
             val view = getChildAt(i)
             val state = view.getTag(R.id.insetter_initial_state) as ViewState
             val lp = view.layoutParams as LayoutParams
             lp.insetter.applyInsetsToView(view, insetsCompat, state)
         }
+
         return insetsCompat.toWindowInsets()!!
     }
 
@@ -86,9 +88,8 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
         for (i in 0 until childCount) {
             val child = getChildAt(i)
             val childLp = child.layoutParams as LayoutParams
-            if (childLp.requestApplyInsetsRequired) {
+            if (childLp.getAndResetRequestApplyInsetsRequired()) {
                 ViewCompat.requestApplyInsets(child)
-                childLp.resetRequestApplyInsetsRequired()
             }
         }
     }
@@ -110,6 +111,19 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
     }
 
     open class LayoutParams : ConstraintLayout.LayoutParams {
+        private var requestApplyInsetsRequired = true
+
+        private var insetterDirty = false
+        internal var insetter: Insetter
+            private set
+            get() {
+                if (insetterDirty) {
+                    field = buildInsetter()
+                    insetterDirty = false
+                }
+                return field
+            }
+
         /**
          * The sides on which system window insets should be applied to the padding.
          * This value can be set using the `app:paddingSystemWindowInsets` attribute.
@@ -153,11 +167,6 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
         @delegate:Sides
         var systemGestureInsetsMarginSides: Int by observable(0) { _, _, _ -> invalidateInsetter() }
 
-        internal var insetter: Insetter
-
-        var requestApplyInsetsRequired = true
-            private set
-
         constructor(width: Int, height: Int) : super(width, height)
         constructor(source: ViewGroup.LayoutParams?) : super(source)
         constructor(source: ConstraintLayout.LayoutParams?) : super(source)
@@ -172,35 +181,43 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
 
         constructor(c: Context, attrs: AttributeSet?) : super(c, attrs) {
             val ta = c.obtainStyledAttributes(attrs, R.styleable.InsetterConstraintLayout_Layout)
+
             val paddingSystemWindowInsetsFlags = ta.getInt(
                 R.styleable.InsetterConstraintLayout_Layout_paddingSystemWindowInsets,
                 0
             )
             systemWindowInsetsPaddingSides = flagToSides(paddingSystemWindowInsetsFlags)
+
             val marginSystemWindowInsetsFlags = ta.getInt(
                 R.styleable.InsetterConstraintLayout_Layout_layout_marginSystemWindowInsets,
                 0
             )
             systemWindowInsetsMarginSides = flagToSides(marginSystemWindowInsetsFlags)
+
             val paddingSystemGestureInsetsFlags = ta.getInt(
                 R.styleable.InsetterConstraintLayout_Layout_paddingSystemGestureInsets,
                 0
             )
             systemGestureInsetsPaddingSides = flagToSides(paddingSystemGestureInsetsFlags)
+
             val marginSystemGestureInsetsFlags = ta.getInt(
                 R.styleable.InsetterConstraintLayout_Layout_layout_marginSystemGestureInsets,
                 0
             )
             systemGestureInsetsMarginSides = flagToSides(marginSystemGestureInsetsFlags)
+
             consumeSystemWindowInsets = ta.getInt(
                 R.styleable.InsetterConstraintLayout_Layout_consumeSystemWindowInsets,
                 consumeSystemWindowInsets
             )
+
             ta.recycle()
         }
 
         init {
             insetter = buildInsetter()
+            // We've just built the insetter, so reset any dirty flag
+            insetterDirty = false
         }
 
         private fun buildInsetter(): Insetter = Insetter.builder()
@@ -212,12 +229,18 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
             .build()
 
         private fun invalidateInsetter() {
-            insetter = buildInsetter()
+            // Mark the insetter as 'dirty'
+            insetterDirty = true
+            // And request some new insets
             requestApplyInsetsRequired = true
         }
 
-        internal fun resetRequestApplyInsetsRequired() {
-            requestApplyInsetsRequired = false
+        internal fun getAndResetRequestApplyInsetsRequired(): Boolean {
+            try {
+                return requestApplyInsetsRequired
+            } finally {
+                requestApplyInsetsRequired = false
+            }
         }
     }
 }

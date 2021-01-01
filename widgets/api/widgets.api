@@ -42,7 +42,6 @@ public class dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraint
 	public fun <init> (Landroidx/constraintlayout/widget/ConstraintLayout$LayoutParams;)V
 	public fun <init> (Ldev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout$LayoutParams;)V
 	public final fun getConsumeSystemWindowInsets ()I
-	public final fun getRequestApplyInsetsRequired ()Z
 	public final fun getSystemGestureInsetsMarginSides ()I
 	public final fun getSystemGestureInsetsPaddingSides ()I
 	public final fun getSystemWindowInsetsMarginSides ()I
