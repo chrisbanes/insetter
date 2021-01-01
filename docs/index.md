@@ -1,6 +1,6 @@
 # Insetter
 
-[![GitHub release](https://maven-badges.herokuapp.com/maven-central/dev.chrisbanes/insetter/badge.svg)](https://search.maven.org/search?q=g:dev.chrisbanes%20insetter)
+[![GitHub release](https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter)](https://search.maven.org/search?q=g:dev.chrisbanes.insetter)
 
 Insetter is a library to help apps handle
 [WindowInsets](https://developer.android.com/reference/android/view/WindowInsets.html) more easily.
@@ -92,6 +92,7 @@ allow quick and easy prototyping. The contents of this library may eventually be
 at a later date.
 
 ## Download
+![GitHub release](https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter)
 
 ```groovy
 repositories {
@@ -100,13 +101,13 @@ repositories {
 
 dependencies {
     // The base library. If you're using either the dbx and/or ktx libraries, you don't need this
-    implementation "dev.chrisbanes:insetter:<latest version>"
+    implementation "dev.chrisbanes.insetter:insetter:<latest version>"
 
     // If you're using data-binding use this
-    implementation "dev.chrisbanes:insetter-dbx:<latest version>"
+    implementation "dev.chrisbanes.insetter:insetter-dbx:<latest version>"
   
     // If you would like to use the enhanced widget set, use this
-    implementation "dev.chrisbanes:insetter-widgets:<latest version>"
+    implementation "dev.chrisbanes.insetter:insetter-widgets:<latest version>"
 }
 ```
 
@@ -117,7 +118,10 @@ Snapshots of the current development version are available, which track the late
 <details><summary>Snapshot repository instructions</summary>
 
 The snapshots are deployed to
-[Sonatype's `snapshots` repository](https://oss.sonatype.org/content/repositories/snapshots/dev/chrisbanes/insetter/):
+[Sonatype's `snapshots` repository](https://oss.sonatype.org/content/repositories/snapshots/dev/chrisbanes/insetter/).
+The latest release is:
+
+![Latest SNAPSHOT release](https://img.shields.io/nexus/s/dev.chrisbanes.insetter/insetter?label=snapshot&server=https%3A%2F%2Foss.sonatype.org)
 
 ```groovy
 repositories {
@@ -126,10 +130,10 @@ repositories {
 }
 
 dependencies {
-    // Check the latest SNAPSHOT version from the link above
-    implementation "dev.chrisbanes:insetter:<latest version>-SNAPSHOT"
-    implementation "dev.chrisbanes:insetter-dbx:<latest version>-SNAPSHOT"
-    implementation "dev.chrisbanes:insetter-widgets:<latest version>-SNAPSHOT"
+    // Check the latest SNAPSHOT version from the image above
+    implementation "dev.chrisbanes.insetter:insetter:XXX-SNAPSHOT"
+    implementation "dev.chrisbanes.insetter:insetter-dbx:XXX-SNAPSHOT"
+    implementation "dev.chrisbanes.insetter:insetter-widgets:XXX-SNAPSHOT"
 }
 ```
 
