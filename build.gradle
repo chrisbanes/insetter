@@ -124,6 +124,10 @@ subprojects {
                     url.set(new URL("https://developer.android.com/reference/kotlin/"))
                     packageListUrl.set(new URL("https://developer.android.com/reference/kotlin/androidx/package-list"))
                 }
+                externalDocumentationLink {
+                    url.set(new URL("https://developer.android.com/reference/"))
+                    packageListUrl.set(new URL("https://developer.android.com/reference/androidx/constraintlayout/package-list"))
+                }
 
                 sourceLink {
                     localDirectory.set(project.file("src/main/java"))
