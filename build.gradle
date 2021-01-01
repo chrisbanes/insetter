@@ -69,12 +69,6 @@ subprojects {
             ktlint(Versions.ktlint)
             licenseHeaderFile rootProject.file('spotless/copyright.txt')
         }
-
-        java {
-            target "**/*.java"
-            googleJavaFormat()
-            licenseHeaderFile rootProject.file('spotless/copyright.txt')
-        }
     }
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
