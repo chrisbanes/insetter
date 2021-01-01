@@ -16,9 +16,10 @@
 
 import dev.chrisbanes.insetter.buildsrc.Libs
 
-apply plugin: 'com.android.library'
-
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
 
 android {
     compileSdkVersion 30
