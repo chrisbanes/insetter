@@ -99,6 +99,10 @@ open class InsetterConstraintHelper @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ConstraintHelper(context, attrs, defStyleAttr) {
+
+    private var insetterDirty = false
+    private var insetter: Insetter
+
     /**
      * The sides on which system window insets should be applied to the padding.
      * This value can be set using the `app:paddingSystemWindowInsets` attribute.
@@ -106,7 +110,9 @@ open class InsetterConstraintHelper @JvmOverloads constructor(
      * @see WindowInsetsCompat.getSystemWindowInsets
      */
     @delegate:Sides
-    var systemWindowInsetsPaddingSides: Int by observable(0) { _, _, _ -> invalidateInsetter() }
+    var systemWindowInsetsPaddingSides: Int by observable(0) { _, _, _ ->
+        invalidateInsetter()
+    }
 
     /**
      * The sides on which system gesture insets should be applied to the padding.
@@ -115,14 +121,18 @@ open class InsetterConstraintHelper @JvmOverloads constructor(
      * @see WindowInsetsCompat.getSystemGestureInsets
      */
     @delegate:Sides
-    var systemGestureInsetsPaddingSides: Int by observable(0) { _, _, _ -> invalidateInsetter() }
+    var systemGestureInsetsPaddingSides: Int by observable(0) { _, _, _ ->
+        invalidateInsetter()
+    }
 
     /**
      * Whether how to consume the system window insets. Can be one of
      * [Insetter.CONSUME_ALL] or [Insetter.CONSUME_AUTO].
      */
     @delegate:Insetter.ConsumeOptions
-    var consumeSystemWindowInsets: Int by observable(0) { _, _, _ -> invalidateInsetter() }
+    var consumeSystemWindowInsets: Int by observable(0) { _, _, _ ->
+        invalidateInsetter()
+    }
 
     /**
      * The sides on which system window insets should be applied to the margin.
@@ -131,7 +141,9 @@ open class InsetterConstraintHelper @JvmOverloads constructor(
      * @see WindowInsetsCompat.getSystemWindowInsets
      */
     @delegate:Sides
-    var systemWindowInsetsMarginSides: Int by observable(Insetter.CONSUME_NONE) { _, _, _ -> invalidateInsetter() }
+    var systemWindowInsetsMarginSides: Int by observable(Insetter.CONSUME_NONE) { _, _, _ ->
+        invalidateInsetter()
+    }
 
     /**
      * The sides on which system gesture insets should be applied to the margin.
@@ -140,60 +152,54 @@ open class InsetterConstraintHelper @JvmOverloads constructor(
      * @see WindowInsetsCompat.getSystemGestureInsets
      */
     @delegate:Sides
-    var systemGestureInsetsMarginSides: Int by observable(0) { _, _, _ -> invalidateInsetter() }
-
-    private var insetter: Insetter
+    var systemGestureInsetsMarginSides: Int by observable(0) { _, _, _ ->
+        invalidateInsetter()
+    }
 
     init {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.InsetterConstraintHelper)
-        val paddingSystemWindowInsetsFlags =
-            ta.getInt(R.styleable.InsetterConstraintHelper_paddingSystemWindowInsets, 0)
+
+        val paddingSystemWindowInsetsFlags = ta.getInt(
+            R.styleable.InsetterConstraintHelper_paddingSystemWindowInsets,
+            0
+        )
         systemWindowInsetsPaddingSides = flagToSides(paddingSystemWindowInsetsFlags)
-        val marginSystemWindowInsetsFlags =
-            ta.getInt(
-                R.styleable.InsetterConstraintHelper_layout_marginSystemWindowInsets,
-                0
-            )
+
+        val marginSystemWindowInsetsFlags = ta.getInt(
+            R.styleable.InsetterConstraintHelper_layout_marginSystemWindowInsets,
+            0
+        )
         systemWindowInsetsMarginSides = flagToSides(marginSystemWindowInsetsFlags)
-        val paddingSystemGestureInsetsFlags =
-            ta.getInt(
-                R.styleable.InsetterConstraintHelper_paddingSystemGestureInsets,
-                0
-            )
+
+        val paddingSystemGestureInsetsFlags = ta.getInt(
+            R.styleable.InsetterConstraintHelper_paddingSystemGestureInsets,
+            0
+        )
         systemGestureInsetsPaddingSides = flagToSides(paddingSystemGestureInsetsFlags)
+
         val marginSystemGestureInsetsFlags = ta.getInt(
             R.styleable.InsetterConstraintHelper_layout_marginSystemGestureInsets,
             0
         )
         systemGestureInsetsMarginSides = flagToSides(marginSystemGestureInsetsFlags)
+
         consumeSystemWindowInsets = ta.getInt(
             R.styleable.InsetterConstraintHelper_consumeSystemWindowInsets,
-            Insetter.CONSUME_NONE
+            consumeSystemWindowInsets
         )
+
         ta.recycle()
 
         insetter = buildInsetter()
-    }
-
-    private fun buildInsetter(): Insetter = Insetter.builder()
-        .applySystemWindowInsetsToPadding(systemWindowInsetsPaddingSides)
-        .applySystemWindowInsetsToMargin(systemWindowInsetsMarginSides)
-        .applySystemGestureInsetsToPadding(systemGestureInsetsPaddingSides)
-        .applySystemGestureInsetsToMargin(systemGestureInsetsMarginSides)
-        .consumeSystemWindowInsets(consumeSystemWindowInsets)
-        .build()
-
-    private fun invalidateInsetter() {
-        insetter = buildInsetter()
-        ViewCompat.requestApplyInsets(this)
+        // We've just built the insetter, so reset any dirty flag
+        insetterDirty = false
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
 
-        val container = parent as ConstraintLayout
-        for (id in mIds) {
-            val view = container.getViewById(id)
+        // When we're attached to the window, store the initial view state for each sibling view
+        for (view in getViews(parent as ConstraintLayout)) {
             if (view != null && view.getTag(R.id.insetter_initial_state) == null) {
                 view.setTag(R.id.insetter_initial_state, ViewState(view))
             }
@@ -203,10 +209,14 @@ open class InsetterConstraintHelper @JvmOverloads constructor(
     @RequiresApi(20)
     override fun onApplyWindowInsets(insets: WindowInsets): WindowInsets {
         val insetsCompat = WindowInsetsCompat.toWindowInsetsCompat(insets)
-        val container = parent as ConstraintLayout
 
-        for (i in 0 until mCount) {
-            val view = container.getViewById(mIds[i])
+        if (insetterDirty) {
+            // If the insetter is dirty, rebuild it now
+            insetter = buildInsetter()
+            insetterDirty = false
+        }
+
+        for (view in getViews(parent as ConstraintLayout)) {
             val state = view.getTag(R.id.insetter_initial_state) as? ViewState
             if (state != null) {
                 insetter.applyInsetsToView(view, insetsCompat, state)
@@ -215,4 +225,19 @@ open class InsetterConstraintHelper @JvmOverloads constructor(
 
         return insetsCompat.toWindowInsets()!!
     }
+
+    private fun invalidateInsetter() {
+        // Mark the insetter as 'dirty'
+        insetterDirty = true
+        // And request some new insets. The new insetter will be built in onApplyWindowInsets()
+        ViewCompat.requestApplyInsets(this)
+    }
+
+    private fun buildInsetter(): Insetter = Insetter.builder()
+        .applySystemWindowInsetsToPadding(systemWindowInsetsPaddingSides)
+        .applySystemWindowInsetsToMargin(systemWindowInsetsMarginSides)
+        .applySystemGestureInsetsToPadding(systemGestureInsetsPaddingSides)
+        .applySystemGestureInsetsToMargin(systemGestureInsetsMarginSides)
+        .consumeSystemWindowInsets(consumeSystemWindowInsets)
+        .build()
 }
