@@ -17,16 +17,29 @@ The base library which provides an easy-to-use
 [OnApplyWindowInsetsListener](https://developer.android.com/reference/androidx/core/view/OnApplyWindowInsetsListener)
 instances:
 
-``` java
- Insetter.builder()
-     // This will apply the system window insets as padding to left, bottom and right of the view,
-     // maintaining the original padding (from the layout XML, style, etc)
-     .applySystemWindowInsetsToPadding(Side.LEFT | Side.BOTTOM | Side.RIGHT)
-     // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
-     .applyToView(view);
-```
+=== "Java"
 
-It also provides some extension functions allowing easy access to the library functions:
+    ``` java
+    Insetter.builder()
+        // This will apply the system window insets as padding to left, bottom and right of the view,
+        // maintaining the original padding (from the layout XML, style, etc)
+        .applySystemWindowInsetsToPadding(Side.LEFT | Side.BOTTOM | Side.RIGHT)
+        // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
+        .applyToView(view);
+    ```
+
+=== "Kotlin"
+
+    ``` kotlin
+    Insetter.builder()
+        // This will apply the system window insets as padding to left, bottom and right of the view,
+        // maintaining the original padding (from the layout XML, style, etc)
+        .applySystemWindowInsetsToPadding(Side.LEFT or Side.BOTTOM or Side.RIGHT)
+        // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
+        .applyToView(view)
+    ```
+
+It also provides some Kotlin-only extension functions allowing easy access to the library functions:
 
 ``` kotlin
 bottomNav.applySystemWindowInsetsToPadding(bottom = true)
@@ -87,61 +100,60 @@ The old `insetter-ktx` library has now removed, as all of the KTX funtions have 
 The library is being written to production quality, but it is not adhering to semantic versioning,
 mean we may change the API if needed, though we'll try not to. We're using this repository to
 allow quick and easy prototyping. The contents of this library may eventually be moved into
-[Android Jetpack](https://android.googlesource.com/platform/frameworks/support/+/androidx-master-dev/README.md)
+[Android Jetpack](https://android.googlesource.com/platform/frameworks/support/+/androidx-master-dev/)
 at a later date.
 
 ## Download
-Latest version: ![GitHub release](https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter)
 
-```groovy
-repositories {
-    mavenCentral()
-}
+=== "Java"
 
-dependencies {
-    // The base library. If you're using either the dbx and/or ktx libraries, you don't need this
-    implementation "dev.chrisbanes.insetter:insetter:<latest version>"
+    Latest version: ![GitHub release](https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter)
 
-    // If you're using data-binding use this
-    implementation "dev.chrisbanes.insetter:insetter-dbx:<latest version>"
-  
-    // If you would like to use the enhanced widget set, use this
-    implementation "dev.chrisbanes.insetter:insetter-widgets:<latest version>"
-}
-```
+    ```groovy
+    repositories {
+        mavenCentral()
+    }
 
-### Snapshots
+    dependencies {
+        // The base library. If you're using either the dbx and/or ktx libraries, you don't need this
+        implementation "dev.chrisbanes.insetter:insetter:<latest version>"
 
-Snapshots of the current development version are available, which track the latest commit.
+        // If you're using data-binding use this
+        implementation "dev.chrisbanes.insetter:insetter-dbx:<latest version>"
+    
+        // If you would like to use the enhanced widget set, use this
+        implementation "dev.chrisbanes.insetter:insetter-widgets:<latest version>"
+    }
+    ```
 
-<details><summary>Snapshot repository instructions</summary>
+=== "Snapshot"
 
-The snapshots are deployed to
-[Sonatype's `snapshots` repository](https://oss.sonatype.org/content/repositories/snapshots/dev/chrisbanes/insetter/).
-The latest release is: ![Latest SNAPSHOT release](https://img.shields.io/nexus/s/dev.chrisbanes.insetter/insetter?label=snapshot&server=https%3A%2F%2Foss.sonatype.org)
+    Snapshots of the current development version are available, which track the latest commit.
 
-```groovy
-repositories {
-    // ...
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-}
+    The snapshots are deployed to
+    Sonatype's [snapshots repository](https://oss.sonatype.org/content/repositories/snapshots/dev/chrisbanes/insetter/).
+    The latest release is: ![Latest SNAPSHOT release](https://img.shields.io/nexus/s/dev.chrisbanes.insetter/insetter?label=snapshot&server=https%3A%2F%2Foss.sonatype.org)
 
-dependencies {
-    // Check the latest SNAPSHOT version from the image above
-    implementation "dev.chrisbanes.insetter:insetter:XXX-SNAPSHOT"
-    implementation "dev.chrisbanes.insetter:insetter-dbx:XXX-SNAPSHOT"
-    implementation "dev.chrisbanes.insetter:insetter-widgets:XXX-SNAPSHOT"
-}
-```
+    ```groovy
+    repositories {
+        // Need to add the Sonatype snapshots repo
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    }
 
-</details>
+    dependencies {
+        // Check the latest SNAPSHOT version from the image above
+        implementation "dev.chrisbanes.insetter:insetter:XXX-SNAPSHOT"
+        implementation "dev.chrisbanes.insetter:insetter-dbx:XXX-SNAPSHOT"
+        implementation "dev.chrisbanes.insetter:insetter-widgets:XXX-SNAPSHOT"
+    }
+    ```
 
 ---
 
 ## Contributions
 
 Please contribute! We will gladly review any pull requests.
-Make sure to read the [Contributing](CONTRIBUTING.md) page first though.
+Make sure to read the [Contributing](contributing) page first though.
 
 ## License
 
