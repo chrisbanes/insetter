@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+<!-- Adapted from https://github.com/squidfunk/mkdocs-material/issues/663#issuecomment-357743267 -->
+{% block extrahead %}
+
+<meta property="og:url" content="{{ page.canonical_url }}">
+{% if page and page.meta and page.meta.title %}
+<meta property="og:title" content="{{ page.meta.title }}">
+{% elif page and page.title and not page.is_homepage %}
+<meta property="og:title" content="{{ page.title }} - {{ config.site_name }}">
+{% else %}
+<meta property="og:title" content="{{ config.site_name }}">
+{% endif %}
+<meta property="og:description" content="{{ config.site_description }}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@chrisbanes">
+<meta name="twitter:creator" content="@chrisbanes">
+{% if page and page.meta and page.meta.title %}
+<meta property="twitter:title" content="{{ page.meta.title }}">
+{% elif page and page.title and not page.is_homepage %}
+<meta property="twitter:title" content="{{ page.title }} - {{ config.site_name }}">
+{% else %}
+<meta property="twitter:title" content="{{ config.site_name }}">
+{% endif %}
+<meta name="twitter:description" content="{{ config.site_description }}">
+
+{% endblock %}

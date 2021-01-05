@@ -1,6 +1,6 @@
 # Project information
 site_name: 'Insetter'
-site_description: 'A group of libraries to help write Jetpack Compose apps.'
+site_description: 'Insetter is a library to help make handling WindowInsets easy'
 site_author: 'Chris Banes'
 site_url: 'https://chrisbanes.github.io/insetter/'
 remote_branch: gh-pages
@@ -24,6 +24,7 @@ nav:
 # Configuration
 theme:
   name: 'material'
+  custom_dir: overrides
   language: 'en'
   icon:
     logo: material/overscan
