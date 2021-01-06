@@ -123,6 +123,13 @@ class Insetter private constructor(builder: Builder) {
          * to the padding. Ignored if [Insetter.onApplyInsetsListener] is set.
          * @see Insetter.applyInsetsToView
          */
+        @Deprecated(
+            "Replaced with applyAsPadding()",
+            ReplaceWith(
+                "applyAsPadding(windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true), sides)",
+                "dev.chrisbanes.insetter.windowInsetTypesOf"
+            )
+        )
         fun applySystemWindowInsetsToPadding(@Sides sides: Int): Builder {
             return applyAsPadding(
                 windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
@@ -135,6 +142,13 @@ class Insetter private constructor(builder: Builder) {
          * to the margin. Ignored if [Insetter.onApplyInsetsListener] is set.
          * @see Insetter.applyInsetsToView
          */
+        @Deprecated(
+            "Replaced with applyAsMargin()",
+            ReplaceWith(
+                "applyAsMargin(windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true), sides)",
+                "dev.chrisbanes.insetter.windowInsetTypesOf"
+            )
+        )
         fun applySystemWindowInsetsToMargin(@Sides sides: Int): Builder {
             return applyAsMargin(
                 windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
@@ -147,6 +161,13 @@ class Insetter private constructor(builder: Builder) {
          * to the padding. Ignored if [Insetter.onApplyInsetsListener] is set.
          * @see Insetter.applyInsetsToView
          */
+        @Deprecated(
+            "Replaced with applyAsPadding()",
+            ReplaceWith(
+                "applyAsPadding(windowInsetTypesOf(systemGestures = true), sides)",
+                "dev.chrisbanes.insetter.windowInsetTypesOf"
+            )
+        )
         fun applySystemGestureInsetsToPadding(@Sides sides: Int): Builder {
             return applyAsPadding(
                 windowInsetTypesOf(systemGestures = true),
@@ -159,6 +180,13 @@ class Insetter private constructor(builder: Builder) {
          * to the margin. Ignored if [Insetter.onApplyInsetsListener] is set.
          * @see Insetter.applyInsetsToView
          */
+        @Deprecated(
+            "Replaced with applyAsMargin()",
+            ReplaceWith(
+                "applyAsMargin(windowInsetTypesOf(systemGestures = true), sides)",
+                "dev.chrisbanes.insetter.windowInsetTypesOf"
+            )
+        )
         fun applySystemGestureInsetsToMargin(@Sides sides: Int): Builder {
             return applyAsMargin(
                 windowInsetTypesOf(systemGestures = true),

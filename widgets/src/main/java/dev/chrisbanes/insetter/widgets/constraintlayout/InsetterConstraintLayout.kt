@@ -30,6 +30,7 @@ import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.Sides
 import dev.chrisbanes.insetter.ViewState
 import dev.chrisbanes.insetter.widgets.R
+import dev.chrisbanes.insetter.windowInsetTypesOf
 import kotlin.properties.Delegates.observable
 
 /**
@@ -221,10 +222,22 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
         }
 
         private fun buildInsetter(): Insetter = Insetter.builder()
-            .applySystemWindowInsetsToPadding(systemWindowInsetsPaddingSides)
-            .applySystemWindowInsetsToMargin(systemWindowInsetsMarginSides)
-            .applySystemGestureInsetsToPadding(systemGestureInsetsPaddingSides)
-            .applySystemGestureInsetsToMargin(systemGestureInsetsMarginSides)
+            .applyAsPadding(
+                windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
+                systemWindowInsetsPaddingSides
+            )
+            .applyAsMargin(
+                windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
+                systemWindowInsetsMarginSides
+            )
+            .applyAsPadding(
+                windowInsetTypesOf(systemGestures = true),
+                systemGestureInsetsPaddingSides
+            )
+            .applyAsMargin(
+                windowInsetTypesOf(systemGestures = true),
+                systemGestureInsetsMarginSides
+            )
             .consume(consumeSystemWindowInsets)
             .build()
 
