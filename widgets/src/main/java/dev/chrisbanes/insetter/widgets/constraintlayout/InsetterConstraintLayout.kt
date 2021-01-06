@@ -225,7 +225,7 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
             .applySystemWindowInsetsToMargin(systemWindowInsetsMarginSides)
             .applySystemGestureInsetsToPadding(systemGestureInsetsPaddingSides)
             .applySystemGestureInsetsToMargin(systemGestureInsetsMarginSides)
-            .consumeSystemWindowInsets(consumeSystemWindowInsets)
+            .consume(consumeSystemWindowInsets)
             .build()
 
         private fun invalidateInsetter() {

@@ -99,7 +99,7 @@ fun applyInsetsFromBooleans(
                 marginSystemGestureBottom
             )
         )
-        .consumeSystemWindowInsets(consumeSystemWindowInsets)
+        .consume(if (consumeSystemWindowInsets) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
         .applyToView(v)
 }
 

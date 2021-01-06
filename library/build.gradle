@@ -55,6 +55,7 @@ android {
 
 dependencies {
     api Libs.AndroidX.core
+    api Libs.AndroidX.coreKtx
     implementation Libs.Kotlin.stdlib
 
     androidTestImplementation project(':test-utils')

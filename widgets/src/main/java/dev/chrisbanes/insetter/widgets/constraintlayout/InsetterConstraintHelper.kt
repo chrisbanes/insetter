@@ -238,6 +238,6 @@ open class InsetterConstraintHelper @JvmOverloads constructor(
         .applySystemWindowInsetsToMargin(systemWindowInsetsMarginSides)
         .applySystemGestureInsetsToPadding(systemGestureInsetsPaddingSides)
         .applySystemGestureInsetsToMargin(systemGestureInsetsMarginSides)
-        .consumeSystemWindowInsets(consumeSystemWindowInsets)
+        .consume(consumeSystemWindowInsets)
         .build()
 }

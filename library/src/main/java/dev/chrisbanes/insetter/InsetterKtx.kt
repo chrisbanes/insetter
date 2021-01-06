@@ -31,12 +31,9 @@ import androidx.core.view.WindowInsetsCompat
         "dev.chrisbanes.insetter.Insetter"
     )
 )
-inline fun View.doOnApplyWindowInsets(
-    crossinline f: (view: View, insets: WindowInsetsCompat, initialState: ViewState) -> Unit
-) = Insetter.builder()
-    .setOnApplyInsetsListener { view, insets, initialState ->
-        f(view, insets, initialState)
-    }.applyToView(this)
+fun View.doOnApplyWindowInsets(
+    f: (view: View, insets: WindowInsetsCompat, initialState: ViewState) -> Unit
+) = Insetter.builder().setOnApplyInsetsListener(f).applyToView(this)
 
 /**
  * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to'edge.
@@ -46,11 +43,12 @@ inline fun View.doOnApplyWindowInsets(
  * @see View.setSystemUiVisibility
  * @see Insetter.setEdgeToEdgeSystemUiFlags
  */
-@Suppress("DEPRECATION")
 @RequiresApi(16)
+@Suppress("DEPRECATION", "DeprecatedCallableAddReplaceWith")
 @Deprecated("Use WindowCompat.setDecorFitsSystemWindows() instead")
-fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) =
+fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) {
     Insetter.setEdgeToEdgeSystemUiFlags(this, enabled)
+}
 
 /**
  * Apply the system window insets as the padding of this [View].
@@ -61,6 +59,7 @@ fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) =
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
  */
+@Suppress("DEPRECATION")
 fun View.applySystemWindowInsetsToPadding(
     left: Boolean = false,
     top: Boolean = false,
@@ -80,7 +79,8 @@ fun View.applySystemWindowInsetsToPadding(
  * @param right apply in the right indent if true
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
- * */
+ */
+@Suppress("DEPRECATION")
 fun View.applySystemWindowInsetsToMargin(
     left: Boolean = false,
     top: Boolean = false,
@@ -100,7 +100,8 @@ fun View.applySystemWindowInsetsToMargin(
  * @param right apply in the right indent if true
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
- * */
+ */
+@Suppress("DEPRECATION")
 fun View.applySystemGestureInsetsToPadding(
     left: Boolean = false,
     top: Boolean = false,
@@ -120,7 +121,8 @@ fun View.applySystemGestureInsetsToPadding(
  * @param right apply in the right indent if true
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
- * */
+ */
+@Suppress("DEPRECATION")
 fun View.applySystemGestureInsetsToMargin(
     left: Boolean = false,
     top: Boolean = false,

@@ -11,12 +11,17 @@ public final class dev/chrisbanes/insetter/Insetter {
 }
 
 public final class dev/chrisbanes/insetter/Insetter$Builder {
+	public final fun applyAsMargin (II)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun applyAsMargin$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun applyAsPadding (II)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun applyAsPadding$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun applySystemGestureInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun applySystemGestureInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun applySystemWindowInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun applySystemWindowInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun applyToView (Landroid/view/View;)Ldev/chrisbanes/insetter/Insetter;
 	public final fun build ()Ldev/chrisbanes/insetter/Insetter;
+	public final fun consume (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun consumeSystemWindowInsets (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun consumeSystemWindowInsets (Z)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun setOnApplyInsetsListener (Ldev/chrisbanes/insetter/OnApplyInsetsListener;)Ldev/chrisbanes/insetter/Insetter$Builder;
@@ -60,6 +65,11 @@ public final class dev/chrisbanes/insetter/Side {
 }
 
 public abstract interface annotation class dev/chrisbanes/insetter/Sides : java/lang/annotation/Annotation {
+}
+
+public final class dev/chrisbanes/insetter/TypesKt {
+	public static final fun windowInsetTypesOf (ZZZZZZZZ)I
+	public static synthetic fun windowInsetTypesOf$default (ZZZZZZZZILjava/lang/Object;)I
 }
 
 public final class dev/chrisbanes/insetter/ViewDimensions {
