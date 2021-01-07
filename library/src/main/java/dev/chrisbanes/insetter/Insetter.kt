@@ -24,34 +24,36 @@ import android.view.ViewGroup.MarginLayoutParams
 import androidx.annotation.IntDef
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.Insets
+import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnAttach
 import dev.chrisbanes.insetter.Insetter.Builder
 
 /**
- * A helper class to make handling [android.view.WindowInsets] easier.
+ * A class to make handling [android.view.WindowInsets] easier.
  *
  * It includes a [Builder] for building easy-to-use [OnApplyWindowInsetsListener]
  * instances:
  *
  * ```
  * Insetter.builder()
- *   // This will apply the system window insets as padding to left, bottom and right of the view
- *   .applySystemWindowInsetsToPadding(Side.LEFT | Side.BOTTOM | Side.RIGHT)
- *   // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
- *   .applyToView(view);
+ *     // This will apply the navigation bar insets as padding to all sides of the view
+ *     .padding(windowInsetTypesOf(navigationBars = true))
+ *     // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
+ *     .applyToView(view)
  * ```
  *
- * Each inset type as on Android 10 (API level 29) is included, with variants for applying the
- * inset as either padding or margin on the view.
+ * Each inset type available in [WindowInsetsCompat] is included, with variants for applying the
+ * inset as either padding or margin on the view, on specified sides.
  *
  * You can also provide custom logic via the [Builder.setOnApplyInsetsListener] function.
  * The listener type is slightly different to [OnApplyWindowInsetsListener], in that it contains
  * a third parameter to tell you what the initial view padding/margin state is.
  *
  * By default the listener will not consume any insets which are passed to it. If you wish to
- * consume the system window insets, you can use the [Builder.consume] function.
+ * consume the system window insets, you can specify the desired behavior via
+ * the [Builder.consume] function.
  */
 class Insetter private constructor(builder: Builder) {
     @IntDef(value = [CONSUME_NONE, CONSUME_ALL, CONSUME_AUTO])
@@ -70,7 +72,8 @@ class Insetter private constructor(builder: Builder) {
         private set
     internal var margin: SideApply
         private set
-    @ConsumeOptions private val consume: Int
+    @ConsumeOptions
+    private val consume: Int
 
     init {
         onApplyInsetsListener = builder.onApplyInsetsListener
@@ -111,6 +114,8 @@ class Insetter private constructor(builder: Builder) {
          * @see [paddingTop]
          * @see [paddingRight]
          * @see [paddingBottom]
+         * @see [windowInsetTypesOf]
+         * @see [Side.create]
          */
         @JvmOverloads
         fun padding(insetType: Int, @Sides sides: Int = Side.ALL): Builder {
@@ -124,6 +129,8 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
          */
         fun paddingLeft(insetType: Int): Builder = padding(insetType, Side.LEFT)
 
@@ -133,6 +140,8 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
          */
         fun paddingTop(insetType: Int): Builder = padding(insetType, Side.TOP)
 
@@ -142,6 +151,8 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
          */
         fun paddingRight(insetType: Int): Builder = padding(insetType, Side.RIGHT)
 
@@ -151,6 +162,8 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
          */
         fun paddingBottom(insetType: Int): Builder = padding(insetType, Side.BOTTOM)
 
@@ -167,6 +180,8 @@ class Insetter private constructor(builder: Builder) {
          * @see [marginTop]
          * @see [marginRight]
          * @see [marginBottom]
+         * @see [windowInsetTypesOf]
+         * @see [Side.create]
          */
         @JvmOverloads
         fun margin(insetType: Int, @Sides sides: Int = Side.ALL): Builder {
@@ -180,6 +195,8 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
          */
         fun marginLeft(insetType: Int): Builder = margin(insetType, Side.LEFT)
 
@@ -189,6 +206,8 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
          */
         fun marginTop(insetType: Int): Builder = margin(insetType, Side.TOP)
 
@@ -198,6 +217,8 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
          */
         fun marginRight(insetType: Int): Builder = margin(insetType, Side.RIGHT)
 
@@ -207,6 +228,8 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
          */
         fun marginBottom(insetType: Int): Builder = margin(insetType, Side.BOTTOM)
 
@@ -216,9 +239,9 @@ class Insetter private constructor(builder: Builder) {
          * @see Insetter.applyInsetsToView
          */
         @Deprecated(
-            "Replaced with applyAsPadding()",
+            "Replaced with padding()",
             ReplaceWith(
-                "applyAsPadding(windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true), sides)",
+                "padding(windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true), sides)",
                 "dev.chrisbanes.insetter.windowInsetTypesOf"
             )
         )
@@ -235,9 +258,9 @@ class Insetter private constructor(builder: Builder) {
          * @see Insetter.applyInsetsToView
          */
         @Deprecated(
-            "Replaced with applyAsMargin()",
+            "Replaced with margin()",
             ReplaceWith(
-                "applyAsMargin(windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true), sides)",
+                "margin(windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true), sides)",
                 "dev.chrisbanes.insetter.windowInsetTypesOf"
             )
         )
@@ -254,9 +277,9 @@ class Insetter private constructor(builder: Builder) {
          * @see Insetter.applyInsetsToView
          */
         @Deprecated(
-            "Replaced with applyAsPadding()",
+            "Replaced with padding()",
             ReplaceWith(
-                "applyAsPadding(windowInsetTypesOf(systemGestures = true), sides)",
+                "padding(windowInsetTypesOf(systemGestures = true), sides)",
                 "dev.chrisbanes.insetter.windowInsetTypesOf"
             )
         )
@@ -270,9 +293,9 @@ class Insetter private constructor(builder: Builder) {
          * @see Insetter.applyInsetsToView
          */
         @Deprecated(
-            "Replaced with applyAsMargin()",
+            "Replaced with margin()",
             ReplaceWith(
-                "applyAsMargin(windowInsetTypesOf(systemGestures = true), sides)",
+                "margin(windowInsetTypesOf(systemGestures = true), sides)",
                 "dev.chrisbanes.insetter.windowInsetTypesOf"
             )
         )
