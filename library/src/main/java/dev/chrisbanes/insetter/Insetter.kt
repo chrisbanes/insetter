@@ -67,7 +67,9 @@ class Insetter private constructor(builder: Builder) {
 
     private val onApplyInsetsListener: OnApplyInsetsListener?
     internal var padding: SideApply
+        private set
     internal var margin: SideApply
+        private set
     @ConsumeOptions private val consume: Int
 
     init {
@@ -252,62 +254,70 @@ class Insetter private constructor(builder: Builder) {
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
-            @Sides val sidesApplied = if (onApplyInsetsListener != null) {
+            if (onApplyInsetsListener != null) {
+                // If we have an onApplyInsetsListener, invoke it
                 onApplyInsetsListener.onApplyInsets(v, insets, initialState)
                 // We don't know what sides have been applied, so we assume all
-                Side.ALL
-            } else {
-                applyInsetsToView(v, insets, initialState)
-                // We return the bitwise OR of all applied sides
-                padding.all or margin.all
+                return@setOnApplyWindowInsetsListener WindowInsetsCompat.CONSUMED
             }
 
-            @Suppress("DEPRECATION")
+            // Otherwise we applied through applyInsetsToView()
+            applyInsetsToView(v, insets, initialState)
+
             when (consume) {
                 CONSUME_ALL -> WindowInsetsCompat.CONSUMED
-                CONSUME_AUTO -> when {
-                    sidesApplied and Side.ALL == Side.NONE -> {
-                        // If we did not apply any sides, just return the insets
-                        insets
-                    }
-                    sidesApplied and Side.ALL == Side.ALL -> {
-                        // If all sides were applied, just return a consumed insets
-                        WindowInsetsCompat.CONSUMED
-                    }
-                    else -> {
-                        // Otherwise we need to go through and consume each side
-                        var left = insets.systemWindowInsetLeft
-                        var top = insets.systemWindowInsetTop
-                        var right = insets.systemWindowInsetRight
-                        var bottom = insets.systemWindowInsetBottom
-
-                        if (Side.hasSide(sidesApplied, Side.LEFT)) left = 0
-                        if (Side.hasSide(sidesApplied, Side.TOP)) top = 0
-                        if (Side.hasSide(sidesApplied, Side.RIGHT)) right = 0
-                        if (Side.hasSide(sidesApplied, Side.BOTTOM)) bottom = 0
-
-                        WindowInsetsCompat.Builder(insets)
-                            .setSystemWindowInsets(Insets.of(left, top, right, bottom))
-                            .build()
-                    }
+                CONSUME_AUTO -> {
+                    val applied = padding + margin
+                    WindowInsetsCompat.Builder(insets)
+                        .consumeType(insets, WindowInsetsCompat.Type.statusBars(), applied)
+                        .consumeType(insets, WindowInsetsCompat.Type.navigationBars(), applied)
+                        .consumeType(insets, WindowInsetsCompat.Type.ime(), applied)
+                        .consumeType(insets, WindowInsetsCompat.Type.systemGestures(), applied)
+                        .consumeType(insets, WindowInsetsCompat.Type.displayCutout(), applied)
+                        .build()
                 }
                 else -> insets
             }
         }
 
         // Now request an insets pass
-        view.doOnAttach {
-            ViewCompat.requestApplyInsets(it)
+        view.doOnAttach { v ->
+            ViewCompat.requestApplyInsets(v)
         }
+    }
+
+    private fun WindowInsetsCompat.Builder.consumeType(
+        windowInsets: WindowInsetsCompat,
+        type: Int,
+        applied: SideApply,
+    ): WindowInsetsCompat.Builder {
+        // Fast path. If this type wasn't applied at all, no need to do anything
+        if (applied.all and type != type) return this
+
+        // First we get the original insets for the type
+        val insets = windowInsets.getInsets(type)
+
+        // If the insets are empty, nothing to do
+        if (insets == Insets.NONE) return this
+
+        // Now set the insets, selectively 'consuming' (zero-ing out) any consumed sides.
+        setInsets(
+            type,
+            Insets.of(
+                if (applied.left and type != 0) 0 else insets.left,
+                if (applied.top and type != 0) 0 else insets.top,
+                if (applied.right and type != 0) 0 else insets.right,
+                if (applied.bottom and type != 0) 0 else insets.bottom
+            )
+        )
+        return this
     }
 
     /**
      * A convenience function which applies insets to a view.
      *
-     *
-     * How the given insets are applied depends on the options provided via the various parameters.
-     * Each of `paddingSystemWindowInsets`, `marginSystemWindowInsets`,
-     * `paddingSystemGestureInsets` and `marginSystemGestureInsets` accept side flag values.
+     * How the given insets are applied depends on the options provided to the [Builder]
+     * via the various parameters.
      *
      * @param view the view to apply inset handling too
      * @param insets the insets to apply
@@ -398,22 +408,18 @@ class Insetter private constructor(builder: Builder) {
         val all: Int
             get() = left or top or right or bottom
 
-        fun add(
-            insets: Int,
-            @Sides sides: Int = Side.ALL
-        ) {
-            if (sides and Side.LEFT != 0) {
-                left = left or insets
-            }
-            if (sides and Side.TOP != 0) {
-                top = top or insets
-            }
-            if (sides and Side.RIGHT != 0) {
-                right = right or insets
-            }
-            if (sides and Side.BOTTOM != 0) {
-                bottom = bottom or insets
-            }
+        fun add(insets: Int, @Sides sides: Int = Side.ALL) {
+            if (sides and Side.LEFT != 0) left = left or insets
+            if (sides and Side.TOP != 0) top = top or insets
+            if (sides and Side.RIGHT != 0) right = right or insets
+            if (sides and Side.BOTTOM != 0) bottom = bottom or insets
+        }
+
+        operator fun plus(other: SideApply): SideApply = SideApply().apply {
+            left = left or other.left
+            top = top or other.top
+            right = right or other.right
+            bottom = bottom or other.bottom
         }
     }
 
