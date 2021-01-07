@@ -26,7 +26,7 @@ private const val TAG = "Insetter"
 
 @BindingAdapter(
     value = [
-        "consumeSystemWindowInsets",
+        "consumeWindowInsets",
         "paddingLeftSystemWindowInsets",
         "paddingTopSystemWindowInsets",
         "paddingRightSystemWindowInsets",
@@ -48,7 +48,7 @@ private const val TAG = "Insetter"
 )
 fun applyInsetsFromBooleans(
     v: View,
-    consumeSystemWindowInsets: Boolean,
+    consumeWindowInsets: Boolean,
     padSystemWindowLeft: Boolean,
     padSystemWindowTop: Boolean,
     padSystemWindowRight: Boolean,
@@ -103,7 +103,7 @@ fun applyInsetsFromBooleans(
                 marginSystemGestureBottom
             )
         )
-        .consume(if (consumeSystemWindowInsets) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
+        .consume(if (consumeWindowInsets) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
         .applyToView(v)
 }
 

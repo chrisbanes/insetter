@@ -144,11 +144,17 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
         var systemGestureInsetsPaddingSides: Int by observable(0) { _, _, _ -> invalidateInsetter() }
 
         /**
-         * Whether how to consume the system window insets. Can be one of
-         * [Insetter.CONSUME_ALL] or [Insetter.CONSUME_AUTO].
+         * The behavior of consuming the window insets. Can be one of
+         * [Insetter.CONSUME_ALL], [Insetter.CONSUME_AUTO] or [Insetter.CONSUME_NONE].
          */
         @delegate:Insetter.ConsumeOptions
-        var consumeSystemWindowInsets: Int by observable(0) { _, _, _ -> invalidateInsetter() }
+        var consumeWindowInsets: Int by observable(0) { _, _, _ -> invalidateInsetter() }
+
+        @Deprecated("Replaced with consumeWindowInsets", ReplaceWith("consumeWindowInsets"))
+        @Insetter.ConsumeOptions
+        var consumeSystemWindowInsets: Int
+            get() = consumeWindowInsets
+            set(value) { consumeWindowInsets = value }
 
         /**
          * The sides on which system window insets should be applied to the margin.
@@ -175,7 +181,7 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
         constructor(source: LayoutParams) : super(source) {
             systemWindowInsetsPaddingSides = source.systemWindowInsetsPaddingSides
             systemWindowInsetsMarginSides = source.systemWindowInsetsMarginSides
-            consumeSystemWindowInsets = source.consumeSystemWindowInsets
+            consumeWindowInsets = source.consumeWindowInsets
             systemGestureInsetsPaddingSides = source.systemGestureInsetsPaddingSides
             systemGestureInsetsMarginSides = source.systemGestureInsetsMarginSides
         }
@@ -207,9 +213,9 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
             )
             systemGestureInsetsMarginSides = flagToSides(marginSystemGestureInsetsFlags)
 
-            consumeSystemWindowInsets = ta.getInt(
-                R.styleable.InsetterConstraintLayout_Layout_consumeSystemWindowInsets,
-                consumeSystemWindowInsets
+            consumeWindowInsets = ta.getInt(
+                R.styleable.InsetterConstraintLayout_Layout_consumeWindowInsets,
+                consumeWindowInsets
             )
 
             ta.recycle()
@@ -238,7 +244,7 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
                 windowInsetTypesOf(systemGestures = true),
                 systemGestureInsetsMarginSides
             )
-            .consume(consumeSystemWindowInsets)
+            .consume(consumeWindowInsets)
             .build()
 
         private fun invalidateInsetter() {

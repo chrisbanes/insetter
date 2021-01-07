@@ -127,13 +127,19 @@ open class InsetterConstraintHelper @JvmOverloads constructor(
     }
 
     /**
-     * Whether how to consume the system window insets. Can be one of
-     * [Insetter.CONSUME_ALL] or [Insetter.CONSUME_AUTO].
+     * The behavior of consuming the window insets. Can be one of
+     * [Insetter.CONSUME_ALL], [Insetter.CONSUME_AUTO] or [Insetter.CONSUME_NONE].
      */
     @delegate:Insetter.ConsumeOptions
-    var consumeSystemWindowInsets: Int by observable(0) { _, _, _ ->
+    var consumeWindowInsets: Int by observable(0) { _, _, _ ->
         invalidateInsetter()
     }
+
+    @Deprecated("Replaced with consumeWindowInsets", ReplaceWith("consumeWindowInsets"))
+    @Insetter.ConsumeOptions
+    var consumeSystemWindowInsets: Int
+        get() = consumeWindowInsets
+        set(value) { consumeWindowInsets = value }
 
     /**
      * The sides on which system window insets should be applied to the margin.
@@ -184,9 +190,9 @@ open class InsetterConstraintHelper @JvmOverloads constructor(
         )
         systemGestureInsetsMarginSides = flagToSides(marginSystemGestureInsetsFlags)
 
-        consumeSystemWindowInsets = ta.getInt(
-            R.styleable.InsetterConstraintHelper_consumeSystemWindowInsets,
-            consumeSystemWindowInsets
+        consumeWindowInsets = ta.getInt(
+            R.styleable.InsetterConstraintHelper_consumeWindowInsets,
+            consumeWindowInsets
         )
 
         ta.recycle()
@@ -251,6 +257,6 @@ open class InsetterConstraintHelper @JvmOverloads constructor(
             windowInsetTypesOf(systemGestures = true),
             systemGestureInsetsMarginSides
         )
-        .consume(consumeSystemWindowInsets)
+        .consume(consumeWindowInsets)
         .build()
 }
