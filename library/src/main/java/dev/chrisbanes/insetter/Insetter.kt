@@ -99,34 +99,116 @@ class Insetter private constructor(builder: Builder) {
         }
 
         /**
-         * Apply the given [WindowInsetsCompat.Type][insetType] as padding, on the given [sides]
-         * of the view.
+         * Apply the given [sides] dimension of the given [WindowInsetsCompat.Type][insetType]
+         * as the corresponding padding dimension of the view.
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
-         * @param sides Bit mask of [Side]s. Defaults to [Side.ALL] to apply all sides.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param sides Bit mask of [Side]s containing which sides to apply.
+         * Defaults to [Side.ALL] to apply all sides. The mask can be created via [Side.create].
+         *
+         * @see [paddingLeft]
+         * @see [paddingTop]
+         * @see [paddingRight]
+         * @see [paddingBottom]
          */
-        fun applyAsPadding(
-            insetType: Int,
-            @Sides sides: Int = Side.ALL
-        ): Builder {
+        @JvmOverloads
+        fun padding(insetType: Int, @Sides sides: Int = Side.ALL): Builder {
             padding.add(insetType, sides)
             return this
         }
 
         /**
-         * Apply the given [WindowInsetsCompat.Type][insetType] as margin, on the given [sides]
-         * of the view.
+         * Apply the left value of the given [WindowInsetsCompat.Type][insetType] as the
+         * left padding of the view.
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
-         * @param sides Bit mask of [Side]s. Defaults to [Side.ALL] to apply all sides.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
          */
-        fun applyAsMargin(
-            insetType: Int,
-            @Sides sides: Int = Side.ALL
-        ): Builder {
+        fun paddingLeft(insetType: Int): Builder = padding(insetType, Side.LEFT)
+
+        /**
+         * Apply the top value of the given [WindowInsetsCompat.Type][insetType] as the
+         * top padding of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         */
+        fun paddingTop(insetType: Int): Builder = padding(insetType, Side.TOP)
+
+        /**
+         * Apply the right value of the given [WindowInsetsCompat.Type][insetType] as the
+         * right padding of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         */
+        fun paddingRight(insetType: Int): Builder = padding(insetType, Side.RIGHT)
+
+        /**
+         * Apply the bottom value of the given [WindowInsetsCompat.Type][insetType] as the
+         * bottom padding of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         */
+        fun paddingBottom(insetType: Int): Builder = padding(insetType, Side.BOTTOM)
+
+        /**
+         * Apply the given [sides] dimension of the given [WindowInsetsCompat.Type][insetType]
+         * as the corresponding margin side of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param sides Bit mask of [Side]s containing which sides to apply.
+         * Defaults to [Side.ALL] to apply all sides. The mask can be created via [Side.create].
+         *
+         * @see [marginLeft]
+         * @see [marginTop]
+         * @see [marginRight]
+         * @see [marginBottom]
+         */
+        @JvmOverloads
+        fun margin(insetType: Int, @Sides sides: Int = Side.ALL): Builder {
             margin.add(insetType, sides)
             return this
         }
+
+        /**
+         * Apply the left value of the given [WindowInsetsCompat.Type][insetType] as the
+         * left margin of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         */
+        fun marginLeft(insetType: Int): Builder = margin(insetType, Side.LEFT)
+
+        /**
+         * Apply the top value of the given [WindowInsetsCompat.Type][insetType] as the
+         * top margin of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         */
+        fun marginTop(insetType: Int): Builder = margin(insetType, Side.TOP)
+
+        /**
+         * Apply the right value of the given [WindowInsetsCompat.Type][insetType] as the
+         * right margin of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         */
+        fun marginRight(insetType: Int): Builder = margin(insetType, Side.RIGHT)
+
+        /**
+         * Apply the bottom value of the given [WindowInsetsCompat.Type][insetType] as the
+         * bottom margin of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         */
+        fun marginBottom(insetType: Int): Builder = margin(insetType, Side.BOTTOM)
 
         /**
          * @param sides specifies the sides on which the system window insets should be applied
@@ -141,7 +223,7 @@ class Insetter private constructor(builder: Builder) {
             )
         )
         fun applySystemWindowInsetsToPadding(@Sides sides: Int): Builder {
-            return applyAsPadding(
+            return padding(
                 windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
                 sides
             )
@@ -160,7 +242,7 @@ class Insetter private constructor(builder: Builder) {
             )
         )
         fun applySystemWindowInsetsToMargin(@Sides sides: Int): Builder {
-            return applyAsMargin(
+            return margin(
                 windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
                 sides
             )
@@ -179,10 +261,7 @@ class Insetter private constructor(builder: Builder) {
             )
         )
         fun applySystemGestureInsetsToPadding(@Sides sides: Int): Builder {
-            return applyAsPadding(
-                windowInsetTypesOf(systemGestures = true),
-                sides
-            )
+            return padding(windowInsetTypesOf(systemGestures = true), sides)
         }
 
         /**
@@ -198,10 +277,7 @@ class Insetter private constructor(builder: Builder) {
             )
         )
         fun applySystemGestureInsetsToMargin(@Sides sides: Int): Builder {
-            return applyAsMargin(
-                windowInsetTypesOf(systemGestures = true),
-                sides
-            )
+            return margin(windowInsetTypesOf(systemGestures = true), sides)
         }
 
         /**

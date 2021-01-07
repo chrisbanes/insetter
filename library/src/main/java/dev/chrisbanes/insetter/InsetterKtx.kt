@@ -68,7 +68,7 @@ inline fun View.applySystemWindowInsetsToPadding(
     bottom: Boolean = false,
     consume: Boolean = false
 ) = Insetter.builder()
-    .applyAsPadding(
+    .padding(
         windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
         Side.create(left, top, right, bottom)
     )
@@ -91,7 +91,7 @@ inline fun View.applySystemWindowInsetsToMargin(
     bottom: Boolean = false,
     consume: Boolean = false
 ) = Insetter.builder()
-    .applyAsMargin(
+    .margin(
         windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
         Side.create(left, top, right, bottom)
     )
@@ -114,7 +114,7 @@ inline fun View.applySystemGestureInsetsToPadding(
     bottom: Boolean = false,
     consume: Boolean = false
 ) = Insetter.builder()
-    .applyAsPadding(
+    .padding(
         windowInsetTypesOf(systemGestures = true),
         Side.create(left, top, right, bottom)
     )
@@ -137,7 +137,7 @@ inline fun View.applySystemGestureInsetsToMargin(
     bottom: Boolean = false,
     consume: Boolean = false
 ) = Insetter.builder()
-    .applyAsMargin(
+    .margin(
         windowInsetTypesOf(systemGestures = true),
         Side.create(left, top, right, bottom)
     )

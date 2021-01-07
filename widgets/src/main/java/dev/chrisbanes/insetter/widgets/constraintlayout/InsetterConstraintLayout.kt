@@ -222,19 +222,19 @@ open class InsetterConstraintLayout @JvmOverloads constructor(
         }
 
         private fun buildInsetter(): Insetter = Insetter.builder()
-            .applyAsPadding(
+            .padding(
                 windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
                 systemWindowInsetsPaddingSides
             )
-            .applyAsMargin(
+            .margin(
                 windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
                 systemWindowInsetsMarginSides
             )
-            .applyAsPadding(
+            .padding(
                 windowInsetTypesOf(systemGestures = true),
                 systemGestureInsetsPaddingSides
             )
-            .applyAsMargin(
+            .margin(
                 windowInsetTypesOf(systemGestures = true),
                 systemGestureInsetsMarginSides
             )
