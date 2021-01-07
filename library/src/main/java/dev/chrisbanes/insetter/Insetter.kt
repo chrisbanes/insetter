@@ -99,24 +99,32 @@ class Insetter private constructor(builder: Builder) {
         }
 
         /**
-         * TODO
+         * Apply the given [WindowInsetsCompat.Type][insetType] as padding, on the given [sides]
+         * of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
+         * @param sides Bit mask of [Side]s. Defaults to [Side.ALL] to apply all sides.
          */
         fun applyAsPadding(
-            insets: Int,
+            insetType: Int,
             @Sides sides: Int = Side.ALL
         ): Builder {
-            padding.add(insets, sides)
+            padding.add(insetType, sides)
             return this
         }
 
         /**
-         * TODO
+         * Apply the given [WindowInsetsCompat.Type][insetType] as margin, on the given [sides]
+         * of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
+         * @param sides Bit mask of [Side]s. Defaults to [Side.ALL] to apply all sides.
          */
         fun applyAsMargin(
-            insets: Int,
+            insetType: Int,
             @Sides sides: Int = Side.ALL
         ): Builder {
-            margin.add(insets, sides)
+            margin.add(insetType, sides)
             return this
         }
 
