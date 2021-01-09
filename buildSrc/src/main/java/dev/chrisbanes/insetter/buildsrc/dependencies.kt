@@ -23,7 +23,7 @@ object Versions {
 object Libs {
     // We need to use a stable version of AGP since that controls which data-binding version
     // we use in dbx
-    const val androidGradlePluginVersion = "4.0.1"
+    const val androidGradlePluginVersion = "4.1.1"
     const val androidGradlePlugin = "com.android.tools.build:gradle:$androidGradlePluginVersion"
 
     const val gradleMavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.13.0"
