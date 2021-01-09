@@ -59,5 +59,5 @@ object Libs {
         const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha05"
     }
 
-    const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
 }
