@@ -28,7 +28,7 @@ object Libs {
 
     const val gradleMavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.13.0"
 
-    const val junit = "junit:junit:4.12"
+    const val junit = "junit:junit:4.13.1"
 
     object Kotlin {
         private const val version = "1.4.10"
@@ -45,14 +45,14 @@ object Libs {
 
     object AndroidX {
         object Test {
-            private const val version = "1.2.0"
+            private const val version = "1.3.1-alpha02"
             const val core = "androidx.test:core:$version"
             const val runner = "androidx.test:runner:$version"
             const val rules = "androidx.test:rules:$version"
 
-            const val ext = "androidx.test.ext:junit:1.1.1"
+            const val ext = "androidx.test.ext:junit:1.1.3-alpha02"
 
-            const val espressoCore = "androidx.test.espresso:espresso-core:3.2.0"
+            const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0-alpha02"
         }
 
         const val core = "androidx.core:core:1.5.0-alpha05"
