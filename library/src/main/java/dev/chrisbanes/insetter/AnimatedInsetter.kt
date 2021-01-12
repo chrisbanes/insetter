@@ -27,6 +27,9 @@ import dev.chrisbanes.insetter.animation.ControlFocusInsetsAnimationCallback
 import dev.chrisbanes.insetter.animation.RootViewDeferringInsetsCallback
 import dev.chrisbanes.insetter.animation.TranslateDeferringInsetsAnimationCallback
 
+/**
+ * TODO
+ */
 class AnimatedInsetter internal constructor(
     private val views: Set<View>,
     private val parent: View,
@@ -34,7 +37,10 @@ class AnimatedInsetter internal constructor(
     private val animatingInsetTypes: Int,
     private val focusViews: Set<View>,
 ) {
-    class Builder() {
+    /**
+     * TODO
+     */
+    class Builder {
         private var animatingViews = ArraySet<View>()
         private var focusViews = ArraySet<View>()
         private var parent: ViewParent? = null
@@ -42,31 +48,49 @@ class AnimatedInsetter internal constructor(
         private var persistentInsetTypes: Int = 0
         private var animatingInsetTypes: Int = 0
 
+        /**
+         * TODO
+         */
         fun animateView(view: View): Builder {
             animatingViews.add(view)
             return this
         }
 
+        /**
+         * TODO
+         */
         fun focusView(view: View): Builder {
             focusViews.add(view)
             return this
         }
 
+        /**
+         * TODO
+         */
         fun setParent(parent: ViewParent): Builder {
             this.parent = parent
             return this
         }
 
+        /**
+         * TODO
+         */
         fun setPersistentTypes(types: Int): Builder {
             persistentInsetTypes = types
             return this
         }
 
+        /**
+         * TODO
+         */
         fun setAnimatingTypes(types: Int): Builder {
             animatingInsetTypes = types
             return this
         }
 
+        /**
+         * TODO
+         */
         fun build(): AnimatedInsetter {
             require(animatingViews.isNotEmpty()) {
                 "No views have been provided to addView()"
@@ -95,6 +119,9 @@ class AnimatedInsetter internal constructor(
         }
     }
 
+    /**
+     * TODO
+     */
     fun set() {
         /**
          * 1) Since our Activity has declared `window.setDecorFitsSystemWindows(false)`, we need to
@@ -156,11 +183,14 @@ class AnimatedInsetter internal constructor(
          * [WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE] dispatch mode, which
          * we have done above.
          */
-
         focusViews.forEach { view ->
             ViewCompat.setWindowInsetsAnimationCallback(
                 view,
-                ControlFocusInsetsAnimationCallback(view, animatingInsetTypes)
+                ControlFocusInsetsAnimationCallback(
+                    view = view,
+                    focusWhenVisibleType = animatingInsetTypes,
+                    dispatchMode = DISPATCH_MODE_CONTINUE_ON_SUBTREE
+                )
             )
         }
     }
