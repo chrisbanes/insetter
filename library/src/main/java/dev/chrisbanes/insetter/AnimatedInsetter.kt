@@ -24,7 +24,6 @@ import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE
 import androidx.core.view.WindowInsetsCompat
 import dev.chrisbanes.insetter.animation.ControlFocusInsetsAnimationCallback
-import dev.chrisbanes.insetter.animation.RootViewDeferringInsetsCallback
 import dev.chrisbanes.insetter.animation.TranslateDeferringInsetsAnimationCallback
 
 /**
@@ -133,14 +132,11 @@ class AnimatedInsetter internal constructor(
          * (see that class for more information).
          */
 
-        val deferringInsetsListener = RootViewDeferringInsetsCallback(
-            persistentInsetTypes = persistentInsetTypes,
-            deferredInsetTypes = animatingInsetTypes
-        )
-        // RootViewDeferringInsetsCallback is both an WindowInsetsAnimation.Callback and an
-        // OnApplyWindowInsetsListener, so needs to be set as so.
-        ViewCompat.setWindowInsetsAnimationCallback(parent, deferringInsetsListener)
-        ViewCompat.setOnApplyWindowInsetsListener(parent, deferringInsetsListener)
+        Insetter.builder()
+            .padding(WindowInsetsCompat.Type.systemBars())
+            .enableAnimations()
+            .padding(WindowInsetsCompat.Type.ime(), deferredDuringAnimation = true)
+            .applyToView(parent)
 
         /**
          * 2) The second step is reacting to any animations which run. This can be system driven,

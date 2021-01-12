@@ -18,12 +18,18 @@ package dev.chrisbanes.insetter
 
 import android.view.View
 
-/** A builder class for creating instances of [Insetter].  */
+/**
+ * A builder class for creating instances of [Insetter]
+ */
 internal class BuilderImpl : Insetter.Builder, Insetter.AnimatedBuilder {
     internal var onApplyInsetsListener: OnApplyInsetsListener? = null
 
     internal var padding = SideApply()
     internal var margin = SideApply()
+
+    internal var deferredPadding = SideApply()
+    internal var deferredMargin = SideApply()
+
     internal var consume = Insetter.CONSUME_NONE
 
     override fun enableAnimations(): Insetter.AnimatedBuilder = this
@@ -33,12 +39,19 @@ internal class BuilderImpl : Insetter.Builder, Insetter.AnimatedBuilder {
         return this
     }
 
-    override fun padding(insetType: Int, @Sides sides: Int): Insetter.Builder {
+    override fun padding(
+        insetType: Int,
+        @Sides sides: Int
+    ): Insetter.Builder {
         return padding(insetType, sides, false)
     }
 
-    override fun padding(insetType: Int, sides: Int, deferredDuringAnimation: Boolean): Insetter.AnimatedBuilder {
-        padding.add(insetType, sides)
+    override fun padding(
+        insetType: Int,
+        sides: Int,
+        deferredDuringAnimation: Boolean
+    ): Insetter.AnimatedBuilder {
+        (if (deferredDuringAnimation) deferredPadding else padding).add(insetType, sides)
         return this
     }
 
@@ -50,12 +63,19 @@ internal class BuilderImpl : Insetter.Builder, Insetter.AnimatedBuilder {
 
     override fun paddingBottom(insetType: Int): Insetter.Builder = padding(insetType, Side.BOTTOM)
 
-    override fun margin(insetType: Int, @Sides sides: Int): Insetter.Builder {
+    override fun margin(
+        insetType: Int,
+        @Sides sides: Int
+    ): Insetter.Builder {
         return margin(insetType, sides, false)
     }
 
-    override fun margin(insetType: Int, sides: Int, deferredDuringAnimation: Boolean): Insetter.AnimatedBuilder {
-        margin.add(insetType, sides)
+    override fun margin(
+        insetType: Int,
+        sides: Int,
+        deferredDuringAnimation: Boolean
+    ): Insetter.AnimatedBuilder {
+        (if (deferredDuringAnimation) deferredMargin else margin).add(insetType, sides)
         return this
     }
 
@@ -103,9 +123,7 @@ internal class BuilderImpl : Insetter.Builder, Insetter.AnimatedBuilder {
     ): Insetter.Builder = consume(consume)
 
     override fun applyToView(view: View): Insetter {
-        val insetter = build()
-        insetter.applyToView(view)
-        return insetter
+        return build().also { it.applyToView(view) }
     }
 
     override fun build(): Insetter = Insetter(this)

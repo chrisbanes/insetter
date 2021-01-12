@@ -26,6 +26,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.graphics.Insets
 import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnAttach
 import dev.chrisbanes.insetter.Insetter.Builder
@@ -71,12 +72,34 @@ class Insetter internal constructor(builder: BuilderImpl) {
 
     private val paddingTypes: SideApply = builder.padding
     private val marginTypes: SideApply = builder.margin
+    private val deferredPaddingTypes: SideApply = builder.deferredPadding
+    private val deferredMarginTypes: SideApply = builder.deferredMargin
 
-    private val allTypes
+    private val persistentTypes
         get() = paddingTypes + marginTypes
+
+    private val deferredTypes
+        get() = deferredPaddingTypes + deferredMarginTypes
 
     @ConsumeOptions
     private val consume: Int = builder.consume
+
+    private var currentlyDeferredTypes: Int = 0
+    private var lastWindowInsets: WindowInsetsCompat? = null
+
+    init {
+        val def = deferredTypes
+        val persistent = persistentTypes
+        require(
+            def.left and persistent.left == 0 &&
+                def.top and persistent.top == 0 &&
+                def.right and persistent.right == 0 &&
+                def.bottom and persistent.bottom == 0
+        ) {
+            "persistent Inset Types and deferred Inset Types can not contain any of " +
+                " same WindowInsetsCompat.Type values"
+        }
+    }
 
     interface Builder {
         /**
@@ -314,9 +337,9 @@ class Insetter internal constructor(builder: BuilderImpl) {
     }
 
     /**
-     * A wrapper around [ViewCompat.setOnApplyWindowInsetsListener] which stores the initial view state, and provides them whenever a
+     * A wrapper around [ViewCompat.setOnApplyWindowInsetsListener] which stores the
+     * initial view state, and provides them whenever a
      * [android.view.WindowInsets] instance is dispatched to the listener provided.
-     *
      *
      * This allows the listener to be able to append inset values to any existing view state
      * properties, rather than overwriting them.
@@ -332,6 +355,8 @@ class Insetter internal constructor(builder: BuilderImpl) {
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            lastWindowInsets = insets
+
             if (onApplyInsetsListener != null) {
                 // If we have an onApplyInsetsListener, invoke it
                 onApplyInsetsListener.onApplyInsets(v, insets, initialState)
@@ -344,18 +369,67 @@ class Insetter internal constructor(builder: BuilderImpl) {
             applyInsetsToView(v, insets, initialState)
 
             when (consume) {
-                Insetter.CONSUME_ALL -> WindowInsetsCompat.CONSUMED
-                Insetter.CONSUME_AUTO -> {
+                CONSUME_ALL -> WindowInsetsCompat.CONSUMED
+                CONSUME_AUTO -> {
                     WindowInsetsCompat.Builder(insets)
-                        .consumeType(WindowInsetsCompat.Type.statusBars(), insets, allTypes)
-                        .consumeType(WindowInsetsCompat.Type.navigationBars(), insets, allTypes)
-                        .consumeType(WindowInsetsCompat.Type.ime(), insets, allTypes)
-                        .consumeType(WindowInsetsCompat.Type.systemGestures(), insets, allTypes)
-                        .consumeType(WindowInsetsCompat.Type.displayCutout(), insets, allTypes)
+                        .consumeType(WindowInsetsCompat.Type.statusBars(), insets, persistentTypes)
+                        .consumeType(
+                            WindowInsetsCompat.Type.navigationBars(),
+                            insets,
+                            persistentTypes
+                        )
+                        .consumeType(WindowInsetsCompat.Type.ime(), insets, persistentTypes)
+                        .consumeType(
+                            WindowInsetsCompat.Type.systemGestures(),
+                            insets,
+                            persistentTypes
+                        )
+                        .consumeType(
+                            WindowInsetsCompat.Type.displayCutout(),
+                            insets,
+                            persistentTypes
+                        )
                         .build()
                 }
                 else -> insets
             }
+        }
+
+        if (!deferredTypes.isEmpty) {
+            ViewCompat.setWindowInsetsAnimationCallback(
+                view,
+                object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
+                    override fun onPrepare(animation: WindowInsetsAnimationCompat) {
+                        currentlyDeferredTypes = currentlyDeferredTypes or
+                            (animation.typeMask and deferredTypes.all)
+                    }
+
+                    override fun onProgress(
+                        insets: WindowInsetsCompat,
+                        runningAnims: List<WindowInsetsAnimationCompat>
+                    ): WindowInsetsCompat {
+                        // This is a no-op. We don't actually handle any WindowInsetsAnimations
+                        return insets
+                    }
+
+                    override fun onEnd(animation: WindowInsetsAnimationCompat) {
+                        if (currentlyDeferredTypes and animation.typeMask != 0) {
+                            currentlyDeferredTypes =
+                                currentlyDeferredTypes and animation.typeMask.inv()
+
+                            // And finally dispatch the deferred insets to the view now.
+                            // Ideally we would just call view.requestApplyInsets() and let
+                            // the normal dispatch cycle happen, but this happens too late
+                            // resulting in a visual flicker.
+                            // Instead we manually re-dispatch the most recent WindowInsets
+                            // to the view.
+                            if (lastWindowInsets != null) {
+                                ViewCompat.dispatchApplyWindowInsets(view, lastWindowInsets!!)
+                            }
+                        }
+                    }
+                }
+            )
         }
 
         // Now request an insets pass
@@ -382,8 +456,17 @@ class Insetter internal constructor(builder: BuilderImpl) {
         if (Log.isLoggable(TAG, Log.DEBUG)) {
             Log.d(TAG, "applyInsetsToView. View: $view. Insets: $insets. State: $initialState")
         }
-        view.applyPadding(insets, paddingTypes, initialState.paddings)
-        view.applyMargins(insets, marginTypes, initialState.margins)
+
+        view.applyPadding(
+            insets = insets,
+            typesToApply = (deferredPaddingTypes + paddingTypes) - currentlyDeferredTypes,
+            initialPaddings = initialState.paddings
+        )
+        view.applyMargins(
+            insets = insets,
+            typesToApply = (deferredMarginTypes + marginTypes) - currentlyDeferredTypes,
+            initialMargins = initialState.margins
+        )
     }
 
     companion object {
@@ -470,12 +553,40 @@ internal class SideApply {
     }
 
     operator fun plus(other: SideApply): SideApply {
+        if (other.isEmpty) return this
+
         val lhs = this
         return SideApply().apply {
             left = lhs.left or other.left
             top = lhs.top or other.top
             right = lhs.right or other.right
             bottom = lhs.bottom or other.bottom
+        }
+    }
+
+    operator fun minus(other: SideApply): SideApply {
+        if (isEmpty) return this
+        if (other.isEmpty) return this
+
+        val lhs = this
+        return SideApply().apply {
+            left = lhs.left and other.left.inv()
+            top = lhs.top and other.top.inv()
+            right = lhs.right and other.right.inv()
+            bottom = lhs.bottom and other.bottom.inv()
+        }
+    }
+
+    operator fun minus(type: Int): SideApply {
+        if (isEmpty) return this
+        if (type == 0) return this
+
+        val lhs = this
+        return SideApply().apply {
+            left = lhs.left and type.inv()
+            top = lhs.top and type.inv()
+            right = lhs.right and type.inv()
+            bottom = lhs.bottom and type.inv()
         }
     }
 }
@@ -486,7 +597,7 @@ internal class SideApply {
  */
 private fun View.applyPadding(
     insets: WindowInsetsCompat,
-    typesToApply: Insetter.SideApply,
+    typesToApply: SideApply,
     initialPaddings: ViewDimensions,
 ) {
     // If there's no types to apply, nothing to do...
@@ -521,7 +632,7 @@ private fun View.applyPadding(
  */
 private fun View.applyMargins(
     insets: WindowInsetsCompat,
-    typesToApply: Insetter.SideApply,
+    typesToApply: SideApply,
     initialMargins: ViewDimensions,
 ) {
     // If there's no types to apply, nothing to do...
@@ -591,7 +702,7 @@ private inline fun View.doOnEveryAttach(crossinline action: (view: View) -> Unit
 private fun WindowInsetsCompat.Builder.consumeType(
     type: Int,
     windowInsets: WindowInsetsCompat,
-    applied: Insetter.SideApply,
+    applied: SideApply,
 ): WindowInsetsCompat.Builder {
     // Fast path. If this type wasn't applied at all, no need to do anything
     if (applied.all and type != type) return this

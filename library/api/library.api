@@ -1,40 +1,65 @@
+public final class dev/chrisbanes/insetter/AnimatedInsetter {
+	public final fun set ()V
+}
+
+public final class dev/chrisbanes/insetter/AnimatedInsetter$Builder {
+	public fun <init> ()V
+	public final fun animateView (Landroid/view/View;)Ldev/chrisbanes/insetter/AnimatedInsetter$Builder;
+	public final fun build ()Ldev/chrisbanes/insetter/AnimatedInsetter;
+	public final fun focusView (Landroid/view/View;)Ldev/chrisbanes/insetter/AnimatedInsetter$Builder;
+	public final fun setAnimatingTypes (I)Ldev/chrisbanes/insetter/AnimatedInsetter$Builder;
+	public final fun setParent (Landroid/view/ViewParent;)Ldev/chrisbanes/insetter/AnimatedInsetter$Builder;
+	public final fun setPersistentTypes (I)Ldev/chrisbanes/insetter/AnimatedInsetter$Builder;
+}
+
 public final class dev/chrisbanes/insetter/Insetter {
 	public static final field CONSUME_ALL I
 	public static final field CONSUME_AUTO I
 	public static final field CONSUME_NONE I
 	public static final field Companion Ldev/chrisbanes/insetter/Insetter$Companion;
-	public synthetic fun <init> (Ldev/chrisbanes/insetter/Insetter$Builder;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun applyInsetsToView (Landroid/view/View;Landroidx/core/view/WindowInsetsCompat;Ldev/chrisbanes/insetter/ViewState;)V
 	public final fun applyToView (Landroid/view/View;)V
 	public static final fun builder ()Ldev/chrisbanes/insetter/Insetter$Builder;
 	public static final fun setEdgeToEdgeSystemUiFlags (Landroid/view/View;Z)V
 }
 
-public final class dev/chrisbanes/insetter/Insetter$Builder {
-	public final fun applySystemGestureInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun applySystemGestureInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun applySystemWindowInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun applySystemWindowInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun applyToView (Landroid/view/View;)Ldev/chrisbanes/insetter/Insetter;
-	public final fun build ()Ldev/chrisbanes/insetter/Insetter;
-	public final fun consume (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun consumeSystemWindowInsets (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun consumeSystemWindowInsets (Z)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun margin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun margin (II)Ldev/chrisbanes/insetter/Insetter$Builder;
+public abstract interface class dev/chrisbanes/insetter/Insetter$AnimatedBuilder : dev/chrisbanes/insetter/Insetter$Builder {
+	public abstract fun margin (IIZ)Ldev/chrisbanes/insetter/Insetter$AnimatedBuilder;
+	public abstract fun padding (IIZ)Ldev/chrisbanes/insetter/Insetter$AnimatedBuilder;
+}
+
+public final class dev/chrisbanes/insetter/Insetter$AnimatedBuilder$DefaultImpls {
+	public static synthetic fun margin$default (Ldev/chrisbanes/insetter/Insetter$AnimatedBuilder;IIZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$AnimatedBuilder;
+	public static synthetic fun padding$default (Ldev/chrisbanes/insetter/Insetter$AnimatedBuilder;IIZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$AnimatedBuilder;
+}
+
+public abstract interface class dev/chrisbanes/insetter/Insetter$Builder {
+	public abstract fun applySystemGestureInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun applySystemGestureInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun applySystemWindowInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun applySystemWindowInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun applyToView (Landroid/view/View;)Ldev/chrisbanes/insetter/Insetter;
+	public abstract fun build ()Ldev/chrisbanes/insetter/Insetter;
+	public abstract fun consume (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun consumeSystemWindowInsets (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun consumeSystemWindowInsets (Z)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun enableAnimations ()Ldev/chrisbanes/insetter/Insetter$AnimatedBuilder;
+	public abstract fun margin (II)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun marginBottom (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun marginLeft (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun marginRight (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun marginTop (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun padding (II)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun paddingBottom (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun paddingLeft (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun paddingRight (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun paddingTop (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public abstract fun setOnApplyInsetsListener (Ldev/chrisbanes/insetter/OnApplyInsetsListener;)Ldev/chrisbanes/insetter/Insetter$Builder;
+}
+
+public final class dev/chrisbanes/insetter/Insetter$Builder$DefaultImpls {
 	public static synthetic fun margin$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun marginBottom (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun marginLeft (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun marginRight (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun marginTop (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun padding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun padding (II)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public static synthetic fun padding$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun paddingBottom (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun paddingLeft (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun paddingRight (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun paddingTop (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun setOnApplyInsetsListener (Ldev/chrisbanes/insetter/OnApplyInsetsListener;)Ldev/chrisbanes/insetter/Insetter$Builder;
 }
 
 public final class dev/chrisbanes/insetter/Insetter$Companion {
