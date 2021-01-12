@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.chrisbanes.insetter
+package dev.chrisbanes.insetter.animation
 
 import android.view.View
 import androidx.core.view.ViewCompat

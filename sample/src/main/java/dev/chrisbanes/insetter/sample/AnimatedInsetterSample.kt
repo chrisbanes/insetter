@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,30 @@ package dev.chrisbanes.insetter.sample
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import dev.chrisbanes.insetter.AnimatedInsetter
+import dev.chrisbanes.insetter.sample.databinding.ActivityAnimatedBinding
 
-class InsetterConstraintHelperSample : AppCompatActivity() {
+class AnimatedInsetterSample : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_widget_constrainthelper)
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val binding = ActivityAnimatedBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.conversationRecyclerview.adapter = ConversationAdapter()
+        binding.toolbar.title = title
+
+        AnimatedInsetter.Builder()
+            .setAnimatingTypes(WindowInsetsCompat.Type.ime())
+            .setPersistentTypes(WindowInsetsCompat.Type.systemBars())
+            .animateView(binding.conversationRecyclerview)
+            .animateView(binding.messageHolder)
+            .focusView(binding.messageEdittext)
+            .setParent(binding.root)
+            .build()
+            .set()
     }
 }

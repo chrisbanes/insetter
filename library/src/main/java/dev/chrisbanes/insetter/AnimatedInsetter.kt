@@ -23,6 +23,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE
 import androidx.core.view.WindowInsetsCompat
+import dev.chrisbanes.insetter.animation.ControlFocusInsetsAnimationCallback
+import dev.chrisbanes.insetter.animation.RootViewDeferringInsetsCallback
+import dev.chrisbanes.insetter.animation.TranslateDeferringInsetsAnimationCallback
 
 class AnimatedInsetter internal constructor(
     private val views: Set<View>,
@@ -39,24 +42,29 @@ class AnimatedInsetter internal constructor(
         private var persistentInsetTypes: Int = 0
         private var animatingInsetTypes: Int = 0
 
-        fun animateView(view: View) {
+        fun animateView(view: View): Builder {
             animatingViews.add(view)
+            return this
         }
 
-        fun focusView(view: View) {
+        fun focusView(view: View): Builder {
             focusViews.add(view)
+            return this
         }
 
-        fun setParent(parent: ViewParent) {
+        fun setParent(parent: ViewParent): Builder {
             this.parent = parent
+            return this
         }
 
-        fun setPersistentTypes(types: Int) {
+        fun setPersistentTypes(types: Int): Builder {
             persistentInsetTypes = types
+            return this
         }
 
-        fun setAnimatingTypes(types: Int) {
+        fun setAnimatingTypes(types: Int): Builder {
             animatingInsetTypes = types
+            return this
         }
 
         fun build(): AnimatedInsetter {
@@ -66,12 +74,9 @@ class AnimatedInsetter internal constructor(
             requireNotNull(parent) {
                 "A common non-null parent to all views must be provided"
             }
-            require(
-                animatingInsetTypes and WindowInsetsCompat.Type.ime() == 0 ||
-                    focusViews.isEmpty()
-            ) {
-                "A view to control focus has been provided but the types provided to" +
-                    " setAnimatingTypes() do no include the IME"
+            require(persistentInsetTypes and animatingInsetTypes == 0) {
+                "persistentInsetTypes and deferredInsetTypes can not contain any of " +
+                    " same WindowInsetsCompat.Type values"
             }
 
             val p = parent

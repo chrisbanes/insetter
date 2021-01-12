@@ -37,6 +37,7 @@ android {
 
     buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -44,6 +45,8 @@ dependencies {
     implementation project(':library')
     implementation project(':dbx')
     implementation project(':widgets')
+
+    implementation Libs.mdc
 
     api Libs.Kotlin.stdlib
 }

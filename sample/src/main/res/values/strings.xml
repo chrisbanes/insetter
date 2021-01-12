@@ -16,4 +16,9 @@
 
 <resources>
     <string name="app_name">Insetter Sample</string>
+
+    <string name="message_from">To you</string>
+    <string name="message_to">To me</string>
+    <string name="message_hint">Type a message…</string>
+
 </resources>

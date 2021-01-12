@@ -65,6 +65,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".AnimatedInsetterSample"
+            android:label="AnimatedInsetter"
+            android:theme="@style/AppTheme.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="dev.chrisbanes.insetter.sample.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

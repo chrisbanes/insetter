@@ -16,11 +16,11 @@
 
 package dev.chrisbanes.insetter.sample
 
-import android.app.Activity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 
-class InsetterConstraintLayoutSample : Activity() {
+class InsetterConstraintLayoutSample : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
