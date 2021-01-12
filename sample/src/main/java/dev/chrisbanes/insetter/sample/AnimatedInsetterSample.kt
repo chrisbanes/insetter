@@ -20,7 +20,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import dev.chrisbanes.insetter.AnimatedInsetter
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.sample.databinding.ActivityAnimatedBinding
 
@@ -37,18 +36,18 @@ class AnimatedInsetterSample : AppCompatActivity() {
         binding.toolbar.title = title
 
         Insetter.builder()
-            .padding(WindowInsetsCompat.Type.systemBars())
+            .padding(WindowInsetsCompat.Type.navigationBars())
             .enableAnimations()
-            .padding(WindowInsetsCompat.Type.ime(), deferredDuringAnimation = true)
+            .deferredPadding(WindowInsetsCompat.Type.ime())
+            .animate(WindowInsetsCompat.Type.ime())
+            .applyToView(binding.messageHolder)
 
-        AnimatedInsetter.Builder()
-            .setAnimatingTypes(WindowInsetsCompat.Type.ime())
-            .setPersistentTypes(WindowInsetsCompat.Type.systemBars())
-            .animateView(binding.conversationRecyclerview)
-            .animateView(binding.messageHolder)
-            .focusView(binding.messageEdittext)
-            .setParent(binding.root)
-            .build()
-            .set()
+        Insetter.builder()
+            .enableAnimations()
+            .animate(
+                insetType = WindowInsetsCompat.Type.ime(),
+                minusInsetTypes = WindowInsetsCompat.Type.navigationBars()
+            )
+            .applyToView(binding.conversationRecyclerview)
     }
 }

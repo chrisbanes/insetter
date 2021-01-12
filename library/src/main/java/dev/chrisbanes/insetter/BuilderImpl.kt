@@ -32,26 +32,31 @@ internal class BuilderImpl : Insetter.Builder, Insetter.AnimatedBuilder {
 
     internal var consume = Insetter.CONSUME_NONE
 
+    internal var animatingTypes = 0
+    internal var animatingMinusTypes = 0
+
     override fun enableAnimations(): Insetter.AnimatedBuilder = this
 
-    override fun setOnApplyInsetsListener(onApplyInsetsListener: OnApplyInsetsListener?): Insetter.Builder {
+    override fun setOnApplyInsetsListener(
+        onApplyInsetsListener: OnApplyInsetsListener?
+    ): Insetter.Builder {
         this.onApplyInsetsListener = onApplyInsetsListener
         return this
     }
 
-    override fun padding(
-        insetType: Int,
-        @Sides sides: Int
-    ): Insetter.Builder {
-        return padding(insetType, sides, false)
+    override fun animate(insetType: Int, minusInsetTypes: Int): Insetter.AnimatedBuilder {
+        animatingTypes = animatingTypes or insetType
+        animatingMinusTypes = animatingMinusTypes or minusInsetTypes
+        return this
     }
 
-    override fun padding(
-        insetType: Int,
-        sides: Int,
-        deferredDuringAnimation: Boolean
-    ): Insetter.AnimatedBuilder {
-        (if (deferredDuringAnimation) deferredPadding else padding).add(insetType, sides)
+    override fun padding(insetType: Int, @Sides sides: Int): Insetter.Builder {
+        padding.add(insetType, sides)
+        return this
+    }
+
+    override fun deferredPadding(insetType: Int, @Sides sides: Int): Insetter.AnimatedBuilder {
+        deferredPadding.add(insetType, sides)
         return this
     }
 
@@ -63,19 +68,13 @@ internal class BuilderImpl : Insetter.Builder, Insetter.AnimatedBuilder {
 
     override fun paddingBottom(insetType: Int): Insetter.Builder = padding(insetType, Side.BOTTOM)
 
-    override fun margin(
-        insetType: Int,
-        @Sides sides: Int
-    ): Insetter.Builder {
-        return margin(insetType, sides, false)
+    override fun margin(insetType: Int, @Sides sides: Int): Insetter.Builder {
+        margin.add(insetType, sides)
+        return this
     }
 
-    override fun margin(
-        insetType: Int,
-        sides: Int,
-        deferredDuringAnimation: Boolean
-    ): Insetter.AnimatedBuilder {
-        (if (deferredDuringAnimation) deferredMargin else margin).add(insetType, sides)
+    override fun deferredMargin(insetType: Int, @Sides sides: Int): Insetter.AnimatedBuilder {
+        deferredMargin.add(insetType, sides)
         return this
     }
 

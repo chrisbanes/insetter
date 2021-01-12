@@ -84,6 +84,9 @@ class Insetter internal constructor(builder: BuilderImpl) {
     @ConsumeOptions
     private val consume: Int = builder.consume
 
+    private val animatingTypes: Int = builder.animatingTypes
+    private val animatingMinusTypes: Int = builder.animatingMinusTypes
+
     private var currentlyDeferredTypes: Int = 0
     private var lastWindowInsets: WindowInsetsCompat? = null
 
@@ -323,16 +326,19 @@ class Insetter internal constructor(builder: BuilderImpl) {
     }
 
     interface AnimatedBuilder : Builder {
-        fun margin(
+        fun deferredMargin(
             insetType: Int,
-            @Sides sides: Int = Side.ALL,
-            deferredDuringAnimation: Boolean = false
+            @Sides sides: Int = Side.ALL
         ): AnimatedBuilder
 
-        fun padding(
+        fun deferredPadding(
             insetType: Int,
-            @Sides sides: Int = Side.ALL,
-            deferredDuringAnimation: Boolean = false
+            @Sides sides: Int = Side.ALL
+        ): AnimatedBuilder
+
+        fun animate(
+            insetType: Int,
+            minusInsetTypes: Int = 0
         ): AnimatedBuilder
     }
 
@@ -395,7 +401,7 @@ class Insetter internal constructor(builder: BuilderImpl) {
             }
         }
 
-        if (!deferredTypes.isEmpty) {
+        if (animatingTypes != 0 || !deferredTypes.isEmpty) {
             ViewCompat.setWindowInsetsAnimationCallback(
                 view,
                 object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
@@ -406,9 +412,33 @@ class Insetter internal constructor(builder: BuilderImpl) {
 
                     override fun onProgress(
                         insets: WindowInsetsCompat,
-                        runningAnims: List<WindowInsetsAnimationCompat>
+                        runningAnimations: List<WindowInsetsAnimationCompat>
                     ): WindowInsetsCompat {
-                        // This is a no-op. We don't actually handle any WindowInsetsAnimations
+                        if (animatingTypes == 0) return insets
+
+                        val runningTypes = runningAnimations.fold(0) { acc, animation ->
+                            acc or animation.typeMask
+                        }
+                        if (runningTypes and animatingTypes == 0) return insets
+
+                        // onProgress() is called when any of the running animations progress...
+
+                        // First we get the insets which are potentially deferred
+                        val typesInset = insets.getInsets(animatingTypes)
+                        // Then we get the persistent inset types which are applied as padding during layout
+                        val otherInset = insets.getInsets(persistentTypes.all or animatingMinusTypes)
+
+                        // Now that we subtract the two insets, to calculate the difference. We also coerce
+                        // the insets to be >= 0, to make sure we don't use negative insets.
+                        val diff = Insets.subtract(typesInset, otherInset).let {
+                            Insets.max(it, Insets.NONE)
+                        }
+
+                        // The resulting `diff` insets contain the values for us to apply as a translation
+                        // to the view
+                        view.translationX = (diff.left - diff.right).toFloat()
+                        view.translationY = (diff.top - diff.bottom).toFloat()
+
                         return insets
                     }
 
@@ -427,6 +457,10 @@ class Insetter internal constructor(builder: BuilderImpl) {
                                 ViewCompat.dispatchApplyWindowInsets(view, lastWindowInsets!!)
                             }
                         }
+
+                        // Once the animation has ended, reset the translation values
+                        view.translationX = 0f
+                        view.translationY = 0f
                     }
                 }
             )

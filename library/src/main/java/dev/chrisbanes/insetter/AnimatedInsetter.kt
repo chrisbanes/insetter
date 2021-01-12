@@ -135,7 +135,7 @@ class AnimatedInsetter internal constructor(
         Insetter.builder()
             .padding(WindowInsetsCompat.Type.systemBars())
             .enableAnimations()
-            .padding(WindowInsetsCompat.Type.ime(), deferredDuringAnimation = true)
+            .deferredPadding(WindowInsetsCompat.Type.ime())
             .applyToView(parent)
 
         /**
