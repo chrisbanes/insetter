@@ -37,13 +37,11 @@ class AnimatedInsetterSample : AppCompatActivity() {
 
         Insetter.builder()
             .padding(WindowInsetsCompat.Type.navigationBars())
-            .enableAnimations()
             .deferredPadding(WindowInsetsCompat.Type.ime())
             .animate(WindowInsetsCompat.Type.ime())
             .applyToView(binding.messageHolder)
 
         Insetter.builder()
-            .enableAnimations()
             .animate(
                 insetType = WindowInsetsCompat.Type.ime(),
                 minusInsetTypes = WindowInsetsCompat.Type.navigationBars()
