@@ -68,17 +68,20 @@ class Insetter private constructor(builder: Builder) {
     annotation class ConsumeOptions
 
     private val onApplyInsetsListener: OnApplyInsetsListener?
-    internal var padding: SideApply
-        private set
-    internal var margin: SideApply
-        private set
+
+    private val paddingTypes: SideApply
+    private val marginTypes: SideApply
+
+    private val allTypes
+        get() = paddingTypes + marginTypes
+
     @ConsumeOptions
     private val consume: Int
 
     init {
         onApplyInsetsListener = builder.onApplyInsetsListener
-        padding = builder.padding
-        margin = builder.margin
+        paddingTypes = builder.padding
+        marginTypes = builder.margin
         consume = builder.consume
     }
 
@@ -374,13 +377,12 @@ class Insetter private constructor(builder: Builder) {
             when (consume) {
                 CONSUME_ALL -> WindowInsetsCompat.CONSUMED
                 CONSUME_AUTO -> {
-                    val applied = padding + margin
                     WindowInsetsCompat.Builder(insets)
-                        .consumeType(insets, WindowInsetsCompat.Type.statusBars(), applied)
-                        .consumeType(insets, WindowInsetsCompat.Type.navigationBars(), applied)
-                        .consumeType(insets, WindowInsetsCompat.Type.ime(), applied)
-                        .consumeType(insets, WindowInsetsCompat.Type.systemGestures(), applied)
-                        .consumeType(insets, WindowInsetsCompat.Type.displayCutout(), applied)
+                        .consumeType(WindowInsetsCompat.Type.statusBars(), insets, allTypes)
+                        .consumeType(WindowInsetsCompat.Type.navigationBars(), insets, allTypes)
+                        .consumeType(WindowInsetsCompat.Type.ime(), insets, allTypes)
+                        .consumeType(WindowInsetsCompat.Type.systemGestures(), insets, allTypes)
+                        .consumeType(WindowInsetsCompat.Type.displayCutout(), insets, allTypes)
                         .build()
                 }
                 else -> insets
@@ -393,9 +395,14 @@ class Insetter private constructor(builder: Builder) {
         }
     }
 
+    /**
+     * Function which consumes the insets for the given [type], if it exists in the [applied] types.
+     *
+     * @param windowInsets The original [WindowInsetsCompat] to retrieve the original insets from.
+     */
     private fun WindowInsetsCompat.Builder.consumeType(
-        windowInsets: WindowInsetsCompat,
         type: Int,
+        windowInsets: WindowInsetsCompat,
         applied: SideApply,
     ): WindowInsetsCompat.Builder {
         // Fast path. If this type wasn't applied at all, no need to do anything
@@ -438,61 +445,8 @@ class Insetter private constructor(builder: Builder) {
         if (Log.isLoggable(TAG, Log.DEBUG)) {
             Log.d(TAG, "applyInsetsToView. View: $view. Insets: $insets. State: $initialState")
         }
-
-        val initialPaddings = initialState.paddings
-        val paddingLeft = when {
-            padding.left != 0 -> initialPaddings.left + insets.getInsets(padding.left).left
-            else -> view.paddingLeft
-        }
-        val paddingTop = when {
-            padding.top != 0 -> initialPaddings.top + insets.getInsets(padding.top).top
-            else -> view.paddingTop
-        }
-        val paddingRight = when {
-            padding.right != 0 -> initialPaddings.right + insets.getInsets(padding.right).right
-            else -> view.paddingRight
-        }
-        val paddingBottom = when {
-            padding.bottom != 0 -> initialPaddings.bottom + insets.getInsets(padding.bottom).bottom
-            else -> view.paddingBottom
-        }
-        view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
-
-        // Now we can deal with margins
-        val lp = view.layoutParams
-        if (lp is MarginLayoutParams) {
-            val initialMargins = initialState.margins
-            val marginLeft = when {
-                margin.left != 0 -> initialMargins.left + insets.getInsets(margin.left).left
-                else -> lp.leftMargin
-            }
-            val marginTop = when {
-                margin.top != 0 -> initialMargins.top + insets.getInsets(margin.top).top
-                else -> lp.topMargin
-            }
-            val marginRight = when {
-                margin.right != 0 -> initialMargins.right + insets.getInsets(margin.right).right
-                else -> lp.rightMargin
-            }
-            val marginBottom = when {
-                margin.bottom != 0 -> initialMargins.bottom + insets.getInsets(margin.bottom).bottom
-                else -> lp.bottomMargin
-            }
-
-            if (lp.updateMargins(marginLeft, marginTop, marginRight, marginBottom)) {
-                view.layoutParams = lp
-
-                if (Build.VERSION.SDK_INT < 26) {
-                    // See https://github.com/chrisbanes/insetter/issues/42
-                    view.parent.requestLayout()
-                }
-            }
-        } else if (!margin.isEmpty) {
-            error(
-                "Margin window insets handling requested but View's LayoutParams " +
-                    "do not extend MarginLayoutParams"
-            )
-        }
+        view.applyPadding(insets, paddingTypes, initialState.paddings)
+        view.applyMargins(insets, marginTypes, initialState.margins)
     }
 
     /**
@@ -500,33 +454,43 @@ class Insetter private constructor(builder: Builder) {
      * application type (padding, margin, etc).
      */
     internal class SideApply {
-        var left: Int = 0
+        @Sides
+        var left: Int = Side.NONE
             private set
-        var top: Int = 0
+
+        @Sides
+        var top: Int = Side.NONE
             private set
-        var right: Int = 0
+
+        @Sides
+        var right: Int = Side.NONE
             private set
-        var bottom: Int = 0
+
+        @Sides
+        var bottom: Int = Side.NONE
             private set
 
         val isEmpty: Boolean
-            get() = all == 0
+            get() = all == Side.NONE
 
         val all: Int
             get() = left or top or right or bottom
 
-        fun add(insets: Int, @Sides sides: Int = Side.ALL) {
-            if (sides and Side.LEFT != 0) left = left or insets
-            if (sides and Side.TOP != 0) top = top or insets
-            if (sides and Side.RIGHT != 0) right = right or insets
-            if (sides and Side.BOTTOM != 0) bottom = bottom or insets
+        fun add(insetTypes: Int, @Sides sides: Int = Side.ALL) {
+            if (sides and Side.LEFT != 0) left = left or insetTypes
+            if (sides and Side.TOP != 0) top = top or insetTypes
+            if (sides and Side.RIGHT != 0) right = right or insetTypes
+            if (sides and Side.BOTTOM != 0) bottom = bottom or insetTypes
         }
 
-        operator fun plus(other: SideApply): SideApply = SideApply().apply {
-            left = left or other.left
-            top = top or other.top
-            right = right or other.right
-            bottom = bottom or other.bottom
+        operator fun plus(other: SideApply): SideApply {
+            val lhs = this
+            return SideApply().apply {
+                left = lhs.left or other.left
+                top = lhs.top or other.top
+                right = lhs.right or other.right
+                bottom = lhs.bottom or other.bottom
+            }
         }
     }
 
@@ -576,5 +540,87 @@ class Insetter private constructor(builder: Builder) {
             )
 
         private const val TAG = "Insetter"
+    }
+}
+
+/**
+ * Applies the window insets types specified in [typesToApply], using the source values
+ * from [insets] as padding.
+ */
+private fun View.applyPadding(
+    insets: WindowInsetsCompat,
+    typesToApply: Insetter.SideApply,
+    initialPaddings: ViewDimensions,
+) {
+    // If there's no types to apply, nothing to do...
+    if (typesToApply.isEmpty) return
+
+    val paddingLeft = when (typesToApply.left) {
+        Side.NONE -> paddingLeft
+        else -> initialPaddings.left + insets.getInsets(typesToApply.left).left
+    }
+    val paddingTop = when (typesToApply.top) {
+        Side.NONE -> paddingTop
+        else -> initialPaddings.top + insets.getInsets(typesToApply.top).top
+    }
+    val paddingRight = when (typesToApply.right) {
+        Side.NONE -> paddingRight
+        else -> initialPaddings.right + insets.getInsets(typesToApply.right).right
+    }
+    val paddingBottom = when (typesToApply.bottom) {
+        Side.NONE -> paddingBottom
+        else -> initialPaddings.bottom + insets.getInsets(typesToApply.bottom).bottom
+    }
+
+    // setPadding() does it's own value change check, so no need to do our own to avoid layout
+    setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
+}
+
+/**
+ * Applies the window insets types specified in [typesToApply], using the source values
+ * from [insets] as margin.
+ *
+ * @throws IllegalArgumentException if [View.getLayoutParams] do not extend [MarginLayoutParams]
+ */
+private fun View.applyMargins(
+    insets: WindowInsetsCompat,
+    typesToApply: Insetter.SideApply,
+    initialMargins: ViewDimensions,
+) {
+    // If there's no types to apply, nothing to do...
+    if (typesToApply.isEmpty) return
+
+    val lp = layoutParams
+    require(lp is MarginLayoutParams) {
+        "Margin window insets handling requested but View's" +
+            " LayoutParams do not extend MarginLayoutParams"
+    }
+
+    val marginLeft = when (typesToApply.left) {
+        Side.NONE -> lp.leftMargin
+        else -> initialMargins.left + insets.getInsets(typesToApply.left).left
+    }
+    val marginTop = when (typesToApply.top) {
+        Side.NONE -> lp.topMargin
+        else -> initialMargins.top + insets.getInsets(typesToApply.top).top
+    }
+    val marginRight = when (typesToApply.right) {
+        Side.NONE -> lp.rightMargin
+        else -> initialMargins.right + insets.getInsets(typesToApply.right).right
+    }
+    val marginBottom = when (typesToApply.bottom) {
+        Side.NONE -> lp.bottomMargin
+        else -> initialMargins.bottom + insets.getInsets(typesToApply.bottom).bottom
+    }
+
+    // Update the layoutParams margins. Will return true if any value has changed
+    if (lp.updateMargins(marginLeft, marginTop, marginRight, marginBottom)) {
+        // If any margin value changed, re-set it back on the view to trigger a layout
+        layoutParams = lp
+
+        if (Build.VERSION.SDK_INT < 26) {
+            // See https://github.com/chrisbanes/insetter/issues/42
+            parent.requestLayout()
+        }
     }
 }
