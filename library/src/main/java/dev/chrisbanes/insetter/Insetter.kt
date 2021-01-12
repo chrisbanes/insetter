@@ -55,7 +55,7 @@ import dev.chrisbanes.insetter.Insetter.Builder
  * consume the system window insets, you can specify the desired behavior via
  * the [Builder.consume] function.
  */
-class Insetter private constructor(builder: Builder) {
+class Insetter internal constructor(builder: BuilderImpl) {
     @IntDef(value = [CONSUME_NONE, CONSUME_ALL, CONSUME_AUTO])
     @Retention(AnnotationRetention.SOURCE)
     @Target(
@@ -67,42 +67,25 @@ class Insetter private constructor(builder: Builder) {
     )
     annotation class ConsumeOptions
 
-    private val onApplyInsetsListener: OnApplyInsetsListener?
+    private val onApplyInsetsListener: OnApplyInsetsListener? = builder.onApplyInsetsListener
 
-    private val paddingTypes: SideApply
-    private val marginTypes: SideApply
+    private val paddingTypes: SideApply = builder.padding
+    private val marginTypes: SideApply = builder.margin
 
     private val allTypes
         get() = paddingTypes + marginTypes
 
     @ConsumeOptions
-    private val consume: Int
+    private val consume: Int = builder.consume
 
-    init {
-        onApplyInsetsListener = builder.onApplyInsetsListener
-        paddingTypes = builder.padding
-        marginTypes = builder.margin
-        consume = builder.consume
-    }
-
-    /** A builder class for creating instances of [Insetter].  */
-    class Builder internal constructor() {
-        internal var onApplyInsetsListener: OnApplyInsetsListener? = null
-
-        internal var padding = SideApply()
-        internal var margin = SideApply()
-        internal var consume = CONSUME_NONE
-
+    interface Builder {
         /**
          * @param onApplyInsetsListener Callback for supplying custom logic to apply insets. If set,
          * Insetter will ignore any specified side flags, and the caller is responsible for applying
          * insets.
          * @see Insetter.applyToView
          */
-        fun setOnApplyInsetsListener(onApplyInsetsListener: OnApplyInsetsListener?): Builder {
-            this.onApplyInsetsListener = onApplyInsetsListener
-            return this
-        }
+        fun setOnApplyInsetsListener(onApplyInsetsListener: OnApplyInsetsListener?): Builder
 
         /**
          * Apply the given [sides] dimension of the given [WindowInsetsCompat.Type][insetType]
@@ -120,11 +103,7 @@ class Insetter private constructor(builder: Builder) {
          * @see [windowInsetTypesOf]
          * @see [Side.create]
          */
-        @JvmOverloads
-        fun padding(insetType: Int, @Sides sides: Int = Side.ALL): Builder {
-            padding.add(insetType, sides)
-            return this
-        }
+        fun padding(insetType: Int, @Sides sides: Int = Side.ALL): Builder
 
         /**
          * Apply the left value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -135,7 +114,7 @@ class Insetter private constructor(builder: Builder) {
          *
          * @see [windowInsetTypesOf]
          */
-        fun paddingLeft(insetType: Int): Builder = padding(insetType, Side.LEFT)
+        fun paddingLeft(insetType: Int): Builder
 
         /**
          * Apply the top value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -146,7 +125,7 @@ class Insetter private constructor(builder: Builder) {
          *
          * @see [windowInsetTypesOf]
          */
-        fun paddingTop(insetType: Int): Builder = padding(insetType, Side.TOP)
+        fun paddingTop(insetType: Int): Builder
 
         /**
          * Apply the right value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -157,7 +136,7 @@ class Insetter private constructor(builder: Builder) {
          *
          * @see [windowInsetTypesOf]
          */
-        fun paddingRight(insetType: Int): Builder = padding(insetType, Side.RIGHT)
+        fun paddingRight(insetType: Int): Builder
 
         /**
          * Apply the bottom value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -168,7 +147,7 @@ class Insetter private constructor(builder: Builder) {
          *
          * @see [windowInsetTypesOf]
          */
-        fun paddingBottom(insetType: Int): Builder = padding(insetType, Side.BOTTOM)
+        fun paddingBottom(insetType: Int): Builder
 
         /**
          * Apply the given [sides] dimension of the given [WindowInsetsCompat.Type][insetType]
@@ -186,11 +165,7 @@ class Insetter private constructor(builder: Builder) {
          * @see [windowInsetTypesOf]
          * @see [Side.create]
          */
-        @JvmOverloads
-        fun margin(insetType: Int, @Sides sides: Int = Side.ALL): Builder {
-            margin.add(insetType, sides)
-            return this
-        }
+        fun margin(insetType: Int, @Sides sides: Int = Side.ALL): Builder
 
         /**
          * Apply the left value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -201,7 +176,7 @@ class Insetter private constructor(builder: Builder) {
          *
          * @see [windowInsetTypesOf]
          */
-        fun marginLeft(insetType: Int): Builder = margin(insetType, Side.LEFT)
+        fun marginLeft(insetType: Int): Builder
 
         /**
          * Apply the top value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -212,7 +187,7 @@ class Insetter private constructor(builder: Builder) {
          *
          * @see [windowInsetTypesOf]
          */
-        fun marginTop(insetType: Int): Builder = margin(insetType, Side.TOP)
+        fun marginTop(insetType: Int): Builder
 
         /**
          * Apply the right value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -223,7 +198,7 @@ class Insetter private constructor(builder: Builder) {
          *
          * @see [windowInsetTypesOf]
          */
-        fun marginRight(insetType: Int): Builder = margin(insetType, Side.RIGHT)
+        fun marginRight(insetType: Int): Builder
 
         /**
          * Apply the bottom value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -234,7 +209,7 @@ class Insetter private constructor(builder: Builder) {
          *
          * @see [windowInsetTypesOf]
          */
-        fun marginBottom(insetType: Int): Builder = margin(insetType, Side.BOTTOM)
+        fun marginBottom(insetType: Int): Builder
 
         /**
          * @param sides specifies the sides on which the system window insets should be applied
@@ -248,12 +223,7 @@ class Insetter private constructor(builder: Builder) {
                 "dev.chrisbanes.insetter.windowInsetTypesOf"
             )
         )
-        fun applySystemWindowInsetsToPadding(@Sides sides: Int): Builder {
-            return padding(
-                windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
-                sides
-            )
-        }
+        fun applySystemWindowInsetsToPadding(@Sides sides: Int): Builder
 
         /**
          * @param sides specifies the sides on which the system window insets should be applied
@@ -267,12 +237,7 @@ class Insetter private constructor(builder: Builder) {
                 "dev.chrisbanes.insetter.windowInsetTypesOf"
             )
         )
-        fun applySystemWindowInsetsToMargin(@Sides sides: Int): Builder {
-            return margin(
-                windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
-                sides
-            )
-        }
+        fun applySystemWindowInsetsToMargin(@Sides sides: Int): Builder
 
         /**
          * @param sides specifies the sides on which the system gesture insets should be applied
@@ -286,9 +251,7 @@ class Insetter private constructor(builder: Builder) {
                 "dev.chrisbanes.insetter.windowInsetTypesOf"
             )
         )
-        fun applySystemGestureInsetsToPadding(@Sides sides: Int): Builder {
-            return padding(windowInsetTypesOf(systemGestures = true), sides)
-        }
+        fun applySystemGestureInsetsToPadding(@Sides sides: Int): Builder
 
         /**
          * @param sides specifies the sides on which the system gesture insets should be applied
@@ -302,29 +265,24 @@ class Insetter private constructor(builder: Builder) {
                 "dev.chrisbanes.insetter.windowInsetTypesOf"
             )
         )
-        fun applySystemGestureInsetsToMargin(@Sides sides: Int): Builder {
-            return margin(windowInsetTypesOf(systemGestures = true), sides)
-        }
+        fun applySystemGestureInsetsToMargin(@Sides sides: Int): Builder
 
         /**
          * @param consume how the window insets should be consumed.
          * @see ConsumeOptions
          */
-        fun consume(@ConsumeOptions consume: Int): Builder {
-            this.consume = consume
-            return this
-        }
+        fun consume(@Insetter.ConsumeOptions consume: Int): Builder
 
         @Deprecated(
             "Migrate to consume()",
             ReplaceWith("consume(if (consumeSystemWindowInsets) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)")
         )
-        fun consumeSystemWindowInsets(consumeSystemWindowInsets: Boolean): Builder = consume(
-            if (consumeSystemWindowInsets) CONSUME_ALL else CONSUME_NONE
-        )
+        fun consumeSystemWindowInsets(consumeSystemWindowInsets: Boolean): Builder
 
         @Deprecated("Migrate to consume()", ReplaceWith("consume(consume)"))
-        fun consumeSystemWindowInsets(@ConsumeOptions consume: Int): Builder = consume(consume)
+        fun consumeSystemWindowInsets(@Insetter.ConsumeOptions consume: Int): Builder
+
+        fun enableAnimations(): AnimatedBuilder
 
         /**
          * Builds the [Insetter] instance and sets it as an
@@ -333,16 +291,26 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param view the [View] on which [WindowInsetsCompat] should be applied
          */
-        fun applyToView(view: View): Insetter {
-            val insetter = build()
-            insetter.applyToView(view)
-            return insetter
-        }
+        fun applyToView(view: View): Insetter
 
         /**
          * Builds the [Insetter] instance.
          */
-        fun build(): Insetter = Insetter(this)
+        fun build(): Insetter
+    }
+
+    interface AnimatedBuilder : Builder {
+        fun margin(
+            insetType: Int,
+            @Sides sides: Int = Side.ALL,
+            deferredDuringAnimation: Boolean = false
+        ): AnimatedBuilder
+
+        fun padding(
+            insetType: Int,
+            @Sides sides: Int = Side.ALL,
+            deferredDuringAnimation: Boolean = false
+        ): AnimatedBuilder
     }
 
     /**
@@ -376,8 +344,8 @@ class Insetter private constructor(builder: Builder) {
             applyInsetsToView(v, insets, initialState)
 
             when (consume) {
-                CONSUME_ALL -> WindowInsetsCompat.CONSUMED
-                CONSUME_AUTO -> {
+                Insetter.CONSUME_ALL -> WindowInsetsCompat.CONSUMED
+                Insetter.CONSUME_AUTO -> {
                     WindowInsetsCompat.Builder(insets)
                         .consumeType(WindowInsetsCompat.Type.statusBars(), insets, allTypes)
                         .consumeType(WindowInsetsCompat.Type.navigationBars(), insets, allTypes)
@@ -418,51 +386,6 @@ class Insetter private constructor(builder: Builder) {
         view.applyMargins(insets, marginTypes, initialState.margins)
     }
 
-    /**
-     * Internal class used to store which types to apply on each side using a given
-     * application type (padding, margin, etc).
-     */
-    internal class SideApply {
-        @Sides
-        var left: Int = Side.NONE
-            private set
-
-        @Sides
-        var top: Int = Side.NONE
-            private set
-
-        @Sides
-        var right: Int = Side.NONE
-            private set
-
-        @Sides
-        var bottom: Int = Side.NONE
-            private set
-
-        val isEmpty: Boolean
-            get() = all == Side.NONE
-
-        val all: Int
-            get() = left or top or right or bottom
-
-        fun add(insetTypes: Int, @Sides sides: Int = Side.ALL) {
-            if (sides and Side.LEFT != 0) left = left or insetTypes
-            if (sides and Side.TOP != 0) top = top or insetTypes
-            if (sides and Side.RIGHT != 0) right = right or insetTypes
-            if (sides and Side.BOTTOM != 0) bottom = bottom or insetTypes
-        }
-
-        operator fun plus(other: SideApply): SideApply {
-            val lhs = this
-            return SideApply().apply {
-                left = lhs.left or other.left
-                top = lhs.top or other.top
-                right = lhs.right or other.right
-                bottom = lhs.bottom or other.bottom
-            }
-        }
-    }
-
     companion object {
         /** No consumption happens. This is the default value.  */
         const val CONSUME_NONE = 0
@@ -482,7 +405,7 @@ class Insetter private constructor(builder: Builder) {
          * Returns a instance of [Builder] used for creating an instance of [Insetter].
          */
         @JvmStatic
-        fun builder(): Builder = Builder()
+        fun builder(): Builder = BuilderImpl()
 
         /**
          * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to-edge'.
@@ -508,7 +431,52 @@ class Insetter private constructor(builder: Builder) {
                 or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             )
 
-        private const val TAG = "Insetter"
+        internal const val TAG = "Insetter"
+    }
+}
+
+/**
+ * Internal class used to store which types to apply on each side using a given
+ * application type (padding, margin, etc).
+ */
+internal class SideApply {
+    @Sides
+    var left: Int = Side.NONE
+        private set
+
+    @Sides
+    var top: Int = Side.NONE
+        private set
+
+    @Sides
+    var right: Int = Side.NONE
+        private set
+
+    @Sides
+    var bottom: Int = Side.NONE
+        private set
+
+    val isEmpty: Boolean
+        get() = all == Side.NONE
+
+    val all: Int
+        get() = left or top or right or bottom
+
+    fun add(insetTypes: Int, @Sides sides: Int = Side.ALL) {
+        if (sides and Side.LEFT != 0) left = left or insetTypes
+        if (sides and Side.TOP != 0) top = top or insetTypes
+        if (sides and Side.RIGHT != 0) right = right or insetTypes
+        if (sides and Side.BOTTOM != 0) bottom = bottom or insetTypes
+    }
+
+    operator fun plus(other: SideApply): SideApply {
+        val lhs = this
+        return SideApply().apply {
+            left = lhs.left or other.left
+            top = lhs.top or other.top
+            right = lhs.right or other.right
+            bottom = lhs.bottom or other.bottom
+        }
     }
 }
 

@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import dev.chrisbanes.insetter.AnimatedInsetter
+import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.sample.databinding.ActivityAnimatedBinding
 
 class AnimatedInsetterSample : AppCompatActivity() {
@@ -34,6 +35,11 @@ class AnimatedInsetterSample : AppCompatActivity() {
 
         binding.conversationRecyclerview.adapter = ConversationAdapter()
         binding.toolbar.title = title
+
+        Insetter.builder()
+            .padding(WindowInsetsCompat.Type.systemBars())
+            .enableAnimations()
+            .padding(WindowInsetsCompat.Type.ime(), deferredDuringAnimation = true)
 
         AnimatedInsetter.Builder()
             .setAnimatingTypes(WindowInsetsCompat.Type.ime())
