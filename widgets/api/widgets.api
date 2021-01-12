@@ -4,6 +4,7 @@ public class dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraint
 	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;I)V
 	public synthetic fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getConsumeSystemWindowInsets ()I
+	public final fun getConsumeWindowInsets ()I
 	public final fun getSystemGestureInsetsMarginSides ()I
 	public final fun getSystemGestureInsetsPaddingSides ()I
 	public final fun getSystemWindowInsetsMarginSides ()I
@@ -11,6 +12,7 @@ public class dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraint
 	public fun onApplyWindowInsets (Landroid/view/WindowInsets;)Landroid/view/WindowInsets;
 	protected fun onAttachedToWindow ()V
 	public final fun setConsumeSystemWindowInsets (I)V
+	public final fun setConsumeWindowInsets (I)V
 	public final fun setSystemGestureInsetsMarginSides (I)V
 	public final fun setSystemGestureInsetsPaddingSides (I)V
 	public final fun setSystemWindowInsetsMarginSides (I)V
@@ -42,11 +44,13 @@ public class dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraint
 	public fun <init> (Landroidx/constraintlayout/widget/ConstraintLayout$LayoutParams;)V
 	public fun <init> (Ldev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout$LayoutParams;)V
 	public final fun getConsumeSystemWindowInsets ()I
+	public final fun getConsumeWindowInsets ()I
 	public final fun getSystemGestureInsetsMarginSides ()I
 	public final fun getSystemGestureInsetsPaddingSides ()I
 	public final fun getSystemWindowInsetsMarginSides ()I
 	public final fun getSystemWindowInsetsPaddingSides ()I
 	public final fun setConsumeSystemWindowInsets (I)V
+	public final fun setConsumeWindowInsets (I)V
 	public final fun setSystemGestureInsetsMarginSides (I)V
 	public final fun setSystemGestureInsetsPaddingSides (I)V
 	public final fun setSystemWindowInsetsMarginSides (I)V

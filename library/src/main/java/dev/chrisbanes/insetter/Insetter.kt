@@ -14,47 +14,46 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package dev.chrisbanes.insetter
 
 import android.annotation.SuppressLint
 import android.os.Build
 import android.util.Log
 import android.view.View
-import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.annotation.IntDef
 import androidx.annotation.RequiresApi
-import androidx.annotation.VisibleForTesting
+import androidx.core.graphics.Insets
+import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnAttach
 import dev.chrisbanes.insetter.Insetter.Builder
-import java.util.Locale
 
 /**
- * A helper class to make handling [android.view.WindowInsets] easier.
+ * A class to make handling [android.view.WindowInsets] easier.
  *
  * It includes a [Builder] for building easy-to-use [OnApplyWindowInsetsListener]
  * instances:
  *
  * ```
  * Insetter.builder()
- *   // This will apply the system window insets as padding to left, bottom and right of the view
- *   .applySystemWindowInsetsToPadding(Side.LEFT | Side.BOTTOM | Side.RIGHT)
- *   // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
- *   .applyToView(view);
+ *     // This will apply the navigation bar insets as padding to all sides of the view
+ *     .padding(windowInsetTypesOf(navigationBars = true))
+ *     // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
+ *     .applyToView(view)
  * ```
  *
- * Each inset type as on Android 10 (API level 29) is included, with variants for applying the
- * inset as either padding or margin on the view.
+ * Each inset type available in [WindowInsetsCompat] is included, with variants for applying the
+ * inset as either padding or margin on the view, on specified sides.
  *
  * You can also provide custom logic via the [Builder.setOnApplyInsetsListener] function.
  * The listener type is slightly different to [OnApplyWindowInsetsListener], in that it contains
  * a third parameter to tell you what the initial view padding/margin state is.
  *
  * By default the listener will not consume any insets which are passed to it. If you wish to
- * consume the system window insets, you can use the [Builder.consumeSystemWindowInsets] function.
+ * consume the system window insets, you can specify the desired behavior via
+ * the [Builder.consume] function.
  */
 class Insetter private constructor(builder: Builder) {
     @IntDef(value = [CONSUME_NONE, CONSUME_ALL, CONSUME_AUTO])
@@ -69,29 +68,30 @@ class Insetter private constructor(builder: Builder) {
     annotation class ConsumeOptions
 
     private val onApplyInsetsListener: OnApplyInsetsListener?
-    private val paddingSystemWindowInsets: Int
-    private val marginSystemWindowInsets: Int
-    private val paddingSystemGestureInsets: Int
-    private val marginSystemGestureInsets: Int
-    private val consumeSystemWindowInsets: Int
+
+    private val paddingTypes: SideApply
+    private val marginTypes: SideApply
+
+    private val allTypes
+        get() = paddingTypes + marginTypes
+
+    @ConsumeOptions
+    private val consume: Int
 
     init {
         onApplyInsetsListener = builder.onApplyInsetsListener
-        paddingSystemWindowInsets = builder.paddingSystemWindowInsets
-        marginSystemWindowInsets = builder.marginSystemWindowInsets
-        paddingSystemGestureInsets = builder.paddingSystemGestureInsets
-        marginSystemGestureInsets = builder.marginSystemGestureInsets
-        consumeSystemWindowInsets = builder.consumeSystemWindowInsets
+        paddingTypes = builder.padding
+        marginTypes = builder.margin
+        consume = builder.consume
     }
 
     /** A builder class for creating instances of [Insetter].  */
     class Builder internal constructor() {
         internal var onApplyInsetsListener: OnApplyInsetsListener? = null
-        internal var paddingSystemWindowInsets = 0
-        internal var marginSystemWindowInsets = 0
-        internal var paddingSystemGestureInsets = 0
-        internal var marginSystemGestureInsets = 0
-        internal var consumeSystemWindowInsets = CONSUME_NONE
+
+        internal var padding = SideApply()
+        internal var margin = SideApply()
+        internal var consume = CONSUME_NONE
 
         /**
          * @param onApplyInsetsListener Callback for supplying custom logic to apply insets. If set,
@@ -105,66 +105,226 @@ class Insetter private constructor(builder: Builder) {
         }
 
         /**
-         * @param flags specifies the sides on which the system window insets should be applied
+         * Apply the given [sides] dimension of the given [WindowInsetsCompat.Type][insetType]
+         * as the corresponding padding dimension of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param sides Bit mask of [Side]s containing which sides to apply.
+         * Defaults to [Side.ALL] to apply all sides. The mask can be created via [Side.create].
+         *
+         * @see [paddingLeft]
+         * @see [paddingTop]
+         * @see [paddingRight]
+         * @see [paddingBottom]
+         * @see [windowInsetTypesOf]
+         * @see [Side.create]
+         */
+        @JvmOverloads
+        fun padding(insetType: Int, @Sides sides: Int = Side.ALL): Builder {
+            padding.add(insetType, sides)
+            return this
+        }
+
+        /**
+         * Apply the left value of the given [WindowInsetsCompat.Type][insetType] as the
+         * left padding of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
+         */
+        fun paddingLeft(insetType: Int): Builder = padding(insetType, Side.LEFT)
+
+        /**
+         * Apply the top value of the given [WindowInsetsCompat.Type][insetType] as the
+         * top padding of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
+         */
+        fun paddingTop(insetType: Int): Builder = padding(insetType, Side.TOP)
+
+        /**
+         * Apply the right value of the given [WindowInsetsCompat.Type][insetType] as the
+         * right padding of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
+         */
+        fun paddingRight(insetType: Int): Builder = padding(insetType, Side.RIGHT)
+
+        /**
+         * Apply the bottom value of the given [WindowInsetsCompat.Type][insetType] as the
+         * bottom padding of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
+         */
+        fun paddingBottom(insetType: Int): Builder = padding(insetType, Side.BOTTOM)
+
+        /**
+         * Apply the given [sides] dimension of the given [WindowInsetsCompat.Type][insetType]
+         * as the corresponding margin side of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param sides Bit mask of [Side]s containing which sides to apply.
+         * Defaults to [Side.ALL] to apply all sides. The mask can be created via [Side.create].
+         *
+         * @see [marginLeft]
+         * @see [marginTop]
+         * @see [marginRight]
+         * @see [marginBottom]
+         * @see [windowInsetTypesOf]
+         * @see [Side.create]
+         */
+        @JvmOverloads
+        fun margin(insetType: Int, @Sides sides: Int = Side.ALL): Builder {
+            margin.add(insetType, sides)
+            return this
+        }
+
+        /**
+         * Apply the left value of the given [WindowInsetsCompat.Type][insetType] as the
+         * left margin of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
+         */
+        fun marginLeft(insetType: Int): Builder = margin(insetType, Side.LEFT)
+
+        /**
+         * Apply the top value of the given [WindowInsetsCompat.Type][insetType] as the
+         * top margin of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
+         */
+        fun marginTop(insetType: Int): Builder = margin(insetType, Side.TOP)
+
+        /**
+         * Apply the right value of the given [WindowInsetsCompat.Type][insetType] as the
+         * right margin of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
+         */
+        fun marginRight(insetType: Int): Builder = margin(insetType, Side.RIGHT)
+
+        /**
+         * Apply the bottom value of the given [WindowInsetsCompat.Type][insetType] as the
+         * bottom margin of the view.
+         *
+         * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
+         * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         *
+         * @see [windowInsetTypesOf]
+         */
+        fun marginBottom(insetType: Int): Builder = margin(insetType, Side.BOTTOM)
+
+        /**
+         * @param sides specifies the sides on which the system window insets should be applied
          * to the padding. Ignored if [Insetter.onApplyInsetsListener] is set.
          * @see Insetter.applyInsetsToView
          */
-        fun applySystemWindowInsetsToPadding(@Sides flags: Int): Builder {
-            paddingSystemWindowInsets = flags
-            return this
+        @Deprecated(
+            "Replaced with padding()",
+            ReplaceWith(
+                "padding(windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true), sides)",
+                "dev.chrisbanes.insetter.windowInsetTypesOf"
+            )
+        )
+        fun applySystemWindowInsetsToPadding(@Sides sides: Int): Builder {
+            return padding(
+                windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
+                sides
+            )
         }
 
         /**
-         * @param flags specifies the sides on which the system window insets should be applied
+         * @param sides specifies the sides on which the system window insets should be applied
          * to the margin. Ignored if [Insetter.onApplyInsetsListener] is set.
          * @see Insetter.applyInsetsToView
          */
-        fun applySystemWindowInsetsToMargin(@Sides flags: Int): Builder {
-            marginSystemWindowInsets = flags
-            return this
+        @Deprecated(
+            "Replaced with margin()",
+            ReplaceWith(
+                "margin(windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true), sides)",
+                "dev.chrisbanes.insetter.windowInsetTypesOf"
+            )
+        )
+        fun applySystemWindowInsetsToMargin(@Sides sides: Int): Builder {
+            return margin(
+                windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
+                sides
+            )
         }
 
         /**
-         * @param flags specifies the sides on which the system gesture insets should be applied
+         * @param sides specifies the sides on which the system gesture insets should be applied
          * to the padding. Ignored if [Insetter.onApplyInsetsListener] is set.
          * @see Insetter.applyInsetsToView
          */
-        fun applySystemGestureInsetsToPadding(@Sides flags: Int): Builder {
-            paddingSystemGestureInsets = flags
-            return this
+        @Deprecated(
+            "Replaced with padding()",
+            ReplaceWith(
+                "padding(windowInsetTypesOf(systemGestures = true), sides)",
+                "dev.chrisbanes.insetter.windowInsetTypesOf"
+            )
+        )
+        fun applySystemGestureInsetsToPadding(@Sides sides: Int): Builder {
+            return padding(windowInsetTypesOf(systemGestures = true), sides)
         }
 
         /**
-         * @param flags specifies the sides on which the system gesture insets should be applied
+         * @param sides specifies the sides on which the system gesture insets should be applied
          * to the margin. Ignored if [Insetter.onApplyInsetsListener] is set.
          * @see Insetter.applyInsetsToView
          */
-        fun applySystemGestureInsetsToMargin(@Sides flags: Int): Builder {
-            marginSystemGestureInsets = flags
-            return this
+        @Deprecated(
+            "Replaced with margin()",
+            ReplaceWith(
+                "margin(windowInsetTypesOf(systemGestures = true), sides)",
+                "dev.chrisbanes.insetter.windowInsetTypesOf"
+            )
+        )
+        fun applySystemGestureInsetsToMargin(@Sides sides: Int): Builder {
+            return margin(windowInsetTypesOf(systemGestures = true), sides)
         }
 
         /**
-         * @param consumeSystemWindowInsets true if the system window insets should be consumed,
-         * false if not. If unset, the default behavior is to not consume system window insets.
-         * @see Insetter.applyToView
+         * @param consume how the window insets should be consumed.
+         * @see ConsumeOptions
          */
-        fun consumeSystemWindowInsets(consumeSystemWindowInsets: Boolean): Builder {
-            return consumeSystemWindowInsets(if (consumeSystemWindowInsets) CONSUME_ALL else CONSUME_NONE)
-        }
-
-        /**
-         * @param consume how the system window insets should be consumed.
-         * @see Insetter.CONSUME_NONE
-         *
-         * @see Insetter.CONSUME_ALL
-         *
-         * @see Insetter.CONSUME_AUTO
-         */
-        fun consumeSystemWindowInsets(@ConsumeOptions consume: Int): Builder {
-            consumeSystemWindowInsets = consume
+        fun consume(@ConsumeOptions consume: Int): Builder {
+            this.consume = consume
             return this
         }
+
+        @Deprecated(
+            "Migrate to consume()",
+            ReplaceWith("consume(if (consumeSystemWindowInsets) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)")
+        )
+        fun consumeSystemWindowInsets(consumeSystemWindowInsets: Boolean): Builder = consume(
+            if (consumeSystemWindowInsets) CONSUME_ALL else CONSUME_NONE
+        )
+
+        @Deprecated("Migrate to consume()", ReplaceWith("consume(consume)"))
+        fun consumeSystemWindowInsets(@ConsumeOptions consume: Int): Builder = consume(consume)
 
         /**
          * Builds the [Insetter] instance and sets it as an
@@ -204,59 +364,42 @@ class Insetter private constructor(builder: Builder) {
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
-            @Sides val sidesApplied = if (onApplyInsetsListener != null) {
+            if (onApplyInsetsListener != null) {
+                // If we have an onApplyInsetsListener, invoke it
                 onApplyInsetsListener.onApplyInsets(v, insets, initialState)
                 // We don't know what sides have been applied, so we assume all
-                Side.ALL
-            } else {
-                applyInsetsToView(v, insets, initialState)
-                paddingSystemWindowInsets or
-                    marginSystemWindowInsets or
-                    paddingSystemGestureInsets or
-                    marginSystemGestureInsets
+                return@setOnApplyWindowInsetsListener WindowInsetsCompat.CONSUMED
             }
 
-            when (consumeSystemWindowInsets) {
-                CONSUME_ALL -> insets.consumeSystemWindowInsets()
-                CONSUME_AUTO -> when {
-                    sidesApplied and Side.ALL == Side.NONE -> {
-                        // If we did not apply any sides, just return the insets
-                        insets
-                    }
-                    sidesApplied and Side.ALL == Side.ALL -> {
-                        // If all sides were applied, just return a consumed insets
-                        insets.consumeSystemWindowInsets()
-                    }
-                    else -> {
-                        // Otherwise we need to go through and consume each side
-                        var left = insets.systemWindowInsetLeft
-                        var top = insets.systemWindowInsetTop
-                        var right = insets.systemWindowInsetRight
-                        var bottom = insets.systemWindowInsetBottom
+            // Otherwise we applied through applyInsetsToView()
+            applyInsetsToView(v, insets, initialState)
 
-                        if (Side.hasSide(sidesApplied, Side.LEFT)) left = 0
-                        if (Side.hasSide(sidesApplied, Side.TOP)) top = 0
-                        if (Side.hasSide(sidesApplied, Side.RIGHT)) right = 0
-                        if (Side.hasSide(sidesApplied, Side.BOTTOM)) bottom = 0
-
-                        insets.replaceSystemWindowInsets(left, top, right, bottom)
-                    }
+            when (consume) {
+                CONSUME_ALL -> WindowInsetsCompat.CONSUMED
+                CONSUME_AUTO -> {
+                    WindowInsetsCompat.Builder(insets)
+                        .consumeType(WindowInsetsCompat.Type.statusBars(), insets, allTypes)
+                        .consumeType(WindowInsetsCompat.Type.navigationBars(), insets, allTypes)
+                        .consumeType(WindowInsetsCompat.Type.ime(), insets, allTypes)
+                        .consumeType(WindowInsetsCompat.Type.systemGestures(), insets, allTypes)
+                        .consumeType(WindowInsetsCompat.Type.displayCutout(), insets, allTypes)
+                        .build()
                 }
                 else -> insets
             }
         }
 
         // Now request an insets pass
-        requestApplyInsetsWhenAttached(view)
+        view.doOnAttach { v ->
+            ViewCompat.requestApplyInsets(v)
+        }
     }
 
     /**
      * A convenience function which applies insets to a view.
      *
-     *
-     * How the given insets are applied depends on the options provided via the various parameters.
-     * Each of `paddingSystemWindowInsets`, `marginSystemWindowInsets`,
-     * `paddingSystemGestureInsets` and `marginSystemGestureInsets` accept side flag values.
+     * How the given insets are applied depends on the options provided to the [Builder]
+     * via the various parameters.
      *
      * @param view the view to apply inset handling too
      * @param insets the insets to apply
@@ -267,122 +410,55 @@ class Insetter private constructor(builder: Builder) {
         insets: WindowInsetsCompat,
         initialState: ViewState
     ) {
-        val systemWindowInsets = insets.systemWindowInsets
-        val systemGestureInsets = insets.systemGestureInsets
         if (Log.isLoggable(TAG, Log.DEBUG)) {
             Log.d(TAG, "applyInsetsToView. View: $view. Insets: $insets. State: $initialState")
         }
+        view.applyPadding(insets, paddingTypes, initialState.paddings)
+        view.applyMargins(insets, marginTypes, initialState.margins)
+    }
 
-        val initialPadding = initialState.paddings
+    /**
+     * Internal class used to store which types to apply on each side using a given
+     * application type (padding, margin, etc).
+     */
+    internal class SideApply {
+        @Sides
+        var left: Int = Side.NONE
+            private set
 
-        var paddingLeft = view.paddingLeft
-        if (Side.hasSide(paddingSystemGestureInsets, Side.LEFT)) {
-            paddingLeft = initialPadding.left + systemGestureInsets.left
-        } else if (Side.hasSide(paddingSystemWindowInsets, Side.LEFT)) {
-            paddingLeft = initialPadding.left + systemWindowInsets.left
+        @Sides
+        var top: Int = Side.NONE
+            private set
+
+        @Sides
+        var right: Int = Side.NONE
+            private set
+
+        @Sides
+        var bottom: Int = Side.NONE
+            private set
+
+        val isEmpty: Boolean
+            get() = all == Side.NONE
+
+        val all: Int
+            get() = left or top or right or bottom
+
+        fun add(insetTypes: Int, @Sides sides: Int = Side.ALL) {
+            if (sides and Side.LEFT != 0) left = left or insetTypes
+            if (sides and Side.TOP != 0) top = top or insetTypes
+            if (sides and Side.RIGHT != 0) right = right or insetTypes
+            if (sides and Side.BOTTOM != 0) bottom = bottom or insetTypes
         }
 
-        var paddingTop = view.paddingTop
-        if (Side.hasSide(paddingSystemGestureInsets, Side.TOP)) {
-            paddingTop = initialPadding.top + systemGestureInsets.top
-        } else if (Side.hasSide(paddingSystemWindowInsets, Side.TOP)) {
-            paddingTop = initialPadding.top + systemWindowInsets.top
-        }
-
-        var paddingRight = view.paddingRight
-        if (Side.hasSide(paddingSystemGestureInsets, Side.RIGHT)) {
-            paddingRight = initialPadding.right + systemGestureInsets.right
-        } else if (Side.hasSide(paddingSystemWindowInsets, Side.RIGHT)) {
-            paddingRight = initialPadding.right + systemWindowInsets.right
-        }
-
-        var paddingBottom = view.paddingBottom
-        if (Side.hasSide(paddingSystemGestureInsets, Side.BOTTOM)) {
-            paddingBottom = initialPadding.bottom + systemGestureInsets.bottom
-        } else if (Side.hasSide(paddingSystemWindowInsets, Side.BOTTOM)) {
-            paddingBottom = initialPadding.bottom + systemWindowInsets.bottom
-        }
-
-        view.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
-
-        if (Log.isLoggable(TAG, Log.DEBUG)) {
-            Log.d(
-                TAG,
-                "applyInsetsToView. Applied padding to $view: left=$paddingLeft, " +
-                    "top=$paddingTop, right=$paddingRight, bottom=$paddingBottom}"
-            )
-        }
-
-        // Now we can deal with margins
-        val lp = view.layoutParams
-        if (lp is MarginLayoutParams) {
-            val initialMargins = initialState.margins
-            var marginLeft = lp.leftMargin
-            if (Side.hasSide(marginSystemGestureInsets, Side.LEFT)) {
-                marginLeft = initialMargins.left + systemGestureInsets.left
-            } else if (Side.hasSide(marginSystemWindowInsets, Side.LEFT)) {
-                marginLeft = initialMargins.left + systemWindowInsets.left
+        operator fun plus(other: SideApply): SideApply {
+            val lhs = this
+            return SideApply().apply {
+                left = lhs.left or other.left
+                top = lhs.top or other.top
+                right = lhs.right or other.right
+                bottom = lhs.bottom or other.bottom
             }
-            var marginTop = lp.topMargin
-            if (Side.hasSide(marginSystemGestureInsets, Side.TOP)) {
-                marginTop = initialMargins.top + systemGestureInsets.top
-            } else if (Side.hasSide(marginSystemWindowInsets, Side.TOP)) {
-                marginTop = initialMargins.top + systemWindowInsets.top
-            }
-            var marginRight = lp.rightMargin
-            if (Side.hasSide(marginSystemGestureInsets, Side.RIGHT)) {
-                marginRight = initialMargins.right + systemGestureInsets.right
-            } else if (Side.hasSide(marginSystemWindowInsets, Side.RIGHT)) {
-                marginRight = initialMargins.right + systemWindowInsets.right
-            }
-            var marginBottom = lp.bottomMargin
-            if (Side.hasSide(marginSystemGestureInsets, Side.BOTTOM)) {
-                marginBottom = initialMargins.bottom + systemGestureInsets.bottom
-            } else if (Side.hasSide(marginSystemWindowInsets, Side.BOTTOM)) {
-                marginBottom = initialMargins.bottom + systemWindowInsets.bottom
-            }
-
-            if (lp.leftMargin != marginLeft ||
-                lp.topMargin != marginTop ||
-                lp.rightMargin != marginRight ||
-                lp.bottomMargin != marginBottom
-            ) {
-                lp.leftMargin = marginLeft
-                lp.topMargin = marginTop
-                lp.rightMargin = marginRight
-                lp.bottomMargin = marginBottom
-                view.layoutParams = lp
-
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                    view.parent.requestLayout()
-                }
-
-                if (Log.isLoggable(TAG, Log.DEBUG)) {
-                    Log.d(
-                        TAG,
-                        String.format(
-                            Locale.US,
-                            "applyInsetsToView. Applied margin to %s: left=%d, top=%d, " +
-                                "right=%d, bottom=%d}",
-                            view,
-                            marginLeft,
-                            marginTop,
-                            marginRight,
-                            marginBottom
-                        )
-                    )
-                }
-            }
-        } else if (marginSystemWindowInsets != Side.NONE) {
-            error(
-                "Margin system window insets handling requested but View's LayoutParams " +
-                    "do not extend MarginLayoutParams"
-            )
-        } else if (marginSystemGestureInsets != Side.NONE) {
-            error(
-                "Margin system gesture insets handling requested but View's LayoutParams " +
-                    "do not extend MarginLayoutParams"
-            )
         }
     }
 
@@ -408,31 +484,6 @@ class Insetter private constructor(builder: Builder) {
         fun builder(): Builder = Builder()
 
         /**
-         * A wrapper around [ViewCompat.requestApplyInsets] which ensures the request will
-         * happen, regardless of whether the view is attached or not.
-         */
-        private fun requestApplyInsetsWhenAttached(view: View) {
-            if (ViewCompat.isAttachedToWindow(view)) {
-                // If the view is already attached, we can request a pass
-                ViewCompat.requestApplyInsets(view)
-            } else {
-                // If the view is not attached, calls to requestApplyInsets() will be ignored.
-                // We can just wait until the view is attached before requesting.
-                view.addOnAttachStateChangeListener(
-                    object : OnAttachStateChangeListener {
-                        override fun onViewAttachedToWindow(v: View) {
-                            v.removeOnAttachStateChangeListener(this)
-                            ViewCompat.requestApplyInsets(v)
-                        }
-
-                        override fun onViewDetachedFromWindow(v: View) {
-                            // no-op
-                        }
-                    })
-            }
-        }
-
-        /**
          * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to-edge'.
          *
          * @param enabled true if the view should request to be laid out 'edge-to-edge', false if not
@@ -442,15 +493,15 @@ class Insetter private constructor(builder: Builder) {
         @RequiresApi(api = 16)
         @Deprecated("Use WindowCompat.setDecorFitsSystemWindows() instead")
         fun setEdgeToEdgeSystemUiFlags(view: View, enabled: Boolean) {
+            @Suppress("DEPRECATION")
             view.systemUiVisibility = view.systemUiVisibility and
                 EDGE_TO_EDGE_FLAGS.inv() or
                 if (enabled) EDGE_TO_EDGE_FLAGS else 0
         }
 
+        @Suppress("DEPRECATION")
         @SuppressLint("InlinedApi")
-        @VisibleForTesting
-        @JvmField
-        internal val EDGE_TO_EDGE_FLAGS = (
+        internal const val EDGE_TO_EDGE_FLAGS = (
             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -458,4 +509,118 @@ class Insetter private constructor(builder: Builder) {
 
         private const val TAG = "Insetter"
     }
+}
+
+/**
+ * Applies the window insets types specified in [typesToApply], using the source values
+ * from [insets] as padding.
+ */
+private fun View.applyPadding(
+    insets: WindowInsetsCompat,
+    typesToApply: Insetter.SideApply,
+    initialPaddings: ViewDimensions,
+) {
+    // If there's no types to apply, nothing to do...
+    if (typesToApply.isEmpty) return
+
+    val paddingLeft = when (typesToApply.left) {
+        Side.NONE -> paddingLeft
+        else -> initialPaddings.left + insets.getInsets(typesToApply.left).left
+    }
+    val paddingTop = when (typesToApply.top) {
+        Side.NONE -> paddingTop
+        else -> initialPaddings.top + insets.getInsets(typesToApply.top).top
+    }
+    val paddingRight = when (typesToApply.right) {
+        Side.NONE -> paddingRight
+        else -> initialPaddings.right + insets.getInsets(typesToApply.right).right
+    }
+    val paddingBottom = when (typesToApply.bottom) {
+        Side.NONE -> paddingBottom
+        else -> initialPaddings.bottom + insets.getInsets(typesToApply.bottom).bottom
+    }
+
+    // setPadding() does it's own value change check, so no need to do our own to avoid layout
+    setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
+}
+
+/**
+ * Applies the window insets types specified in [typesToApply], using the source values
+ * from [insets] as margin.
+ *
+ * @throws IllegalArgumentException if [View.getLayoutParams] do not extend [MarginLayoutParams]
+ */
+private fun View.applyMargins(
+    insets: WindowInsetsCompat,
+    typesToApply: Insetter.SideApply,
+    initialMargins: ViewDimensions,
+) {
+    // If there's no types to apply, nothing to do...
+    if (typesToApply.isEmpty) return
+
+    val lp = layoutParams
+    require(lp is MarginLayoutParams) {
+        "Margin window insets handling requested but View's" +
+            " LayoutParams do not extend MarginLayoutParams"
+    }
+
+    val marginLeft = when (typesToApply.left) {
+        Side.NONE -> lp.leftMargin
+        else -> initialMargins.left + insets.getInsets(typesToApply.left).left
+    }
+    val marginTop = when (typesToApply.top) {
+        Side.NONE -> lp.topMargin
+        else -> initialMargins.top + insets.getInsets(typesToApply.top).top
+    }
+    val marginRight = when (typesToApply.right) {
+        Side.NONE -> lp.rightMargin
+        else -> initialMargins.right + insets.getInsets(typesToApply.right).right
+    }
+    val marginBottom = when (typesToApply.bottom) {
+        Side.NONE -> lp.bottomMargin
+        else -> initialMargins.bottom + insets.getInsets(typesToApply.bottom).bottom
+    }
+
+    // Update the layoutParams margins. Will return true if any value has changed
+    if (lp.updateMargins(marginLeft, marginTop, marginRight, marginBottom)) {
+        // If any margin value changed, re-set it back on the view to trigger a layout
+        layoutParams = lp
+
+        if (Build.VERSION.SDK_INT < 26) {
+            // See https://github.com/chrisbanes/insetter/issues/42
+            parent.requestLayout()
+        }
+    }
+}
+
+/**
+ * Function which consumes the insets for the given [type], if it exists in the [applied] types.
+ *
+ * @param windowInsets The original [WindowInsetsCompat] to retrieve the original insets from.
+ */
+private fun WindowInsetsCompat.Builder.consumeType(
+    type: Int,
+    windowInsets: WindowInsetsCompat,
+    applied: Insetter.SideApply,
+): WindowInsetsCompat.Builder {
+    // Fast path. If this type wasn't applied at all, no need to do anything
+    if (applied.all and type != type) return this
+
+    // First we get the original insets for the type
+    val insets = windowInsets.getInsets(type)
+
+    // If the insets are empty, nothing to do
+    if (insets == Insets.NONE) return this
+
+    // Now set the insets, selectively 'consuming' (zero-ing out) any consumed sides.
+    setInsets(
+        type,
+        Insets.of(
+            if (applied.left and type != 0) 0 else insets.left,
+            if (applied.top and type != 0) 0 else insets.top,
+            if (applied.right and type != 0) 0 else insets.right,
+            if (applied.bottom and type != 0) 0 else insets.bottom
+        )
+    )
+    return this
 }

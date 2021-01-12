@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("NOTHING_TO_INLINE")
+
 package dev.chrisbanes.insetter
 
 import android.view.View
@@ -31,12 +33,9 @@ import androidx.core.view.WindowInsetsCompat
         "dev.chrisbanes.insetter.Insetter"
     )
 )
-inline fun View.doOnApplyWindowInsets(
-    crossinline f: (view: View, insets: WindowInsetsCompat, initialState: ViewState) -> Unit
-) = Insetter.builder()
-    .setOnApplyInsetsListener { view, insets, initialState ->
-        f(view, insets, initialState)
-    }.applyToView(this)
+fun View.doOnApplyWindowInsets(
+    f: (view: View, insets: WindowInsetsCompat, initialState: ViewState) -> Unit
+) = Insetter.builder().setOnApplyInsetsListener(f).applyToView(this)
 
 /**
  * Set this view's system-ui visibility, with the flags required to be laid out 'edge-to'edge.
@@ -46,11 +45,12 @@ inline fun View.doOnApplyWindowInsets(
  * @see View.setSystemUiVisibility
  * @see Insetter.setEdgeToEdgeSystemUiFlags
  */
-@Suppress("DEPRECATION")
 @RequiresApi(16)
+@Suppress("DEPRECATION", "DeprecatedCallableAddReplaceWith")
 @Deprecated("Use WindowCompat.setDecorFitsSystemWindows() instead")
-fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) =
+inline fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) {
     Insetter.setEdgeToEdgeSystemUiFlags(this, enabled)
+}
 
 /**
  * Apply the system window insets as the padding of this [View].
@@ -61,15 +61,18 @@ fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) =
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
  */
-fun View.applySystemWindowInsetsToPadding(
+inline fun View.applySystemWindowInsetsToPadding(
     left: Boolean = false,
     top: Boolean = false,
     right: Boolean = false,
     bottom: Boolean = false,
     consume: Boolean = false
 ) = Insetter.builder()
-    .applySystemWindowInsetsToPadding(Side.create(left, top, right, bottom))
-    .consumeSystemWindowInsets(consume)
+    .padding(
+        windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
+        Side.create(left, top, right, bottom)
+    )
+    .consume(if (consume) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
     .applyToView(this)
 
 /**
@@ -80,16 +83,19 @@ fun View.applySystemWindowInsetsToPadding(
  * @param right apply in the right indent if true
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
- * */
-fun View.applySystemWindowInsetsToMargin(
+ */
+inline fun View.applySystemWindowInsetsToMargin(
     left: Boolean = false,
     top: Boolean = false,
     right: Boolean = false,
     bottom: Boolean = false,
     consume: Boolean = false
 ) = Insetter.builder()
-    .applySystemWindowInsetsToMargin(Side.create(left, top, right, bottom))
-    .consumeSystemWindowInsets(consume)
+    .margin(
+        windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
+        Side.create(left, top, right, bottom)
+    )
+    .consume(if (consume) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
     .applyToView(this)
 
 /**
@@ -100,16 +106,19 @@ fun View.applySystemWindowInsetsToMargin(
  * @param right apply in the right indent if true
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
- * */
-fun View.applySystemGestureInsetsToPadding(
+ */
+inline fun View.applySystemGestureInsetsToPadding(
     left: Boolean = false,
     top: Boolean = false,
     right: Boolean = false,
     bottom: Boolean = false,
     consume: Boolean = false
 ) = Insetter.builder()
-    .applySystemGestureInsetsToPadding(Side.create(left, top, right, bottom))
-    .consumeSystemWindowInsets(consume)
+    .padding(
+        windowInsetTypesOf(systemGestures = true),
+        Side.create(left, top, right, bottom)
+    )
+    .consume(if (consume) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
     .applyToView(this)
 
 /**
@@ -120,14 +129,17 @@ fun View.applySystemGestureInsetsToPadding(
  * @param right apply in the right indent if true
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
- * */
-fun View.applySystemGestureInsetsToMargin(
+ */
+inline fun View.applySystemGestureInsetsToMargin(
     left: Boolean = false,
     top: Boolean = false,
     right: Boolean = false,
     bottom: Boolean = false,
     consume: Boolean = false
 ) = Insetter.builder()
-    .applySystemGestureInsetsToMargin(Side.create(left, top, right, bottom))
-    .consumeSystemWindowInsets(consume)
+    .margin(
+        windowInsetTypesOf(systemGestures = true),
+        Side.create(left, top, right, bottom)
+    )
+    .consume(if (consume) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
     .applyToView(this)

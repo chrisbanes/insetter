@@ -17,8 +17,23 @@ public final class dev/chrisbanes/insetter/Insetter$Builder {
 	public final fun applySystemWindowInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun applyToView (Landroid/view/View;)Ldev/chrisbanes/insetter/Insetter;
 	public final fun build ()Ldev/chrisbanes/insetter/Insetter;
+	public final fun consume (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun consumeSystemWindowInsets (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun consumeSystemWindowInsets (Z)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun margin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun margin (II)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun margin$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun marginBottom (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun marginLeft (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun marginRight (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun marginTop (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun padding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun padding (II)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun padding$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun paddingBottom (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun paddingLeft (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun paddingRight (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun paddingTop (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun setOnApplyInsetsListener (Ldev/chrisbanes/insetter/OnApplyInsetsListener;)Ldev/chrisbanes/insetter/Insetter$Builder;
 }
 
@@ -60,6 +75,11 @@ public final class dev/chrisbanes/insetter/Side {
 }
 
 public abstract interface annotation class dev/chrisbanes/insetter/Sides : java/lang/annotation/Annotation {
+}
+
+public final class dev/chrisbanes/insetter/TypesKt {
+	public static final fun windowInsetTypesOf (ZZZZZZZZ)I
+	public static synthetic fun windowInsetTypesOf$default (ZZZZZZZZILjava/lang/Object;)I
 }
 
 public final class dev/chrisbanes/insetter/ViewDimensions {

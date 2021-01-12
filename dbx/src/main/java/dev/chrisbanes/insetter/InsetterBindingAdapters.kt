@@ -26,7 +26,7 @@ private const val TAG = "Insetter"
 
 @BindingAdapter(
     value = [
-        "consumeSystemWindowInsets",
+        "consumeWindowInsets",
         "paddingLeftSystemWindowInsets",
         "paddingTopSystemWindowInsets",
         "paddingRightSystemWindowInsets",
@@ -48,7 +48,7 @@ private const val TAG = "Insetter"
 )
 fun applyInsetsFromBooleans(
     v: View,
-    consumeSystemWindowInsets: Boolean,
+    consumeWindowInsets: Boolean,
     padSystemWindowLeft: Boolean,
     padSystemWindowTop: Boolean,
     padSystemWindowRight: Boolean,
@@ -67,7 +67,8 @@ fun applyInsetsFromBooleans(
     marginSystemGestureBottom: Boolean
 ) {
     Insetter.builder()
-        .applySystemWindowInsetsToPadding(
+        .padding(
+            windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
             Side.create(
                 padSystemWindowLeft,
                 padSystemWindowTop,
@@ -75,7 +76,8 @@ fun applyInsetsFromBooleans(
                 padSystemWindowBottom
             )
         )
-        .applySystemWindowInsetsToMargin(
+        .margin(
+            windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
             Side.create(
                 marginSystemWindowLeft,
                 marginSystemWindowTop,
@@ -83,7 +85,8 @@ fun applyInsetsFromBooleans(
                 marginSystemWindowBottom
             )
         )
-        .applySystemGestureInsetsToPadding(
+        .padding(
+            windowInsetTypesOf(systemGestures = true),
             Side.create(
                 padSystemGestureLeft,
                 padSystemGestureTop,
@@ -91,7 +94,8 @@ fun applyInsetsFromBooleans(
                 padSystemGestureBottom
             )
         )
-        .applySystemGestureInsetsToMargin(
+        .margin(
+            windowInsetTypesOf(systemGestures = true),
             Side.create(
                 marginSystemGestureLeft,
                 marginSystemGestureTop,
@@ -99,7 +103,7 @@ fun applyInsetsFromBooleans(
                 marginSystemGestureBottom
             )
         )
-        .consumeSystemWindowInsets(consumeSystemWindowInsets)
+        .consume(if (consumeWindowInsets) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
         .applyToView(v)
 }
 
