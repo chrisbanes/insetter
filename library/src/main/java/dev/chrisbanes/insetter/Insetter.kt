@@ -396,38 +396,6 @@ class Insetter private constructor(builder: Builder) {
     }
 
     /**
-     * Function which consumes the insets for the given [type], if it exists in the [applied] types.
-     *
-     * @param windowInsets The original [WindowInsetsCompat] to retrieve the original insets from.
-     */
-    private fun WindowInsetsCompat.Builder.consumeType(
-        type: Int,
-        windowInsets: WindowInsetsCompat,
-        applied: SideApply,
-    ): WindowInsetsCompat.Builder {
-        // Fast path. If this type wasn't applied at all, no need to do anything
-        if (applied.all and type != type) return this
-
-        // First we get the original insets for the type
-        val insets = windowInsets.getInsets(type)
-
-        // If the insets are empty, nothing to do
-        if (insets == Insets.NONE) return this
-
-        // Now set the insets, selectively 'consuming' (zero-ing out) any consumed sides.
-        setInsets(
-            type,
-            Insets.of(
-                if (applied.left and type != 0) 0 else insets.left,
-                if (applied.top and type != 0) 0 else insets.top,
-                if (applied.right and type != 0) 0 else insets.right,
-                if (applied.bottom and type != 0) 0 else insets.bottom
-            )
-        )
-        return this
-    }
-
-    /**
      * A convenience function which applies insets to a view.
      *
      * How the given insets are applied depends on the options provided to the [Builder]
@@ -623,4 +591,36 @@ private fun View.applyMargins(
             parent.requestLayout()
         }
     }
+}
+
+/**
+ * Function which consumes the insets for the given [type], if it exists in the [applied] types.
+ *
+ * @param windowInsets The original [WindowInsetsCompat] to retrieve the original insets from.
+ */
+private fun WindowInsetsCompat.Builder.consumeType(
+    type: Int,
+    windowInsets: WindowInsetsCompat,
+    applied: Insetter.SideApply,
+): WindowInsetsCompat.Builder {
+    // Fast path. If this type wasn't applied at all, no need to do anything
+    if (applied.all and type != type) return this
+
+    // First we get the original insets for the type
+    val insets = windowInsets.getInsets(type)
+
+    // If the insets are empty, nothing to do
+    if (insets == Insets.NONE) return this
+
+    // Now set the insets, selectively 'consuming' (zero-ing out) any consumed sides.
+    setInsets(
+        type,
+        Insets.of(
+            if (applied.left and type != 0) 0 else insets.left,
+            if (applied.top and type != 0) 0 else insets.top,
+            if (applied.right and type != 0) 0 else insets.right,
+            if (applied.bottom and type != 0) 0 else insets.bottom
+        )
+    )
+    return this
 }
