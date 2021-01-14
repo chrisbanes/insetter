@@ -19,9 +19,9 @@ package dev.chrisbanes.insetter.sample
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import dev.chrisbanes.insetter.Insetter
 import dev.chrisbanes.insetter.sample.databinding.ActivityAnimatedBinding
+import dev.chrisbanes.insetter.windowInsetTypesOf
 
 class AnimatedInsetterSample : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,15 +36,19 @@ class AnimatedInsetterSample : AppCompatActivity() {
         binding.toolbar.title = title
 
         Insetter.builder()
-            .padding(WindowInsetsCompat.Type.navigationBars())
-            .deferredPadding(WindowInsetsCompat.Type.ime())
-            .animate(WindowInsetsCompat.Type.ime())
+            .margin(windowInsetTypesOf(statusBars = true))
+            .applyToView(binding.toolbar)
+
+        Insetter.builder()
+            .padding(windowInsetTypesOf(navigationBars = true))
+            .deferredPadding(windowInsetTypesOf(ime = true))
+            .animate(windowInsetTypesOf(ime = true))
             .applyToView(binding.messageHolder)
 
         Insetter.builder()
             .animate(
-                insetType = WindowInsetsCompat.Type.ime(),
-                minusInsetTypes = WindowInsetsCompat.Type.navigationBars()
+                insetType = windowInsetTypesOf(ime = true),
+                minusInsetTypes = windowInsetTypesOf(navigationBars = true)
             )
             .applyToView(binding.conversationRecyclerview)
     }
