@@ -58,10 +58,6 @@ allprojects {
         google()
         mavenCentral()
         jcenter()
-
-        maven {
-            url 'https://androidx.dev/snapshots/builds/7067732/artifacts/repository/'
-        }
     }
 }
 
