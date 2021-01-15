@@ -41,15 +41,8 @@ class AnimatedInsetterSample : AppCompatActivity() {
 
         Insetter.builder()
             .padding(windowInsetTypesOf(navigationBars = true))
-            .deferredPadding(windowInsetTypesOf(ime = true))
-            .animate(windowInsetTypesOf(ime = true))
+            .animatedPadding(windowInsetTypesOf(ime = true))
+            .syncTranslationTo(binding.conversationRecyclerview)
             .applyToView(binding.messageHolder)
-
-        Insetter.builder()
-            .animate(
-                insetType = windowInsetTypesOf(ime = true),
-                minusInsetTypes = windowInsetTypesOf(navigationBars = true)
-            )
-            .applyToView(binding.conversationRecyclerview)
     }
 }

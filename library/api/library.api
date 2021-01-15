@@ -3,7 +3,7 @@ public final class dev/chrisbanes/insetter/Insetter {
 	public static final field CONSUME_AUTO I
 	public static final field CONSUME_NONE I
 	public static final field Companion Ldev/chrisbanes/insetter/Insetter$Companion;
-	public synthetic fun <init> (Ldev/chrisbanes/insetter/Insetter$Builder;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/chrisbanes/insetter/SideApply;Ldev/chrisbanes/insetter/SideApply;Ldev/chrisbanes/insetter/SideApply;Ldev/chrisbanes/insetter/SideApply;Ldev/chrisbanes/insetter/OnApplyInsetsListener;II[Landroid/view/View;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun applyInsetsToView (Landroid/view/View;Landroidx/core/view/WindowInsetsCompat;Ldev/chrisbanes/insetter/ViewState;)V
 	public final fun applyToView (Landroid/view/View;)V
 	public static final fun builder ()Ldev/chrisbanes/insetter/Insetter$Builder;
@@ -11,9 +11,8 @@ public final class dev/chrisbanes/insetter/Insetter {
 }
 
 public final class dev/chrisbanes/insetter/Insetter$Builder {
-	public final fun animate (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun animate (II)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public static synthetic fun animate$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun animatedPadding (II)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun animatedPadding$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun applySystemGestureInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun applySystemGestureInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun applySystemWindowInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
@@ -25,8 +24,6 @@ public final class dev/chrisbanes/insetter/Insetter$Builder {
 	public final fun consumeSystemWindowInsets (Z)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun deferredMargin (II)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public static synthetic fun deferredMargin$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun deferredPadding (II)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public static synthetic fun deferredPadding$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun margin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun margin (II)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public static synthetic fun margin$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
@@ -42,6 +39,7 @@ public final class dev/chrisbanes/insetter/Insetter$Builder {
 	public final fun paddingRight (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun paddingTop (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun setOnApplyInsetsListener (Ldev/chrisbanes/insetter/OnApplyInsetsListener;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun syncTranslationTo ([Landroid/view/View;)Ldev/chrisbanes/insetter/Insetter$Builder;
 }
 
 public final class dev/chrisbanes/insetter/Insetter$Companion {
