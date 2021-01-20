@@ -35,11 +35,10 @@ fun interface OnApplyInsetsListener {
      * @param view The view applying window insets
      * @param insets The insets to apply
      * @param initialState A snapshot of the view's padding/margin state when this listener was set.
-     * @return A [Boolean] that indicates if we want to consume insets.
      */
     fun onApplyInsets(
         view: View,
         insets: WindowInsetsCompat,
         initialState: ViewState
-    ) : WindowInsetsCompat
+    )
 }
