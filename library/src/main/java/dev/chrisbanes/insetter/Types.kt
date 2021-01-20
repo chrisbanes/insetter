@@ -19,7 +19,7 @@ package dev.chrisbanes.insetter
 import androidx.core.view.WindowInsetsCompat
 
 /**
- * Convenienve function for building a combination of [WindowInsetsCompat.Type] values.
+ * Convenience function for building a combination of [WindowInsetsCompat.Type] values.
  */
 fun windowInsetTypesOf(
     ime: Boolean = false,
