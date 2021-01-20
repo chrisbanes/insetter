@@ -34,7 +34,7 @@ import androidx.core.view.WindowInsetsCompat
     )
 )
 fun View.doOnApplyWindowInsets(
-    f: (view: View, insets: WindowInsetsCompat, initialState: ViewState) -> Unit
+    f: (view: View, insets: WindowInsetsCompat, initialState: ViewState) -> WindowInsetsCompat
 ) = Insetter.builder().setOnApplyInsetsListener(f).applyToView(this)
 
 /**

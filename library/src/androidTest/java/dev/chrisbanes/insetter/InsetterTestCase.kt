@@ -70,9 +70,10 @@ class InsetterTestCase {
         val latch = CountDownLatch(1)
         rule.scenario.onActivity {
             Insetter.builder()
-                .setOnApplyInsetsListener { _, _, initialState ->
+                .setOnApplyInsetsListener { _, insets, initialState ->
                     viewState = initialState
                     latch.countDown()
+                    insets
                 }
                 .applyToView(view)
         }
@@ -98,9 +99,10 @@ class InsetterTestCase {
         val latch = CountDownLatch(1)
         rule.scenario.onActivity {
             Insetter.builder()
-                .setOnApplyInsetsListener { _, _, initialState ->
+                .setOnApplyInsetsListener { _, insets, initialState ->
                     viewState = initialState
                     latch.countDown()
+                    insets
                 }
                 .applyToView(view)
         }
@@ -124,6 +126,7 @@ class InsetterTestCase {
                 .setOnApplyInsetsListener { _, insets, _ ->
                     resultInsets = insets
                     latch.countDown()
+                    insets
                 }
                 .applyToView(view)
         }
