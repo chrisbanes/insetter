@@ -368,7 +368,8 @@ class Insetter private constructor(builder: Builder) {
                 // If we have an onApplyInsetsListener, invoke it
                 onApplyInsetsListener.onApplyInsets(v, insets, initialState)
                 // We don't know what sides have been applied, so we assume all
-                return@setOnApplyWindowInsetsListener WindowInsetsCompat.CONSUMED
+                return@setOnApplyWindowInsetsListener if (consume != CONSUME_NONE) insets
+                else WindowInsetsCompat.CONSUMED
             }
 
             // Otherwise we applied through applyInsetsToView()
