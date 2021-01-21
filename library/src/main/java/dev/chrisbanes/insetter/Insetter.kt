@@ -496,17 +496,17 @@ class Insetter private constructor(builder: Builder) {
         fun setEdgeToEdgeSystemUiFlags(view: View, enabled: Boolean) {
             @Suppress("DEPRECATION")
             view.systemUiVisibility = view.systemUiVisibility and
-                    EDGE_TO_EDGE_FLAGS.inv() or
-                    if (enabled) EDGE_TO_EDGE_FLAGS else 0
+                EDGE_TO_EDGE_FLAGS.inv() or
+                if (enabled) EDGE_TO_EDGE_FLAGS else 0
         }
 
         @Suppress("DEPRECATION")
         @SuppressLint("InlinedApi")
         internal const val EDGE_TO_EDGE_FLAGS = (
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                )
+            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            )
 
         private const val TAG = "Insetter"
     }
@@ -562,7 +562,7 @@ private fun View.applyMargins(
     val lp = layoutParams
     require(lp is MarginLayoutParams) {
         "Margin window insets handling requested but View's" +
-                " LayoutParams do not extend MarginLayoutParams"
+            " LayoutParams do not extend MarginLayoutParams"
     }
 
     val marginLeft = when (typesToApply.left) {
