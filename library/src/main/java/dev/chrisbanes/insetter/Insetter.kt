@@ -391,7 +391,7 @@ class Insetter private constructor(builder: Builder) {
         }
 
         // Now request an insets pass
-        view.doOnAttach { v ->
+        view.doOnEveryAttach { v ->
             ViewCompat.requestApplyInsets(v)
         }
     }
@@ -591,6 +591,27 @@ private fun View.applyMargins(
             // See https://github.com/chrisbanes/insetter/issues/42
             parent.requestLayout()
         }
+    }
+}
+
+/**
+ * Performs the given action when this view is attached to a window. If the view is already
+ * attached to a window the action will be performed immediately, otherwise the
+ * action will first be performed after the view is next attached.
+ *
+ * The action will be invoked every time the view is attached to a window.
+ *
+ * @see doOnAttach
+ */
+private inline fun View.doOnEveryAttach(crossinline action: (view: View) -> Unit) {
+    addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+        override fun onViewAttachedToWindow(v: View) = action(v)
+
+        override fun onViewDetachedFromWindow(v: View) = Unit
+    })
+
+    if (ViewCompat.isAttachedToWindow(this)) {
+        action(this)
     }
 }
 
