@@ -29,6 +29,8 @@ instances:
     }
     ```
 
+    See [here](api/library/library/dev.chrisbanes.insetter/apply-insetter.html) for more information.
+
 === "Java"
 
     ``` java
@@ -39,6 +41,8 @@ instances:
         // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
         .applyToView(view);
     ```
+
+    See [here](api/library/library/dev.chrisbanes.insetter/-insetter/) for more information.
 
 ### [insetter-dbx](dbx/)
 
