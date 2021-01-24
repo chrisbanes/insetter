@@ -45,6 +45,26 @@ public final class dev/chrisbanes/insetter/Insetter$Companion {
 public abstract interface annotation class dev/chrisbanes/insetter/Insetter$ConsumeOptions : java/lang/annotation/Annotation {
 }
 
+public final class dev/chrisbanes/insetter/InsetterApplyTypeDsl {
+	public final fun margin ()V
+	public final fun margin (ZZZZZZ)V
+	public static synthetic fun margin$default (Ldev/chrisbanes/insetter/InsetterApplyTypeDsl;ZZZZZZILjava/lang/Object;)V
+	public final fun padding ()V
+	public final fun padding (ZZZZZZ)V
+	public static synthetic fun padding$default (Ldev/chrisbanes/insetter/InsetterApplyTypeDsl;ZZZZZZILjava/lang/Object;)V
+}
+
+public final class dev/chrisbanes/insetter/InsetterDsl {
+	public final fun consume (Z)V
+	public final fun type (ILkotlin/jvm/functions/Function1;)V
+	public final fun type (ZZZZZZZZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun type$default (Ldev/chrisbanes/insetter/InsetterDsl;ZZZZZZZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+
+public final class dev/chrisbanes/insetter/InsetterDslKt {
+	public static final fun applyInsetter (Landroid/view/View;Lkotlin/jvm/functions/Function1;)Ldev/chrisbanes/insetter/Insetter;
+}
+
 public final class dev/chrisbanes/insetter/InsetterKtxKt {
 	public static final fun applySystemGestureInsetsToMargin (Landroid/view/View;ZZZZZ)Ldev/chrisbanes/insetter/Insetter;
 	public static synthetic fun applySystemGestureInsetsToMargin$default (Landroid/view/View;ZZZZZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter;
@@ -72,6 +92,7 @@ public final class dev/chrisbanes/insetter/Side {
 	public static final field RIGHT I
 	public static final field TOP I
 	public static final fun create (ZZZZ)I
+	public static final fun create (ZZZZZZ)I
 }
 
 public abstract interface annotation class dev/chrisbanes/insetter/Sides : java/lang/annotation/Annotation {

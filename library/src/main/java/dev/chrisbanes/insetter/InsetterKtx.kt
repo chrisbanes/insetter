@@ -61,19 +61,32 @@ inline fun View.setEdgeToEdgeSystemUiFlags(enabled: Boolean = true) {
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
  */
+@Deprecated(
+    "Replaced with applyInsetter {}",
+    ReplaceWith(
+        """
+        applyInsetter {
+            type(ime = true, statusBars = true, navigationBars = true) {
+                padding(left = left, top = top, right = right, bottom = bottom)
+            }
+            consume(consume)
+        }
+         """,
+        "import dev.chrisbanes.insetter.applyInsetter"
+    )
+)
 inline fun View.applySystemWindowInsetsToPadding(
     left: Boolean = false,
     top: Boolean = false,
     right: Boolean = false,
     bottom: Boolean = false,
     consume: Boolean = false
-) = Insetter.builder()
-    .padding(
-        windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
-        Side.create(left, top, right, bottom)
-    )
-    .consume(if (consume) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
-    .applyToView(this)
+) = applyInsetter {
+    type(ime = true, statusBars = true, navigationBars = true) {
+        padding(left = left, top = top, right = right, bottom = bottom)
+    }
+    consume(consume)
+}
 
 /**
  * Apply the system window insets to the margins on this [View].
@@ -84,19 +97,32 @@ inline fun View.applySystemWindowInsetsToPadding(
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
  */
+@Deprecated(
+    "Replaced with applyInsetter {}",
+    ReplaceWith(
+        """
+        applyInsetter {
+            type(ime = true, statusBars = true, navigationBars = true) {
+                margin(left = left, top = top, right = right, bottom = bottom)
+            }
+            consume(consume)
+        }
+         """,
+        "import dev.chrisbanes.insetter.applyInsetter"
+    )
+)
 inline fun View.applySystemWindowInsetsToMargin(
     left: Boolean = false,
     top: Boolean = false,
     right: Boolean = false,
     bottom: Boolean = false,
     consume: Boolean = false
-) = Insetter.builder()
-    .margin(
-        windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
-        Side.create(left, top, right, bottom)
-    )
-    .consume(if (consume) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
-    .applyToView(this)
+) = applyInsetter {
+    type(ime = true, statusBars = true, navigationBars = true) {
+        margin(left = left, top = top, right = right, bottom = bottom)
+    }
+    consume(consume)
+}
 
 /**
  * Apply system gesture insets to the padding of this [View].
@@ -107,19 +133,32 @@ inline fun View.applySystemWindowInsetsToMargin(
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
  */
+@Deprecated(
+    "Replaced with applyInsetter {}",
+    ReplaceWith(
+        """
+        applyInsetter {
+            type(systemGestures = true) {
+                padding(left = left, top = top, right = right, bottom = bottom)
+            }
+            consume(consume)
+        }
+         """,
+        "import dev.chrisbanes.insetter.applyInsetter"
+    )
+)
 inline fun View.applySystemGestureInsetsToPadding(
     left: Boolean = false,
     top: Boolean = false,
     right: Boolean = false,
     bottom: Boolean = false,
     consume: Boolean = false
-) = Insetter.builder()
-    .padding(
-        windowInsetTypesOf(systemGestures = true),
-        Side.create(left, top, right, bottom)
-    )
-    .consume(if (consume) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
-    .applyToView(this)
+) = applyInsetter {
+    type(systemGestures = true) {
+        padding(left = left, top = top, right = right, bottom = bottom)
+    }
+    consume(consume)
+}
 
 /**
  * Apply system gesture insets to the margins on this [View].
@@ -130,16 +169,29 @@ inline fun View.applySystemGestureInsetsToPadding(
  * @param bottom apply in the bottom indent if true
  * @param consume consume the system window insets if true
  */
+@Deprecated(
+    "Replaced with applyInsetter {}",
+    ReplaceWith(
+        """
+        applyInsetter {
+            type(systemGestures = true) {
+                margin(left = left, top = top, right = right, bottom = bottom)
+            }
+            consume(consume)
+        }
+         """,
+        "import dev.chrisbanes.insetter.applyInsetter"
+    )
+)
 inline fun View.applySystemGestureInsetsToMargin(
     left: Boolean = false,
     top: Boolean = false,
     right: Boolean = false,
     bottom: Boolean = false,
     consume: Boolean = false
-) = Insetter.builder()
-    .margin(
-        windowInsetTypesOf(systemGestures = true),
-        Side.create(left, top, right, bottom)
-    )
-    .consume(if (consume) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
-    .applyToView(this)
+) = applyInsetter {
+    type(systemGestures = true) {
+        margin(left = left, top = top, right = right, bottom = bottom)
+    }
+    consume(consume)
+}
