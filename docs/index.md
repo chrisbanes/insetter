@@ -21,9 +21,9 @@ instances:
 
     ``` java
     Insetter.builder()
-        // This will apply the system window insets as padding to left, bottom and right of the view,
+        // This will add the navigation bars insets as padding to all sides of the view,
         // maintaining the original padding (from the layout XML, style, etc)
-        .applySystemWindowInsetsToPadding(Side.LEFT | Side.BOTTOM | Side.RIGHT)
+        .padding(WindowInsetsCompat.Type.navigationBars())
         // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
         .applyToView(view);
     ```
@@ -31,20 +31,14 @@ instances:
 === "Kotlin"
 
     ``` kotlin
-    Insetter.builder()
-        // This will apply the system window insets as padding to left, bottom and right of the view,
-        // maintaining the original padding (from the layout XML, style, etc)
-        .applySystemWindowInsetsToPadding(Side.LEFT or Side.BOTTOM or Side.RIGHT)
-        // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
-        .applyToView(view)
+    view.applyInsetter {
+        // Apply the navigation bar insets...
+        type(navigationBars = true) {
+            // Add to padding on all sides
+            padding()
+        }
+    }
     ```
-
-It also provides some Kotlin-only extension functions allowing easy access to the library functions:
-
-``` kotlin
-bottomNav.applySystemWindowInsetsToPadding(bottom = true)
-btnConfirm.applySystemWindowInsetsToMargin(bottom = true, right = true)
-```
 
 ### [insetter-dbx](dbx/)
 
