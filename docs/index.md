@@ -10,9 +10,9 @@ blog post.
 
 There are a number of libraries available:
 
-### [insetter](library/)
+### [Main library](library/)
 
-The base library which provides an easy-to-use
+The main library provides an easy-to-use
 [Builder](/library/src/main/java/dev/chrisbanes/insetter/Insetter.kt) for
 [OnApplyWindowInsetsListener](https://developer.android.com/reference/androidx/core/view/OnApplyWindowInsetsListener)
 instances:
