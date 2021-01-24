@@ -82,9 +82,13 @@ fun View.applyInsetter(build: InsetterDsl.() -> Unit): Insetter {
     return InsetterDsl().apply(build).builder.applyToView(this)
 }
 
+@DslMarker
+annotation class InsetterDslMarker
+
 /**
  * Class used in [View.applyInsetter].
  */
+@InsetterDslMarker
 class InsetterDsl internal constructor() {
     internal var builder = Insetter.builder()
 
@@ -150,6 +154,7 @@ class InsetterDsl internal constructor() {
 /**
  * Class used in [View.applyInsetter].
  */
+@InsetterDslMarker
 class InsetterApplyTypeDsl internal constructor(
     private val type: Int,
     internal var builder: Insetter.Builder,
