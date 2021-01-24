@@ -17,17 +17,6 @@ The base library which provides an easy-to-use
 [OnApplyWindowInsetsListener](https://developer.android.com/reference/androidx/core/view/OnApplyWindowInsetsListener)
 instances:
 
-=== "Java"
-
-    ``` java
-    Insetter.builder()
-        // This will add the navigation bars insets as padding to all sides of the view,
-        // maintaining the original padding (from the layout XML, style, etc)
-        .padding(WindowInsetsCompat.Type.navigationBars())
-        // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
-        .applyToView(view);
-    ```
-
 === "Kotlin"
 
     ``` kotlin
@@ -38,6 +27,17 @@ instances:
             padding()
         }
     }
+    ```
+
+=== "Java"
+
+    ``` java
+    Insetter.builder()
+        // This will add the navigation bars insets as padding to all sides of the view,
+        // maintaining the original padding (from the layout XML, style, etc)
+        .padding(WindowInsetsCompat.Type.navigationBars())
+        // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
+        .applyToView(view);
     ```
 
 ### [insetter-dbx](dbx/)
@@ -99,7 +99,7 @@ at a later date.
 
 ## Download
 
-=== "Java"
+=== "Stable"
 
     Latest version: ![GitHub release](https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter)
 
