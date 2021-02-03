@@ -31,13 +31,26 @@ object Side {
         top: Boolean,
         right: Boolean,
         bottom: Boolean
-    ): Int = (if (left) LEFT else 0) or
-        (if (top) TOP else 0) or
-        (if (right) RIGHT else 0) or
-        (if (bottom) BOTTOM else 0)
+    ): Int = create(
+        left = left,
+        top = top,
+        right = right,
+        bottom = bottom,
+        horizontal = false,
+        vertical = false
+    )
 
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun hasSide(sides: Int, @Sides flag: Int): Boolean {
-        return sides and flag == flag
-    }
+    @Sides
+    @JvmStatic
+    fun create(
+        left: Boolean,
+        top: Boolean,
+        right: Boolean,
+        bottom: Boolean,
+        horizontal: Boolean,
+        vertical: Boolean,
+    ): Int = (if (left || horizontal) LEFT else 0) or
+        (if (top || vertical) TOP else 0) or
+        (if (right || horizontal) RIGHT else 0) or
+        (if (bottom || vertical) BOTTOM else 0)
 }

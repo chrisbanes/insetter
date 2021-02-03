@@ -10,41 +10,39 @@ blog post.
 
 There are a number of libraries available:
 
-### [insetter](library/)
+### [Main library](library/)
 
-The base library which provides an easy-to-use
+The main library provides an easy-to-use
 [Builder](/library/src/main/java/dev/chrisbanes/insetter/Insetter.kt) for
 [OnApplyWindowInsetsListener](https://developer.android.com/reference/androidx/core/view/OnApplyWindowInsetsListener)
 instances:
+
+=== "Kotlin"
+
+    ``` kotlin
+    view.applyInsetter {
+        // Apply the navigation bar insets...
+        type(navigationBars = true) {
+            // Add to padding on all sides
+            padding()
+        }
+    }
+    ```
+
+    See [here](api/library/library/dev.chrisbanes.insetter/apply-insetter.html) for more information.
 
 === "Java"
 
     ``` java
     Insetter.builder()
-        // This will apply the system window insets as padding to left, bottom and right of the view,
+        // This will add the navigation bars insets as padding to all sides of the view,
         // maintaining the original padding (from the layout XML, style, etc)
-        .applySystemWindowInsetsToPadding(Side.LEFT | Side.BOTTOM | Side.RIGHT)
+        .padding(WindowInsetsCompat.Type.navigationBars())
         // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
         .applyToView(view);
     ```
 
-=== "Kotlin"
-
-    ``` kotlin
-    Insetter.builder()
-        // This will apply the system window insets as padding to left, bottom and right of the view,
-        // maintaining the original padding (from the layout XML, style, etc)
-        .applySystemWindowInsetsToPadding(Side.LEFT or Side.BOTTOM or Side.RIGHT)
-        // This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())
-        .applyToView(view)
-    ```
-
-It also provides some Kotlin-only extension functions allowing easy access to the library functions:
-
-``` kotlin
-bottomNav.applySystemWindowInsetsToPadding(bottom = true)
-btnConfirm.applySystemWindowInsetsToMargin(bottom = true, right = true)
-```
+    See [here](api/library/library/dev.chrisbanes.insetter/-insetter/) for more information.
 
 ### [insetter-dbx](dbx/)
 
@@ -105,7 +103,7 @@ at a later date.
 
 ## Download
 
-=== "Java"
+=== "Stable"
 
     Latest version: ![GitHub release](https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter)
 
