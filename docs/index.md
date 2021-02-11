@@ -44,7 +44,7 @@ instances:
 
     See [here](api/library/library/dev.chrisbanes.insetter/-insetter/) for more information.
 
-### [insetter-dbx](dbx/)
+### [Data-binding extensions (DBX)](dbx/)
 
 A [Data Binding][databinding] extension library, providing [Data Binding][databinding] specific functionality.
 This primarily contains binding adapters, which allow access to the helper functions from your layouts:
@@ -60,7 +60,7 @@ This primarily contains binding adapters, which allow access to the helper funct
 
 📖 You can read more information [here](dbx/).
 
-### [insetter-widgets](widgets/)
+### [Widgets](widgets/)
 
 An extension library which provides versions of commonly used ViewGroups with enhanced inset
 handling. Currently this library is focusing on building upon 
@@ -91,7 +91,7 @@ the `insetter-dbx` library, but without the requirement of using data-binding.
 
 ### insetter-ktx
 
-The old `insetter-ktx` library has now removed, as all of the KTX funtions have been moved to the main [library](library/). You can safely remove any references to the `insetter-ktx` dependency, and replace it with the core library.
+The old `insetter-ktx` library has now removed, as all of the KTX functions have been moved to the main [library](library/). You can safely remove any references to the `insetter-ktx` dependency, and replace it with the core library.
 
 ## ⚠️ Attention 🚧
 
@@ -113,7 +113,7 @@ at a later date.
     }
 
     dependencies {
-        // The base library. If you're using either the dbx and/or ktx libraries, you don't need this
+        // The main library. If you're using either the dbx/widgets libraries, you don't need this
         implementation "dev.chrisbanes.insetter:insetter:<latest version>"
 
         // If you're using data-binding use this
