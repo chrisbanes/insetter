@@ -194,6 +194,41 @@ per flag combination.
 * `InsetterConstraintHelper` benefit #1. The helper works with any [ConstraintLayout][cl] class,
 including MotionLayout.
 
+## Download
+
+=== "Stable"
+
+    Latest version: ![GitHub release](https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter)
+
+    ```groovy
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation "dev.chrisbanes.insetter:insetter-widgets:<latest version>"
+    }
+    ```
+
+=== "Snapshot"
+
+    Snapshots of the current development version are available, which track the latest commit.
+
+    The snapshots are deployed to
+    Sonatype's [snapshots repository](https://oss.sonatype.org/content/repositories/snapshots/dev/chrisbanes/insetter/).
+    The latest release is: ![Latest SNAPSHOT release](https://img.shields.io/nexus/s/dev.chrisbanes.insetter/insetter?label=snapshot&server=https%3A%2F%2Foss.sonatype.org)
+
+    ```groovy
+    repositories {
+        // Need to add the Sonatype snapshots repo
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    }
+
+    dependencies {
+        implementation "dev.chrisbanes.insetter:insetter-widgets:XXX-SNAPSHOT"
+    }
+    ```
+
 ## When should I use this vs the dbx library?
 The behavior provided by the widgets in this library are designed to be copies of that provided by
 the `insetter-dbx` library, but without the requirement of using [data-binding][databinding].

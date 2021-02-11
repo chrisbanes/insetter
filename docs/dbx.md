@@ -102,6 +102,41 @@ There is currently just one edge-to-edge attribute:
 </FrameLayout>
 ```
 
+## Download
+
+=== "Stable"
+
+    Latest version: ![GitHub release](https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter)
+
+    ```groovy
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation "dev.chrisbanes.insetter:insetter-dbx:<latest version>"
+    }
+    ```
+
+=== "Snapshot"
+
+    Snapshots of the current development version are available, which track the latest commit.
+
+    The snapshots are deployed to
+    Sonatype's [snapshots repository](https://oss.sonatype.org/content/repositories/snapshots/dev/chrisbanes/insetter/).
+    The latest release is: ![Latest SNAPSHOT release](https://img.shields.io/nexus/s/dev.chrisbanes.insetter/insetter?label=snapshot&server=https%3A%2F%2Foss.sonatype.org)
+
+    ```groovy
+    repositories {
+        // Need to add the Sonatype snapshots repo
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    }
+
+    dependencies {
+        implementation "dev.chrisbanes.insetter:insetter-dbx:XXX-SNAPSHOT"
+    }
+    ```
+
 ## When should I use this vs the widgets library?
 
 The behavior enabled through the [widgets](../widgets) library is similar to that provided by 
