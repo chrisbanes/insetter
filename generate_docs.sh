@@ -5,12 +5,6 @@ DOCS_ROOT=docs-gen
 [ -d $DOCS_ROOT ] && rm -r $DOCS_ROOT
 mkdir $DOCS_ROOT
 
-copyReadme() {
-  cp $1/README.md $DOCS_ROOT/$1.md
-  mkdir -p $DOCS_ROOT/$1
-  [ -d "$1/images" ] && cp -r $1/images $DOCS_ROOT/$1
-}
-
 # Clear out the old API docs
 [ -d docs/api ] && rm -r docs/api
 # Build the docs with dokka
@@ -34,10 +28,6 @@ sed -i.bak 's/README.md//' $DOCS_ROOT/index.md
 
 # Convert docs/xxx.md links to just xxx/
 sed -i.bak 's/docs\/\([a-zA-Z-]*\).md/\1/' $DOCS_ROOT/index.md
-
-copyReadme library
-copyReadme dbx
-copyReadme widgets
 
 # Finally delete all of the backup files
 find . -name '*.bak' -delete
