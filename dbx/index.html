@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://chrisbanes.github.io/insetter/dbx/">
-      
-      
         <meta name="author" content="Chris Banes">
       
+      
+        <link rel="canonical" href="https://chrisbanes.github.io/insetter/dbx/">
+      
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.6">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
     
     
       
@@ -24,10 +24,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.6910b76c.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.cb6bc1d0.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.196e0c26.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.39b8e14a.min.css">
         
           
           
@@ -39,7 +39,7 @@
     
       
         
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,400i,700%7CIBM+Plex+Mono&display=fallback">
         <style>body,input{font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"IBM Plex Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
       
@@ -77,13 +77,14 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="deep-orange">
       
   
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
         
-        <a href="#insetter-dbx" class="md-skip">
+        <a href="#data-binding-extensions-dbx" class="md-skip">
           Skip to content
         </a>
       
@@ -106,18 +107,20 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
     </label>
     <div class="md-header-nav__title" data-md-component="header-title">
-      
-        <div class="md-header-nav__ellipsis">
-          <span class="md-header-nav__topic md-ellipsis">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
             Insetter
           </span>
-          <span class="md-header-nav__topic md-ellipsis">
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
             
               DBX
             
           </span>
         </div>
-      
+      </div>
     </div>
     
       <label class="md-header-nav__button md-icon" for="__search">
@@ -176,10 +179,14 @@
         <div class="md-main__inner md-grid">
           
             
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
+
+
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
@@ -211,12 +218,15 @@
       
       
 
-
-  <li class="md-nav__item">
-    <a href=".." class="md-nav__link">
-      Overview
-    </a>
-  </li>
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
 
     
       
@@ -224,25 +234,42 @@
       
 
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../library/" class="md-nav__link">
+        Main library
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
       
+      
+      
+
+  
+  
     
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          DBX
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         DBX
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-    
-    <a href="./" class="md-nav__link md-nav__link--active">
-      DBX
-    </a>
-    
+      </a>
       
+        
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -297,6 +324,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    Download
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#when-should-i-use-this-vs-the-widgets-library" class="md-nav__link">
     When should I use this vs the widgets library?
   </a>
@@ -306,93 +340,106 @@
     </ul>
   
 </nav>
-    
-  </li>
+      
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item">
-    <a href="../widgets/" class="md-nav__link">
-      Widgets
-    </a>
-  </li>
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../widgets/" class="md-nav__link">
+        Widgets
+      </a>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
-    <label class="md-nav__link" for="nav-4">
-      API
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="API" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
-        <span class="md-nav__icon md-icon"></span>
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" >
+      
+      <label class="md-nav__link" for="nav-5">
         API
+        <span class="md-nav__icon md-icon"></span>
       </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="nav-5">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/library/library/dev.chrisbanes.insetter/" class="md-nav__link">
+        Main library
+      </a>
+    </li>
+  
+
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/dbx/dbx/dev.chrisbanes.insetter/" class="md-nav__link">
+        DBX
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../api/library/library/" class="md-nav__link">
-      Core library
-    </a>
-  </li>
-
-        
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/widgets/widgets/" class="md-nav__link">
+        Widgets
+      </a>
+    </li>
+  
+
           
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/dbx/dbx/" class="md-nav__link">
-      DBX
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../api/widgets/widgets/" class="md-nav__link">
-      Widgets
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item">
-    <a href="../contributing/" class="md-nav__link">
-      Contributing
-    </a>
-  </li>
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
 
     
   </ul>
@@ -402,7 +449,8 @@
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -460,6 +508,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    Download
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#when-should-i-use-this-vs-the-widgets-library" class="md-nav__link">
     When should I use this vs the widgets library?
   </a>
@@ -483,10 +538,17 @@
                   </a>
                 
                 
-                <h1 id="insetter-dbx">insetter-dbx<a class="headerlink" href="#insetter-dbx" title="Permanent link">&para;</a></h1>
+                <h1 id="data-binding-extensions-dbx">Data-binding extensions (DBX)<a class="headerlink" href="#data-binding-extensions-dbx" title="Permanent link">&para;</a></h1>
 <p>A <a href="https://developer.android.com/topic/libraries/data-binding">Data Binding</a> extension library, providing <a href="https://developer.android.com/topic/libraries/data-binding">Data Binding</a>-specific functionality.
 This primarily contains binding adapters, which allow access to the helper functions from your layouts.
 Currently the attributes provided are:</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The future for the DBX library is currently being evaluated. It's unclear how useful it is,
+and the amount of effort needed to update it to the new WindowInsets types is great.</p>
+<p>View binding + improvements to the main library mean that it now simple to use the main library only.</p>
+</div>
+<hr />
 <h2 id="applying-system-window-insets">Applying <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()">system window insets</a><a class="headerlink" href="#applying-system-window-insets" title="Permanent link">&para;</a></h2>
 <p>The following attributes are useful in being able to apply the <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()">system window insets</a> insets,
 to specific dimensions to views.</p>
@@ -591,6 +653,34 @@ applied padding for the view will be:</p>
 
 <span class="nt">&lt;/FrameLayout&gt;</span>
 </code></pre></div>
+<h2 id="download">Download<a class="headerlink" href="#download" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Stable</label><div class="tabbed-content">
+<p>Latest version: <img alt="GitHub release" src="https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter" /></p>
+<div class="highlight"><pre><span></span><code><span class="n">repositories</span> <span class="o">{</span>
+    <span class="n">mavenCentral</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="n">dependencies</span> <span class="o">{</span>
+    <span class="n">implementation</span> <span class="s2">&quot;dev.chrisbanes.insetter:insetter-dbx:&lt;latest version&gt;&quot;</span>
+<span class="o">}</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Snapshot</label><div class="tabbed-content">
+<p>Snapshots of the current development version are available, which track the latest commit.</p>
+<p>The snapshots are deployed to
+Sonatype's <a href="https://oss.sonatype.org/content/repositories/snapshots/dev/chrisbanes/insetter/">snapshots repository</a>.
+The latest release is: <img alt="Latest SNAPSHOT release" src="https://img.shields.io/nexus/s/dev.chrisbanes.insetter/insetter?label=snapshot&amp;server=https%3A%2F%2Foss.sonatype.org" /></p>
+<div class="highlight"><pre><span></span><code><span class="n">repositories</span> <span class="o">{</span>
+    <span class="c1">// Need to add the Sonatype snapshots repo</span>
+    <span class="n">maven</span> <span class="o">{</span> <span class="n">url</span> <span class="s1">&#39;https://oss.sonatype.org/content/repositories/snapshots&#39;</span> <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">dependencies</span> <span class="o">{</span>
+    <span class="n">implementation</span> <span class="s2">&quot;dev.chrisbanes.insetter:insetter-dbx:XXX-SNAPSHOT&quot;</span>
+<span class="o">}</span>
+</code></pre></div>
+</div>
+</div>
 <h2 id="when-should-i-use-this-vs-the-widgets-library">When should I use this vs the widgets library?<a class="headerlink" href="#when-should-i-use-this-vs-the-widgets-library" title="Permanent link">&para;</a></h2>
 <p>The behavior enabled through the <a href="../widgets">widgets</a> library is similar to that provided by 
 the this library, but without the requirement of using <a href="https://developer.android.com/topic/libraries/data-binding">data-binding</a>.
@@ -616,7 +706,7 @@ provides very similar functionality at the cost of having to migrate to the inse
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href=".." class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../library/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -625,7 +715,7 @@ provides very similar functionality at the cost of having to migrate to the inse
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Overview
+                Main library
               </div>
             </div>
           </a>
@@ -677,15 +767,15 @@ provides very similar functionality at the cost of having to migrate to the inse
       
     </div>
     
-      <script src="../assets/javascripts/vendor.fd16492e.min.js"></script>
-      <script src="../assets/javascripts/bundle.7836ba4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      <script src="../assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
       <script>
         app = initialize({
           base: "..",
           features: [],
           search: Object.assign({
-            worker: "../assets/javascripts/worker/search.4ac00218.min.js"
+            worker: "../assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>

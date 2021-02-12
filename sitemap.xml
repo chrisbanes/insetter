@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://chrisbanes.github.io/insetter/</loc>
-     <lastmod>2021-01-05</lastmod>
+     <lastmod>2021-02-12</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://chrisbanes.github.io/insetter/library/</loc>
+     <lastmod>2021-02-12</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://chrisbanes.github.io/insetter/dbx/</loc>
-     <lastmod>2021-01-05</lastmod>
+     <lastmod>2021-02-12</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://chrisbanes.github.io/insetter/widgets/</loc>
-     <lastmod>2021-01-05</lastmod>
+     <lastmod>2021-02-12</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://chrisbanes.github.io/insetter/contributing/</loc>
-     <lastmod>2021-01-05</lastmod>
+     <lastmod>2021-02-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

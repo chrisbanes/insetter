@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://chrisbanes.github.io/insetter/">
-      
-      
         <meta name="author" content="Chris Banes">
       
+      
+        <link rel="canonical" href="https://chrisbanes.github.io/insetter/">
+      
       <link rel="shortcut icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.6">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
     
     
       
@@ -24,10 +24,10 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.6910b76c.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.cb6bc1d0.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.196e0c26.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.39b8e14a.min.css">
         
           
           
@@ -39,7 +39,7 @@
     
       
         
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,400i,700%7CIBM+Plex+Mono&display=fallback">
         <style>body,input{font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"IBM Plex Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
       
@@ -77,6 +77,7 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="deep-orange">
       
   
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
@@ -106,18 +107,20 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
     </label>
     <div class="md-header-nav__title" data-md-component="header-title">
-      
-        <div class="md-header-nav__ellipsis">
-          <span class="md-header-nav__topic md-ellipsis">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
             Insetter
           </span>
-          <span class="md-header-nav__topic md-ellipsis">
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
             
               Overview
             
           </span>
         </div>
-      
+      </div>
     </div>
     
       <label class="md-header-nav__button md-icon" for="__search">
@@ -176,10 +179,14 @@
         <div class="md-main__inner md-grid">
           
             
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
+
+
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
@@ -212,25 +219,27 @@
       
 
   
-
-
-  <li class="md-nav__item md-nav__item--active">
+  
     
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
       
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
         Overview
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-    
-    <a href="." class="md-nav__link md-nav__link--active">
-      Overview
-    </a>
-    
+      </a>
       
+        
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -244,22 +253,22 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#insetter_1" class="md-nav__link">
-    insetter
+  <a href="#main-library" class="md-nav__link">
+    Main library
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#insetter-dbx" class="md-nav__link">
-    insetter-dbx
+  <a href="#data-binding-extensions-dbx" class="md-nav__link">
+    Data-binding extensions (DBX)
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#insetter-widgets" class="md-nav__link">
-    insetter-widgets
+  <a href="#widgets" class="md-nav__link">
+    Widgets
   </a>
   
 </li>
@@ -274,13 +283,6 @@
         <li class="md-nav__item">
   <a href="#attention" class="md-nav__link">
     ⚠️ Attention 🚧
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#download" class="md-nav__link">
-    Download
   </a>
   
 </li>
@@ -302,105 +304,136 @@
     </ul>
   
 </nav>
-    
-  </li>
+      
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item">
-    <a href="dbx/" class="md-nav__link">
-      DBX
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item">
-    <a href="widgets/" class="md-nav__link">
-      Widgets
-    </a>
-  </li>
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="library/" class="md-nav__link">
+        Main library
+      </a>
+    </li>
+  
 
     
       
       
       
 
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dbx/" class="md-nav__link">
+        DBX
+      </a>
+    </li>
+  
 
-  <li class="md-nav__item md-nav__item--nested">
     
-    <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
-    <label class="md-nav__link" for="nav-4">
-      API
-      <span class="md-nav__icon md-icon"></span>
-    </label>
-    <nav class="md-nav" aria-label="API" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
-        <span class="md-nav__icon md-icon"></span>
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="widgets/" class="md-nav__link">
+        Widgets
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" >
+      
+      <label class="md-nav__link" for="nav-5">
         API
+        <span class="md-nav__icon md-icon"></span>
       </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="nav-5">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/library/library/dev.chrisbanes.insetter/" class="md-nav__link">
+        Main library
+      </a>
+    </li>
+  
+
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/dbx/dbx/dev.chrisbanes.insetter/" class="md-nav__link">
+        DBX
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="api/library/library/" class="md-nav__link">
-      Core library
-    </a>
-  </li>
-
-        
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/widgets/widgets/" class="md-nav__link">
+        Widgets
+      </a>
+    </li>
+  
+
           
-          
-
-
-  <li class="md-nav__item">
-    <a href="api/dbx/dbx/" class="md-nav__link">
-      DBX
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="api/widgets/widgets/" class="md-nav__link">
-      Widgets
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item">
-    <a href="contributing/" class="md-nav__link">
-      Contributing
-    </a>
-  </li>
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
 
     
   </ul>
@@ -410,7 +443,8 @@
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -427,22 +461,22 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#insetter_1" class="md-nav__link">
-    insetter
+  <a href="#main-library" class="md-nav__link">
+    Main library
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#insetter-dbx" class="md-nav__link">
-    insetter-dbx
+  <a href="#data-binding-extensions-dbx" class="md-nav__link">
+    Data-binding extensions (DBX)
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#insetter-widgets" class="md-nav__link">
-    insetter-widgets
+  <a href="#widgets" class="md-nav__link">
+    Widgets
   </a>
   
 </li>
@@ -457,13 +491,6 @@
         <li class="md-nav__item">
   <a href="#attention" class="md-nav__link">
     ⚠️ Attention 🚧
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#download" class="md-nav__link">
-    Download
   </a>
   
 </li>
@@ -502,40 +529,35 @@
                 <h1 id="insetter">Insetter<a class="headerlink" href="#insetter" title="Permanent link">&para;</a></h1>
 <p><a href="https://search.maven.org/search?q=g:dev.chrisbanes.insetter"><img alt="GitHub release" src="https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter" /></a></p>
 <p>Insetter is a library to help apps handle
-<a href="https://developer.android.com/reference/android/view/WindowInsets.html">WindowInsets</a> more easily.
+<a href="https://developer.android.com/reference/android/view/WindowInsets">WindowInsets</a> more easily.
 The library contains implementations of many of the concepts described in our
 <a href="https://medium.com/androiddevelopers/windowinsets-listeners-to-layouts-8f9ccc8fa4d1"><em>"Listeners to Layouts"</em></a>
 blog post.</p>
 <p>There are a number of libraries available:</p>
-<h3 id="insetter_1"><a href="library/">insetter</a><a class="headerlink" href="#insetter_1" title="Permanent link">&para;</a></h3>
-<p>The base library which provides an easy-to-use
-<a href="/library/src/main/java/dev/chrisbanes/insetter/Insetter.kt">Builder</a> for
-<a href="https://developer.android.com/reference/androidx/core/view/OnApplyWindowInsetsListener">OnApplyWindowInsetsListener</a>
-instances:</p>
-<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Java</label><div class="tabbed-content">
+<h3 id="main-library"><a href="library/">Main library</a><a class="headerlink" href="#main-library" title="Permanent link">&para;</a></h3>
+<p>The main library provides simple APIs for handling <a href="https://developer.android.com/reference/android/view/WindowInsets">WindowInsets</a>:</p>
+<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Kotlin</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">view</span><span class="p">.</span><span class="n">applyInsetter</span> <span class="p">{</span>
+    <span class="c1">// Apply the navigation bar insets...</span>
+    <span class="n">type</span><span class="p">(</span><span class="n">navigationBars</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Add to padding on all sides</span>
+        <span class="n">padding</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Java</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code><span class="n">Insetter</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
-    <span class="c1">// This will apply the system window insets as padding to left, bottom and right of the view,</span>
+    <span class="c1">// This will add the navigation bars insets as padding to all sides of the view,</span>
     <span class="c1">// maintaining the original padding (from the layout XML, style, etc)</span>
-    <span class="p">.</span><span class="na">applySystemWindowInsetsToPadding</span><span class="p">(</span><span class="n">Side</span><span class="p">.</span><span class="na">LEFT</span> <span class="o">|</span> <span class="n">Side</span><span class="p">.</span><span class="na">BOTTOM</span> <span class="o">|</span> <span class="n">Side</span><span class="p">.</span><span class="na">RIGHT</span><span class="p">)</span>
+    <span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">WindowInsetsCompat</span><span class="p">.</span><span class="na">Type</span><span class="p">.</span><span class="na">navigationBars</span><span class="p">())</span>
     <span class="c1">// This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())</span>
     <span class="p">.</span><span class="na">applyToView</span><span class="p">(</span><span class="n">view</span><span class="p">);</span>
 </code></pre></div>
 </div>
-<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Kotlin</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">Insetter</span><span class="p">.</span><span class="n">builder</span><span class="p">()</span>
-    <span class="c1">// This will apply the system window insets as padding to left, bottom and right of the view,</span>
-    <span class="c1">// maintaining the original padding (from the layout XML, style, etc)</span>
-    <span class="p">.</span><span class="n">applySystemWindowInsetsToPadding</span><span class="p">(</span><span class="n">Side</span><span class="p">.</span><span class="n">LEFT</span> <span class="n">or</span> <span class="n">Side</span><span class="p">.</span><span class="n">BOTTOM</span> <span class="n">or</span> <span class="n">Side</span><span class="p">.</span><span class="n">RIGHT</span><span class="p">)</span>
-    <span class="c1">// This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())</span>
-    <span class="p">.</span><span class="n">applyToView</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
-</code></pre></div>
 </div>
-</div>
-<p>It also provides some Kotlin-only extension functions allowing easy access to the library functions:</p>
-<div class="highlight"><pre><span></span><code><span class="n">bottomNav</span><span class="p">.</span><span class="n">applySystemWindowInsetsToPadding</span><span class="p">(</span><span class="n">bottom</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span>
-<span class="n">btnConfirm</span><span class="p">.</span><span class="n">applySystemWindowInsetsToMargin</span><span class="p">(</span><span class="n">bottom</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">right</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="insetter-dbx"><a href="dbx/">insetter-dbx</a><a class="headerlink" href="#insetter-dbx" title="Permanent link">&para;</a></h3>
+<p>📖 You can read more information <a href="library/">here</a>.</p>
+<h3 id="data-binding-extensions-dbx"><a href="dbx/">Data-binding extensions (DBX)</a><a class="headerlink" href="#data-binding-extensions-dbx" title="Permanent link">&para;</a></h3>
 <p>A <a href="https://developer.android.com/topic/libraries/data-binding">Data Binding</a> extension library, providing <a href="https://developer.android.com/topic/libraries/data-binding">Data Binding</a> specific functionality.
 This primarily contains binding adapters, which allow access to the helper functions from your layouts:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;BottomNavigationView</span>
@@ -546,14 +568,12 @@ This primarily contains binding adapters, which allow access to the helper funct
     <span class="na">app:paddingLeftSystemWindowInsets=</span><span class="s">&quot;@{true}&quot;</span> <span class="nt">/&gt;</span>
 </code></pre></div>
 <p>📖 You can read more information <a href="dbx/">here</a>.</p>
-<h3 id="insetter-widgets"><a href="widgets/">insetter-widgets</a><a class="headerlink" href="#insetter-widgets" title="Permanent link">&para;</a></h3>
+<h3 id="widgets"><a href="widgets/">Widgets</a><a class="headerlink" href="#widgets" title="Permanent link">&para;</a></h3>
 <p>An extension library which provides versions of commonly used ViewGroups with enhanced inset
 handling. Currently this library is focusing on building upon 
-<a href="https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html">ConstraintLayout</a>.</p>
+<a href="https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html"><code>ConstraintLayout</code></a>.</p>
 <p>A example of a widget is <a href="widgets/src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java">InsetterConstraintLayout</a>,
-which enables new attributes to define inset behavior on child views.
-The behavior enabled through <code>InsetterConstraintLayout</code> is similar to that provided by 
-the <code>insetter-dbx</code> library, but without the requirement of using data-binding.</p>
+which enables new attributes to define inset behavior on child views:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout</span>
     <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
     <span class="na">xmlns:app=</span><span class="s">&quot;http://schemas.android.com/apk/res-auto&quot;</span>
@@ -570,52 +590,13 @@ the <code>insetter-dbx</code> library, but without the requirement of using data
 </code></pre></div>
 <p>📖 You can read more information <a href="widgets/">here</a>.</p>
 <h3 id="insetter-ktx">insetter-ktx<a class="headerlink" href="#insetter-ktx" title="Permanent link">&para;</a></h3>
-<p>The old <code>insetter-ktx</code> library has now removed, as all of the KTX funtions have been moved to the main <a href="library/">library</a>. You can safely remove any references to the <code>insetter-ktx</code> dependency, and replace it with the core library.</p>
+<p>The old <code>insetter-ktx</code> library has now removed, as all of the KTX functions have been moved to the main <a href="library/">library</a>. You can safely remove any references to the <code>insetter-ktx</code> dependency, and replace it with the core library.</p>
 <h2 id="attention">⚠️ Attention 🚧<a class="headerlink" href="#attention" title="Permanent link">&para;</a></h2>
 <p>The library is being written to production quality, but it is not adhering to semantic versioning,
 mean we may change the API if needed, though we'll try not to. We're using this repository to
 allow quick and easy prototyping. The contents of this library may eventually be moved into
 <a href="https://android.googlesource.com/platform/frameworks/support/+/androidx-master-dev/">Android Jetpack</a>
 at a later date.</p>
-<h2 id="download">Download<a class="headerlink" href="#download" title="Permanent link">&para;</a></h2>
-<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Java</label><div class="tabbed-content">
-<p>Latest version: <img alt="GitHub release" src="https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter" /></p>
-<div class="highlight"><pre><span></span><code><span class="n">repositories</span> <span class="o">{</span>
-    <span class="n">mavenCentral</span><span class="o">()</span>
-<span class="o">}</span>
-
-<span class="n">dependencies</span> <span class="o">{</span>
-    <span class="c1">// The base library. If you&#39;re using either the dbx and/or ktx libraries, you don&#39;t need this</span>
-    <span class="n">implementation</span> <span class="s2">&quot;dev.chrisbanes.insetter:insetter:&lt;latest version&gt;&quot;</span>
-
-    <span class="c1">// If you&#39;re using data-binding use this</span>
-    <span class="n">implementation</span> <span class="s2">&quot;dev.chrisbanes.insetter:insetter-dbx:&lt;latest version&gt;&quot;</span>
-
-    <span class="c1">// If you would like to use the enhanced widget set, use this</span>
-    <span class="n">implementation</span> <span class="s2">&quot;dev.chrisbanes.insetter:insetter-widgets:&lt;latest version&gt;&quot;</span>
-<span class="o">}</span>
-</code></pre></div>
-</div>
-<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Snapshot</label><div class="tabbed-content">
-<p>Snapshots of the current development version are available, which track the latest commit.</p>
-<p>The snapshots are deployed to
-Sonatype's <a href="https://oss.sonatype.org/content/repositories/snapshots/dev/chrisbanes/insetter/">snapshots repository</a>.
-The latest release is: <img alt="Latest SNAPSHOT release" src="https://img.shields.io/nexus/s/dev.chrisbanes.insetter/insetter?label=snapshot&amp;server=https%3A%2F%2Foss.sonatype.org" /></p>
-<div class="highlight"><pre><span></span><code><span class="n">repositories</span> <span class="o">{</span>
-    <span class="c1">// Need to add the Sonatype snapshots repo</span>
-    <span class="n">maven</span> <span class="o">{</span> <span class="n">url</span> <span class="s1">&#39;https://oss.sonatype.org/content/repositories/snapshots&#39;</span> <span class="o">}</span>
-<span class="o">}</span>
-
-<span class="n">dependencies</span> <span class="o">{</span>
-    <span class="c1">// Check the latest SNAPSHOT version from the image above</span>
-    <span class="n">implementation</span> <span class="s2">&quot;dev.chrisbanes.insetter:insetter:XXX-SNAPSHOT&quot;</span>
-    <span class="n">implementation</span> <span class="s2">&quot;dev.chrisbanes.insetter:insetter-dbx:XXX-SNAPSHOT&quot;</span>
-    <span class="n">implementation</span> <span class="s2">&quot;dev.chrisbanes.insetter:insetter-widgets:XXX-SNAPSHOT&quot;</span>
-<span class="o">}</span>
-</code></pre></div>
-</div>
-</div>
-<hr />
 <h2 id="contributions">Contributions<a class="headerlink" href="#contributions" title="Permanent link">&para;</a></h2>
 <p>Please contribute! We will gladly review any pull requests.
 Make sure to read the <a href="contributing">Contributing</a> page first though.</p>
@@ -653,13 +634,13 @@ limitations under the License.
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
         
-          <a href="dbx/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="library/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                DBX
+                Main library
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
@@ -699,15 +680,15 @@ limitations under the License.
       
     </div>
     
-      <script src="assets/javascripts/vendor.fd16492e.min.js"></script>
-      <script src="assets/javascripts/bundle.7836ba4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      <script src="assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
       <script>
         app = initialize({
           base: ".",
           features: [],
           search: Object.assign({
-            worker: "assets/javascripts/worker/search.4ac00218.min.js"
+            worker: "assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
