@@ -14,11 +14,12 @@ repo_url: 'https://github.com/chrisbanes/insetter'
 # Navigation
 nav:
   - 'Overview': index.md
+  - 'Main library': library.md
   - 'DBX': dbx.md
   - 'Widgets': widgets.md
   - 'API':
-    - 'Core library': api/library/library/
-    - 'DBX': api/dbx/dbx/
+    - 'Main library': api/library/library/dev.chrisbanes.insetter/
+    - 'DBX': api/dbx/dbx/dev.chrisbanes.insetter/
     - 'Widgets': api/widgets/widgets/
   - 'Contributing': contributing.md
 # Configuration
