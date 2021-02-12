@@ -65,6 +65,9 @@ public final class dev/chrisbanes/insetter/InsetterDslKt {
 	public static final fun applyInsetter (Landroid/view/View;Lkotlin/jvm/functions/Function1;)Ldev/chrisbanes/insetter/Insetter;
 }
 
+public abstract interface annotation class dev/chrisbanes/insetter/InsetterDslMarker : java/lang/annotation/Annotation {
+}
+
 public final class dev/chrisbanes/insetter/InsetterKtxKt {
 	public static final fun applySystemGestureInsetsToMargin (Landroid/view/View;ZZZZZ)Ldev/chrisbanes/insetter/Insetter;
 	public static synthetic fun applySystemGestureInsetsToMargin$default (Landroid/view/View;ZZZZZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter;
@@ -93,6 +96,11 @@ public final class dev/chrisbanes/insetter/Side {
 	public static final field TOP I
 	public static final fun create (ZZZZ)I
 	public static final fun create (ZZZZZZ)I
+}
+
+public final class dev/chrisbanes/insetter/SideKt {
+	public static final fun sidesOf (ZZZZZZ)I
+	public static synthetic fun sidesOf$default (ZZZZZZILjava/lang/Object;)I
 }
 
 public abstract interface annotation class dev/chrisbanes/insetter/Sides : java/lang/annotation/Annotation {
