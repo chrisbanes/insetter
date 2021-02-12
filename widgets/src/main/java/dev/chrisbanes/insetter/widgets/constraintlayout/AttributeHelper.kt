@@ -17,8 +17,9 @@
 package dev.chrisbanes.insetter.widgets.constraintlayout
 
 import android.view.Gravity
-import dev.chrisbanes.insetter.Side.create
+import dev.chrisbanes.insetter.Side
 import dev.chrisbanes.insetter.Sides
+import dev.chrisbanes.insetter.sidesOf
 
 // These values match the values in attrs.xml
 private const val LEFT = Gravity.LEFT
@@ -29,7 +30,7 @@ private const val BOTTOM = Gravity.BOTTOM
 @Sides
 internal fun flagToSides(value: Int): Int {
     // Fast path if the value is empty
-    return if (value == 0) 0 else create(
+    return if (value == 0) Side.NONE else sidesOf(
         hasFlag(value, LEFT),
         hasFlag(value, TOP),
         hasFlag(value, RIGHT),

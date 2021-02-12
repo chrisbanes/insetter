@@ -69,7 +69,7 @@ fun applyInsetsFromBooleans(
     Insetter.builder()
         .padding(
             windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
-            Side.create(
+            sidesOf(
                 padSystemWindowLeft,
                 padSystemWindowTop,
                 padSystemWindowRight,
@@ -78,7 +78,7 @@ fun applyInsetsFromBooleans(
         )
         .margin(
             windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
-            Side.create(
+            sidesOf(
                 marginSystemWindowLeft,
                 marginSystemWindowTop,
                 marginSystemWindowRight,
@@ -87,7 +87,7 @@ fun applyInsetsFromBooleans(
         )
         .padding(
             windowInsetTypesOf(systemGestures = true),
-            Side.create(
+            sidesOf(
                 padSystemGestureLeft,
                 padSystemGestureTop,
                 padSystemGestureRight,
@@ -96,7 +96,7 @@ fun applyInsetsFromBooleans(
         )
         .margin(
             windowInsetTypesOf(systemGestures = true),
-            Side.create(
+            sidesOf(
                 marginSystemGestureLeft,
                 marginSystemGestureTop,
                 marginSystemGestureRight,

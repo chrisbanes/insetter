@@ -184,7 +184,7 @@ class InsetterApplyTypeDsl internal constructor(
     ) {
         builder = builder.padding(
             insetType = type,
-            sides = Side.create(left, top, right, bottom, horizontal, vertical)
+            sides = sidesOf(left, top, right, bottom, horizontal, vertical)
         )
     }
 
@@ -213,7 +213,7 @@ class InsetterApplyTypeDsl internal constructor(
     ) {
         builder = builder.margin(
             insetType = type,
-            sides = Side.create(left, top, right, bottom, horizontal, vertical)
+            sides = sidesOf(left, top, right, bottom, horizontal, vertical)
         )
     }
 }

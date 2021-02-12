@@ -111,13 +111,14 @@ class Insetter private constructor(builder: Builder) {
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
          * @param sides Bit mask of [Side]s containing which sides to apply.
-         * Defaults to [Side.ALL] to apply all sides. The mask can be created via [Side.create].
+         * Defaults to [Side.ALL] to apply all sides. The mask can be created via [sidesOf].
          *
          * @see [paddingLeft]
          * @see [paddingTop]
          * @see [paddingRight]
          * @see [paddingBottom]
          * @see [windowInsetTypesOf]
+         * @see [sidesOf]
          * @see [Side.create]
          */
         @JvmOverloads
@@ -177,13 +178,14 @@ class Insetter private constructor(builder: Builder) {
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
          * @param sides Bit mask of [Side]s containing which sides to apply.
-         * Defaults to [Side.ALL] to apply all sides. The mask can be created via [Side.create].
+         * Defaults to [Side.ALL] to apply all sides. The mask can be created via [sidesOf].
          *
          * @see [marginLeft]
          * @see [marginTop]
          * @see [marginRight]
          * @see [marginBottom]
          * @see [windowInsetTypesOf]
+         * @see [sidesOf]
          * @see [Side.create]
          */
         @JvmOverloads
