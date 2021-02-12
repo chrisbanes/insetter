@@ -31,7 +31,7 @@ object Libs {
     const val junit = "junit:junit:4.12"
 
     object Kotlin {
-        private const val version = "1.4.10"
+        private const val version = "1.4.21"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
 
@@ -39,7 +39,7 @@ object Libs {
     }
 
     object Dokka {
-        private const val version = "1.4.10.2"
+        private const val version = "1.4.20"
         const val gradlePlugin = "org.jetbrains.dokka:dokka-gradle-plugin:$version"
     }
 
@@ -55,9 +55,9 @@ object Libs {
             const val espressoCore = "androidx.test.espresso:espresso-core:3.2.0"
         }
 
-        const val core = "androidx.core:core:1.5.0-alpha05"
-        const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha05"
+        const val core = "androidx.core:core:1.5.0-beta01"
+        const val coreKtx = "androidx.core:core-ktx:1.5.0-beta01"
     }
 
-    const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
 }
