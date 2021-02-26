@@ -55,7 +55,7 @@ view.applyInsetter {
     }
 
     // Apply the status bar insets...
-    type(navigationBars = true) {
+    type(statusBars = true) {
         // Add to margin on all sides
         margin()
     }
