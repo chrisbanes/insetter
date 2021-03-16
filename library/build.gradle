@@ -29,6 +29,12 @@ kotlin {
 android {
     compileSdkVersion 30
 
+    compileOptions {
+        kotlinOptions {
+            freeCompilerArgs += ['-module-name', 'insetter']
+        }
+    }
+
     defaultConfig {
         minSdkVersion 15
 
