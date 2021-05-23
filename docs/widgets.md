@@ -242,5 +242,5 @@ this library provide very similar functionality at the cost of having to migrate
 [cl]: https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html
 [swi]: https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemWindowInsets()
 [sgi]: https://developer.android.com/reference/androidx/core/view/WindowInsetsCompat.html#getSystemGestureInsets()
-[icl]: src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java
-[ich]: src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintHelper.java
+[icl]: ../api/widgets/widgets/dev.chrisbanes.insetter.widgets.constraintlayout/-insetter-constraint-layout/
+[ich]: ../api/widgets/widgets/dev.chrisbanes.insetter.widgets.constraintlayout/-insetter-constraint-helper/

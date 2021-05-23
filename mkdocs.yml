@@ -4,6 +4,7 @@ site_description: 'Insetter is a library to help make handling WindowInsets easy
 site_author: 'Chris Banes'
 site_url: 'https://chrisbanes.github.io/insetter/'
 remote_branch: gh-pages
+edit_uri: 'edit/main/docs/'
 
 docs_dir: docs-gen
 

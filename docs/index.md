@@ -61,7 +61,7 @@ An extension library which provides versions of commonly used ViewGroups with en
 handling. Currently this library is focusing on building upon 
 [`ConstraintLayout`](https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html).
 
-A example of a widget is [InsetterConstraintLayout](widgets/src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java),
+A example of a widget is [InsetterConstraintLayout][icl],
 which enables new attributes to define inset behavior on child views:
 
 ``` xml
@@ -118,4 +118,5 @@ limitations under the License.
 ```
 
 [databinding]: https://developer.android.com/topic/libraries/data-binding
+[icl]: api/widgets/widgets/dev.chrisbanes.insetter.widgets.constraintlayout/-insetter-constraint-layout/
 [snap]: https://oss.sonatype.org/content/repositories/snapshots/
