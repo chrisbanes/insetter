@@ -47,7 +47,8 @@ import dev.chrisbanes.insetter.Insetter.Builder
  * ```
  *
  * Each inset type available in [WindowInsetsCompat] is included, with variants for applying the
- * inset as either padding or margin on the view, on specified sides.
+ * inset as either padding or margin on the view, on specified sides, and whether to react to
+ * [WindowInsetsAnimationCompat]s.
  *
  * You can also provide custom logic via the [Builder.setOnApplyInsetsListener] function.
  * The listener type is slightly different to [OnApplyWindowInsetsListener], in that it contains
@@ -106,7 +107,10 @@ class Insetter private constructor(
         }
 
         /**
-         * TODO
+         * When reacting to window insets animations it is often useful to apply the same
+         * animated translation X and Y to other views. The views provided to this function
+         * will have their [View.getTranslationX] & [View.getTranslationY] set to the same values
+         * which are set to whatever view this [Insetter] is applied to.
          */
         fun syncTranslationTo(vararg views: View): Builder {
             animateSyncViews.addAll(views)
@@ -121,6 +125,8 @@ class Insetter private constructor(
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
          * @param sides Bit mask of [Side]s containing which sides to apply.
          * Defaults to [Side.ALL] to apply all sides. The mask can be created via [sidesOf].
+         * @param animated Whether we should animate the padding whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [paddingLeft]
          * @see [paddingTop]
@@ -149,6 +155,8 @@ class Insetter private constructor(
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the padding whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
@@ -163,6 +171,8 @@ class Insetter private constructor(
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the padding whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
@@ -177,6 +187,8 @@ class Insetter private constructor(
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the padding whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
@@ -191,6 +203,8 @@ class Insetter private constructor(
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the padding whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
@@ -207,6 +221,8 @@ class Insetter private constructor(
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
          * @param sides Bit mask of [Side]s containing which sides to apply.
          * Defaults to [Side.ALL] to apply all sides. The mask can be created via [sidesOf].
+         * @param animated Whether we should animate the margin whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [marginLeft]
          * @see [marginTop]
@@ -235,6 +251,8 @@ class Insetter private constructor(
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the margin whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
@@ -249,6 +267,8 @@ class Insetter private constructor(
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the margin whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
@@ -263,6 +283,8 @@ class Insetter private constructor(
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the margin whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
@@ -277,6 +299,8 @@ class Insetter private constructor(
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the margin whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
