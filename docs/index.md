@@ -57,30 +57,7 @@ This primarily contains binding adapters, which allow access to the helper funct
 
 ### [Widgets](widgets/)
 
-An extension library which provides versions of commonly used ViewGroups with enhanced inset
-handling. Currently this library is focusing on building upon 
-[`ConstraintLayout`](https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html).
-
-A example of a widget is [InsetterConstraintLayout][icl],
-which enables new attributes to define inset behavior on child views:
-
-``` xml
-<dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:paddingSystemWindowInsets="left|top|right|bottom"
-        android:src="@drawable/rectangle" />
-
-</dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
-```
-
-📖 You can read more information [here](widgets/).
+The old `insetter-widgets` library has now removed. View binding + improvements to the main library mean that it now simple to use the main library only.
 
 ### insetter-ktx
 
@@ -91,7 +68,7 @@ The old `insetter-ktx` library has now removed, as all of the KTX functions have
 The library is being written to production quality, but it is not adhering to semantic versioning,
 mean we may change the API if needed, though we'll try not to. We're using this repository to
 allow quick and easy prototyping. The contents of this library may eventually be moved into
-[Android Jetpack](https://android.googlesource.com/platform/frameworks/support/+/androidx-master-dev/)
+[Android Jetpack](https://android.googlesource.com/platform/frameworks/support/+/androidx-main/)
 at a later date.
 
 ## Contributions
@@ -102,7 +79,7 @@ Make sure to read the [Contributing](contributing) page first though.
 ## License
 
 ```
-Copyright 2019 Google LLC.
+Copyright 2021 Google LLC.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -118,5 +95,4 @@ limitations under the License.
 ```
 
 [databinding]: https://developer.android.com/topic/libraries/data-binding
-[icl]: api/widgets/widgets/dev.chrisbanes.insetter.widgets.constraintlayout/-insetter-constraint-layout/
 [snap]: https://oss.sonatype.org/content/repositories/snapshots/
