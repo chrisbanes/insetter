@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://chrisbanes.github.io/insetter/">
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.5">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.4">
     
     
       
@@ -268,16 +268,29 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#removed-libraries" class="md-nav__link">
+    Removed libraries
+  </a>
+  
+    <nav class="md-nav" aria-label="Removed libraries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#widgets" class="md-nav__link">
     Widgets
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#insetter-ktx" class="md-nav__link">
     insetter-ktx
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -473,16 +486,29 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#removed-libraries" class="md-nav__link">
+    Removed libraries
+  </a>
+  
+    <nav class="md-nav" aria-label="Removed libraries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#widgets" class="md-nav__link">
     Widgets
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#insetter-ktx" class="md-nav__link">
     insetter-ktx
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -532,12 +558,12 @@ The library contains implementations of many of the concepts described in our
 <a href="https://medium.com/androiddevelopers/windowinsets-listeners-to-layouts-8f9ccc8fa4d1"><em>"Listeners to Layouts"</em></a>
 blog post.</p>
 <p>There are a number of libraries available:</p>
-<h3 id="main-library"><a href="library/">Main library</a><a class="headerlink" href="#main-library" title="Permanent link">&para;</a></h3>
+<h2 id="main-library"><a href="library/">Main library</a><a class="headerlink" href="#main-library" title="Permanent link">&para;</a></h2>
 <p>The main library provides simple APIs for handling <a href="https://developer.android.com/reference/android/view/WindowInsets">WindowInsets</a>:</p>
 <div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Kotlin</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">view</span><span class="p">.</span><span class="na">applyInsetter</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">view</span><span class="p">.</span><span class="n">applyInsetter</span> <span class="p">{</span>
     <span class="c1">// Apply the navigation bar insets...</span>
-    <span class="n">type</span><span class="p">(</span><span class="n">navigationBars</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">type</span><span class="p">(</span><span class="n">navigationBars</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// Add to padding on all sides</span>
         <span class="n">padding</span><span class="p">()</span>
     <span class="p">}</span>
@@ -555,7 +581,7 @@ blog post.</p>
 </div>
 </div>
 <p>📖 You can read more information <a href="library/">here</a>.</p>
-<h3 id="data-binding-extensions-dbx"><a href="dbx/">Data-binding extensions (DBX)</a><a class="headerlink" href="#data-binding-extensions-dbx" title="Permanent link">&para;</a></h3>
+<h2 id="data-binding-extensions-dbx"><a href="dbx/">Data-binding extensions (DBX)</a><a class="headerlink" href="#data-binding-extensions-dbx" title="Permanent link">&para;</a></h2>
 <p>A <a href="https://developer.android.com/topic/libraries/data-binding">Data Binding</a> extension library, providing <a href="https://developer.android.com/topic/libraries/data-binding">Data Binding</a> specific functionality.
 This primarily contains binding adapters, which allow access to the helper functions from your layouts:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;BottomNavigationView</span>
@@ -566,7 +592,8 @@ This primarily contains binding adapters, which allow access to the helper funct
     <span class="na">app:paddingLeftSystemWindowInsets=</span><span class="s">&quot;@{true}&quot;</span> <span class="nt">/&gt;</span>
 </code></pre></div>
 <p>📖 You can read more information <a href="dbx/">here</a>.</p>
-<h3 id="widgets"><a href="widgets/">Widgets</a><a class="headerlink" href="#widgets" title="Permanent link">&para;</a></h3>
+<h2 id="removed-libraries">Removed libraries<a class="headerlink" href="#removed-libraries" title="Permanent link">&para;</a></h2>
+<h3 id="widgets">Widgets<a class="headerlink" href="#widgets" title="Permanent link">&para;</a></h3>
 <p>The old <code>insetter-widgets</code> library has now removed. View binding + improvements to the main library mean that it now simple to use the main library only.</p>
 <h3 id="insetter-ktx">insetter-ktx<a class="headerlink" href="#insetter-ktx" title="Permanent link">&para;</a></h3>
 <p>The old <code>insetter-ktx</code> library has now removed, as all of the KTX functions have been moved to the main <a href="library/">library</a>. You can safely remove any references to the <code>insetter-ktx</code> dependency, and replace it with the core library.</p>
@@ -661,10 +688,10 @@ limitations under the License.
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "assets/javascripts/workers/search.4fa0e4ee.min.js", "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.a1609d9a.min.js"></script>
+      <script src="assets/javascripts/bundle.1d3bfcf1.min.js"></script>
       
     
   </body>

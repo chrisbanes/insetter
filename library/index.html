@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://chrisbanes.github.io/insetter/library/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.5">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.4">
     
     
       
@@ -517,17 +517,17 @@
 <p>The <a href="../api/library/library/dev.chrisbanes.insetter/-insetter/-builder/"><code>Builder</code></a> is the main entry point for Insetter. It allows you to build up how you want a view
 to react to <a href="https://developer.android.com/reference/android/view/WindowInsets">WindowInsets</a>:</p>
 <div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Kotlin</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">Insetter</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">Insetter</span><span class="p">.</span><span class="n">builder</span><span class="p">()</span>
     <span class="c1">// This will add the navigation bars insets as padding to all sides of the view,</span>
     <span class="c1">// maintaining the original padding (from the layout XML, style, etc)</span>
-    <span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">windowInsetTypesOf</span><span class="p">(</span><span class="n">navigationBars</span> <span class="o">=</span> <span class="kc">true</span><span class="p">))</span>
+    <span class="p">.</span><span class="n">padding</span><span class="p">(</span><span class="n">windowInsetTypesOf</span><span class="p">(</span><span class="n">navigationBars</span> <span class="p">=</span> <span class="k">true</span><span class="p">))</span>
 
     <span class="c1">// This will add the status bars insets as margin to all sides of the view,</span>
     <span class="c1">// maintaining the original margins (from the layout XML, etc)`</span>
-    <span class="p">.</span><span class="na">margin</span><span class="p">(</span><span class="n">windowInsetTypesOf</span><span class="p">(</span><span class="n">statusBars</span> <span class="o">=</span> <span class="kc">true</span><span class="p">))</span>
+    <span class="p">.</span><span class="n">margin</span><span class="p">(</span><span class="n">windowInsetTypesOf</span><span class="p">(</span><span class="n">statusBars</span> <span class="p">=</span> <span class="k">true</span><span class="p">))</span>
 
     <span class="c1">// This is a shortcut for view.setOnApplyWindowInsetsListener(builder.build())</span>
-    <span class="p">.</span><span class="na">applyToView</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">applyToView</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Java</label><div class="tabbed-content">
@@ -548,15 +548,15 @@ to react to <a href="https://developer.android.com/reference/android/view/Window
 <h2 id="kotlin-dsl">Kotlin DSL<a class="headerlink" href="#kotlin-dsl" title="Permanent link">&para;</a></h2>
 <p>If you're using Kotlin, we also provided a DSL via the <a href="../api/library/library/dev.chrisbanes.insetter/apply-insetter.html"><code>View.applyInsetter()</code></a>
 extension function. To achieve the same result as above:</p>
-<div class="highlight"><pre><span></span><code><span class="n">view</span><span class="p">.</span><span class="na">applyInsetter</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">view</span><span class="p">.</span><span class="n">applyInsetter</span> <span class="p">{</span>
     <span class="c1">// Apply the navigation bar insets...</span>
-    <span class="n">type</span><span class="p">(</span><span class="n">navigationBars</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">type</span><span class="p">(</span><span class="n">navigationBars</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// Add to padding on all sides</span>
         <span class="n">padding</span><span class="p">()</span>
     <span class="p">}</span>
 
     <span class="c1">// Apply the status bar insets...</span>
-    <span class="n">type</span><span class="p">(</span><span class="n">statusBars</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">type</span><span class="p">(</span><span class="n">statusBars</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// Add to margin on all sides</span>
         <span class="n">margin</span><span class="p">()</span>
     <span class="p">}</span>
@@ -576,16 +576,16 @@ extension function. To achieve the same result as above:</p>
 <p>This functionality works wherever <a href="https://developer.android.com/reference/androidx/core/view/WindowInsetsAnimationCompat">WindowInsetsAnimationCompat</a> works, which at the time or writing is on devices running API 21+.</p>
 </div>
 <input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Usage</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="na">messageHolder</span><span class="p">.</span><span class="na">applyInsetter</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="n">messageHolder</span><span class="p">.</span><span class="n">applyInsetter</span> <span class="p">{</span>
     <span class="c1">// Apply the navigation bar and ime insets...</span>
-    <span class="n">type</span><span class="p">(</span><span class="n">navigationBars</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">ime</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">type</span><span class="p">(</span><span class="n">navigationBars</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span> <span class="n">ime</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// ..as padding, enabling the animation support</span>
-        <span class="n">padding</span><span class="p">(</span><span class="n">animated</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span>
+        <span class="n">padding</span><span class="p">(</span><span class="n">animated</span> <span class="p">=</span> <span class="k">true</span><span class="p">)</span>
     <span class="p">}</span>
 
     <span class="c1">// This is optional, but it&#39;s usually necessary to sync the resulting</span>
     <span class="c1">// translation to other views. You can provide multiple views here.</span>
-    <span class="n">syncTranslationTo</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">conversationRecyclerview</span><span class="p">)</span>
+    <span class="n">syncTranslationTo</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="n">conversationRecyclerview</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>See the <a href="https://github.com/chrisbanes/insetter/blob/main/sample/src/main/java/dev/chrisbanes/insetter/sample/AnimatedInsetterSample.kt">AnimatedInsetterSample</a> for a working example.</p>
@@ -707,10 +707,10 @@ The latest release is: <img alt="Latest SNAPSHOT release" src="https://img.shiel
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.4fa0e4ee.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.a1609d9a.min.js"></script>
+      <script src="../assets/javascripts/bundle.1d3bfcf1.min.js"></script>
       
     
   </body>
