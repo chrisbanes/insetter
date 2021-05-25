@@ -1,5 +1,6 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
-
+$dokka.location:dev.chrisbanes.insetter////PointingToDeclaration/dbx/dev.chrisbanes.insetter/index.html
+$dokka.location:dev.chrisbanes.insetter//applyInsetsFromBooleans/#android.view.View#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean/PointingToDeclaration/dbx/dev.chrisbanes.insetter/apply-insets-from-booleans.html
 dev.chrisbanes.insetter
 
