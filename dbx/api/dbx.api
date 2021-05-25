@@ -8,7 +8,6 @@ public class androidx/databinding/library/baseAdapters/BR {
 
 public final class dev/chrisbanes/insetter/InsetterBindingAdaptersKt {
 	public static final fun applyInsetsFromBooleans (Landroid/view/View;ZZZZZZZZZZZZZZZZZ)V
-	public static final fun setEdgeToEdgeFlags (Landroid/view/View;Z)V
 }
 
 public class dev/chrisbanes/insetter/dbx/BR {

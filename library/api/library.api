@@ -7,19 +7,12 @@ public final class dev/chrisbanes/insetter/Insetter {
 	public final fun applyInsetsToView (Landroid/view/View;Landroidx/core/view/WindowInsetsCompat;Ldev/chrisbanes/insetter/ViewState;)V
 	public final fun applyToView (Landroid/view/View;)V
 	public static final fun builder ()Ldev/chrisbanes/insetter/Insetter$Builder;
-	public static final fun setEdgeToEdgeSystemUiFlags (Landroid/view/View;Z)V
 }
 
 public final class dev/chrisbanes/insetter/Insetter$Builder {
-	public final fun applySystemGestureInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun applySystemGestureInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun applySystemWindowInsetsToMargin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun applySystemWindowInsetsToPadding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun applyToView (Landroid/view/View;)Ldev/chrisbanes/insetter/Insetter;
 	public final fun build ()Ldev/chrisbanes/insetter/Insetter;
 	public final fun consume (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun consumeSystemWindowInsets (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun consumeSystemWindowInsets (Z)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun margin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun margin (II)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public static synthetic fun margin$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
@@ -39,7 +32,6 @@ public final class dev/chrisbanes/insetter/Insetter$Builder {
 
 public final class dev/chrisbanes/insetter/Insetter$Companion {
 	public final fun builder ()Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun setEdgeToEdgeSystemUiFlags (Landroid/view/View;Z)V
 }
 
 public abstract interface annotation class dev/chrisbanes/insetter/Insetter$ConsumeOptions : java/lang/annotation/Annotation {
@@ -66,20 +58,6 @@ public final class dev/chrisbanes/insetter/InsetterDslKt {
 }
 
 public abstract interface annotation class dev/chrisbanes/insetter/InsetterDslMarker : java/lang/annotation/Annotation {
-}
-
-public final class dev/chrisbanes/insetter/InsetterKtxKt {
-	public static final fun applySystemGestureInsetsToMargin (Landroid/view/View;ZZZZZ)Ldev/chrisbanes/insetter/Insetter;
-	public static synthetic fun applySystemGestureInsetsToMargin$default (Landroid/view/View;ZZZZZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter;
-	public static final fun applySystemGestureInsetsToPadding (Landroid/view/View;ZZZZZ)Ldev/chrisbanes/insetter/Insetter;
-	public static synthetic fun applySystemGestureInsetsToPadding$default (Landroid/view/View;ZZZZZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter;
-	public static final fun applySystemWindowInsetsToMargin (Landroid/view/View;ZZZZZ)Ldev/chrisbanes/insetter/Insetter;
-	public static synthetic fun applySystemWindowInsetsToMargin$default (Landroid/view/View;ZZZZZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter;
-	public static final fun applySystemWindowInsetsToPadding (Landroid/view/View;ZZZZZ)Ldev/chrisbanes/insetter/Insetter;
-	public static synthetic fun applySystemWindowInsetsToPadding$default (Landroid/view/View;ZZZZZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter;
-	public static final fun doOnApplyWindowInsets (Landroid/view/View;Lkotlin/jvm/functions/Function3;)Ldev/chrisbanes/insetter/Insetter;
-	public static final fun setEdgeToEdgeSystemUiFlags (Landroid/view/View;Z)V
-	public static synthetic fun setEdgeToEdgeSystemUiFlags$default (Landroid/view/View;ZILjava/lang/Object;)V
 }
 
 public abstract interface class dev/chrisbanes/insetter/OnApplyInsetsListener {

@@ -17,16 +17,14 @@
 package dev.chrisbanes.insetter
 
 import android.app.Activity
-import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.test.annotation.UiThreadTest
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.filters.SdkSuppress
-import dev.chrisbanes.insetter.Insetter.Companion.EDGE_TO_EDGE_FLAGS
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -140,49 +138,18 @@ class InsetterTestCase {
         assertNotNull(resultInsets)
     }
 
-    @Test
-    @UiThreadTest
-    @Suppress("DEPRECATION")
-    fun test_setEdgeToEdgeSystemUiFlags() {
-        addViewToContainer(setEdgeToEdgeFlags = false)
-
-        Insetter.setEdgeToEdgeSystemUiFlags(view, true)
-        assertEquals(EDGE_TO_EDGE_FLAGS, view.systemUiVisibility and EDGE_TO_EDGE_FLAGS)
-
-        Insetter.setEdgeToEdgeSystemUiFlags(view, false)
-        assertEquals(0, view.systemUiVisibility and EDGE_TO_EDGE_FLAGS)
-    }
-
-    @Test
-    @UiThreadTest
-    @Suppress("DEPRECATION")
-    fun test_setEdgeToEdgeSystemUiFlags_doesntOverwrite() {
-        addViewToContainer(setEdgeToEdgeFlags = false)
-
-        // Set some other system-ui flags not related to layout
-        val otherFlags = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
-        view.systemUiVisibility = otherFlags
-
-        Insetter.setEdgeToEdgeSystemUiFlags(view, true)
-
-        assertEquals(EDGE_TO_EDGE_FLAGS, view.systemUiVisibility and EDGE_TO_EDGE_FLAGS)
-        assertEquals(otherFlags, view.systemUiVisibility and otherFlags)
-    }
-
     private fun addViewToContainer(
         lp: ViewGroup.LayoutParams? = null,
-        setEdgeToEdgeFlags: Boolean = true
+        fitSystemWindows: Boolean = true
     ) {
-        rule.scenario.onActivity {
+        rule.scenario.onActivity { activity ->
             if (lp != null) {
                 container.addView(view, lp)
             } else {
                 container.addView(view)
             }
-            if (setEdgeToEdgeFlags) {
-                @Suppress("DEPRECATION")
-                view.systemUiVisibility = EDGE_TO_EDGE_FLAGS
-            }
+
+            WindowCompat.setDecorFitsSystemWindows(activity.window, !fitSystemWindows)
         }
     }
 }
