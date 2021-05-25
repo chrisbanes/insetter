@@ -16,13 +16,8 @@
 
 package dev.chrisbanes.insetter
 
-import android.os.Build
-import android.util.Log
 import android.view.View
 import androidx.databinding.BindingAdapter
-import dev.chrisbanes.insetter.Insetter.Companion.setEdgeToEdgeSystemUiFlags
-
-private const val TAG = "Insetter"
 
 @BindingAdapter(
     value = [
@@ -69,7 +64,7 @@ fun applyInsetsFromBooleans(
     Insetter.builder()
         .padding(
             windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
-            Side.create(
+            sidesOf(
                 padSystemWindowLeft,
                 padSystemWindowTop,
                 padSystemWindowRight,
@@ -78,7 +73,7 @@ fun applyInsetsFromBooleans(
         )
         .margin(
             windowInsetTypesOf(ime = true, statusBars = true, navigationBars = true),
-            Side.create(
+            sidesOf(
                 marginSystemWindowLeft,
                 marginSystemWindowTop,
                 marginSystemWindowRight,
@@ -87,7 +82,7 @@ fun applyInsetsFromBooleans(
         )
         .padding(
             windowInsetTypesOf(systemGestures = true),
-            Side.create(
+            sidesOf(
                 padSystemGestureLeft,
                 padSystemGestureTop,
                 padSystemGestureRight,
@@ -96,7 +91,7 @@ fun applyInsetsFromBooleans(
         )
         .margin(
             windowInsetTypesOf(systemGestures = true),
-            Side.create(
+            sidesOf(
                 marginSystemGestureLeft,
                 marginSystemGestureTop,
                 marginSystemGestureRight,
@@ -105,18 +100,4 @@ fun applyInsetsFromBooleans(
         )
         .consume(if (consumeWindowInsets) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
         .applyToView(v)
-}
-
-@BindingAdapter("layout_edgeToEdge")
-@Deprecated(
-    """The layout_edgeToEdge attribute is deprecated.
-    See Insetter.setEdgeToEdgeSystemUiFlags for more information."""
-)
-fun setEdgeToEdgeFlags(view: View, enabled: Boolean) {
-    if (Build.VERSION.SDK_INT >= 16) {
-        @Suppress("DEPRECATION")
-        setEdgeToEdgeSystemUiFlags(view, enabled)
-    } else {
-        Log.i(TAG, "The layout_edgeToEdge attribute only works on API 16+")
-    }
 }

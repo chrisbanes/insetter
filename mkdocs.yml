@@ -4,6 +4,7 @@ site_description: 'Insetter is a library to help make handling WindowInsets easy
 site_author: 'Chris Banes'
 site_url: 'https://chrisbanes.github.io/insetter/'
 remote_branch: gh-pages
+edit_uri: 'edit/main/docs/'
 
 docs_dir: docs-gen
 
@@ -14,12 +15,12 @@ repo_url: 'https://github.com/chrisbanes/insetter'
 # Navigation
 nav:
   - 'Overview': index.md
-  - 'DBX': dbx.md
-  - 'Widgets': widgets.md
-  - 'API':
-    - 'Core library': api/library/library/
-    - 'DBX': api/dbx/dbx/
-    - 'Widgets': api/widgets/widgets/
+  - 'Main library': 
+    - 'Guide': library.md
+    - 'API': api/library/library/dev.chrisbanes.insetter/
+  - 'DBX': 
+    - 'Guide': dbx.md
+    - 'API': api/dbx/dbx/dev.chrisbanes.insetter/
   - 'Contributing': contributing.md
 # Configuration
 theme:

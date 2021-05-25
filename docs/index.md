@@ -3,7 +3,7 @@
 [![GitHub release](https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter)](https://search.maven.org/search?q=g:dev.chrisbanes.insetter)
 
 Insetter is a library to help apps handle
-[WindowInsets](https://developer.android.com/reference/android/view/WindowInsets.html) more easily.
+[WindowInsets](https://developer.android.com/reference/android/view/WindowInsets) more easily.
 The library contains implementations of many of the concepts described in our
 [_"Listeners to Layouts"_](https://medium.com/androiddevelopers/windowinsets-listeners-to-layouts-8f9ccc8fa4d1)
 blog post.
@@ -12,10 +12,7 @@ There are a number of libraries available:
 
 ### [Main library](library/)
 
-The main library provides an easy-to-use
-[Builder](/library/src/main/java/dev/chrisbanes/insetter/Insetter.kt) for
-[OnApplyWindowInsetsListener](https://developer.android.com/reference/androidx/core/view/OnApplyWindowInsetsListener)
-instances:
+The main library provides simple APIs for handling [WindowInsets](https://developer.android.com/reference/android/view/WindowInsets):
 
 === "Kotlin"
 
@@ -29,8 +26,6 @@ instances:
     }
     ```
 
-    See [here](api/library/library/dev.chrisbanes.insetter/apply-insetter.html) for more information.
-
 === "Java"
 
     ``` java
@@ -42,9 +37,9 @@ instances:
         .applyToView(view);
     ```
 
-    See [here](api/library/library/dev.chrisbanes.insetter/-insetter/) for more information.
+📖 You can read more information [here](library/).
 
-### [insetter-dbx](dbx/)
+### [Data-binding extensions (DBX)](dbx/)
 
 A [Data Binding][databinding] extension library, providing [Data Binding][databinding] specific functionality.
 This primarily contains binding adapters, which allow access to the helper functions from your layouts:
@@ -60,93 +55,21 @@ This primarily contains binding adapters, which allow access to the helper funct
 
 📖 You can read more information [here](dbx/).
 
-### [insetter-widgets](widgets/)
+### [Widgets](widgets/)
 
-An extension library which provides versions of commonly used ViewGroups with enhanced inset
-handling. Currently this library is focusing on building upon 
-[ConstraintLayout](https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html).
-
-A example of a widget is [InsetterConstraintLayout](widgets/src/main/java/dev/chrisbanes/insetter/widgets/constraintlayout/InsetterConstraintLayout.java),
-which enables new attributes to define inset behavior on child views.
-The behavior enabled through `InsetterConstraintLayout` is similar to that provided by 
-the `insetter-dbx` library, but without the requirement of using data-binding.
-
-``` xml
-<dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:paddingSystemWindowInsets="left|top|right|bottom"
-        android:src="@drawable/rectangle" />
-
-</dev.chrisbanes.insetter.widgets.constraintlayout.InsetterConstraintLayout>
-```
-
-📖 You can read more information [here](widgets/).
+The old `insetter-widgets` library has now removed. View binding + improvements to the main library mean that it now simple to use the main library only.
 
 ### insetter-ktx
 
-The old `insetter-ktx` library has now removed, as all of the KTX funtions have been moved to the main [library](library/). You can safely remove any references to the `insetter-ktx` dependency, and replace it with the core library.
+The old `insetter-ktx` library has now removed, as all of the KTX functions have been moved to the main [library](library/). You can safely remove any references to the `insetter-ktx` dependency, and replace it with the core library.
 
 ## ⚠️ Attention 🚧
 
 The library is being written to production quality, but it is not adhering to semantic versioning,
 mean we may change the API if needed, though we'll try not to. We're using this repository to
 allow quick and easy prototyping. The contents of this library may eventually be moved into
-[Android Jetpack](https://android.googlesource.com/platform/frameworks/support/+/androidx-master-dev/)
+[Android Jetpack](https://android.googlesource.com/platform/frameworks/support/+/androidx-main/)
 at a later date.
-
-## Download
-
-=== "Stable"
-
-    Latest version: ![GitHub release](https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter)
-
-    ```groovy
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        // The base library. If you're using either the dbx and/or ktx libraries, you don't need this
-        implementation "dev.chrisbanes.insetter:insetter:<latest version>"
-
-        // If you're using data-binding use this
-        implementation "dev.chrisbanes.insetter:insetter-dbx:<latest version>"
-    
-        // If you would like to use the enhanced widget set, use this
-        implementation "dev.chrisbanes.insetter:insetter-widgets:<latest version>"
-    }
-    ```
-
-=== "Snapshot"
-
-    Snapshots of the current development version are available, which track the latest commit.
-
-    The snapshots are deployed to
-    Sonatype's [snapshots repository](https://oss.sonatype.org/content/repositories/snapshots/dev/chrisbanes/insetter/).
-    The latest release is: ![Latest SNAPSHOT release](https://img.shields.io/nexus/s/dev.chrisbanes.insetter/insetter?label=snapshot&server=https%3A%2F%2Foss.sonatype.org)
-
-    ```groovy
-    repositories {
-        // Need to add the Sonatype snapshots repo
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-    }
-
-    dependencies {
-        // Check the latest SNAPSHOT version from the image above
-        implementation "dev.chrisbanes.insetter:insetter:XXX-SNAPSHOT"
-        implementation "dev.chrisbanes.insetter:insetter-dbx:XXX-SNAPSHOT"
-        implementation "dev.chrisbanes.insetter:insetter-widgets:XXX-SNAPSHOT"
-    }
-    ```
-
----
 
 ## Contributions
 
@@ -156,7 +79,7 @@ Make sure to read the [Contributing](contributing) page first though.
 ## License
 
 ```
-Copyright 2019 Google LLC.
+Copyright 2021 Google LLC.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
