@@ -17,7 +17,7 @@
 package dev.chrisbanes.insetter.buildsrc
 
 object Versions {
-    const val ktlint = "0.40.0"
+    const val ktlint = "0.41.0"
 }
 
 object Libs {
