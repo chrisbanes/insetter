@@ -15,19 +15,21 @@ jobs:
     # Skip build if head commit contains 'skip ci'
     if: "!contains(github.event.head_commit.message, 'skip ci')"
 
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
     env:
-      JAVA_TOOL_OPTIONS: -Xmx5120m
-      GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2 -Dkotlin.incremental=false -Dkotlin.compiler.execution.strategy=in-process
       TERM: dumb
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: set up JDK 1.8
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 1.8
+          java-version: 11
 
       - name: Decrypt secrets
         run: release/signing-setup.sh $ENCRYPT_KEY
@@ -54,22 +56,25 @@ jobs:
 
   test:
     runs-on: macOS-latest
+    timeout-minutes: 30
     needs: build
     strategy:
       matrix:
         api-level: [21, 23, 26, 29]
     env:
-      JAVA_TOOL_OPTIONS: -Xmx3072m
-      GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2 -Dkotlin.incremental=false -Dkotlin.compiler.execution.strategy=in-process
       TERM: dumb
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: set up JDK 1.8
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 1.8
+          java-version: 11
+
       - name: Decrypt secrets
         run: release/signing-setup.sh $ENCRYPT_KEY
         env:
@@ -101,6 +106,7 @@ jobs:
         run: |
           mkdir -p junit
           find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} junit/ \;
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v1
@@ -110,20 +116,22 @@ jobs:
 
   deploy:
     if: github.ref == 'refs/heads/main'
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: [build, test]
     env:
-      JAVA_TOOL_OPTIONS: -Xmx5120m
-      GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2 -Dkotlin.incremental=false -Dkotlin.compiler.execution.strategy=in-process
       TERM: dumb
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: set up JDK 1.8
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 1.8
+          java-version: 11
 
       - name: Decrypt secrets
         run: release/signing-setup.sh $ENCRYPT_KEY
