@@ -31,7 +31,7 @@ object Libs {
     const val junit = "junit:junit:4.12"
 
     object Kotlin {
-        private const val version = "1.4.21"
+        private const val version = "1.4.32"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
 
@@ -39,7 +39,7 @@ object Libs {
     }
 
     object Dokka {
-        private const val version = "1.4.20"
+        private const val version = "1.4.32"
         const val gradlePlugin = "org.jetbrains.dokka:dokka-gradle-plugin:$version"
     }
 
