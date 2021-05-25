@@ -149,6 +149,13 @@ class InsetterDsl internal constructor() {
     fun consume(consume: Boolean) {
         builder = builder.consume(if (consume) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
     }
+
+    /**
+     * TODO
+     */
+    fun syncTranslationTo(vararg views: View) {
+        builder = builder.syncTranslationTo(*views)
+    }
 }
 
 /**
@@ -162,7 +169,15 @@ class InsetterApplyTypeDsl internal constructor(
     /**
      * Add the [WindowInsetsCompat.Type] to all padding dimensions.
      */
-    fun padding() = padding(horizontal = true, vertical = true)
+    fun padding(
+        animated: Boolean = false
+    ) {
+        padding(
+            horizontal = true,
+            vertical = true,
+            animated = animated,
+        )
+    }
 
     /**
      * Add the [WindowInsetsCompat.Type] to the given padding dimensions.
@@ -181,17 +196,27 @@ class InsetterApplyTypeDsl internal constructor(
         bottom: Boolean = false,
         horizontal: Boolean = false,
         vertical: Boolean = false,
+        animated: Boolean = false,
     ) {
         builder = builder.padding(
             insetType = type,
-            sides = sidesOf(left, top, right, bottom, horizontal, vertical)
+            sides = sidesOf(left, top, right, bottom, horizontal, vertical),
+            animated = animated,
         )
     }
 
     /**
      * Add the [WindowInsetsCompat.Type] to all margin dimensions.
      */
-    fun margin() = margin(horizontal = true, vertical = true)
+    fun margin(
+        animated: Boolean = false
+    ) {
+        margin(
+            horizontal = true,
+            vertical = true,
+            animated = animated,
+        )
+    }
 
     /**
      * Add the [WindowInsetsCompat.Type] to the given margin dimensions.
@@ -210,10 +235,12 @@ class InsetterApplyTypeDsl internal constructor(
         bottom: Boolean = false,
         horizontal: Boolean = false,
         vertical: Boolean = false,
+        animated: Boolean = false,
     ) {
         builder = builder.margin(
             insetType = type,
-            sides = sidesOf(left, top, right, bottom, horizontal, vertical)
+            sides = sidesOf(left, top, right, bottom, horizontal, vertical),
+            animated = animated,
         )
     }
 }

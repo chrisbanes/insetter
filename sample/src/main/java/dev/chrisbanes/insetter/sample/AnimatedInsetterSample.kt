@@ -19,7 +19,7 @@ package dev.chrisbanes.insetter.sample
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
-import dev.chrisbanes.insetter.Insetter
+import dev.chrisbanes.insetter.applyInsetter
 import dev.chrisbanes.insetter.sample.databinding.ActivityAnimatedBinding
 import dev.chrisbanes.insetter.windowInsetTypesOf
 
@@ -35,14 +35,17 @@ class AnimatedInsetterSample : AppCompatActivity() {
         binding.conversationRecyclerview.adapter = ConversationAdapter()
         binding.toolbar.title = title
 
-        Insetter.builder()
-            .margin(windowInsetTypesOf(statusBars = true))
-            .applyToView(binding.toolbar)
+        binding.toolbar.applyInsetter {
+            type(windowInsetTypesOf(statusBars = true)) {
+                margin()
+            }
+        }
 
-        Insetter.builder()
-            .padding(windowInsetTypesOf(navigationBars = true))
-            .animatedPadding(windowInsetTypesOf(ime = true))
-            .syncTranslationTo(binding.conversationRecyclerview)
-            .applyToView(binding.messageHolder)
+        binding.messageHolder.applyInsetter {
+            type(windowInsetTypesOf(navigationBars = true, ime = true)) {
+                padding(animated = true)
+            }
+            syncTranslationTo(binding.conversationRecyclerview)
+        }
     }
 }
