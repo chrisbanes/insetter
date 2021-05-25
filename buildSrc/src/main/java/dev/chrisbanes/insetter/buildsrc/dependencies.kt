@@ -60,4 +60,6 @@ object Libs {
     }
 
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.4"
+
+    const val mdc = "com.google.android.material:material:1.2.1"
 }

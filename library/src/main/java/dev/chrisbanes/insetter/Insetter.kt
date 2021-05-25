@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package dev.chrisbanes.insetter
 
 import android.os.Build
@@ -24,7 +26,9 @@ import androidx.annotation.IntDef
 import androidx.core.graphics.Insets
 import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type
 import androidx.core.view.doOnAttach
 import dev.chrisbanes.insetter.Insetter.Builder
 
@@ -43,7 +47,8 @@ import dev.chrisbanes.insetter.Insetter.Builder
  * ```
  *
  * Each inset type available in [WindowInsetsCompat] is included, with variants for applying the
- * inset as either padding or margin on the view, on specified sides.
+ * inset as either padding or margin on the view, on specified sides, and whether to react to
+ * [WindowInsetsAnimationCompat]s.
  *
  * You can also provide custom logic via the [Builder.setOnApplyInsetsListener] function.
  * The listener type is slightly different to [OnApplyWindowInsetsListener], in that it contains
@@ -53,7 +58,14 @@ import dev.chrisbanes.insetter.Insetter.Builder
  * consume the system window insets, you can specify the desired behavior via
  * the [Builder.consume] function.
  */
-class Insetter private constructor(builder: Builder) {
+class Insetter private constructor(
+    private val paddingTypes: SideApply,
+    private val marginTypes: SideApply,
+    private val onApplyInsetsListener: OnApplyInsetsListener?,
+    @ConsumeOptions private val consume: Int,
+    private val animatingTypes: Int,
+    private val animateSyncViews: List<View>,
+) {
     @IntDef(value = [CONSUME_NONE, CONSUME_ALL, CONSUME_AUTO])
     @Retention(AnnotationRetention.SOURCE)
     @Target(
@@ -65,31 +77,23 @@ class Insetter private constructor(builder: Builder) {
     )
     annotation class ConsumeOptions
 
-    private val onApplyInsetsListener: OnApplyInsetsListener?
-
-    private val paddingTypes: SideApply
-    private val marginTypes: SideApply
-
-    private val allTypes
+    private val persistentTypes: SideApply
         get() = paddingTypes + marginTypes
 
-    @ConsumeOptions
-    private val consume: Int
-
-    init {
-        onApplyInsetsListener = builder.onApplyInsetsListener
-        paddingTypes = builder.padding
-        marginTypes = builder.margin
-        consume = builder.consume
-    }
+    private var currentlyDeferredTypes: Int = 0
+    private var lastWindowInsets: WindowInsetsCompat? = null
 
     /** A builder class for creating instances of [Insetter].  */
     class Builder internal constructor() {
-        internal var onApplyInsetsListener: OnApplyInsetsListener? = null
+        private var onApplyInsetsListener: OnApplyInsetsListener? = null
 
-        internal var padding = SideApply()
-        internal var margin = SideApply()
-        internal var consume = CONSUME_NONE
+        private var padding = SideApply()
+        private var margin = SideApply()
+
+        private var consume = CONSUME_NONE
+
+        private var animatingTypes = 0
+        private var animateSyncViews = ArrayList<View>()
 
         /**
          * @param onApplyInsetsListener Callback for supplying custom logic to apply insets. If set,
@@ -103,6 +107,17 @@ class Insetter private constructor(builder: Builder) {
         }
 
         /**
+         * When reacting to window insets animations it is often useful to apply the same
+         * animated translation X and Y to other views. The views provided to this function
+         * will have their [View.getTranslationX] & [View.getTranslationY] set to the same values
+         * which are set to whatever view this [Insetter] is applied to.
+         */
+        fun syncTranslationTo(vararg views: View): Builder {
+            animateSyncViews.addAll(views)
+            return this
+        }
+
+        /**
          * Apply the given [sides] dimension of the given [WindowInsetsCompat.Type][insetType]
          * as the corresponding padding dimension of the view.
          *
@@ -110,6 +125,8 @@ class Insetter private constructor(builder: Builder) {
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
          * @param sides Bit mask of [Side]s containing which sides to apply.
          * Defaults to [Side.ALL] to apply all sides. The mask can be created via [sidesOf].
+         * @param animated Whether we should animate the padding whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [paddingLeft]
          * @see [paddingTop]
@@ -120,8 +137,15 @@ class Insetter private constructor(builder: Builder) {
          * @see [Side.create]
          */
         @JvmOverloads
-        fun padding(insetType: Int, @Sides sides: Int = Side.ALL): Builder {
-            padding.add(insetType, sides)
+        fun padding(
+            insetType: Int,
+            @Sides sides: Int = Side.ALL,
+            animated: Boolean = false,
+        ): Builder {
+            padding.plus(insetType, sides)
+            if (animated) {
+                animatingTypes = animatingTypes or insetType
+            }
             return this
         }
 
@@ -131,10 +155,15 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the padding whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
-        fun paddingLeft(insetType: Int): Builder = padding(insetType, Side.LEFT)
+        fun paddingLeft(
+            insetType: Int,
+            animated: Boolean = false,
+        ): Builder = padding(insetType, Side.LEFT, animated)
 
         /**
          * Apply the top value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -142,10 +171,15 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the padding whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
-        fun paddingTop(insetType: Int): Builder = padding(insetType, Side.TOP)
+        fun paddingTop(
+            insetType: Int,
+            animated: Boolean = false,
+        ): Builder = padding(insetType, Side.TOP, animated)
 
         /**
          * Apply the right value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -153,10 +187,15 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the padding whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
-        fun paddingRight(insetType: Int): Builder = padding(insetType, Side.RIGHT)
+        fun paddingRight(
+            insetType: Int,
+            animated: Boolean = false,
+        ): Builder = padding(insetType, Side.RIGHT, animated)
 
         /**
          * Apply the bottom value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -164,10 +203,15 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as padding.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the padding whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
-        fun paddingBottom(insetType: Int): Builder = padding(insetType, Side.BOTTOM)
+        fun paddingBottom(
+            insetType: Int,
+            animated: Boolean = false,
+        ): Builder = padding(insetType, Side.BOTTOM, animated)
 
         /**
          * Apply the given [sides] dimension of the given [WindowInsetsCompat.Type][insetType]
@@ -177,6 +221,8 @@ class Insetter private constructor(builder: Builder) {
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
          * @param sides Bit mask of [Side]s containing which sides to apply.
          * Defaults to [Side.ALL] to apply all sides. The mask can be created via [sidesOf].
+         * @param animated Whether we should animate the margin whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [marginLeft]
          * @see [marginTop]
@@ -187,8 +233,15 @@ class Insetter private constructor(builder: Builder) {
          * @see [Side.create]
          */
         @JvmOverloads
-        fun margin(insetType: Int, @Sides sides: Int = Side.ALL): Builder {
-            margin.add(insetType, sides)
+        fun margin(
+            insetType: Int,
+            @Sides sides: Int = Side.ALL,
+            animated: Boolean = false,
+        ): Builder {
+            margin.plus(insetType, sides)
+            if (animated) {
+                animatingTypes = animatingTypes or insetType
+            }
             return this
         }
 
@@ -198,10 +251,15 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the margin whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
-        fun marginLeft(insetType: Int): Builder = margin(insetType, Side.LEFT)
+        fun marginLeft(
+            insetType: Int,
+            animated: Boolean = false,
+        ): Builder = margin(insetType, Side.LEFT, animated)
 
         /**
          * Apply the top value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -209,10 +267,15 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the margin whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
-        fun marginTop(insetType: Int): Builder = margin(insetType, Side.TOP)
+        fun marginTop(
+            insetType: Int,
+            animated: Boolean = false,
+        ): Builder = margin(insetType, Side.TOP, animated)
 
         /**
          * Apply the right value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -220,10 +283,15 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the margin whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
-        fun marginRight(insetType: Int): Builder = margin(insetType, Side.RIGHT)
+        fun marginRight(
+            insetType: Int,
+            animated: Boolean = false,
+        ): Builder = margin(insetType, Side.RIGHT, animated)
 
         /**
          * Apply the bottom value of the given [WindowInsetsCompat.Type][insetType] as the
@@ -231,10 +299,15 @@ class Insetter private constructor(builder: Builder) {
          *
          * @param insetType Bit mask of [WindowInsetsCompat.Type]s to apply as margin.
          * The [windowInsetTypesOf] function is useful for creating the bit mask.
+         * @param animated Whether we should animate the margin whilst a window insets animation
+         * with the type is ongoing.
          *
          * @see [windowInsetTypesOf]
          */
-        fun marginBottom(insetType: Int): Builder = margin(insetType, Side.BOTTOM)
+        fun marginBottom(
+            insetType: Int,
+            animated: Boolean = false,
+        ): Builder = margin(insetType, Side.BOTTOM, animated)
 
         /**
          * @param consume how the window insets should be consumed.
@@ -261,13 +334,20 @@ class Insetter private constructor(builder: Builder) {
         /**
          * Builds the [Insetter] instance.
          */
-        fun build(): Insetter = Insetter(this)
+        fun build(): Insetter = Insetter(
+            paddingTypes = padding,
+            marginTypes = margin,
+            onApplyInsetsListener = onApplyInsetsListener,
+            animatingTypes = animatingTypes,
+            animateSyncViews = animateSyncViews,
+            consume = consume,
+        )
     }
 
     /**
-     * A wrapper around [ViewCompat.setOnApplyWindowInsetsListener] which stores the initial view state, and provides them whenever a
+     * A wrapper around [ViewCompat.setOnApplyWindowInsetsListener] which stores the
+     * initial view state, and provides them whenever a
      * [android.view.WindowInsets] instance is dispatched to the listener provided.
-     *
      *
      * This allows the listener to be able to append inset values to any existing view state
      * properties, rather than overwriting them.
@@ -283,6 +363,8 @@ class Insetter private constructor(builder: Builder) {
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            lastWindowInsets = WindowInsetsCompat(insets)
+
             if (onApplyInsetsListener != null) {
                 // If we have an onApplyInsetsListener, invoke it
                 onApplyInsetsListener.onApplyInsets(v, insets, initialState)
@@ -300,15 +382,99 @@ class Insetter private constructor(builder: Builder) {
                 CONSUME_ALL -> WindowInsetsCompat.CONSUMED
                 CONSUME_AUTO -> {
                     WindowInsetsCompat.Builder(insets)
-                        .consumeType(WindowInsetsCompat.Type.statusBars(), insets, allTypes)
-                        .consumeType(WindowInsetsCompat.Type.navigationBars(), insets, allTypes)
-                        .consumeType(WindowInsetsCompat.Type.ime(), insets, allTypes)
-                        .consumeType(WindowInsetsCompat.Type.systemGestures(), insets, allTypes)
-                        .consumeType(WindowInsetsCompat.Type.displayCutout(), insets, allTypes)
+                        .consumeType(Type.statusBars(), insets, persistentTypes)
+                        .consumeType(Type.navigationBars(), insets, persistentTypes)
+                        .consumeType(Type.ime(), insets, persistentTypes)
+                        .consumeType(Type.systemGestures(), insets, persistentTypes)
+                        .consumeType(Type.displayCutout(), insets, persistentTypes)
                         .build()
                 }
                 else -> insets
             }
+        }
+
+        if (animatingTypes != 0) {
+            ViewCompat.setWindowInsetsAnimationCallback(
+                view,
+                object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
+                    override fun onPrepare(animation: WindowInsetsAnimationCompat) {
+                        currentlyDeferredTypes =
+                            currentlyDeferredTypes or (animation.typeMask and animatingTypes)
+                    }
+
+                    override fun onProgress(
+                        insets: WindowInsetsCompat,
+                        runningAnimations: List<WindowInsetsAnimationCompat>
+                    ): WindowInsetsCompat {
+                        val runningAnimatingTypes = runningAnimations.fold(0) { acc, anim ->
+                            acc or anim.typeMask
+                        } and animatingTypes
+
+                        if (runningAnimatingTypes == 0) {
+                            // If we have no animating types which are running, return now.
+                            return insets
+                        }
+
+                        // onProgress() is called when any of the running animations progress...
+
+                        // First we get the insets which are potentially deferred
+                        val animatedInsets = insets.getInsets(runningAnimatingTypes)
+                        // Then we get the persistent inset types which are applied as
+                        // padding during layout
+                        val persistentInset = insets.getInsets(
+                            persistentTypes.all and runningAnimatingTypes.inv()
+                        )
+
+                        // Now that we subtract the two insets, to calculate the difference.
+                        // We also coerce the insets to be >= 0, to ensure that we don't use
+                        // negative insets.
+                        val diff = Insets.subtract(animatedInsets, persistentInset).let {
+                            Insets.max(it, Insets.NONE)
+                        }
+
+                        // The resulting `diff` insets contain the values for us to apply as a translation
+                        // to the view
+                        val tx = (diff.left - diff.right).toFloat()
+                        val ty = (diff.top - diff.bottom).toFloat()
+
+                        view.translationX = tx
+                        view.translationY = ty
+
+                        for (v in animateSyncViews) {
+                            v.translationX = tx
+                            v.translationY = ty
+                        }
+
+                        return insets
+                    }
+
+                    override fun onEnd(animation: WindowInsetsAnimationCompat) {
+                        if (currentlyDeferredTypes and animation.typeMask != 0) {
+                            currentlyDeferredTypes =
+                                currentlyDeferredTypes and animation.typeMask.inv()
+
+                            // And finally dispatch the deferred insets to the view now.
+                            // Ideally we would just call view.requestApplyInsets() and let
+                            // the normal dispatch cycle happen, but this happens too late
+                            // resulting in a visual flicker.
+                            // Instead we manually re-dispatch the most recent WindowInsets
+                            // to the view.
+                            if (lastWindowInsets != null) {
+                                ViewCompat.dispatchApplyWindowInsets(view, lastWindowInsets!!)
+                            }
+                        }
+
+                        // Once the animation has ended, reset the translation values
+                        view.translationX = 0f
+                        view.translationY = 0f
+
+                        for (v in animateSyncViews) {
+                            v.translationX = 0f
+                            v.translationY = 0f
+                        }
+                    }
+                }
+            )
         }
 
         // Now request an insets pass
@@ -335,53 +501,17 @@ class Insetter private constructor(builder: Builder) {
         if (Log.isLoggable(TAG, Log.DEBUG)) {
             Log.d(TAG, "applyInsetsToView. View: $view. Insets: $insets. State: $initialState")
         }
-        view.applyPadding(insets, paddingTypes, initialState.paddings)
-        view.applyMargins(insets, marginTypes, initialState.margins)
-    }
 
-    /**
-     * Internal class used to store which types to apply on each side using a given
-     * application type (padding, margin, etc).
-     */
-    internal class SideApply {
-        @Sides
-        var left: Int = Side.NONE
-            private set
-
-        @Sides
-        var top: Int = Side.NONE
-            private set
-
-        @Sides
-        var right: Int = Side.NONE
-            private set
-
-        @Sides
-        var bottom: Int = Side.NONE
-            private set
-
-        val isEmpty: Boolean
-            get() = all == Side.NONE
-
-        val all: Int
-            get() = left or top or right or bottom
-
-        fun add(insetTypes: Int, @Sides sides: Int = Side.ALL) {
-            if (sides and Side.LEFT != 0) left = left or insetTypes
-            if (sides and Side.TOP != 0) top = top or insetTypes
-            if (sides and Side.RIGHT != 0) right = right or insetTypes
-            if (sides and Side.BOTTOM != 0) bottom = bottom or insetTypes
-        }
-
-        operator fun plus(other: SideApply): SideApply {
-            val lhs = this
-            return SideApply().apply {
-                left = lhs.left or other.left
-                top = lhs.top or other.top
-                right = lhs.right or other.right
-                bottom = lhs.bottom or other.bottom
-            }
-        }
+        view.applyPadding(
+            insets = insets,
+            typesToApply = paddingTypes - currentlyDeferredTypes,
+            initialPaddings = initialState.paddings
+        )
+        view.applyMargins(
+            insets = insets,
+            typesToApply = marginTypes - currentlyDeferredTypes,
+            initialMargins = initialState.margins
+        )
     }
 
     companion object {
@@ -395,7 +525,7 @@ class Insetter private constructor(builder: Builder) {
 
         /**
          * Any specified sides are consumed. This selectively consumes any sides which are set via
-         * [Builder.applySystemWindowInsetsToPadding] or other related functions.
+         * [Builder.padding], [Builder.margin] or other related functions.
          */
         const val CONSUME_AUTO = 2
 
@@ -405,7 +535,80 @@ class Insetter private constructor(builder: Builder) {
         @JvmStatic
         fun builder(): Builder = Builder()
 
-        private const val TAG = "Insetter"
+        internal const val TAG = "Insetter"
+    }
+}
+
+/**
+ * Internal class used to store which types to apply on each side using a given
+ * application type (padding, margin, etc).
+ */
+internal class SideApply {
+    @Sides
+    var left: Int = Side.NONE
+        private set
+
+    @Sides
+    var top: Int = Side.NONE
+        private set
+
+    @Sides
+    var right: Int = Side.NONE
+        private set
+
+    @Sides
+    var bottom: Int = Side.NONE
+        private set
+
+    val isEmpty: Boolean
+        get() = all == Side.NONE
+
+    val all: Int
+        get() = left or top or right or bottom
+
+    fun plus(insetTypes: Int, @Sides sides: Int = Side.ALL) {
+        if (sides and Side.LEFT != 0) left = left or insetTypes
+        if (sides and Side.TOP != 0) top = top or insetTypes
+        if (sides and Side.RIGHT != 0) right = right or insetTypes
+        if (sides and Side.BOTTOM != 0) bottom = bottom or insetTypes
+    }
+
+    operator fun plus(other: SideApply): SideApply {
+        if (other.isEmpty) return this
+
+        val lhs = this
+        return SideApply().apply {
+            left = lhs.left or other.left
+            top = lhs.top or other.top
+            right = lhs.right or other.right
+            bottom = lhs.bottom or other.bottom
+        }
+    }
+
+    operator fun minus(other: SideApply): SideApply {
+        if (isEmpty) return this
+        if (other.isEmpty) return this
+
+        val lhs = this
+        return SideApply().apply {
+            left = lhs.left and other.left.inv()
+            top = lhs.top and other.top.inv()
+            right = lhs.right and other.right.inv()
+            bottom = lhs.bottom and other.bottom.inv()
+        }
+    }
+
+    operator fun minus(type: Int): SideApply {
+        if (isEmpty) return this
+        if (type == 0) return this
+
+        val lhs = this
+        return SideApply().apply {
+            left = lhs.left and type.inv()
+            top = lhs.top and type.inv()
+            right = lhs.right and type.inv()
+            bottom = lhs.bottom and type.inv()
+        }
     }
 }
 
@@ -415,7 +618,7 @@ class Insetter private constructor(builder: Builder) {
  */
 private fun View.applyPadding(
     insets: WindowInsetsCompat,
-    typesToApply: Insetter.SideApply,
+    typesToApply: SideApply,
     initialPaddings: ViewDimensions,
 ) {
     // If there's no types to apply, nothing to do...
@@ -450,7 +653,7 @@ private fun View.applyPadding(
  */
 private fun View.applyMargins(
     insets: WindowInsetsCompat,
-    typesToApply: Insetter.SideApply,
+    typesToApply: SideApply,
     initialMargins: ViewDimensions,
 ) {
     // If there's no types to apply, nothing to do...
@@ -520,7 +723,7 @@ private inline fun View.doOnEveryAttach(crossinline action: (view: View) -> Unit
 private fun WindowInsetsCompat.Builder.consumeType(
     type: Int,
     windowInsets: WindowInsetsCompat,
-    applied: Insetter.SideApply,
+    applied: SideApply,
 ): WindowInsetsCompat.Builder {
     // Fast path. If this type wasn't applied at all, no need to do anything
     if (applied.all and type != type) return this

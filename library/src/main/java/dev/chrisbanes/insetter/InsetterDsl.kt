@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("unused")
+
 package dev.chrisbanes.insetter
 
 import android.view.View
@@ -60,6 +62,22 @@ import androidx.core.view.WindowInsetsCompat
  *     }
  * }
  * ```
+ *
+ * ### Window insets animations
+ *
+ * You can also react to window inset animations by passing true for the
+ * `animated` parameter on [InsetterApplyTypeDsl.padding] and [InsetterApplyTypeDsl.margin]:
+ *
+ * ```
+ * view.applyInsetter {
+ *     type(navigationBars = true, ime = true) {
+ *         padding(animated = true)
+ *     }
+ * }
+ * ```
+ *
+ * You may also wish to sync the resulting translation to other views, via
+ * [InsetterDsl.syncTranslationTo].
  *
  * ### Different dimensions
  *
@@ -146,8 +164,22 @@ class InsetterDsl internal constructor() {
         builder = InsetterApplyTypeDsl(type, builder).apply(f).builder
     }
 
+    /**
+     * @param consume whether the window insets should be consumed.
+     * @see Insetter.Builder.consume
+     */
     fun consume(consume: Boolean) {
         builder = builder.consume(if (consume) Insetter.CONSUME_ALL else Insetter.CONSUME_NONE)
+    }
+
+    /**
+     * When reacting to window insets animations it is often useful to apply the same
+     * animated translation X and Y to other views. The views provided to this function
+     * will have their [View.getTranslationX] & [View.getTranslationY] set to the same values
+     * which are set to whatever view this [Insetter] is applied to.
+     */
+    fun syncTranslationTo(vararg views: View) {
+        builder = builder.syncTranslationTo(*views)
     }
 }
 
@@ -161,8 +193,19 @@ class InsetterApplyTypeDsl internal constructor(
 ) {
     /**
      * Add the [WindowInsetsCompat.Type] to all padding dimensions.
+     *
+     * @param animated Whether we should animate the padding whilst a window insets animation
+     * with the type is ongoing.
      */
-    fun padding() = padding(horizontal = true, vertical = true)
+    fun padding(
+        animated: Boolean = false
+    ) {
+        padding(
+            horizontal = true,
+            vertical = true,
+            animated = animated,
+        )
+    }
 
     /**
      * Add the [WindowInsetsCompat.Type] to the given padding dimensions.
@@ -173,6 +216,8 @@ class InsetterApplyTypeDsl internal constructor(
      * @param bottom Add the left value of the insets to the bottom padding.
      * @param horizontal Add both the left and right values.
      * @param vertical Add both the top and bottom values.
+     * @param animated Whether we should animate the padding whilst a window insets animation
+     * with the type is ongoing.
      */
     fun padding(
         left: Boolean = false,
@@ -181,17 +226,30 @@ class InsetterApplyTypeDsl internal constructor(
         bottom: Boolean = false,
         horizontal: Boolean = false,
         vertical: Boolean = false,
+        animated: Boolean = false,
     ) {
         builder = builder.padding(
             insetType = type,
-            sides = sidesOf(left, top, right, bottom, horizontal, vertical)
+            sides = sidesOf(left, top, right, bottom, horizontal, vertical),
+            animated = animated,
         )
     }
 
     /**
      * Add the [WindowInsetsCompat.Type] to all margin dimensions.
+     *
+     * @param animated Whether we should animate the margin whilst a window insets animation
+     * with the type is ongoing.
      */
-    fun margin() = margin(horizontal = true, vertical = true)
+    fun margin(
+        animated: Boolean = false
+    ) {
+        margin(
+            horizontal = true,
+            vertical = true,
+            animated = animated,
+        )
+    }
 
     /**
      * Add the [WindowInsetsCompat.Type] to the given margin dimensions.
@@ -202,6 +260,8 @@ class InsetterApplyTypeDsl internal constructor(
      * @param bottom Add the left value of the insets to the bottom padding.
      * @param horizontal Add both the left and right values.
      * @param vertical Add both the top and bottom values.
+     * @param animated Whether we should animate the margin whilst a window insets animation
+     * with the type is ongoing.
      */
     fun margin(
         left: Boolean = false,
@@ -210,10 +270,12 @@ class InsetterApplyTypeDsl internal constructor(
         bottom: Boolean = false,
         horizontal: Boolean = false,
         vertical: Boolean = false,
+        animated: Boolean = false,
     ) {
         builder = builder.margin(
             insetType = type,
-            sides = sidesOf(left, top, right, bottom, horizontal, vertical)
+            sides = sidesOf(left, top, right, bottom, horizontal, vertical),
+            animated = animated,
         )
     }
 }

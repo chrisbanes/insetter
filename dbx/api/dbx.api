@@ -24,7 +24,7 @@ public class dev/chrisbanes/insetter/dbx/DataBinderMapperImpl : androidx/databin
 	public fun getLayoutId (Ljava/lang/String;)I
 }
 
-public class dev/chrisbanes/insetter/dbx/DataBindingInfo {
+public class dev/chrisbanes/insetter/dbx/DataBindingTriggerClass {
 	public fun <init> ()V
 }
 

@@ -64,6 +64,50 @@ view.applyInsetter {
 
 [API docs](api/library/library/dev.chrisbanes.insetter/apply-insetter.html)
 
+## Animated Insets support
+
+=== "Info"
+
+    <figure>
+        <video width="300" controls loop autoplay>
+        <source src="animated.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <figcaption>Animated insets demo</figcaption>
+    </figure>
+
+    The library now has support for [`WindowInsetsAnimations`](https://developer.android.com/reference/android/view/WindowInsetsAnimation), allowing your content is react to inset animations, such as the on screen-keyboard (IME) being animated on/off screen.
+
+    This functionality works wherever [WindowInsetsAnimationCompat](https://developer.android.com/reference/androidx/core/view/WindowInsetsAnimationCompat) works, which at the time or writing is on devices running API 21+.
+
+=== "Usage"
+
+    ``` kotlin
+    binding.messageHolder.applyInsetter {
+        // Apply the navigation bar and ime insets...
+        type(navigationBars = true, ime = true) {
+            // ..as padding, enabling the animation support
+            padding(animated = true)
+        }
+
+        // This is optional, but it's usually necessary to sync the resulting
+        // translation to other views. You can provide multiple views here.
+        syncTranslationTo(binding.conversationRecyclerview)
+    }
+    ```
+
+    See the [AnimatedInsetterSample](https://github.com/chrisbanes/insetter/blob/main/sample/src/main/java/dev/chrisbanes/insetter/sample/AnimatedInsetterSample.kt) for a working example.
+
+### IME animations
+
+If you're using the animation insets support for IME/keyboard animations, you also need to ensure that the activity's `windowSoftInputMode` is set to `adjustResize`:
+
+``` xml
+<activity
+      android:name=".MyActivity"
+      android:windowSoftInputMode="adjustResize" />
+```
+
 ## Download
 
 === "Stable"

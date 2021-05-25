@@ -3,7 +3,7 @@ public final class dev/chrisbanes/insetter/Insetter {
 	public static final field CONSUME_AUTO I
 	public static final field CONSUME_NONE I
 	public static final field Companion Ldev/chrisbanes/insetter/Insetter$Companion;
-	public synthetic fun <init> (Ldev/chrisbanes/insetter/Insetter$Builder;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/chrisbanes/insetter/SideApply;Ldev/chrisbanes/insetter/SideApply;Ldev/chrisbanes/insetter/OnApplyInsetsListener;IILjava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun applyInsetsToView (Landroid/view/View;Landroidx/core/view/WindowInsetsCompat;Ldev/chrisbanes/insetter/ViewState;)V
 	public final fun applyToView (Landroid/view/View;)V
 	public static final fun builder ()Ldev/chrisbanes/insetter/Insetter$Builder;
@@ -15,19 +15,30 @@ public final class dev/chrisbanes/insetter/Insetter$Builder {
 	public final fun consume (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun margin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun margin (II)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public static synthetic fun margin$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun marginBottom (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun marginLeft (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun marginRight (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun marginTop (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun margin (IIZ)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun margin$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun marginBottom (IZ)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun marginBottom$default (Ldev/chrisbanes/insetter/Insetter$Builder;IZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun marginLeft (IZ)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun marginLeft$default (Ldev/chrisbanes/insetter/Insetter$Builder;IZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun marginRight (IZ)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun marginRight$default (Ldev/chrisbanes/insetter/Insetter$Builder;IZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun marginTop (IZ)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun marginTop$default (Ldev/chrisbanes/insetter/Insetter$Builder;IZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun padding (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun padding (II)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public static synthetic fun padding$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun paddingBottom (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun paddingLeft (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun paddingRight (I)Ldev/chrisbanes/insetter/Insetter$Builder;
-	public final fun paddingTop (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun padding (IIZ)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun padding$default (Ldev/chrisbanes/insetter/Insetter$Builder;IIZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun paddingBottom (IZ)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun paddingBottom$default (Ldev/chrisbanes/insetter/Insetter$Builder;IZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun paddingLeft (IZ)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun paddingLeft$default (Ldev/chrisbanes/insetter/Insetter$Builder;IZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun paddingRight (IZ)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun paddingRight$default (Ldev/chrisbanes/insetter/Insetter$Builder;IZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun paddingTop (IZ)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public static synthetic fun paddingTop$default (Ldev/chrisbanes/insetter/Insetter$Builder;IZILjava/lang/Object;)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun setOnApplyInsetsListener (Ldev/chrisbanes/insetter/OnApplyInsetsListener;)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun syncTranslationTo ([Landroid/view/View;)Ldev/chrisbanes/insetter/Insetter$Builder;
 }
 
 public final class dev/chrisbanes/insetter/Insetter$Companion {
@@ -38,16 +49,19 @@ public abstract interface annotation class dev/chrisbanes/insetter/Insetter$Cons
 }
 
 public final class dev/chrisbanes/insetter/InsetterApplyTypeDsl {
-	public final fun margin ()V
-	public final fun margin (ZZZZZZ)V
-	public static synthetic fun margin$default (Ldev/chrisbanes/insetter/InsetterApplyTypeDsl;ZZZZZZILjava/lang/Object;)V
-	public final fun padding ()V
-	public final fun padding (ZZZZZZ)V
-	public static synthetic fun padding$default (Ldev/chrisbanes/insetter/InsetterApplyTypeDsl;ZZZZZZILjava/lang/Object;)V
+	public final fun margin (Z)V
+	public final fun margin (ZZZZZZZ)V
+	public static synthetic fun margin$default (Ldev/chrisbanes/insetter/InsetterApplyTypeDsl;ZILjava/lang/Object;)V
+	public static synthetic fun margin$default (Ldev/chrisbanes/insetter/InsetterApplyTypeDsl;ZZZZZZZILjava/lang/Object;)V
+	public final fun padding (Z)V
+	public final fun padding (ZZZZZZZ)V
+	public static synthetic fun padding$default (Ldev/chrisbanes/insetter/InsetterApplyTypeDsl;ZILjava/lang/Object;)V
+	public static synthetic fun padding$default (Ldev/chrisbanes/insetter/InsetterApplyTypeDsl;ZZZZZZZILjava/lang/Object;)V
 }
 
 public final class dev/chrisbanes/insetter/InsetterDsl {
 	public final fun consume (Z)V
+	public final fun syncTranslationTo ([Landroid/view/View;)V
 	public final fun type (ILkotlin/jvm/functions/Function1;)V
 	public final fun type (ZZZZZZZZLkotlin/jvm/functions/Function1;)V
 	public static synthetic fun type$default (Ldev/chrisbanes/insetter/InsetterDsl;ZZZZZZZZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
