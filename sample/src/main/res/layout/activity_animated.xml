@@ -24,12 +24,20 @@
     android:backgroundTint="@color/color_on_surface_5"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        style="@style/Widget.MaterialComponents.Toolbar.Surface"
+    <FrameLayout
+        android:id="@+id/toolbar_surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/spacing_micro" />
+        android:background="?attr/colorSurface"
+        android:elevation="@dimen/spacing_micro">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/Widget.MaterialComponents.Toolbar.Surface"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/conversation_recyclerview"
