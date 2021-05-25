@@ -10,7 +10,7 @@ blog post.
 
 There are a number of libraries available:
 
-### [Main library](library/)
+## [Main library](library/)
 
 The main library provides simple APIs for handling [WindowInsets](https://developer.android.com/reference/android/view/WindowInsets):
 
@@ -39,7 +39,7 @@ The main library provides simple APIs for handling [WindowInsets](https://develo
 
 📖 You can read more information [here](library/).
 
-### [Data-binding extensions (DBX)](dbx/)
+## [Data-binding extensions (DBX)](dbx/)
 
 A [Data Binding][databinding] extension library, providing [Data Binding][databinding] specific functionality.
 This primarily contains binding adapters, which allow access to the helper functions from your layouts:
@@ -55,7 +55,9 @@ This primarily contains binding adapters, which allow access to the helper funct
 
 📖 You can read more information [here](dbx/).
 
-### [Widgets](widgets/)
+## Removed libraries 
+
+### Widgets
 
 The old `insetter-widgets` library has now removed. View binding + improvements to the main library mean that it now simple to use the main library only.
 
