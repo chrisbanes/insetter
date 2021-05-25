@@ -87,8 +87,8 @@ The same behavior happens when using margin too.
 ## Edge-to-edge attributes
 There is currently just one edge-to-edge attribute:
 
- * `app:layout_edgeToEdge`: Set this view's system-ui visibility with the flags required to be laid out 'edge-to-edge', or not.
- 
+* `app:layout_edgeToEdge`: Set this view's system-ui visibility with the flags required to be laid out 'edge-to-edge', or not.
+
 ``` xml
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -136,16 +136,6 @@ There is currently just one edge-to-edge attribute:
         implementation "dev.chrisbanes.insetter:insetter-dbx:XXX-SNAPSHOT"
     }
     ```
-
-## When should I use this vs the widgets library?
-
-The behavior enabled through the [widgets](../widgets) library is similar to that provided by 
-the this library, but without the requirement of using [data-binding][databinding].
-If you're already using [data-binding][databinding] I recommend using the dbx library and it's
-binding adapters, since they work with any view type.
-
-However, if you do not use [data-binding][databinding] and do not wish to do so, the widgets library
-provides very similar functionality at the cost of having to migrate to the insetter widget types.
 
  [databinding]: https://developer.android.com/topic/libraries/data-binding
  [cl]: https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout.html
