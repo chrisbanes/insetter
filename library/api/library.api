@@ -60,6 +60,7 @@ public final class dev/chrisbanes/insetter/InsetterApplyTypeDsl {
 }
 
 public final class dev/chrisbanes/insetter/InsetterDsl {
+	public final fun consume (I)V
 	public final fun consume (Z)V
 	public final fun syncTranslationTo ([Landroid/view/View;)V
 	public final fun type (ILkotlin/jvm/functions/Function1;)V
