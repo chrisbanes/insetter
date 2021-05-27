@@ -173,6 +173,15 @@ class InsetterDsl internal constructor() {
     }
 
     /**
+     * @param consume how the window insets should be consumed.
+     * @see Insetter.Builder.consume
+     * @see Insetter.ConsumeOptions
+     */
+    fun consume(@Insetter.ConsumeOptions consume: Int) {
+        builder = builder.consume(consume)
+    }
+
+    /**
      * When reacting to window insets animations it is often useful to apply the same
      * animated translation X and Y to other views. The views provided to this function
      * will have their [View.getTranslationX] & [View.getTranslationY] set to the same values
