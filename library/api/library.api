@@ -43,6 +43,8 @@ public final class dev/chrisbanes/insetter/Insetter$Builder {
 
 public final class dev/chrisbanes/insetter/Insetter$Companion {
 	public final fun builder ()Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun setEdgeToEdgeSystemUiFlags (Landroid/view/View;Z)V
+	public static synthetic fun setEdgeToEdgeSystemUiFlags$default (Ldev/chrisbanes/insetter/Insetter$Companion;Landroid/view/View;ZILjava/lang/Object;)V
 }
 
 public abstract interface annotation class dev/chrisbanes/insetter/Insetter$ConsumeOptions : java/lang/annotation/Annotation {
@@ -73,6 +75,18 @@ public final class dev/chrisbanes/insetter/InsetterDslKt {
 }
 
 public abstract interface annotation class dev/chrisbanes/insetter/InsetterDslMarker : java/lang/annotation/Annotation {
+}
+
+public final class dev/chrisbanes/insetter/MigrationKt {
+	public static final fun applySystemWindowInsetsToMargin (Landroid/view/View;ZZ)V
+	public static final fun applySystemWindowInsetsToMargin (Landroid/view/View;ZZZ)V
+	public static synthetic fun applySystemWindowInsetsToMargin$default (Landroid/view/View;ZZILjava/lang/Object;)V
+	public static synthetic fun applySystemWindowInsetsToMargin$default (Landroid/view/View;ZZZILjava/lang/Object;)V
+	public static final fun applySystemWindowInsetsToPadding (Landroid/view/View;ZZ)V
+	public static final fun applySystemWindowInsetsToPadding (Landroid/view/View;ZZZ)V
+	public static synthetic fun applySystemWindowInsetsToPadding$default (Landroid/view/View;ZZILjava/lang/Object;)V
+	public static synthetic fun applySystemWindowInsetsToPadding$default (Landroid/view/View;ZZZILjava/lang/Object;)V
+	public static final fun noImpl ()Ljava/lang/Void;
 }
 
 public abstract interface class dev/chrisbanes/insetter/OnApplyInsetsListener {
