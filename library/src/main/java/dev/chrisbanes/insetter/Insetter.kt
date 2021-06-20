@@ -536,6 +536,18 @@ class Insetter private constructor(
         fun builder(): Builder = Builder()
 
         internal const val TAG = "Insetter"
+
+        @Deprecated(
+            level = DeprecationLevel.ERROR,
+            message = "Use WindowCompat.setDecorFitsSystemWindows() instead",
+            replaceWith = ReplaceWith(
+                "WindowCompat.setDecorFitsSystemWindows(window, !enabled)",
+                "androidx.core.view.WindowCompat"
+            )
+        )
+        fun setEdgeToEdgeSystemUiFlags(view: View, enabled: Boolean = true) {
+            noImpl()
+        }
     }
 }
 
