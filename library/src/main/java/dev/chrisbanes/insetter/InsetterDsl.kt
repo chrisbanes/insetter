@@ -182,6 +182,15 @@ class InsetterDsl internal constructor() {
     }
 
     /**
+     * @param ignoreVisibility true to return the insets regardless of whether the given type is
+     * currently visible or not.
+     * @see Insetter.Builder.ignoreVisibility
+     */
+    fun ignoreVisibility(ignoreVisibility: Boolean) {
+        builder = builder.ignoreVisibility(ignoreVisibility)
+    }
+
+    /**
      * When reacting to window insets animations it is often useful to apply the same
      * animated translation X and Y to other views. The views provided to this function
      * will have their [View.getTranslationX] & [View.getTranslationY] set to the same values

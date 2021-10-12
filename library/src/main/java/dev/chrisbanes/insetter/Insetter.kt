@@ -65,6 +65,7 @@ class Insetter private constructor(
     @ConsumeOptions private val consume: Int,
     private val animatingTypes: Int,
     private val animateSyncViews: List<View>,
+    private val ignoreVisibility: Boolean,
 ) {
     @IntDef(value = [CONSUME_NONE, CONSUME_ALL, CONSUME_AUTO])
     @Retention(AnnotationRetention.SOURCE)
@@ -91,6 +92,8 @@ class Insetter private constructor(
         private var margin = SideApply()
 
         private var consume = CONSUME_NONE
+
+        private var ignoreVisibility = false
 
         private var animatingTypes = 0
         private var animateSyncViews = ArrayList<View>()
@@ -319,6 +322,15 @@ class Insetter private constructor(
         }
 
         /**
+         * @param ignoreVisibility true to return the insets regardless of whether the given type is
+         * currently visible or not.
+         */
+        fun ignoreVisibility(ignoreVisibility: Boolean): Builder {
+            this.ignoreVisibility = ignoreVisibility
+            return this
+        }
+
+        /**
          * Builds the [Insetter] instance and sets it as an
          * [OnApplyWindowInsetsListener][androidx.core.view.OnApplyWindowInsetsListener] on
          * the provided [View].
@@ -341,6 +353,7 @@ class Insetter private constructor(
             animatingTypes = animatingTypes,
             animateSyncViews = animateSyncViews,
             consume = consume,
+            ignoreVisibility = ignoreVisibility,
         )
     }
 
@@ -382,11 +395,11 @@ class Insetter private constructor(
                 CONSUME_ALL -> WindowInsetsCompat.CONSUMED
                 CONSUME_AUTO -> {
                     WindowInsetsCompat.Builder(insets)
-                        .consumeType(Type.statusBars(), insets, persistentTypes)
-                        .consumeType(Type.navigationBars(), insets, persistentTypes)
-                        .consumeType(Type.ime(), insets, persistentTypes)
-                        .consumeType(Type.systemGestures(), insets, persistentTypes)
-                        .consumeType(Type.displayCutout(), insets, persistentTypes)
+                        .consumeType(Type.statusBars(), insets, persistentTypes, ignoreVisibility)
+                        .consumeType(Type.navigationBars(), insets, persistentTypes, ignoreVisibility)
+                        .consumeType(Type.ime(), insets, persistentTypes, ignoreVisibility)
+                        .consumeType(Type.systemGestures(), insets, persistentTypes, ignoreVisibility)
+                        .consumeType(Type.displayCutout(), insets, persistentTypes, ignoreVisibility)
                         .build()
                 }
                 else -> insets
@@ -505,12 +518,14 @@ class Insetter private constructor(
         view.applyPadding(
             insets = insets,
             typesToApply = paddingTypes - currentlyDeferredTypes,
-            initialPaddings = initialState.paddings
+            initialPaddings = initialState.paddings,
+            ignoreVisibility = ignoreVisibility
         )
         view.applyMargins(
             insets = insets,
             typesToApply = marginTypes - currentlyDeferredTypes,
-            initialMargins = initialState.margins
+            initialMargins = initialState.margins,
+            ignoreVisibility = ignoreVisibility
         )
     }
 
@@ -620,25 +635,26 @@ private fun View.applyPadding(
     insets: WindowInsetsCompat,
     typesToApply: SideApply,
     initialPaddings: ViewDimensions,
+    ignoreVisibility: Boolean,
 ) {
     // If there's no types to apply, nothing to do...
     if (typesToApply.isEmpty) return
 
     val paddingLeft = when (typesToApply.left) {
         Side.NONE -> paddingLeft
-        else -> initialPaddings.left + insets.getInsets(typesToApply.left).left
+        else -> initialPaddings.left + insets.getInsets(typesToApply.left, ignoreVisibility).left
     }
     val paddingTop = when (typesToApply.top) {
         Side.NONE -> paddingTop
-        else -> initialPaddings.top + insets.getInsets(typesToApply.top).top
+        else -> initialPaddings.top + insets.getInsets(typesToApply.top, ignoreVisibility).top
     }
     val paddingRight = when (typesToApply.right) {
         Side.NONE -> paddingRight
-        else -> initialPaddings.right + insets.getInsets(typesToApply.right).right
+        else -> initialPaddings.right + insets.getInsets(typesToApply.right, ignoreVisibility).right
     }
     val paddingBottom = when (typesToApply.bottom) {
         Side.NONE -> paddingBottom
-        else -> initialPaddings.bottom + insets.getInsets(typesToApply.bottom).bottom
+        else -> initialPaddings.bottom + insets.getInsets(typesToApply.bottom, ignoreVisibility).bottom
     }
 
     // setPadding() does it's own value change check, so no need to do our own to avoid layout
@@ -655,6 +671,7 @@ private fun View.applyMargins(
     insets: WindowInsetsCompat,
     typesToApply: SideApply,
     initialMargins: ViewDimensions,
+    ignoreVisibility: Boolean,
 ) {
     // If there's no types to apply, nothing to do...
     if (typesToApply.isEmpty) return
@@ -667,19 +684,19 @@ private fun View.applyMargins(
 
     val marginLeft = when (typesToApply.left) {
         Side.NONE -> lp.leftMargin
-        else -> initialMargins.left + insets.getInsets(typesToApply.left).left
+        else -> initialMargins.left + insets.getInsets(typesToApply.left, ignoreVisibility).left
     }
     val marginTop = when (typesToApply.top) {
         Side.NONE -> lp.topMargin
-        else -> initialMargins.top + insets.getInsets(typesToApply.top).top
+        else -> initialMargins.top + insets.getInsets(typesToApply.top, ignoreVisibility).top
     }
     val marginRight = when (typesToApply.right) {
         Side.NONE -> lp.rightMargin
-        else -> initialMargins.right + insets.getInsets(typesToApply.right).right
+        else -> initialMargins.right + insets.getInsets(typesToApply.right, ignoreVisibility).right
     }
     val marginBottom = when (typesToApply.bottom) {
         Side.NONE -> lp.bottomMargin
-        else -> initialMargins.bottom + insets.getInsets(typesToApply.bottom).bottom
+        else -> initialMargins.bottom + insets.getInsets(typesToApply.bottom, ignoreVisibility).bottom
     }
 
     // Update the layoutParams margins. Will return true if any value has changed
@@ -724,12 +741,13 @@ private fun WindowInsetsCompat.Builder.consumeType(
     type: Int,
     windowInsets: WindowInsetsCompat,
     applied: SideApply,
+    ignoreVisibility: Boolean,
 ): WindowInsetsCompat.Builder {
     // Fast path. If this type wasn't applied at all, no need to do anything
     if (applied.all and type != type) return this
 
     // First we get the original insets for the type
-    val insets = windowInsets.getInsets(type)
+    val insets = windowInsets.getInsets(type, ignoreVisibility)
 
     // If the insets are empty, nothing to do
     if (insets == Insets.NONE) return this
@@ -745,4 +763,25 @@ private fun WindowInsetsCompat.Builder.consumeType(
         )
     )
     return this
+}
+
+/**
+ * Returns the insets of a specific set of windows causing insets, denoted by the
+ * [typeMask] bit mask of [Type]s.
+ *
+ * @param typeMask Bit mask of [Type]s to query the insets for.
+ * @param ignoreVisibility True to return the insets regardless of whether that type is currently
+ * visible or not.
+ * @see WindowInsetsCompat.getInsets
+ * @see WindowInsetsCompat.getInsetsIgnoringVisibility
+ */
+private fun WindowInsetsCompat.getInsets(
+    @Type.InsetsType typeMask: Int,
+    ignoreVisibility: Boolean
+): Insets {
+    return if (ignoreVisibility) {
+        getInsetsIgnoringVisibility(typeMask)
+    } else {
+        getInsets(typeMask)
+    }
 }
