@@ -3,7 +3,7 @@ public final class dev/chrisbanes/insetter/Insetter {
 	public static final field CONSUME_AUTO I
 	public static final field CONSUME_NONE I
 	public static final field Companion Ldev/chrisbanes/insetter/Insetter$Companion;
-	public synthetic fun <init> (Ldev/chrisbanes/insetter/SideApply;Ldev/chrisbanes/insetter/SideApply;Ldev/chrisbanes/insetter/OnApplyInsetsListener;IILjava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ldev/chrisbanes/insetter/SideApply;Ldev/chrisbanes/insetter/SideApply;Ldev/chrisbanes/insetter/OnApplyInsetsListener;IILjava/util/List;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun applyInsetsToView (Landroid/view/View;Landroidx/core/view/WindowInsetsCompat;Ldev/chrisbanes/insetter/ViewState;)V
 	public final fun applyToView (Landroid/view/View;)V
 	public static final fun builder ()Ldev/chrisbanes/insetter/Insetter$Builder;
@@ -13,6 +13,7 @@ public final class dev/chrisbanes/insetter/Insetter$Builder {
 	public final fun applyToView (Landroid/view/View;)Ldev/chrisbanes/insetter/Insetter;
 	public final fun build ()Ldev/chrisbanes/insetter/Insetter;
 	public final fun consume (I)Ldev/chrisbanes/insetter/Insetter$Builder;
+	public final fun ignoreVisibility (Z)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun margin (I)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun margin (II)Ldev/chrisbanes/insetter/Insetter$Builder;
 	public final fun margin (IIZ)Ldev/chrisbanes/insetter/Insetter$Builder;
@@ -62,6 +63,7 @@ public final class dev/chrisbanes/insetter/InsetterApplyTypeDsl {
 public final class dev/chrisbanes/insetter/InsetterDsl {
 	public final fun consume (I)V
 	public final fun consume (Z)V
+	public final fun ignoreVisibility (Z)V
 	public final fun syncTranslationTo ([Landroid/view/View;)V
 	public final fun type (ILkotlin/jvm/functions/Function1;)V
 	public final fun type (ZZZZZZZZLkotlin/jvm/functions/Function1;)V
