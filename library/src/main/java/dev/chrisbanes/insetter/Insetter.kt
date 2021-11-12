@@ -551,6 +551,15 @@ class Insetter private constructor(
         fun builder(): Builder = Builder()
 
         internal const val TAG = "Insetter"
+
+        @Suppress("NOTHING_TO_INLINE", "DeprecatedCallableAddReplaceWith", "unused", "UNUSED_PARAMETER")
+        @Deprecated(
+            level = DeprecationLevel.ERROR,
+            message = "Use WindowCompat.setDecorFitsSystemWindows(window, false) to enable edge to edge mode",
+        )
+        inline fun setEdgeToEdgeSystemUiFlags(view: View, enabled: Boolean = true) {
+            noImpl()
+        }
     }
 }
 
