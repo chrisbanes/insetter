@@ -37,7 +37,7 @@ buildscript {
 }
 
 plugins {
-    id "com.diffplug.spotless" version "5.12.5"
+    id "com.diffplug.spotless" version "6.0.0"
 }
 
 apply plugin: 'binary-compatibility-validator'
@@ -76,8 +76,8 @@ subprojects {
             // Treat all Kotlin warnings as errors
             allWarningsAsErrors = true
 
-            // Set JVM target to 1.8
-            jvmTarget = "1.8"
+            // Set JVM target to 11
+            jvmTarget = "11"
         }
     }
 
