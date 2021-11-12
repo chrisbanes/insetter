@@ -22,16 +22,13 @@ jobs:
         with:
           java-version: 11
 
-      - name: Generate cache key
-        run: ./checksum.sh checksum.txt
-
-      - uses: actions/cache@v2
+      - uses: burrunan/gradle-cache-action@v1
+        name: Build API docs
         with:
-          path: |
-            ~/.gradle/caches/modules-*
-            ~/.gradle/caches/jars-*
-            ~/.gradle/caches/build-cache-*
-          key: gradle-${{ hashFiles('checksum.txt') }}
+          job-id: linux
+          gradle-dependencies-cache-key: |
+            buildSrc/src/main/java/dev/chrisbanes/insetter/buildsrc/dependencies.kt
+          arguments: dokkaHtmlMultiModule
 
       - name: Setup Python
         uses: actions/setup-python@v2
