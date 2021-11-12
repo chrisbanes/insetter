@@ -52,7 +52,7 @@ dependencies {
     kaptAndroidTest "androidx.databinding:databinding-compiler:${Libs.androidGradlePluginVersion}"
     // We need to explicitly depend on LiveData for data-binding to work. Not sure why this
     // doesn't transitively resolve
-    androidTestImplementation "androidx.lifecycle:lifecycle-livedata:2.1.0"
+    androidTestImplementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
 
     androidTestImplementation project(':test-utils')
     androidTestImplementation Libs.Kotlin.stdlib
