@@ -1,0 +1,7 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:dbx
+dev.chrisbanes.insetter
+module:library
+dev.chrisbanes.insetter
