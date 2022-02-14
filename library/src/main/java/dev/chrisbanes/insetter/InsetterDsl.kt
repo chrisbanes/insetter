@@ -120,7 +120,6 @@ class InsetterDsl internal constructor() {
      *
      * @param ime True to apply the [WindowInsetsCompat.Type.ime] insets.
      * @param navigationBars True to apply the [WindowInsetsCompat.Type.navigationBars] insets.
-     * @param navigationBars True to apply the [WindowInsetsCompat.Type.navigationBars] insets.
      * @param statusBars True to apply the [WindowInsetsCompat.Type.statusBars] insets.
      * @param systemGestures True to apply the [WindowInsetsCompat.Type.systemGestures] insets.
      * @param mandatorySystemGestures True to apply the [WindowInsetsCompat.Type.mandatorySystemGestures] insets.
