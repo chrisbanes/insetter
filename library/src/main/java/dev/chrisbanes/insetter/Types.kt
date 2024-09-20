@@ -30,6 +30,7 @@ fun windowInsetTypesOf(
     displayCutout: Boolean = false,
     captionBar: Boolean = false,
     tappableElement: Boolean = false,
+    systemBars: Boolean = false,
 ): Int {
     var flag = 0
     if (ime) flag = flag or WindowInsetsCompat.Type.ime()
@@ -40,5 +41,6 @@ fun windowInsetTypesOf(
     if (captionBar) flag = flag or WindowInsetsCompat.Type.captionBar()
     if (tappableElement) flag = flag or WindowInsetsCompat.Type.tappableElement()
     if (mandatorySystemGestures) flag = flag or WindowInsetsCompat.Type.mandatorySystemGestures()
+    if (systemBars) flag = flag or WindowInsetsCompat.Type.systemBars()
     return flag
 }

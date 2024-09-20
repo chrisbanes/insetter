@@ -136,6 +136,7 @@ class InsetterDsl internal constructor() {
         displayCutout: Boolean = false,
         captionBar: Boolean = false,
         tappableElement: Boolean = false,
+        systemBars: Boolean = false,
         f: InsetterApplyTypeDsl.() -> Unit,
     ) {
         val type = windowInsetTypesOf(
@@ -146,7 +147,8 @@ class InsetterDsl internal constructor() {
             mandatorySystemGestures,
             displayCutout,
             captionBar,
-            tappableElement
+            tappableElement,
+            systemBars,
         )
         type(type, f)
     }
