@@ -18,7 +18,7 @@ package dev.chrisbanes.insetter
 
 import androidx.annotation.IntDef
 
-@IntDef(flag = true, value = [Side.NONE, Side.LEFT, Side.TOP, Side.RIGHT, Side.BOTTOM, Side.ALL])
+@IntDef(flag = true, value = [Side.NONE, Side.LEFT, Side.TOP, Side.RIGHT, Side.BOTTOM, Side.ALL, Side.HORIZONTAL, Side.VERTICAL])
 @Retention(AnnotationRetention.SOURCE)
 @Target(
     AnnotationTarget.VALUE_PARAMETER,

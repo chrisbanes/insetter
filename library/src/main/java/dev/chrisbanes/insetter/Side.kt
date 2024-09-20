@@ -51,6 +51,16 @@ object Side {
     const val ALL = LEFT or TOP or RIGHT or BOTTOM
 
     /**
+     * Value which represents the left and right side.
+     */
+    const val HORIZONTAL = LEFT or RIGHT
+
+    /**
+     * Value which represents the top and bottom side.
+     */
+    const val VERTICAL = TOP or BOTTOM
+
+    /**
      * Creates a bitmask of [Side] values. Kotlin users may wish to use [sidesOf] directly instead.
      *
      * @param left provide true if the left dimension should be included.
