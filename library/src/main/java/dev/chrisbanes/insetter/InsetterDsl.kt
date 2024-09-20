@@ -100,9 +100,6 @@ fun View.applyInsetter(build: InsetterDsl.() -> Unit): Insetter {
     return InsetterDsl().apply(build).builder.applyToView(this)
 }
 
-@DslMarker
-annotation class InsetterDslMarker
-
 /**
  * Class used in [View.applyInsetter].
  */
@@ -183,6 +180,20 @@ class InsetterDsl internal constructor() {
     }
 
     /**
+     * @see Insetter.CONSUME_ALL
+     */
+    fun consumeAll() {
+        builder = builder.consume(Insetter.CONSUME_ALL)
+    }
+
+    /**
+     * @see Insetter.CONSUME_AUTO
+     */
+    fun consumeAuto() {
+        builder = builder.consume(Insetter.CONSUME_AUTO)
+    }
+
+    /**
      * @param ignoreVisibility true to return the insets regardless of whether the given type is
      * currently visible or not.
      * @see Insetter.Builder.ignoreVisibility
@@ -201,6 +212,9 @@ class InsetterDsl internal constructor() {
         builder = builder.syncTranslationTo(*views)
     }
 }
+@DslMarker
+annotation class InsetterDslMarker
+
 
 /**
  * Class used in [View.applyInsetter].
