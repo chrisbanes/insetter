@@ -1,4 +1,6 @@
-# Insetter
+# Insetter (deprecated)
+
+Insetter has now been deprecated and archived. You can continue to use the published artifacts as required, but no further updates or support will be provided. Jetpack Compose is the future of UI development on Android, so all teams should plan migrations to it.
 
 [![GitHub release](https://img.shields.io/maven-central/v/dev.chrisbanes.insetter/insetter)](https://search.maven.org/search?q=g:dev.chrisbanes.insetter)
 
